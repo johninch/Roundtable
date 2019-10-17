@@ -1,0 +1,25 @@
+{
+  "name": "roundtable",
+  "version": "1.0.0",
+  "description": "A knowledge base created by ESOP FED",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "deploy": "bash deploy.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johninch/Roundtable.git"
+  },
+  "author": "ESOP-FED",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johninch/Roundtable/issues"
+  },
+  "homepage": "https://github.com/johninch/Roundtable#readme",
+  "devDependencies": {
+    "vuepress": "^1.2.0"
+  }
+}
