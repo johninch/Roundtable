@@ -91,15 +91,12 @@ module.exports = {
                 //         '/Question-Bank/typescript/在排序数组中查找数字',
                 //     ]
                 // },
-                // {
-                //     title: 'React',
-                //     children: [
-                //         '/Question-Bank/react/查找',
-                //         '/Question-Bank/react/二维数组查找',
-                //         '/Question-Bank/react/旋转数组的最小数字',
-                //         '/Question-Bank/react/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'React',
+                    children: [
+                        '/Question-Bank/react/element-component-instance-node'
+                    ]
+                },
                 // {
                 //     title: 'Vue',
                 //     children: [
