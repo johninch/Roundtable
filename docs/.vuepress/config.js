@@ -103,15 +103,12 @@ module.exports = {
                         '/Question-Bank/react/element-component-instance-node'
                     ]
                 },
-                // {
-                //     title: 'Vue',
-                //     children: [
-                //         '/Question-Bank/vue/查找',
-                //         '/Question-Bank/vue/二维数组查找',
-                //         '/Question-Bank/vue/旋转数组的最小数字',
-                //         '/Question-Bank/vue/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'Vue',
+                    children: [
+                        '/Question-Bank/vue/customized-v-model',
+                    ]
+                },
                 // {
                 //     title: 'Webpack & Babel',
                 //     children: [
