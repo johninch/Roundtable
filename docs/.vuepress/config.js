@@ -55,6 +55,12 @@ module.exports = {
                         '/Question-Bank/basic-grammar/callback-hell'
                     ]
                 },
+                {
+                    title: '前端性能',
+                    children: [
+                        '/Question-Bank/performance/memory-or-disk-cache',
+                    ]
+                },
                 // {
                 //     title: '正则表达式',
                 //     children: [
