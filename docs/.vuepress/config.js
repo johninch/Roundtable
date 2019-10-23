@@ -108,6 +108,7 @@ module.exports = {
                     title: 'Vue',
                     children: [
                         '/Question-Bank/vue/customized-v-model',
+                        '/Question-Bank/vue/v-loadmore',
                     ]
                 },
                 // {
@@ -170,6 +171,11 @@ module.exports = {
                     path: '/Wanted/pending'
                 }
             ],
+            '/Quest-SC': [
+                {
+                    title: '第一期'
+                },
+            ]
         },
         sidebarDepth: 2
     },
