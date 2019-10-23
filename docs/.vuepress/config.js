@@ -158,9 +158,7 @@ module.exports = {
                 // },
             ],
             '/Quest-SC': [
-                {
-                    title: '第一期'
-                },
+                '/Quest-SC/',
             ]
         },
         sidebarDepth: 2
