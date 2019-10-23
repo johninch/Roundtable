@@ -156,6 +156,11 @@ module.exports = {
                 //     ]
                 // },
             ],
+            '/Quest-SC': [
+                {
+                    title: '第一期'
+                },
+            ]
         },
         sidebarDepth: 2
     },
