@@ -108,6 +108,7 @@ module.exports = {
                     title: 'Vue',
                     children: [
                         '/Question-Bank/vue/customized-v-model',
+                        '/Question-Bank/vue/v-loadmore',
                     ]
                 },
                 // {
