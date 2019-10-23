@@ -157,6 +157,20 @@ module.exports = {
                 //     ]
                 // },
             ],
+            '/Wanted/': [
+                {
+                    title: 'Wanted首页',
+                    path: '/Wanted/'
+                },
+                {
+                    title: '第一期 PWA',
+                    path: '/Wanted/pwa'
+                },
+                {
+                    title: '第二期 待定',
+                    path: '/Wanted/pending'
+                }
+            ],
             '/Quest-SC': [
                 '/Quest-SC/',
             ]
