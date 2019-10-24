@@ -147,6 +147,12 @@ module.exports = {
                 //         '/Question-Bank/eslint/在排序数组中查找数字',
                 //     ]
                 // },
+                {
+                    title: '运维相关',
+                    children: [
+                        '/Question-Bank/Ops/nginx',
+                    ]
+                },
                 // {
                 //     title: '待分类',
                 //     children: [
