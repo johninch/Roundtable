@@ -171,8 +171,31 @@ module.exports = {
                     path: '/Wanted/pending'
                 }
             ],
-            '/Quest-SC': [
-                '/Quest-SC/',
+            '/Quest-SC/': [
+                {
+                    title: '源码探索',
+                    path: '/Quest-SC/'
+                },
+                {
+                    title: '第一期',
+                    path:'/Quest-SC/one'
+                },
+            ],
+            '/Lets-Read/': [
+                {
+                    title: 'Lets-Read',
+                    path: '/Lets-Read/'
+                },
+                {
+                    title: '第一期',
+                    children: [
+                        '/Lets-Read/one/read-1-1',
+                        '/Lets-Read/one/read-2-1',
+                        '/Lets-Read/one/read-3-1',
+                        '/Lets-Read/one/read-3-2',
+                        '/Lets-Read/one/read-4-1',
+                    ]
+                }
             ]
         },
         sidebarDepth: 2
