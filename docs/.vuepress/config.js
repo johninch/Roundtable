@@ -175,6 +175,22 @@ module.exports = {
                 {
                     title: '第一期'
                 },
+            ],
+            '/Lets-Read/': [
+                {
+                    title: 'Lets-Read',
+                    path: '/Lets-Read/'
+                },
+                {
+                    title: '第一期',
+                    children: [
+                        '/Lets-Read/one/read-1-1',
+                        '/Lets-Read/one/read-2-1',
+                        '/Lets-Read/one/read-3-1',
+                        '/Lets-Read/one/read-3-2',
+                        '/Lets-Read/one/read-4-1',
+                    ]
+                }
             ]
         },
         sidebarDepth: 2
