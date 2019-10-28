@@ -10,7 +10,9 @@ module.exports = {
     ],
     serviceWorker: true,
     themeConfig: {
+        sidebar: 'auto',
         sidebarDepth: 2,
+        activeHeaderLinks: false,
         lastUpdated: 'Last Updated',
         nav: [
             { text: 'Home', link: '/' },
@@ -111,6 +113,12 @@ module.exports = {
                         '/Question-Bank/vue/v-loadmore',
                     ]
                 },
+                {
+                    title: 'Nodejs',
+                    children: [
+                        '/Question-Bank/nodejs/eventEmitter',
+                    ]
+                },
                 // {
                 //     title: 'Webpack & Babel',
                 //     children: [
@@ -198,8 +206,7 @@ module.exports = {
                     ]
                 }
             ]
-        },
-        sidebarDepth: 2
+        }
     },
     // configureWebpack: {
     //     resolve: {
