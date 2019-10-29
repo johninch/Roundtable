@@ -161,6 +161,12 @@ module.exports = {
                         '/Question-Bank/Ops/nginx',
                     ]
                 },
+                {
+                    title: '工作实践',
+                    children: [
+                        '/Question-Bank/work-practices/eleMessage',
+                    ]
+                },
                 // {
                 //     title: '待分类',
                 //     children: [
