@@ -211,6 +211,15 @@ module.exports = {
                         '/Lets-Read/one/read-4-1',
                     ]
                 }
+            ],
+            '/Algorithm/': [
+                '/Algorithm/',
+                {
+                    title: '链表',
+                    children: [
+                        '/Algorithm/Linked-List/print-from-tail-to-head',
+                    ]
+                },
             ]
         }
     },
