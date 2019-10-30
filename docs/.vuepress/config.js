@@ -119,6 +119,12 @@ module.exports = {
                         '/Question-Bank/nodejs/eventEmitter',
                     ]
                 },
+                {
+                    title: '包管理',
+                    children: [
+                        '/Question-Bank/pkgmanage/package.lock.json',
+                    ]
+                },
                 // {
                 //     title: 'Webpack & Babel',
                 //     children: [
