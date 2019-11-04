@@ -178,7 +178,11 @@ module.exports = {
                 },
                 {
                     title: '第一期',
-                    path:'/Quest-SC/one'
+                    children: [
+                        '/Quest-SC/one/sc-1',
+                        '/Quest-SC/one/sc-2',
+                        '/Quest-SC/one/sc-3',
+                    ]
                 },
             ],
             '/Lets-Read/': [
