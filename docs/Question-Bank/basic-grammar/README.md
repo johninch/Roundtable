@@ -10,6 +10,7 @@
 - [✔️数组扁平化](./basic-grammar/flatten-array)
 - [✔️链式调用](./basic-grammar/chain-methods)
 - [✔️异步函数promise化(处理回调地狱)](./basic-grammar/callback-hell)
+- [✔️async/await 用法整理](./basic-grammar/async-await)
 - [指出下面代码的执行结果【中易】](./basic-grammar/program1)
 - [回答至少两种判断给定值是否为数组的方法【易】](./basic-grammar/)
 - [编写函数createArray(holder, length)返回长度为length，成员都是holder的数组](./basic-grammar/)
