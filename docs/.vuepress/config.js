@@ -217,7 +217,14 @@ module.exports = {
                 {
                     title: '链表',
                     children: [
+                        '/Algorithm/Linked-List/',
                         '/Algorithm/Linked-List/print-from-tail-to-head',
+                        '/Algorithm/Linked-List/delete-repeat-node',
+                        '/Algorithm/Linked-List/reverse-linked-list',
+                        '/Algorithm/Linked-List/copy-complicated-linked-list',
+                        '/Algorithm/Linked-List/entry-node-of-loop',
+                        '/Algorithm/Linked-List/find-first-common-node',
+                        '/Algorithm/Linked-List/find-Kth-to-tail',
                     ]
                 },
             ]
