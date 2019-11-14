@@ -104,7 +104,8 @@ module.exports = {
                 {
                     title: 'React',
                     children: [
-                        '/Question-Bank/react/element-component-instance-node'
+                        '/Question-Bank/react/element-component-instance-node',
+                        '/Question-Bank/react/mobx-cases',
                     ]
                 },
                 {
