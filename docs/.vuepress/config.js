@@ -121,6 +121,12 @@ module.exports = {
                         '/Question-Bank/nodejs/eventEmitter',
                     ]
                 },
+                {
+                    title: '包管理',
+                    children: [
+                        '/Question-Bank/pkgmanage/package.lock.json',
+                    ]
+                },
                 // {
                 //     title: 'Webpack & Babel',
                 //     children: [
@@ -193,9 +199,18 @@ module.exports = {
                     path: '/Wanted/pending'
                 }
             ],
-            '/Quest-SC': [
+            '/Quest-SC/': [
                 {
-                    title: '第一期'
+                    title: '源码探索',
+                    path: '/Quest-SC/'
+                },
+                {
+                    title: '第一期',
+                    children: [
+                        '/Quest-SC/one/sc-1',
+                        '/Quest-SC/one/sc-2',
+                        '/Quest-SC/one/sc-3',
+                    ]
                 },
             ],
             '/Lets-Read/': [
