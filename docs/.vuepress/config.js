@@ -10,7 +10,9 @@ module.exports = {
     ],
     serviceWorker: true,
     themeConfig: {
+        sidebar: 'auto',
         sidebarDepth: 2,
+        activeHeaderLinks: false,
         lastUpdated: 'Last Updated',
         nav: [
             { text: 'Home', link: '/' },
@@ -53,7 +55,8 @@ module.exports = {
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
-                        '/Question-Bank/basic-grammar/callback-hell'
+                        '/Question-Bank/basic-grammar/callback-hell',
+                        '/Question-Bank/basic-grammar/async-await'
                     ]
                 },
                 {
@@ -101,7 +104,8 @@ module.exports = {
                 {
                     title: 'React',
                     children: [
-                        '/Question-Bank/react/element-component-instance-node'
+                        '/Question-Bank/react/element-component-instance-node',
+                        '/Question-Bank/react/mobx-cases',
                     ]
                 },
                 {
@@ -109,6 +113,18 @@ module.exports = {
                     children: [
                         '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
+                    ]
+                },
+                {
+                    title: 'Nodejs',
+                    children: [
+                        '/Question-Bank/nodejs/eventEmitter',
+                    ]
+                },
+                {
+                    title: '包管理',
+                    children: [
+                        '/Question-Bank/pkgmanage/package.lock.json',
                     ]
                 },
                 // {
@@ -147,6 +163,18 @@ module.exports = {
                 //         '/Question-Bank/eslint/在排序数组中查找数字',
                 //     ]
                 // },
+                {
+                    title: '运维相关',
+                    children: [
+                        '/Question-Bank/Ops/nginx',
+                    ]
+                },
+                {
+                    title: '工作实践',
+                    children: [
+                        '/Question-Bank/work-practices/eleMessage',
+                    ]
+                },
                 // {
                 //     title: '待分类',
                 //     children: [
@@ -171,9 +199,18 @@ module.exports = {
                     path: '/Wanted/pending'
                 }
             ],
-            '/Quest-SC': [
+            '/Quest-SC/': [
                 {
-                    title: '第一期'
+                    title: '源码探索',
+                    path: '/Quest-SC/'
+                },
+                {
+                    title: '第一期',
+                    children: [
+                        '/Quest-SC/one/sc-1',
+                        '/Quest-SC/one/sc-2',
+                        '/Quest-SC/one/sc-3',
+                    ]
                 },
             ],
             '/Lets-Read/': [
@@ -191,9 +228,24 @@ module.exports = {
                         '/Lets-Read/one/read-4-1',
                     ]
                 }
+            ],
+            '/Algorithm/': [
+                '/Algorithm/',
+                {
+                    title: '链表',
+                    children: [
+                        '/Algorithm/Linked-List/',
+                        '/Algorithm/Linked-List/print-from-tail-to-head',
+                        '/Algorithm/Linked-List/delete-repeat-node',
+                        '/Algorithm/Linked-List/reverse-linked-list',
+                        '/Algorithm/Linked-List/copy-complicated-linked-list',
+                        '/Algorithm/Linked-List/entry-node-of-loop',
+                        '/Algorithm/Linked-List/find-first-common-node',
+                        '/Algorithm/Linked-List/find-Kth-to-tail',
+                    ]
+                },
             ]
-        },
-        sidebarDepth: 2
+        }
     },
     // configureWebpack: {
     //     resolve: {
