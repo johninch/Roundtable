@@ -78,7 +78,7 @@ export default {
           this.loading = false
         } else {
           this.matchedList = this.dataSource.filter(item => {
-            return item.name.toLowerCase()
+            return item[this.labelKey].toLowerCase()
               .indexOf(query.toLowerCase()) > -1
           })
         }
