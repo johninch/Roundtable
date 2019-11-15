@@ -108,6 +108,14 @@ export default {
 
 ### 使用方法
 
+<iframe
+    src="https://codesandbox.io/embed/vue-template-hyi4g?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="Vue Template"
+    allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
 #### 简单使用
 
 ```html
