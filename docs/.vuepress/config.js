@@ -113,8 +113,7 @@ module.exports = {
                     children: [
                         '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
-                        '/Question-Bank/vue/listeners',
-                        '/Question-Bank/vue/attrs'
+                        '/Question-Bank/vue/listenersAttrs'
                     ]
                 },
                 {
