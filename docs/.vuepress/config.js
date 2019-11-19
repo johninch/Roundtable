@@ -113,6 +113,7 @@ module.exports = {
                     children: [
                         '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
+                        '/Question-Bank/vue/v-search-select',
                     ]
                 },
                 {
