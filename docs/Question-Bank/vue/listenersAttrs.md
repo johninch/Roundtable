@@ -65,10 +65,7 @@ Vue.component("v-transform-input", {
             }
         }
     },
-    template: `
-        <v-input v-model="thisValue" @otherMethod="otherMethod">
-        </v-input>
-    `
+    template: ` <v-input v-model="thisValue"></v-input>`
 });
 ```
 
@@ -106,8 +103,8 @@ Vue.component("v-transform-input", {
         value: String
     },
     template: `
-        <model :value="value" v-on="$listeners">
-        </model>
+        <v-input :value="value" v-on="$listeners">
+        </v-input>
     `
 });
 ```
@@ -195,8 +192,8 @@ methods: {
 ```js
 Vue.component("v-transform-input", {
     template: `
-        <model v-on="$listeners">
-        </model>
+        <v-input v-on="$listeners">
+        </v-input>
     `
 });
 ```
