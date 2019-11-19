@@ -74,7 +74,7 @@ Vue.component("v-transform-input", {
 **listeners.vue使用封装好的组件**
 ```js
 // template
-<v-transform-inpu v-model="value"></v-transform-inpu>
+<v-transform-input v-model="value"></v-transform-input>
 // js
 data() {
     return {
