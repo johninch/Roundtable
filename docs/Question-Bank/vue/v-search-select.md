@@ -14,47 +14,57 @@
     :remote-method="remoteMethod"
     :loading="loading"
     v-bind="$attrs"
-    @change="val =>$emit('change', val)">
-    <el-option
-      v-for="item in displayedList"
-      :key="item[valueKey]"
-      :label="item[labelKey]"
-      :value="item[valueKey]">
-    </el-option>
-    <span v-infinite-scroll="loadMore" :infinite-scroll-immediate="false"></span>
+    @change="val =>$emit('change', val)"
+  >
+    <slot v-bind:list="displayedList">
+      <el-option
+        v-for="item in displayedList"
+        :key="item[valueKey]"
+        :label="item[labelKey]"
+        :value="item[valueKey]"
+      >
+        <slot name="option" v-bind:item="item"/>
+      </el-option>
+    </slot>
+    <span
+      v-if="displayedList.length"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-delay="300"
+      :infinite-scroll-immediate="false"
+    ></span>
   </el-select>
 </template>
 
 <script>
 export default {
-  name: 'SearchSelect',
+  name: "SearchSelect",
   model: {
-    prop: 'value',
-    event: 'change'
+    prop: "value",
+    event: "change"
   },
   props: {
     value: {
       validator(value) {
-        return Array.isArray(value) || typeof value === 'string' || typeof value === 'number'
+        return (
+          Array.isArray(value) ||
+          typeof value === "string" ||
+          typeof value === "number"
+        );
       }
     },
     dataSource: {
-      type: Array,
-      required: true
+      type: Array
     },
     labelKey: {
-      type: String,
-      required: true
+      type: String
     },
     valueKey: {
-      type: String,
-      required: true
+      type: String
     },
     chunkSize: {
       type: Number,
       default: 100
     },
-    // 自定义搜索
     customSearch: {
       type: Function,
       required: false
@@ -66,101 +76,56 @@ export default {
       range: [-this.chunkSize, 0],
       matchedList: [],
       displayedList: []
-    }
+    };
   },
   methods: {
     /** 搜索框搜索逻辑 */
     async remoteMethod(query) {
-      if (query !== '') {
+      if (query !== "") {
         if (this.customSearch) {
-          this.loading = true
-          this.matchedList = await this.customSearch(query)
-          this.loading = false
+          console.log("远程搜索中...");
+          this.loading = true;
+          this.matchedList = await this.customSearch(query);
+          this.loading = false;
         } else {
+          console.log("本地搜索");
           this.matchedList = this.dataSource.filter(item => {
-            return item[this.labelKey].toLowerCase()
-              .indexOf(query.toLowerCase()) > -1
-          })
+            return (
+              item[this.labelKey].toLowerCase().indexOf(query.toLowerCase()) >
+              -1
+            );
+          });
         }
 
-        this.range[0] = 0
-        this.range[1] = this.chunkSize
-        this.displayedList = this.matchedList.slice(...this.range)
+        this.range[0] = 0;
+        this.range[1] = this.chunkSize;
+        this.displayedList = this.matchedList.slice(...this.range);
       } else {
-        this.matchedList = []
+        this.matchedList = [];
       }
     },
-    /** 滚动加载更多 */
+    /** 滚动加载更多参与人 */
     loadMore() {
       if (this.range[0] > this.matchedList.length) {
-        console.log('no more item found')
-        return
+        console.log("no more item found");
+        return;
       }
 
-      this.range[0] += this.chunkSize
-      this.range[1] += this.chunkSize
-      this.displayedList.push(...this.matchedList.slice(...this.range))
+      this.range[0] += this.chunkSize;
+      this.range[1] += this.chunkSize;
+      this.displayedList.push(...this.matchedList.slice(...this.range));
     }
   }
-}
+};
 </script>
 ```
 
 ### 使用方法
 
 <iframe
-    src="https://codesandbox.io/embed/vue-template-hyi4g?fontsize=14&hidenavigation=1&theme=dark"
-    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-    title="Vue Template"
-    allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-    sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+  src="https://codesandbox.io/embed/vue-template-b3n9o?fontsize=14&hidenavigation=1&theme=dark"
+  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+  title="Vue Template"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
-
-#### 简单使用
-
-```html
-<v-search-Select
-    size="small"
-    placeholder="请输入参与人姓名"
-    v-model="formModel.employee_ids"
-    label-key="name"
-    value-key="id"
-    :data-source="empList"
-/>
-```
-
-#### 远程加载
-
-```html
-<template>
-    <v-search-Select
-        size="small"
-        placeholder="请输入参与人姓名"
-        v-model="formModel.employee_ids"
-        label-key="name"
-        value-key="id"
-        :custom-search="load"
-    />
-</template>
-<script>
-export default {
-    data() {
-        return {
-            pageNo: 1,
-            formModel: {}
-        }
-    },
-    method: {
-        load(query) {
-            return http.get('/employees', {
-                query
-            }).then(res => {
-                this.pageNo++
-
-                return res.data.list
-            })
-        }
-    }
-}
-</script>
-```

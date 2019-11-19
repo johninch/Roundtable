@@ -56,7 +56,8 @@ module.exports = {
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
                         '/Question-Bank/basic-grammar/callback-hell',
-                        '/Question-Bank/basic-grammar/async-await'
+                        '/Question-Bank/basic-grammar/async-await',
+                        '/Question-Bank/basic-grammar/number'
                     ]
                 },
                 {
