@@ -118,7 +118,7 @@ Vue.component("v-transform-input", {
         }
     },
     template: `
-        <model v-model="thisValue" v-bind="$listeners">
+        <model v-model="thisValue" v-on="$listeners">
         </model>
     `
 });
@@ -243,7 +243,7 @@ Vue.component("v-transform-input", {
         }
     },
     template: `
-        <model v-model="thisValue" v-bind="$listeners">
+        <model v-model="thisValue" v-on="$listeners">
         </model>
     `
 });
