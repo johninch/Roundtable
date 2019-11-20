@@ -113,7 +113,7 @@ module.exports = {
                     title: 'Vue',
                     children: [
                         '/Question-Bank/vue/customized-v-model',
-                        '/Question-Bank/vue/listenersAttrs',
+                        '/Question-Bank/vue/listeners-and-attrs',
                         '/Question-Bank/vue/v-loadmore',
                         '/Question-Bank/vue/v-search-select'
                     ]
