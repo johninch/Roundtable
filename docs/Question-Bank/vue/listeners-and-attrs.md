@@ -1,6 +1,6 @@
 
 # $listeners & $attrs
-
+> [demo地址](https://codesandbox.io/s/attrslisteners-20jdq)
 ## $listeners
 ::: tip
 包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件——在创建更高层次的组件时非常有用。
@@ -65,10 +65,7 @@ Vue.component("v-transform-input", {
             }
         }
     },
-    template: `
-        <v-input v-model="thisValue" @otherMethod="otherMethod">
-        </v-input>
-    `
+    template: ` <v-input v-model="thisValue"></v-input>`
 });
 ```
 
@@ -105,21 +102,9 @@ Vue.component("v-transform-input", {
     props: {
         value: String
     },
-    data() {
-        return() {
-            thisValue: ''
-        }
-    }.
-    computed: {
-        thisValue: {
-            get() {
-                return this.value;
-            }
-        }
-    },
     template: `
-        <model v-model="thisValue" v-on="$listeners">
-        </model>
+        <v-input :value="value" v-on="$listeners">
+        </v-input>
     `
 });
 ```
@@ -171,42 +156,21 @@ Vue.component("v-input", {
 
 ```js
 Vue.component("v-transform-input", {
-    props: {
-        value: String
-    },
-    computed: {
-        thisValue: {
-            get() {
-                return this.value;
-            },
-            set(value) {
-                this.$emit("input", value);
-            }
-        }
-    },
     methods: {
         otherMethod(color) {
             // 通过传统的$emit父子组件方法来调用
             this.$emit('otherMethod', color);
         }
     }
-    template: `
-        <v-input v-model="thisValue" @otherMethod="otherMethod">
-        </v-input>
-    `
+    template: `<v-input @otherMethod="otherMethod"></v-input>`
 });
 ```
 
 **使用封装好的组件: listeners.vue**
 ```js
 // template
-<v-transform-inpu v-model="value" @otherMethod="otherMethod"></v-transform-inpu>
+<v-transform-inpu @otherMethod="otherMethod"></v-transform-inpu>
 // js
-data() {
-    return {
-        value: ''
-    }
-},
 methods: {
     otherMethod(color) {
         console.log('第三方组件触发', color);
@@ -227,24 +191,9 @@ methods: {
 **改写封装的第三方组件**
 ```js
 Vue.component("v-transform-input", {
-    props: {
-        value: String
-    },
-    data() {
-        return() {
-            thisValue: ''
-        }
-    }.
-    computed: {
-        thisValue: {
-            get() {
-                return this.value;
-            }
-        }
-    },
     template: `
-        <model v-model="thisValue" v-on="$listeners">
-        </model>
+        <v-input v-on="$listeners">
+        </v-input>
     `
 });
 ```
