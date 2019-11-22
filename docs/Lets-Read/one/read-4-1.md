@@ -3,7 +3,6 @@
     "title": "函数组合",
 }
 ---
-#### [原网页连连接](https://juejin.im/post/5d50bfebf265da03cb122b6f)
 ### 函数组合包含在函数式编程范畴中，就是一种将已被分解的简单任务组合成复杂任务的过程
 
 ### ***什么是组合***
@@ -73,7 +72,4 @@ function pipe(...fns){
 }
 ```
 
-
-
-
-
+参考链接：[彻底弄懂函数组合](https://juejin.im/post/5d50bfebf265da03cb122b6f)

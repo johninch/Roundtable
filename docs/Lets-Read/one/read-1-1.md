@@ -1,9 +1,8 @@
 ---
 {
-    "title": "react-router「前端进阶」彻底弄懂前端路由",
+    "title": "react-router彻底弄懂前端路由",
 }
 ---
-#### [原网页连连接](https://juejin.im/post/5d2d19ccf265da1b7f29b05f)
 ### 什么是前端路由
 
 简单的说，就是在保证只有一个 HTML 页面，且与用户交互时不刷新和跳转页面的同时，为 SPA 中的每个视图展示形式匹配一个特殊的 url。在刷新、前进、后退和SEO时均通过这个特殊的 url 来实现。
@@ -231,3 +230,6 @@ hash 模式相比于 history 模式的缺点：
 - 看起来更丑
 - 会导致锚点功能失效
 - 相同 hash 值不会触发动作将记录加入到历史栈中，而 pushState 则可以
+
+
+参考链接：[彻底弄懂前端路由](https://juejin.im/post/5d2d19ccf265da1b7f29b05f)
