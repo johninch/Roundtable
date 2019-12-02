@@ -140,6 +140,7 @@ export default {
     v-if="showLoadMore"
     slot="append"
     v-infinite-scroll="load"
+    infinite-scroll-immediate="false"
   ></span>
   <span v-if="noMore">没有更多了～</span>
 </el-table>
