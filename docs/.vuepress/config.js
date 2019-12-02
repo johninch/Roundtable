@@ -61,7 +61,8 @@ module.exports = {
                         '/Question-Bank/basic-grammar/variablesAndTypes3',
                         '/Question-Bank/basic-grammar/variablesAndTypes4',
                         '/Question-Bank/basic-grammar/variablesAndTypes5',
-                        '/Question-Bank/basic-grammar/async-await'
+                        '/Question-Bank/basic-grammar/async-await',
+                        '/Question-Bank/basic-grammar/number'
                     ]
                 },
                 {
@@ -120,7 +121,8 @@ module.exports = {
                         '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/listeners-and-attrs',
                         '/Question-Bank/vue/v-loadmore',
-                        '/Question-Bank/vue/v-search-select'
+                        '/Question-Bank/vue/v-search-select',
+                        '/Question-Bank/vue/v-infinite-scroll'
                     ]
                 },
                 {
