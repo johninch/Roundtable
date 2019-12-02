@@ -115,6 +115,7 @@ module.exports = {
                         '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
                         '/Question-Bank/vue/v-search-select',
+                        '/Question-Bank/vue/v-infinite-scroll'
                     ]
                 },
                 {
