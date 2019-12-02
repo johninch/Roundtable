@@ -74,7 +74,7 @@ Vue.component("v-transform-input", {
 **listeners.vue使用封装好的组件**
 ```js
 // template
-<v-transform-inpu v-model="value"></v-transform-inpu>
+<v-transform-input v-model="value"></v-transform-input>
 // js
 data() {
     return {
@@ -240,7 +240,7 @@ v-bind="$attrs" 传入内部组件——在创建高级别的组件时非常有�
 </template>
 // script
 export default{
-    // 如果在不在props中声明color 那么这个数据，请使用this.$arrts.color
+    // 如果在不在props中声明color 那么这个数据，请使用this.$attrs.color
     // 如果声明，那么this.$props上就会有color
     props: {
         newColor: String
