@@ -3,7 +3,6 @@
     "title": "CSS 变量教程",
 }
 ---
-#### [原网页连连接](https://www.ruanyifeng.com/blog/2017/05/css-variables.html)
 ### 变量的声明
 
 ```css
@@ -51,3 +50,5 @@
 - 可以通过改变css变量实现动画、主题等；例如[ani-css首页的robot](https://esop-fed.github.io/ani-css)
 ### 其他优秀文章
 [小tips:了解CSS/CSS3原生变量var](https://www.zhangxinxu.com/wordpress/2016/11/css-css3-variables-var/)
+
+参考链接：[css变量教程](https://www.ruanyifeng.com/blog/2017/05/css-variables.html)

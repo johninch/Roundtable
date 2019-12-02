@@ -183,6 +183,7 @@ module.exports = {
                     title: '工作实践',
                     children: [
                         '/Question-Bank/work-practices/eleMessage',
+                        '/Question-Bank/work-practices/deepcss',
                     ]
                 },
                 // {
@@ -236,6 +237,13 @@ module.exports = {
                         '/Lets-Read/one/read-3-1',
                         '/Lets-Read/one/read-3-2',
                         '/Lets-Read/one/read-4-1',
+                    ]
+                },
+                {
+                    title: '第二期',
+                    children: [
+                        '/Question-Bank/basic-grammar/async-await',
+                        '/Question-Bank/performance/process-eventloop',
                     ]
                 }
             ],
