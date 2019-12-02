@@ -4,7 +4,7 @@
 
 ## 概览
 下面截取至官方文档的属性列表
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/263240/1575260424448-e51bbf16-e3bc-46dd-9105-38f0e9d87820.png#align=left&display=inline&height=270&name=image.png&originHeight=540&originWidth=1800&size=187321&status=done&style=none&width=900)
+![image.png](./assets/img/1575260424448-e51bbf16-e3bc-46dd-9105-38f0e9d87820.png)
 
 官方的一个例子：
 ```html
@@ -113,9 +113,9 @@ export default {
 </el-table>
 ```
 当没有数据时，看下dom结构和样式表：
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/263240/1575274043310-20ed81fb-713a-4d9b-9eed-1860b1ea03da.png#align=left&display=inline&height=136&name=image.png&originHeight=272&originWidth=2752&size=520095&status=done&style=none&width=1376)
+![image.png](./assets/img/1575274043310-20ed81fb-713a-4d9b-9eed-1860b1ea03da.png)
 有数据时，看下dom结构和样式表：
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/263240/1575273988632-3326e3fc-3f24-48ce-ac11-d9ad5be0763d.png#align=left&display=inline&height=175&name=image.png&originHeight=350&originWidth=2880&size=591055&status=done&style=none&width=1440)
+![image.png](./assets/img/1575273988632-3326e3fc-3f24-48ce-ac11-d9ad5be0763d.png)
 可以发现：
 
 1. 不管有没有数据，`append`插槽都在（废话）。
