@@ -1,14 +1,13 @@
 ---
 {
-    "title": "「中高级前端」高性能渲染十万条数据",
+    "title": "前端高性能渲染十万条数据",
 }
 ---
-#### [原网页连连接](https://juejin.im/post/5d76f469f265da039a28aff7)
 > 本文探讨：当遇到大量数据时，如何才能在不卡主页面的情况下渲染数据，以及其背后的原理。以下比较了4种不同的方式：
 1. 暴力渲染
 2. setTimeout
 3. requestAnimationFrame
-4. DocumentFragment
+4. DocumentFragment 
 
 ### 暴力渲染
 ```
@@ -161,11 +160,4 @@ loop(total,index);
 ### 使用 display
 可以先将元素脱离文档流、对其修改、在带回文档流，比如 display:none，添加修改完最后 在display: block
 
-
-
-
-
-
-
-
-
+参考链接：[高性能渲染十万条数据](https://juejin.im/post/5d76f469f265da039a28aff7)

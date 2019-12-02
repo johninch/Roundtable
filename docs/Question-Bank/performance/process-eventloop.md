@@ -1,7 +1,5 @@
 ### 从多线程到Event Loop全面梳理
 
-- [文章来源](https://juejin.im/post/5d5b4c2df265da03dd3d73e5#heading-11)
-
 ## 浏览器内核（渲染进程）
 渲染进程包含以下线程
 - GUI渲染线程
@@ -99,3 +97,5 @@ setTimeout(() => {
 - 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
 - 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
 - 渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
+
+参考链接：[从多线程到Event Loop全面梳理](https://juejin.im/post/5d5b4c2df265da03dd3d73e5#heading-11)

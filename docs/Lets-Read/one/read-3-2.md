@@ -3,7 +3,6 @@
     "title": "diff 算法",
 }
 ---
-#### [原网页连连接](https://www.jianshu.com/p/398e63dc1969)
 ### 1.传统的diff算法为何是n^3
 有新旧两个节点beforeNode, afterNode
 + 取新旧两个节点的最大长度来遍历对比(**for循环n^2**)
@@ -135,6 +134,4 @@ oldEnd匹配到newStart, 真实dom中D移动到最前面
 ---
 End
 
-
-
-
+参考链接：[传统diff、react优化diff、vue优化diff](https://www.jianshu.com/p/398e63dc1969)
