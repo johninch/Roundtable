@@ -186,6 +186,7 @@ module.exports = {
                         '/Question-Bank/work-practices/mobx-observer',
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
+                        '/Question-Bank/work-practices/eslintPrettier',
                     ]
                 },
                 // {
