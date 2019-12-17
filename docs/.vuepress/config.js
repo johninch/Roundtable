@@ -187,6 +187,7 @@ module.exports = {
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
                         '/Question-Bank/work-practices/eslintPrettier',
+                        '/Question-Bank/work-practices/i18n',
                     ]
                 },
                 // {
