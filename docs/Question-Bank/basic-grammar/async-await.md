@@ -19,6 +19,100 @@ categories: javascript
 
 
 
+## 2、async函数是Generator函数的语法糖，并对Generator函数进行了改进。
+
+### Generator函数
+
+#### *简介*
+
+- Generator 函数是一个状态机，封装了多个内部状态。执行Generator函数会返回一个[遍历器对象](http://es6.ruanyifeng.com/#docs/iterator)，可以依次遍历Generator函数的每一个状态，
+但是只有调用`next`方法才能遍历到下一个状态，所以其实提供了一种暂停执行函数，`yield`表达式就是暂停标志。
+
+```javascript
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
+
+var hw = helloWorldGenerator();
+
+hw.next()// { value: 'hello', done: false }
+hw.next()// { value: 'world', done: false }
+hw.next()// { value: 'ending', done: true }
+hw.next()// { value: undefined, done: true }
+```
+
+可以看出，helloWorldGenerator函数被调用时并没有执行，而是返回了一个遍历器对象，只有调用`next`方法、内部指针指向该语句时才执行，每次调用next方法，就回返回一个对象包含`value`和
+`done`两个属性，`value`属性表示内部状态的值，是yield表达式后面表达式返回的值；`done`属性是个布尔值，表示是否遍历结束。即实现了`函数可以暂停，也可恢复执行`
+
+#### *Generator暂停恢复执行原理*
+
+要懂得原理，得了解协程的概念
+
+>一个线程（或函数）执行到一半，可以暂停执行，将执行权交给另一个线程（或函数），
+>等到稍后收回执行权的时候，再恢复执行。这种可以并行执行、交换执行权的线程（或函数），就称为协程。
+
+协程是一种比线程更加轻量级的存在。普通线程是抢先式的，会争夺cpu资源，而协程是合作的，可以把协程看成是跑在线程上的任务，一个线程上可以存在多个协程，但是在线程上同时只能执行一个协程。它的运行流程大致如下：
+
+1. 协程A开始执行
+2. 协程A执行到某个阶段，进入暂停，执行权转移到协程B
+3. 协程B执行完成或暂停，将执行权交还A
+4. 协程A恢复执行
+
+协程遇到yield命令就暂停，等到执行权返回，再从暂停的地方继续往后执行。它的最大优点，就是代码的写法非常像同步操作，如果去除yield命令，简直一模一样。
+
+#### *执行器*
+
+通常，我们把执行生成器的代码封装成一个函数，并把这个执行生成器代码的函数称为执行器,`co` 模块就是一个著名的执行器。
+
+Generator 是一个异步操作的容器。它是需要手动执行的，它的自动执行需要一种机制，当异步操作有了结果，能够自动交回执行权。两种方法可以做到这一点：
+
+    1. 回调函数。将异步操作包装成 Thunk 函数，在回调函数里面交回执行权。
+    2. Promise 对象。将异步操作包装成 Promise 对象，用then方法交回执行权
+    
+   
+一个基于 Promise 对象的简单自动执行器：
+
+```javascript
+function run(gen) {
+  var g = gen();
+  
+  function next(data) {
+    var result = g.next(data);
+    if (result.done) return result.value;
+    result.value.then(() => {
+      next(data)
+    })
+  }
+  
+  next()
+}
+
+使用：
+function* foo() {
+    let response1 = yield fetch('https://xxx') //返回promise对象
+    console.log('response1')
+    console.log(response1)
+    let response2 = yield fetch('https://xxx') //返回promise对象
+    console.log('response2')
+    console.log(response2)
+}
+run(foo);
+```
+上面代码中，只要 Generator 函数还没执行到最后一步，next函数就调用自身，以此实现自动执行。
+
+#### *async的改进*
+
+async彻底告别了执行器和生成器，实现更加直观简洁的代码，async 是一个通过异步执行并隐式返回 Promise 作为结果的函数。可以说async 是Generator函数的语法糖，并对Generator函数进行了改进。
+                              
+async函数对 Generator 函数的改进，体现在以下四点：
+
+    1. 内置执行器。Generator 函数的执行必须依靠执行器，而 async 函数自带执行器，无需手动执行 next() 方法。
+    2. 更好的语义。async和await，比起星号和yield，语义更清楚了。async表示函数里有异步操作，await表示紧跟在后面的表达式需要等待结果
+    3. 更广的适用性。co模块约定，yield命令后面只能是 Thunk 函数或 Promise 对象，而async函数的await命令后面，可以是 Promise 对象和原始类型的值（数值、字符串和布尔值，但这时会自动转成立即 resolved 的 Promise 对象）。
+    4. 返回值是 Promise。async 函数返回值是 Promise 对象，比 Generator 函数返回的 Iterator 对象方便，可以直接使用 then() 方法进行调用
+
 ## 2、async/await 与 promise 相比的优势
 
 1. **同步代码编写方式**:
@@ -38,11 +132,7 @@ categories: javascript
     - Promise是根据函数式编程的范式，对异步过程进行了一层封装；
     - async/await基于协程的机制，是真正的“保存上下文，控制权切换……控制权恢复，取回上下文”这种机制，是对异步过程更精确的一种描述；
 
-5. **基于协程**:
-    - Promise是根据函数式编程的范式，对异步过程进行了一层封装；
-    - async/await基于协程的机制，是真正的“保存上下文，控制权切换……控制权恢复，取回上下文”这种机制，是对异步过程更精确的一种描述；
-
-6. ✨**这点并不是优势也不算劣势（只能串行）**:
+5. ✨**这点并不是优势也不算劣势（只能串行）**:
     它不能取代 Promise，尤其是我们可以很方便地用Promise.all()来实现并发，而async/await只能实现串行。
 
 ## 3、async关键字
@@ -457,3 +547,4 @@ if __name__=='__main__':
 </details>
 
 参考链接：[async/await的基础用法](https://www.jianshu.com/p/73b070eebf50)
+[async/await 原理及执行顺序分析](https://juejin.im/post/5dc28ea66fb9a04a881d1ac0)

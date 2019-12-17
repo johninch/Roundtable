@@ -21,6 +21,7 @@
  - [✔️从尾到头打印链表](/Algorithm/Linked-List/print-from-tail-to-head)
  - [✔️删除链表中重复的节点](/Algorithm/Linked-List/delete-repeat-node)
  - [✔️反转链表](/Algorithm/Linked-List/reverse-linked-list)
+ - [✔️合并两个有序链表](/Algorithm/Linked-List/merge-two-sorted-link)
  - [✔️复杂链表的复制](/Algorithm/Linked-List/copy-complicated-linked-list)
 
 ## 2、环类题目
