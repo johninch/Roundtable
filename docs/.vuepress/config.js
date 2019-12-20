@@ -111,8 +111,7 @@ module.exports = {
                 {
                     title: 'React',
                     children: [
-                        '/Question-Bank/react/element-component-instance-node',
-                        '/Question-Bank/react/mobx-cases',
+                        '/Question-Bank/react/element-component-instance-node'
                     ]
                 },
                 {
@@ -183,7 +182,7 @@ module.exports = {
                     title: '工作实践',
                     children: [
                         '/Question-Bank/work-practices/eleMessage',
-                        '/Question-Bank/work-practices/mobx-observer',
+                        '/Question-Bank/work-practices/mobx-cases',
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
                         '/Question-Bank/work-practices/eslintPrettier',
