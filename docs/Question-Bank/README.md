@@ -7,6 +7,13 @@
 ## 题库目录
 
 ### 基本语法
+  - [✔️JS专题-变量与类型-(1)JS数据类型](/Question-Bank/basic-grammar/variablesAndTypes1)
+  - [✔️JS专题-变量与类型-(2)JS 3种疑难基础类型](/Question-Bank/basic-grammar/variablesAndTypes2)
+  - [✔️javascript数值](/Question-Bank/basic-grammar/number)
+  - [✔️JS专题-变量与类型-(3)JS 其他引用类型](/Question-Bank/basic-grammar/variablesAndTypes3)
+  - [✔️JS专题-变量与类型-(4)JS的类型转换](/Question-Bank/basic-grammar/variablesAndTypes4)
+  - [✔️JS专题-变量与类型-(5)JS的类型判断方法](/Question-Bank/basic-grammar/variablesAndTypes5)
+  - [✔️async/await 用法整理](/Question-Bank/basic-grammar/async-await)
   - [✔️完美实现深拷贝](/Question-Bank/basic-grammar/deep-clone)⭐⭐
   - [✔️深度查询](/Question-Bank/basic-grammar/deep-query)
   - [✔️数组扁平化](/Question-Bank/basic-grammar/flatten-array)
@@ -70,6 +77,10 @@
   - [实现鼠标在指定节点上移动时，在鼠标位置跟随打印当前时间戳【中】](/Question-Bank/HTML-DOM)
   - [通过事件委托实现对1w个按钮绑定点击事件【易】](/Question-Bank/HTML-DOM)
 
+### 前端性能
+  - [✔️from memory cache 与 from disk cache](/Question-Bank/performance/memory-or-disk-cache)
+  - [✔️从多线程到Event Loop全面梳理](/Question-Bank/performance/process-eventloop)
+
 ### TypeScript
   - [ts与js的区别？ts的优势是什么？](/Question-Bank/basic-grammar/)
   - [ts中的基础类型有哪些？](/Question-Bank/basic-grammar/)
@@ -82,8 +93,8 @@
   - [判断下面代码执行结果（类型兼容性考察）](/Question-Bank/typescript)
 
 ### React
-  - [根据要求定义react组件](/Question-Bank/react)
   - [✔️Element、Component、Node、Instance](/Question-Bank/react/element-component-instance-node)
+  - [根据要求定义react组件](/Question-Bank/react)
   - [react-router中的Route组件的component、render、children有什么区别？](/Question-Bank/react/)
   - [react中的Component和PureComponent有什么区别？](/Question-Bank/react/)
   - [如何判断一个值是Element？](/Question-Bank/react/)
@@ -123,6 +134,11 @@
   - [请列举不少于10个ant-design用过的组件](/Question-Bank/react/)
 
 ### Vue
+  - [✔️自定义组件实现v-model的双向绑定](/Question-Bank/vue/customized-v-model)
+  - [✔️$listeners & $attrs](/Question-Bank/vue/listeners-and-attrs)
+  - [✔️编写自定义指令，实现动态列表加载](/Question-Bank/vue/v-loadmore)
+  - [✔️实现可搜索可分片加载的select组件](/Question-Bank/vue/v-search-select)
+  - [✔️关于ElementUI的无限滚动](/Question-Bank/vue/v-infinite-scrol)
   - [v-if与v-show的区别？](/Question-Bank/basic-grammar/)
   - [vue的声明周期是指什么？包括哪几个主要的声明周期钩子？created与mounted的主要区别？](/Question-Bank/basic-grammar/)
   - [vue的实例中data为什么一定是个function？](/Question-Bank/basic-grammar/)
@@ -137,6 +153,36 @@
   - [Vuex 的dispatch和commit提交mutation的区别？](/Question-Bank/basic-grammar/)
   - [v-for中为什么不绑定key会报错？Vue中diff算法的思路是怎样的？](/Question-Bank/basic-grammar/)
   - [编写自定义组件实现v-model的双向绑定](/Question-Bank/vue)
+
+### Nodejs
+  - [✔️EventEmitter实现](/Question-Bank/nodejs/eventEmitter)
+
+### 包管理
+  - [✔️package.lock.json](/Question-Bank/pkgmanage/package.lock.json)
+  - [简述npm是什么](/Question-Bank/basic-grammar/)
+  - [npm和yarn的区别](/Question-Bank/basic-grammar/)
+  - [什么是语义化版本控制？有什么好处？](/Question-Bank/basic-grammar/)
+  - [npm包的^ ~有什么区别？](/Question-Bank/basic-grammar/)
+  - [1.0.0-alpha、1.0.0、1.0.0-alpha.1、1.0.0-beta的先后顺序是什么？](/Question-Bank/basic-grammar/)
+  - [如何快速生成package.json文件](/Question-Bank/basic-grammar/)
+  - [package中的dependencies、devDepencdencies、peerDependencies有什么区别？](/Question-Bank/basic-grammar/)
+  - [如何安装一个依赖包信息到devDependencies中？](/Question-Bank/basic-grammar/)
+  - [如何查询一个包是否存在、如何搜索依赖包？](/Question-Bank/basic-grammar/)
+  - [如何查看本地安装的依赖包？](/Question-Bank/basic-grammar/)
+  - [@next @beta @latest 和@x.x.x 等有什么区别？](/Question-Bank/basic-grammar/)
+  - [@babel/core这种基于scope的包管理方式相比于babel-core有和优势？](/Question-Bank/basic-grammar/)
+
+### 运维相关
+  - [✔️Nginx](/Question-Bank/Ops/nginx)
+
+### 工作实践
+  - [✔️ElementUI Message 二次封装](/Question-Bank/work-practices/eleMessage)
+  - [✔️Mobx 使用踩坑记录](/Question-Bank/work-practices/mobx-cases)
+  - [✔️异步请求中打开新窗口拦截问题](/Question-Bank/work-practices/windowInject)
+  - [✔️vue css中/deep/深度选择](/Question-Bank/work-practices/deepcss)
+  - [✔️团队代码质量：eslint+husky+prettier+lint-staged](/Question-Bank/work-practices/eslintPrettier)
+  - [✔️前端多语言方案实现总结](/Question-Bank/work-practices/i18n)
+
 
 ### Webpack & Babel
   - [列举不少于5个loader](/Question-Bank/basic-grammar/)
@@ -159,19 +205,6 @@
   - [简述babel的实现原理是什么](/Question-Bank/basic-grammar/)
   - [列举ES6+中哪些特性可以使用babel实现哪些不可以？](/Question-Bank/basic-grammar/)
 
-### npm&yarn
-  - [简述npm是什么](/Question-Bank/basic-grammar/)
-  - [npm和yarn的区别](/Question-Bank/basic-grammar/)
-  - [什么是语义化版本控制？有什么好处？](/Question-Bank/basic-grammar/)
-  - [npm包的^ ~有什么区别？](/Question-Bank/basic-grammar/)
-  - [1.0.0-alpha、1.0.0、1.0.0-alpha.1、1.0.0-beta的先后顺序是什么？](/Question-Bank/basic-grammar/)
-  - [如何快速生成package.json文件](/Question-Bank/basic-grammar/)
-  - [package中的dependencies、devDepencdencies、peerDependencies有什么区别？](/Question-Bank/basic-grammar/)
-  - [如何安装一个依赖包信息到devDependencies中？](/Question-Bank/basic-grammar/)
-  - [如何查询一个包是否存在、如何搜索依赖包？](/Question-Bank/basic-grammar/)
-  - [如何查看本地安装的依赖包？](/Question-Bank/basic-grammar/)
-  - [@next @beta @latest 和@x.x.x 等有什么区别？](/Question-Bank/basic-grammar/)
-  - [@babel/core这种基于scope的包管理方式相比于babel-core有和优势？](/Question-Bank/basic-grammar/)
 
 ### Git
   - [常用的git命令有哪些](/Question-Bank/basic-grammar/)
@@ -194,6 +227,8 @@
   - [eslint如何配置全局变量的支持？](/Question-Bank/basic-grammar/)
   - [eslint可以重读哪些配置文件？读取配置文件的优先级是什么？](/Question-Bank/basic-grammar/)
   - [列举eslint的哪些rules是可以通过--fix命令修复的？](/Question-Bank/basic-grammar/)
+
+
 
 ### 待分类
   - [什么是PWA？](/Question-Bank/cross-platform/)

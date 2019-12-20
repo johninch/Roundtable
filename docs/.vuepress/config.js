@@ -51,18 +51,18 @@ module.exports = {
                 {
                     title: '基本语法',
                     children: [
+                        '/Question-Bank/basic-grammar/variablesAndTypes1',
+                        '/Question-Bank/basic-grammar/variablesAndTypes2',
+                        '/Question-Bank/basic-grammar/number',
+                        '/Question-Bank/basic-grammar/variablesAndTypes3',
+                        '/Question-Bank/basic-grammar/variablesAndTypes4',
+                        '/Question-Bank/basic-grammar/variablesAndTypes5',
+                        '/Question-Bank/basic-grammar/async-await',
                         '/Question-Bank/basic-grammar/flatten-array',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
                         '/Question-Bank/basic-grammar/callback-hell',
-                        '/Question-Bank/basic-grammar/variablesAndTypes1',
-                        '/Question-Bank/basic-grammar/variablesAndTypes2',
-                        '/Question-Bank/basic-grammar/variablesAndTypes3',
-                        '/Question-Bank/basic-grammar/variablesAndTypes4',
-                        '/Question-Bank/basic-grammar/variablesAndTypes5',
-                        '/Question-Bank/basic-grammar/async-await',
-                        '/Question-Bank/basic-grammar/number'
                     ]
                 },
                 {
