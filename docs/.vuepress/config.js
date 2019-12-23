@@ -185,6 +185,7 @@ module.exports = {
                         '/Question-Bank/work-practices/mobx-cases',
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
+                        '/Question-Bank/work-practices/css-module',
                         '/Question-Bank/work-practices/eslintPrettier',
                         '/Question-Bank/work-practices/i18n',
                     ]
