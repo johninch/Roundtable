@@ -13,7 +13,7 @@
   熟悉整个流程
 - [WebAssembly](https://developer.mozilla.org/zh-CN/docs/WebAssembly) 初步了解第四个Web语言WebAssembly
 + [GraphQL](https://graphql.org/) 熟悉了解这个新的api模式
-- [CSS-in-JS]() 熟悉了解两个最大的相关库[styled-compinents](https://www.styled-components.com/)、[emotion](https://github.com/emotion-js/emotion)
+- [CSS-in-JS]() 熟悉了解两个最大的相关库[styled-components](https://www.styled-components.com/)、[emotion](https://github.com/emotion-js/emotion)
 + [Flutter](https://flutterchina.club/) 了解入门这个架构，写一个简单demo
 - [Webpack 4](https://www.webpackjs.com/concepts/) 熟悉4.x版本的新变动 Webpack5也即将发布
 + ~~[Prettier 代码风格统一](https://prettier.io/)~~ 简单的工具 暂不入选
