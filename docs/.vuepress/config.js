@@ -51,12 +51,18 @@ module.exports = {
                 {
                     title: '基本语法',
                     children: [
+                        '/Question-Bank/basic-grammar/variablesAndTypes1',
+                        '/Question-Bank/basic-grammar/variablesAndTypes2',
+                        '/Question-Bank/basic-grammar/number',
+                        '/Question-Bank/basic-grammar/variablesAndTypes3',
+                        '/Question-Bank/basic-grammar/variablesAndTypes4',
+                        '/Question-Bank/basic-grammar/variablesAndTypes5',
+                        '/Question-Bank/basic-grammar/async-await',
                         '/Question-Bank/basic-grammar/flatten-array',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
                         '/Question-Bank/basic-grammar/callback-hell',
-                        '/Question-Bank/basic-grammar/async-await'
                     ]
                 },
                 {
@@ -105,17 +111,17 @@ module.exports = {
                 {
                     title: 'React',
                     children: [
-                        '/Question-Bank/react/element-component-instance-node',
-                        '/Question-Bank/react/mobx-cases',
+                        '/Question-Bank/react/element-component-instance-node'
                     ]
                 },
                 {
                     title: 'Vue',
                     children: [
                         '/Question-Bank/vue/customized-v-model',
-                        '/Question-Bank/vue/listenersAttrs',
+                        '/Question-Bank/vue/listeners-and-attrs',
                         '/Question-Bank/vue/v-loadmore',
-                        '/Question-Bank/vue/v-search-select'
+                        '/Question-Bank/vue/v-search-select',
+                        '/Question-Bank/vue/v-infinite-scroll'
                     ]
                 },
                 {
@@ -176,6 +182,12 @@ module.exports = {
                     title: '工作实践',
                     children: [
                         '/Question-Bank/work-practices/eleMessage',
+                        '/Question-Bank/work-practices/mobx-cases',
+                        '/Question-Bank/work-practices/windowInject',
+                        '/Question-Bank/work-practices/deepcss',
+                        '/Question-Bank/work-practices/css-module',
+                        '/Question-Bank/work-practices/eslintPrettier',
+                        '/Question-Bank/work-practices/i18n',
                     ]
                 },
                 // {
@@ -230,6 +242,13 @@ module.exports = {
                         '/Lets-Read/one/read-3-2',
                         '/Lets-Read/one/read-4-1',
                     ]
+                },
+                {
+                    title: '第二期',
+                    children: [
+                        '/Question-Bank/basic-grammar/async-await',
+                        '/Question-Bank/performance/process-eventloop',
+                    ]
                 }
             ],
             '/Algorithm/': [
@@ -241,6 +260,7 @@ module.exports = {
                         '/Algorithm/Linked-List/print-from-tail-to-head',
                         '/Algorithm/Linked-List/delete-repeat-node',
                         '/Algorithm/Linked-List/reverse-linked-list',
+                        '/Algorithm/Linked-List/merge-two-sorted-link',
                         '/Algorithm/Linked-List/copy-complicated-linked-list',
                         '/Algorithm/Linked-List/entry-node-of-loop',
                         '/Algorithm/Linked-List/find-first-common-node',
