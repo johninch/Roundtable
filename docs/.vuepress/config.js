@@ -121,7 +121,8 @@ module.exports = {
                         '/Question-Bank/vue/listeners-and-attrs',
                         '/Question-Bank/vue/v-loadmore',
                         '/Question-Bank/vue/v-search-select',
-                        '/Question-Bank/vue/v-infinite-scroll'
+                        '/Question-Bank/vue/v-infinite-scroll',
+                        '/Question-Bank/vue/watch'
                     ]
                 },
                 {
@@ -190,6 +191,12 @@ module.exports = {
                         '/Question-Bank/work-practices/i18n',
                     ]
                 },
+                {
+                    title: 'PWA',
+                    children: [
+                        '/Wanted/pwa',
+                    ]
+                },
                 // {
                 //     title: '待分类',
                 //     children: [
@@ -210,8 +217,8 @@ module.exports = {
                     path: '/Wanted/pwa'
                 },
                 {
-                    title: '第二期 待定',
-                    path: '/Wanted/pending'
+                    title: '第二期 WebAssembly',
+                    path: '/Wanted/webAssembly'
                 }
             ],
             '/Quest-SC/': [
