@@ -229,12 +229,12 @@
   - [eslint可以重读哪些配置文件？读取配置文件的优先级是什么？](/Roundtable/Question-Bank/basic-grammar/)
   - [列举eslint的哪些rules是可以通过--fix命令修复的？](/Roundtable/Question-Bank/basic-grammar/)
 
-
+### PWA
+  - [什么是PWA？](/Roundtable/Wanted/pwa)
+  - [什么是service worker？什么是web worker？](/Roundtable/Wanted/pwa)
+  - [pwa和react-native、flutter、weex等有何区别？各自优势是什么？](/Roundtable/Question-Bank/cross-platform/)
 
 ### 待分类
-  - [什么是PWA？](/Roundtable/Question-Bank/cross-platform/)
-  - [什么是service worker？什么是web worker？](/Roundtable/Question-Bank/cross-platform/pwa-and-service-worker)
-  - [pwa和react-native、flutter、weex等有何区别？各自优势是什么？](/Roundtable/Question-Bank/cross-platform/)
   - [prefetch和preload是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [async和defer是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [js模块化规范有哪些？他们的差异？](/Roundtable/Question-Bank/basic-grammar/)
