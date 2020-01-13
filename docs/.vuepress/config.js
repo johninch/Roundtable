@@ -181,6 +181,7 @@ module.exports = {
                 {
                     title: '工作实践',
                     children: [
+                        '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',
                         '/Question-Bank/work-practices/windowInject',

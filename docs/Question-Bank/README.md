@@ -176,6 +176,7 @@
   - [✔️Nginx](/Roundtable/Question-Bank/Ops/nginx)
 
 ### 工作实践
+  - [✔️前端工程化部署方案](/Roundtable/Question-Bank/work-practices/deploy)
   - [✔️ElementUI Message 二次封装](/Roundtable/Question-Bank/work-practices/eleMessage)
   - [✔️Mobx 使用踩坑记录](/Roundtable/Question-Bank/work-practices/mobx-cases)
   - [✔️异步请求中打开新窗口拦截问题](/Roundtable/Question-Bank/work-practices/windowInject)
