@@ -16,7 +16,7 @@
 - [编写函数createArray(holder, length)返回长度为length，成员都是holder的数组](./basic-grammar/)
 - [编写js代码，实现奇数调用时，打印1，偶数调用时打印2【易】](./basic-grammar/)
 - [数组去重【易】](./basic-grammar/)
-- [bind方法实现【中】](./basic-grammar/)
+- [bind方法实现【中】](./basic-grammar/bind)
 - [实现点击li标签打印该其所处列表次序【易】](./basic-grammar/)
 - [实现函数调用节流【易】](./basic-grammar/)
 - [实现斐波那契数列【易】](./basic-grammar/)

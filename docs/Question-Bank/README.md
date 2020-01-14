@@ -24,9 +24,9 @@
   - [编写函数createArray(holder, length)返回长度为length，成员都是holder的数组](/Roundtable/Question-Bank/basic-grammar/)
   - [编写js代码，实现奇数调用时，打印1，偶数调用时打印2【易】](/Roundtable/Question-Bank/basic-grammar/)
   - [数组去重【易】](/Roundtable/Question-Bank/basic-grammar/)
-  - [bind方法实现【中】](/Roundtable/Question-Bank/basic-grammar/)
+  - [✔️bind方法实现【中】](/Roundtable/Question-Bank/basic-grammar/bind)
   - [实现点击li标签打印该其所处列表次序【易】](/Roundtable/Question-Bank/basic-grammar/)
-  - [实现函数调用节流【易】](/Roundtable/Question-Bank/basic-grammar/)
+  - [✔️实现函数调用节流【易】](/Roundtable/Question-Bank/basic-grammar/debounce)
   - [实现斐波那契数列【易】](/Roundtable/Question-Bank/basic-grammar/)
   - [实现多维数组扁平化【易】](/Roundtable/Question-Bank/basic-grammar/)
   - [将一维数组中连续相同的数字转换成二维【易】](/Roundtable/Question-Bank/basic-grammar/)
@@ -65,7 +65,7 @@
 ### css相关
   - [使用css3编写loading动画【易】](/Roundtable/Question-Bank/css)
   - [编写css实现图示中多列分栏布局【易】](/Roundtable/Question-Bank/css)
-  - [使用不少于两种方案实现块级元素的垂直居中【易】](/Roundtable/Question-Bank/css)
+  - [✔️使用不少于两种方案实现块级元素的垂直水平居中【易】](/Roundtable/Question-Bank/css/center)
   - [使用scss编写代码，快速创建100条规则【中】](/Roundtable/Question-Bank/css)
 
 ### HTML & DOM
