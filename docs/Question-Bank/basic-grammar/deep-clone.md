@@ -346,3 +346,31 @@ console.log("c[1] === d[1]: ", c[1] === d[1]);
 console.log("c[1].b === d[1].b: ", c[1].b === d[1].b);
 ```
 </details>
+
+<details>
+<summary>superwyk:</summary>
+
+```js
+// 只考虑基本数据类型、数组、plain Object的复制
+function deepCopy(o) {
+    // 判断是否为数组
+    if (Object.prototype.toString.call(o) === '[object Array]') {
+        let array = [];
+        for (let i = 0; i < o.length; i++) {
+            array[i] = deepCopy(o[i]);
+        }
+        return array;
+    } else if (Object.prototype.toString.call(o) === '[object Object]') {
+        let object = {};
+        let keys = Object.keys(o);
+        for (let i = 0; i < keys.length; i++) {
+            object[keys[i]] = deepCopy(o[keys[i]]);
+        }
+        return object;
+    } else {
+        return o;
+    }
+}
+```
+
+</details>
