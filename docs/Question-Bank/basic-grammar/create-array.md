@@ -1,5 +1,5 @@
 ---
-title: 编写函数createArray
+title: 编写函数createArray(holder, length)
 date: 2019-01-14 10:14:00
 tags: [js, 算法]
 categories: javascript

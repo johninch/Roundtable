@@ -1,5 +1,5 @@
 ---
-title: 实现奇数调用时，打印1，偶数调用时打印2
+title: 奇偶打印
 date: 2019-01-14 10:21:00
 tags: [js, 算法]
 categories: javascript

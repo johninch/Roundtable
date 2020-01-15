@@ -63,6 +63,13 @@ module.exports = {
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
                         '/Question-Bank/basic-grammar/callback-hell',
+                        '/Question-Bank/basic-grammar/is-array',
+                        '/Question-Bank/basic-grammar/create-array',
+                        '/Question-Bank/basic-grammar/odd-even-print',
+                        '/Question-Bank/basic-grammar/duplicate-remove',
+                        '/Question-Bank/basic-grammar/bind-implementation',
+                        '/Question-Bank/basic-grammar/fibonacci',
+                        '/Question-Bank/basic-grammar/print-all-directory-file',
                     ]
                 },
                 {
