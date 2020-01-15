@@ -23,13 +23,13 @@
   - [✔️判断数组的方法](./basic-grammar/is-array)
   - [✔️编写函数createArray(holder, length)返回长度为length，成员都是holder的数组](./basic-grammar/create-array)
   - [✔️奇偶打印](./basic-grammar/odd-even-print)
-  - [✔️数组去重【易】](./basic-grammar/duplicate-remove)
+  - [✔️数组去重](./basic-grammar/duplicate-remove)
   - [✔️bind方法实现【中】](./basic-grammar/bind-implementation)
-  - [实现点击li标签打印该其所处列表次序【易】](/Roundtable/Question-Bank/basic-grammar/)
-  - [实现函数调用节流【易】](/Roundtable/Question-Bank/basic-grammar/)
-  - [✔️实现斐波那契数列【易】](./basic-grammar/fibonacci)
-  - [实现多维数组扁平化【易】](/Roundtable/Question-Bank/basic-grammar/)
-  - [将一维数组中连续相同的数字转换成二维【易】](/Roundtable/Question-Bank/basic-grammar/)
+  - [实现点击li标签打印该其所处列表次序](/Roundtable/Question-Bank/basic-grammar/)
+  - [✔️实现函数调用节流](/Roundtable/Question-Bank/basic-grammar/debounce)
+  - [✔️实现斐波那契数列](./basic-grammar/fibonacci)
+  - [实现多维数组扁平化](/Roundtable/Question-Bank/basic-grammar/)
+  - [将一维数组中连续相同的数字转换成二维](/Roundtable/Question-Bank/basic-grammar/)
   - [编写一段js代码，实现“回到顶部”动画效果，要求尽可能的动画流畅](/Roundtable/Question-Bank/basic-grammar/)
   - [编写js，要求在给定的节点(target)上，实现鼠标移动时，跟随鼠标实时出现表示鼠标主要移动方向的文字：上/下/左/右](/Roundtable/Question-Bank/basic-grammar/)
   - [编写js，将给定的已知节点(img#icon)添加上一个包装节点(div.icon-wrapper)，要求保持该节点对象不变（即不可克隆或者破坏节点上绑定的任意属性值和事件）](/Roundtable/Question-Bank/basic-grammar/)
@@ -65,7 +65,7 @@
 ### css相关
   - [使用css3编写loading动画【易】](/Roundtable/Question-Bank/css)
   - [编写css实现图示中多列分栏布局【易】](/Roundtable/Question-Bank/css)
-  - [使用不少于两种方案实现块级元素的垂直居中【易】](/Roundtable/Question-Bank/css)
+  - [✔️块级元素的垂直水平居中](/Roundtable/Question-Bank/css/layout-block-center)
   - [使用scss编写代码，快速创建100条规则【中】](/Roundtable/Question-Bank/css)
 
 ### HTML & DOM
