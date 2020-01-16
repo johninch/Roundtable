@@ -244,7 +244,7 @@
   - [es6中的async/await语法如何捕获rejected状态？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy、reflect可以用来做什么？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy和defineProperty在数据拦截方面有什么异同点？](/Roundtable/Question-Bank/basic-grammar/)
-  - [application/x-www-form-urlencoded、multipart/form-data、json、xml四种主流post数据的编码方式有何区别、各自有什么优劣？](/Roundtable/Question-Bank/basic-grammar/)
+  - [✔️application/x-www-form-urlencoded、multipart/form-data、json、xml四种主流post数据的编码方式有何区别、各自有什么优劣？](/Roundtable/Question-Bank/basic-grammar/content-type)
   - [js中哪些情况可能导致内存泄漏问题？](/Roundtable/Question-Bank/basic-grammar/)
   - [举例js中常见的设计模式有哪些？](/Roundtable/Question-Bank/basic-grammar/)
   - [如何设计实现类似jQuery的链式调用？](/Roundtable/Question-Bank/basic-grammar/)
