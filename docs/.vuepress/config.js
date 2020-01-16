@@ -58,19 +58,24 @@ module.exports = {
                         '/Question-Bank/basic-grammar/variablesAndTypes4',
                         '/Question-Bank/basic-grammar/variablesAndTypes5',
                         '/Question-Bank/basic-grammar/async-await',
-                        '/Question-Bank/basic-grammar/flatten-array',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
                         '/Question-Bank/basic-grammar/callback-hell',
+                        '/Question-Bank/basic-grammar/flatten-array',
+                        '/Question-Bank/basic-grammar/to-2D-array',
+                        '/Question-Bank/basic-grammar/duplicate-remove',
                         '/Question-Bank/basic-grammar/is-array',
                         '/Question-Bank/basic-grammar/create-array',
                         '/Question-Bank/basic-grammar/odd-even-print',
-                        '/Question-Bank/basic-grammar/duplicate-remove',
                         '/Question-Bank/basic-grammar/bind-implementation',
                         '/Question-Bank/basic-grammar/debounce',
                         '/Question-Bank/basic-grammar/fibonacci',
+                        '/Question-Bank/basic-grammar/upload',
                         '/Question-Bank/basic-grammar/print-all-directory-file',
+                        '/Question-Bank/basic-grammar/type-judge',
+                        '/Question-Bank/basic-grammar/li-index',
+                        '/Question-Bank/basic-grammar/football-people',
                     ]
                 },
                 {
@@ -86,33 +91,29 @@ module.exports = {
                         '/Question-Bank/performance/process-eventloop',
                     ]
                 },
-                // {
-                //     title: '正则表达式',
-                //     children: [
-                //         '/Question-Bank/regular-expression/查找',
-                //         '/Question-Bank/regular-expression/二维数组查找',
-                //         '/Question-Bank/regular-expression/旋转数组的最小数字',
-                //         '/Question-Bank/regular-expression/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: '类与继承',
-                //     children: [
-                //         '/Question-Bank/class-extends/查找',
-                //         '/Question-Bank/class-extends/二维数组查找',
-                //         '/Question-Bank/class-extends/旋转数组的最小数字',
-                //         '/Question-Bank/class-extends/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: 'ES6 & ESnext',
-                //     children: [
-                //         '/Question-Bank/ESnext/查找',
-                //         '/Question-Bank/ESnext/二维数组查找',
-                //         '/Question-Bank/ESnext/旋转数组的最小数字',
-                //         '/Question-Bank/ESnext/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: '正则表达式',
+                    children: [
+                        '/Question-Bank/regular-expression/upper-camel-case',
+                        '/Question-Bank/regular-expression/code-to-market',
+                        '/Question-Bank/regular-expression/Chinese-ID-card',
+                    ]
+                },
+                {
+                    title: '类与继承',
+                    children: [
+                        '/Question-Bank/class-extends/declaration',
+                        '/Question-Bank/class-extends/child-extends',
+                    ]
+                },
+                {
+                    title: 'ES6 & ESnext',
+                    children: [
+                        '/Question-Bank/ES6/deconstruction',
+                        '/Question-Bank/ES6/deconstruction-function',
+                        '/Question-Bank/ES6/class-method',
+                    ]
+                },
                 // {
                 //     title: 'TypeScript',
                 //     children: [
@@ -125,7 +126,14 @@ module.exports = {
                 {
                     title: 'React',
                     children: [
-                        '/Question-Bank/react/element-component-instance-node'
+                        '/Question-Bank/react/element-component-instance-node',
+                        '/Question-Bank/react/Student',
+                        '/Question-Bank/react/time-console',
+                        '/Question-Bank/react/calling',
+                        '/Question-Bank/react/declare-react-router',
+                        '/Question-Bank/react/router-component-render-children',
+                        '/Question-Bank/react/withClock',
+                        '/Question-Bank/react/lifecycle',
                     ]
                 },
                 {
@@ -204,6 +212,8 @@ module.exports = {
                         '/Question-Bank/work-practices/css-module',
                         '/Question-Bank/work-practices/eslintPrettier',
                         '/Question-Bank/work-practices/i18n',
+                        '/Question-Bank/work-practices/range-download',
+                        '/Question-Bank/work-practices/range-breakpoint-download',
                     ]
                 },
                 {

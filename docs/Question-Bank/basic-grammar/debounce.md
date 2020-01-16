@@ -130,9 +130,33 @@
         }
 
       }
-    }
-    
-   
-    
-    
+    } 
 ```
+
+## 防抖与节流实现scroll
+```js
+// 防抖
+// 例如，绑定页面滚动scroll事件，可能会在页面滚动期间频繁触发，假如希望最多300ms内只触发一次，编写代码实现
+
+var timer = false
+document.getElementById('debounce').onscroll = function() {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+        console.log('函数防抖')
+    }, 300);
+}
+
+// 节流
+// 例如，绑定页面滚动scroll事件，可能会在页面滚动期间频繁触发，假如希望最多300ms内只触发一次，编写代码实现
+
+var canScroll = true
+document.getElementById('throttle').onscroll = function() {
+    if (!canScroll) return
+    canScroll = false
+    setTimeout(() => {
+        console.log('函数节流')
+        canScroll = true
+    }, 300);
+}
+```
+

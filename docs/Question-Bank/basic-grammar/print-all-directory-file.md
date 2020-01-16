@@ -6,6 +6,17 @@ categories: javascript
 ---
 
 # 打印树形目录结构，node实现
+实现函数，参数为目录的路径。然后打印出类似命令行上的tree命令的效果。（可用node fs，如果fs操作不熟悉，可以自己声明变量保存目录的结构数据，然后将该变量输出）
+```
+├── app
+│   ├── components
+│   │   ├── Address
+│   │   ├── Button
+│   │   ├── CountrySelect
+│   │   ├── DatePicker
+│   │   ├── Debug
+```
+
 ## 方法一
 ```js
 // 使用同步api实现，阻塞运行，性能不大好

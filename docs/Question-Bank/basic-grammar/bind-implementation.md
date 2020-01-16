@@ -6,6 +6,9 @@ categories: javascript
 ---
 
 # bind方法实现
+
+> 要求实现Function.prototype.bind方法（注意，该方法要求实现到函数对象原型上，并且支持额外参数传递）
+
 ## 方法一
 ```js
 // es5 实现
