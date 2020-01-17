@@ -39,6 +39,10 @@ function duplicateRemove(arr) {
 ## niannings
 
 ## Caleb
+``` js
+[...new Set(arr)]
+
+```
 
 ## Xmtd
 
