@@ -6,14 +6,16 @@ categories: javascript
 ---
 
 # 数组去重
-## 方法一
+
+## superwyk
+### 方法一
 ```js
 function duplicateRemove(arr) {
     return [... new Set(arr)]
 }
 ```
 
-## 方法二
+### 方法二
 ```js
 function duplicateRemove(arr) {
     const result = [];
@@ -25,3 +27,18 @@ function duplicateRemove(arr) {
     return result;
 }
 ```
+
+## johninch
+
+### 方法一
+
+## mtd
+
+## febcat
+
+## niannings
+
+## Caleb
+
+## Xmtd
+
