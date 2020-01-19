@@ -6,7 +6,9 @@ categories: javascript
 ---
 
 # 编写函数createArray(holder, length)返回长度为length，成员都是holder的数组
-## 方法一
+
+## auperwyk
+### 方法一
 ```js
 function createArray(holder, length){
     const arr = new Array(length);
@@ -14,8 +16,7 @@ function createArray(holder, length){
     return arr;
 }
 ```
-
-## 方法二
+### 方法二
 ```js
 // es6方法
 function createArray(holder, length){

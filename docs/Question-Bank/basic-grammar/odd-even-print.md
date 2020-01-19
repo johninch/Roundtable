@@ -13,7 +13,8 @@ foo(); // 1
 foo(); // 2
 ```
 
-## 方法一
+## superwyk
+### 方法一
 ```js
 // 闭包实现
 function foo(){
@@ -31,7 +32,7 @@ var print = foo();
 print();
 ```
 
-## 方法二
+### 方法二
 ```js
 // es6 iterator实现
 var foo = {
@@ -55,7 +56,7 @@ var print = foo[Symbol.iterator]().next;
 print();
 ```
 
-## 方法三
+### 方法三
 ```js
 // es6 generator实现
 function* gen() {

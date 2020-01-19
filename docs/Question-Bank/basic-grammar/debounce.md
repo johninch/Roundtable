@@ -160,3 +160,52 @@ document.getElementById('throttle').onscroll = function() {
 }
 ```
 
+## superyk
+### 防抖
+```js
+// 防抖，maxWait防止假死
+function debounce(fun, wait, maxWait){
+    let timer = null;
+    let lastRunTime = Date.now();
+
+    return function(...args){
+        const context = this;
+        const now = Date.now();
+
+        if(timer) {
+            clearTimeout(timer);
+            if(now - lastRunTime > maxWait){
+                lastRunTime = Date.now();
+                fun.apply(context, args);
+            }
+        } else {
+            lastRunTime = Date.now(); // 立即执行
+            fun.apply(context, args); // 立即执行
+        }
+
+        timer = setTimeout(function(){
+            timer = null;
+            // lastRunTime = Date.now(); // 延迟执行
+            // fun.apply(context, args); // 延迟执行
+        }, wait);
+    }
+}
+```
+### 节流
+```js
+function throttle(fun, wait){
+    let timer = null;
+
+    return function(...args){
+        const context = this;
+        if(timer) return;
+
+        timer = setTimeout(function(){
+            timer = null;
+            // fun.apply(context, args); // 延迟执行
+        }, wait);
+
+        fun.apply(context, args); // 立即执行
+    }
+}
+```

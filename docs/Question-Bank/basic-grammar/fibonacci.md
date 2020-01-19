@@ -10,8 +10,8 @@ categories: javascript
 实现指定区间内的斐波那契数列。斐波那契是指从第三项开始，每一项都为其前两项的值之和：1 2 3 5 8 13 21 34 ...
 例如，给定 100, 2000，需要打印 100 101 201 302 503 805 1308
 
-
-## 方法一
+## superwyk
+### 方法一
 ```js
 // es5 实现
 function fibonacci(startValue, maxValue) {
@@ -34,7 +34,7 @@ function fibonacci(startValue, maxValue) {
 }
 ```
 
-## 方法二
+### 方法二
 ```js
 // es6 generator实现
 function* genFibonacci(startValue, maxValue) {
@@ -54,7 +54,7 @@ function* genFibonacci(startValue, maxValue) {
 const fibonacci = [...genFibonacci(200, 2000)];
 ```
 
-### Johninch
+## Johninch
 ```js
 // 推荐答案：
 function fib_interval(min, max) {

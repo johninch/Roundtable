@@ -9,7 +9,8 @@ categories: javascript
 
 > 要求实现Function.prototype.bind方法（注意，该方法要求实现到函数对象原型上，并且支持额外参数传递）
 
-## 方法一
+## superwyk
+### 方法一
 ```js
 // es5 实现
 Function.prototype.bind = function () {
@@ -25,7 +26,7 @@ Function.prototype.bind = function () {
 }
 ```
 
-## 方法二
+### 方法二
 ```js
 // es6 实现
 Function.prototype.bind = function (...args) {
