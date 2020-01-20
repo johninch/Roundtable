@@ -2,24 +2,29 @@
 
 例如：[1,1,2,3,3,3,3,4,5,5,5,6,6] 将被转换为 [[1,1],2,[3,3,3],4,[5,5,5],[6,6]]
 
+## johninch
 ```js
 function arrayTo2D(arr) {
-    let array2D = [];
-    let curNum = arr[0],
-      tempArr = [];
-    arr.forEach(item => {
-      if (item === curNum) {
-        tempArr = tempArr.concat(item);
-      } else {
-        tempArr.length > 1 ? array2D.push(tempArr) : array2D.push(tempArr[0]);
-        tempArr = [item];
-        curNum = item;
-      }
-    });
-    (tempArr.length && tempArr.length > 1) ? array2D.push(tempArr) : array2D.push(tempArr[0]);
-  
-    return array2D;
+  let tempArr = [],
+    cur = arr[0],
+    newArr = [];
+
+  arr.forEach((item, i) => {
+    if (item === cur) {
+      tempArr = tempArr.concat(item);
+    } else {
+      tempArr.length > 1 ? newArr.push(tempArr) : newArr.push(tempArr[0]);
+      cur = item;
+      tempArr = [item];
+    }
+  });
+
+  tempArr.length > 1 ? newArr.push(tempArr) : newArr.push(tempArr[0]);
+
+  return newArr;
 }
-  
-console.log(arrayTo2D([1, 1, 2, 3, 3, 3, 3, 4, 5, 5, 5, 6, 6]));
+
+let a = [1, 1, 2, 3, 3, 3, 3, 4, 5, 5, 5, 6, 6];
+
+console.log(arrayTo2D(a));
 ```

@@ -65,7 +65,7 @@
 ### css相关
   - [使用css3编写loading动画](/Roundtable/Question-Bank/css)
   - [编写css实现图示中多列分栏布局](/Roundtable/Question-Bank/css)
-  - [:rocket:块级元素的垂直水平居中](/Roundtable/Question-Bank/css/layout-block-center)
+  - [:rocket:元素居中方法总结](./css/layout-block-center)
   - [使用scss编写代码，快速创建100条规则](/Roundtable/Question-Bank/css)
 
 ### HTML & DOM

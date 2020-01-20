@@ -1,5 +1,6 @@
 ### 实现防抖函数 debounce
 
+## mdt
 ```js
  /**
   * 当持续触发事件时，debounce 会合并事件且不会去触发事件，当一定时间内没有触发再这个事件时，才真正去触发事件
@@ -133,30 +134,95 @@
     } 
 ```
 
-## 防抖与节流实现scroll
-```js
-// 防抖
-// 例如，绑定页面滚动scroll事件，可能会在页面滚动期间频繁触发，假如希望最多300ms内只触发一次，编写代码实现
+## johninch
 
-var timer = false
-document.getElementById('debounce').onscroll = function() {
-    clearTimeout(timer)
+### 防抖debounce
+
+- 函数防抖是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次
+- 函数防抖的要点，需要一个setTimeout来辅助实现。延迟执行需要跑的代码。
+- 如果方法多次触发，则把上次记录的延迟执行代码用clearTimeout清掉，重新开始。
+- 如果计时完毕，没有方法进来访问触发，则执行代码。
+```js
+const debounce = (handler, delay) => {
+  let timer;
+  return function() {
+    const ctx = this;
+    if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
-        console.log('函数防抖')
-    }, 300);
+      handler.apply(ctx, arguments)
+    }, delay)
+  }
 }
 
-// 节流
-// 例如，绑定页面滚动scroll事件，可能会在页面滚动期间频繁触发，假如希望最多300ms内只触发一次，编写代码实现
-
-var canScroll = true
-document.getElementById('throttle').onscroll = function() {
-    if (!canScroll) return
-    canScroll = false
-    setTimeout(() => {
-        console.log('函数节流')
-        canScroll = true
-    }, 300);
+/**
+ * @param {*} handler
+ * @param {*} delay 
+ * @param {boolean} immediate: 是否立即执行一次
+ */
+const debounce2 = (handler, delay = 300, immediate = false) => {
+  let timer;
+  let canDo = true
+  return function() {
+    const ctx = this;
+    if (timer) clearTimeout(timer);
+    if (immediate) {
+      if (canDo) {
+        canDo = false
+        handler.apply(ctx, arguments)
+      }
+      timer = setTimeout(() => {
+        canDo = true
+      }, delay)
+    } else {
+      timer = setTimeout(() => {
+        handler.apply(ctx, arguments)
+      }, delay)
+    }
+  }
 }
 ```
+### 节流throttle
 
+- 函数节流是指一定时间内js方法只跑一次。
+- 函数节流的要点是，声明一个变量当标志位，记录当前代码是否在执行。
+- 如果空闲，则可以正常触发方法执行；如果代码正在执行，则取消这次方法执行，直接return。
+```js
+const throttle = (handler, delay) => {
+  let canDo = true;
+  return function() {
+    if (!canDo) {
+      return;
+    }
+    let ctx = this;
+    setTimeout(() => {
+      handler.apply(ctx, arguments)
+    }, delay)
+  }
+}
+
+/**
+ * @param {*} handler
+ * @param {*} delay 
+ * @param {boolean} immediate: 是否立即执行一次
+ */
+const throttle2 = (handler, delay = 300, immediate = false) => {
+  let canDo = true;
+  return function() {
+    if (!canDo) {
+      return;
+    }
+    if (immediate) {
+      handler.apply(this, arguments)
+      canDo = false
+      setTimeout(() => {
+        canDo = true
+      }, delay)
+    } else {
+      let ctx = this;
+      setTimeout(() => {
+        handler.apply(ctx, arguments)
+      }, delay)
+    }
+  }
+}
+```
