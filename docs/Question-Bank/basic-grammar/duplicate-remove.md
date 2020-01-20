@@ -89,6 +89,10 @@ console.log(unique5(arr))
 ## niannings
 
 ## Caleb
+``` js
+[...new Set(arr)]
+
+```
 
 ## Xmtd
 
