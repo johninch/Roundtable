@@ -81,6 +81,7 @@ module.exports = {
                 {
                     title: 'CSS相关',
                     children: [
+                        '/Question-Bank/css/layout-3-col',
                         '/Question-Bank/css/layout-block-center',
                     ]
                 },
