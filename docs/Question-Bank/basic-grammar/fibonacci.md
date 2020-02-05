@@ -120,7 +120,7 @@ console.log(fib2(9)) // 34
 // 尾递归实现fibonacci (尾调用优化)
 function fib3(n, n1 = 1, n2 = 1){
   if (n <= 2) {
-      return n2;    
+      return n2;
   } else {
       return fib3(n-1, n2, n1 + n2);
   }
@@ -206,5 +206,19 @@ function* fibRange5(start, end) {
   }
 }
 console.log([...fibRange5(6, 9)]); // [8, 13, 21, 34]
+```
+
+## Caleb
+``` js
+var fibonacci = function(start, end) {
+    var result = [start];
+    if(start === end) return result;
+    result.push(start+1);
+    while(result[result.length-1]<=end){
+        var len = result.length;
+        result.push(result[len-1]+result[len-2])
+    }
+    return result.toString()
+}
 ```
 

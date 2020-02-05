@@ -82,15 +82,15 @@
   - [:100:从多线程到Event Loop全面梳理](/Roundtable/Question-Bank/performance/process-eventloop)
 
 ### TypeScript
-  - [ts与js的区别？ts的优势是什么？](/Roundtable/Question-Bank/basic-grammar/)
-  - [ts中的基础类型有哪些？](/Roundtable/Question-Bank/basic-grammar/)
-  - [联合类型union与交叉类型intersection有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [数组与元祖tuple有什么区别？元祖越界元素的类型有什么限制？](/Roundtable/Question-Bank/basic-grammar/)
-  - [类型断言type assert与类型保护type guards有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [string与String有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [void、never、any、unknow有什么区别？string可以赋予前面提到的四种类型吗？](/Roundtable/Question-Bank/basic-grammar/)
-  - [什么是泛型？有什么好处？](/Roundtable/Question-Bank/basic-grammar/)
-  - [判断下面代码执行结果（类型兼容性考察）](/Roundtable/Question-Bank/typescript)
+  - [ts与js的区别？ts的优势是什么？](/Roundtable/Question-Bank/ts/)
+  - [ts中的基础类型有哪些？](/Roundtable/Question-Bank/ts/)
+  - [联合类型union与交叉类型intersection有什么区别？](/Roundtable/Question-Bank/ts/)
+  - [:100:数组与元祖tuple有什么区别？元祖越界元素的类型有什么限制？](/Roundtable/Question-Bank/ts/tuple)
+  - [类型断言type assert与类型保护type guards有什么区别？](/Roundtable/Question-Bank/ts/)
+  - [string与String有什么区别？](/Roundtable/Question-Bank/ts/)
+  - [:100:void、never、any、unknow有什么区别？string可以赋予前面提到的四种类型吗？](/Roundtable/Question-Bank/ts/type-difference)
+  - [什么是泛型？有什么好处？](/Roundtable/Question-Bank/ts/)
+  - [判断下面代码执行结果（类型兼容性考察）](/Roundtable/Question-Bank/ts)
 
 ### React
   - [:100:Element、Component、Node、Instance](/Roundtable/Question-Bank/react/element-component-instance-node)
@@ -115,7 +115,7 @@
   - [什么是HOC？](/Roundtable/Question-Bank/react/)
   - [什么是“render props”?](/Roundtable/Question-Bank/react/)
   - [HOC与render props有什么区别？](/Roundtable/Question-Bank/react/)
-  - [jsx中可以渲染出false、true、null、undefined、''、0、[]、{}等值么？](/Roundtable/Question-Bank/react/)
+  - [:100:jsx中可以渲染出false、true、null、undefined、''、0、[]、{}等值么？](/Roundtable/Question-Bank/react/jsx-render)
   - [简述react-redux中的Provider和connect的作用？](/Roundtable/Question-Bank/react/)
   - [react-router中的Switch组件作用是什么？](/Roundtable/Question-Bank/react/)
   - [如何判断一个Element是来自原生节点还是自定义组件？](/Roundtable/Question-Bank/react/)
