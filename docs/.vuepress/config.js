@@ -83,6 +83,7 @@ module.exports = {
                     children: [
                         '/Question-Bank/css/layout-3-col',
                         '/Question-Bank/css/layout-block-center',
+                        '/Question-Bank/css/box-sizing&margin-collapse&BFC'
                     ]
                 },
                 {
