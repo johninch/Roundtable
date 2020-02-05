@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/johninch/Roundtable#readme",
   "devDependencies": {
-    "vuepress": "^1.2.0"
+    "vuepress": "^1.2.0",
+    "serialize-javascript": "^2.1.1"
   }
 }
