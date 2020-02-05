@@ -87,6 +87,12 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'DOM相关',
+                    children: [
+                        '/Question-Bank/dom/dom-event',
+                    ]
+                },
+                {
                     title: '前端性能',
                     children: [
                         '/Question-Bank/performance/memory-or-disk-cache',
