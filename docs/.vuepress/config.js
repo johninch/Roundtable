@@ -79,6 +79,14 @@ module.exports = {
                     ]
                 },
                 {
+                    title: '面向对象与原型链',
+                    children: [
+                        '/Question-Bank/object-oriented/prototype-chain',
+                        '/Question-Bank/object-oriented/class-declaration',
+                        '/Question-Bank/object-oriented/class-extends',
+                    ]
+                },
+                {
                     title: 'CSS相关',
                     children: [
                         '/Question-Bank/css/layout-3-col',
@@ -105,13 +113,6 @@ module.exports = {
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
-                    ]
-                },
-                {
-                    title: '类与继承',
-                    children: [
-                        '/Question-Bank/class-extends/declaration',
-                        '/Question-Bank/class-extends/child-extends',
                     ]
                 },
                 {

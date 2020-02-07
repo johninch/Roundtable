@@ -1,4 +1,4 @@
-# 根据要求定义react组件<Student>
+# 根据要求定义react组件`<Student/>`
 
 编写Student组件，可以接收学生姓名、性别(F/M)、年龄、所在班级信息、考试成绩（其中姓名、性别、成绩为必传项，其它为选填，未传递需要指定一个默认值），并显示出来。同时有一个查看成绩的按钮，点击后alert出该学生的成绩。
 
@@ -53,7 +53,7 @@ ReactDOM.render(<App />, rootElement);
 ```
 
 ### 方法二：使用ts实现
-```ts
+```tsx
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 

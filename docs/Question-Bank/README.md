@@ -48,14 +48,15 @@
   - [编写css，实现iPhone手机主屏幕布局](./basic-grammar/)
   - [:rocket:打印树形目录结构【难】](./basic-grammar/print-all-directory-file)
 
+### 面向对象与原型链
+  - [:100:原型链](./object-oriented/prototype-chain)
+  - [:100:类的声明与实例](./object-oriented/class-declaration)
+  - [:100:类与继承](./object-oriented/class-extends)
+
 ### 正则表达式
   - [正则表达式实现大驼峰字符串转换](/Roundtable/Question-Bank/regular-expression/upper-camel-case)
   - [使用正则判断给定的股票代码所属市场](/Roundtable/Question-Bank/regular-expression/code-to-market)
   - [使用正则验证给定字符串是否是中国居民身份证](/Roundtable/Question-Bank/regular-expression/Chinese-ID-card)
-
-### 类与继承
-  - [声明一个类](/Roundtable/Question-Bank/class-extends/declaration)
-  - [实现子类继承](/Roundtable/Question-Bank/class-extends/child-extends)
 
 ### ES6 & ESnext
   - [解构赋值题](/Roundtable/Question-Bank/ES6/deconstruction)
