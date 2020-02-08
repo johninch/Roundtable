@@ -95,9 +95,15 @@ module.exports = {
                     ]
                 },
                 {
-                    title: 'DOM相关',
+                    title: 'HTML & DOM',
                     children: [
                         '/Question-Bank/dom/dom-event',
+                    ]
+                },
+                {
+                    title: '通信',
+                    children: [
+                        '/Question-Bank/communication/http',
                     ]
                 },
                 {
