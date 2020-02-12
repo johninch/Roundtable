@@ -24,9 +24,6 @@ categories: css
 3. `window.getComputedStyle(dom)`.width/height拿到最终渲染后的dom的实际宽高，兼容多浏览器；
 4. `dom.getBoundingClientRect()`.widh/height/top/left/bottom/right 取到dom渲染后相对于viewport边界的宽高和绝对位置。
 
-
-
-
 ![](./images/layout-3-col-01.png)
 
 ## 外边距重叠 margin-collapse

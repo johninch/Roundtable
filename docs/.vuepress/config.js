@@ -91,7 +91,9 @@ module.exports = {
                     children: [
                         '/Question-Bank/css/layout-3-col',
                         '/Question-Bank/css/layout-block-center',
-                        '/Question-Bank/css/box-sizing&margin-collapse&BFC'
+                        '/Question-Bank/css/box-sizing&margin-collapse&BFC',
+                        '/Question-Bank/css/layout-method',
+                        '/Question-Bank/css/css-base',
                     ]
                 },
                 {
@@ -104,13 +106,19 @@ module.exports = {
                     title: '通信',
                     children: [
                         '/Question-Bank/communication/http',
+                        '/Question-Bank/communication/internet-base',
+                        '/Question-Bank/communication/cross-domain',
+                        '/Question-Bank/communication/cors',
                     ]
                 },
                 {
-                    title: '前端性能',
+                    title: '浏览器及前端性能',
                     children: [
-                        '/Question-Bank/performance/memory-or-disk-cache',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/browser/browser-mechanism',
+                        '/Question-Bank/browser/render',
+                        '/Question-Bank/browser/performance',
+                        '/Question-Bank/browser/process-eventloop',
+                        '/Question-Bank/browser/memory-or-disk-cache',
                     ]
                 },
                 {
