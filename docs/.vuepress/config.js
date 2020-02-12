@@ -122,6 +122,12 @@ module.exports = {
                     ]
                 },
                 {
+                    title: '网络安全',
+                    children: [
+                        '/Question-Bank/security/fe-security',
+                    ]
+                },
+                {
                     title: '正则表达式',
                     children: [
                         '/Question-Bank/regular-expression/upper-camel-case',
@@ -130,7 +136,7 @@ module.exports = {
                     ]
                 },
                 {
-                    title: 'ES6 & ESnext',
+                    title: 'ES6+',
                     children: [
                         '/Question-Bank/ES6/deconstruction',
                         '/Question-Bank/ES6/deconstruction-function',
@@ -227,6 +233,7 @@ module.exports = {
                 {
                     title: '工作实践',
                     children: [
+                        '/Question-Bank/work-practices/product-quality',
                         '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',
