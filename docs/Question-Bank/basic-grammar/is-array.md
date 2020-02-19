@@ -81,3 +81,15 @@ function isArray(arr){
 }
 ```
 
+## Mtd
+```js
+
+function isArray(arr) {
+  if (Array.isArray) {
+    return Array.isArray(arr);
+  } else {
+    return Object.prototype.toString.call(arr) === '[object Array]'
+  }
+}
+```
+

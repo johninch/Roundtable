@@ -82,7 +82,26 @@ function unique5(arr) {
 console.log(unique5(arr))
 ```
 
-## mtd
+## Mtd
+
+````js
+function uniq(arr) {
+  if (!arr || !arr.length) {
+    return [];
+  }
+
+  let result = [];
+  let i = 0;
+  while (i < arr.length) {
+    if (result.indexOf(arr[i]) === -1) {
+      result.push(arr[i])
+    }
+    i++;
+  }
+
+  return result
+}
+````
 
 ## febcat
 
@@ -93,6 +112,4 @@ console.log(unique5(arr))
 [...new Set(arr)]
 
 ```
-
-## Xmtd
 

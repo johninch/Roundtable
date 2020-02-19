@@ -28,3 +28,26 @@ function createArray(holder, length){
     return arr;
 }
 ```
+
+## Mtd
+
+```js
+// fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引
+
+// es6
+function createArray(holder, length) {
+  let arr = new Array(length);
+  arr.fill(holder);
+  
+  return arr;
+}
+
+function createArray(holder, length) {
+  let arr = [];
+  while (length--) {
+    arr.push(holder)
+  } 
+  
+  return arr;
+}
+```
