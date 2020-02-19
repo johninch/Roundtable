@@ -57,7 +57,6 @@ module.exports = {
                         '/Question-Bank/basic-grammar/variablesAndTypes3',
                         '/Question-Bank/basic-grammar/variablesAndTypes4',
                         '/Question-Bank/basic-grammar/variablesAndTypes5',
-                        '/Question-Bank/basic-grammar/async-await',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
@@ -84,6 +83,18 @@ module.exports = {
                         '/Question-Bank/object-oriented/prototype-chain',
                         '/Question-Bank/object-oriented/class-declaration',
                         '/Question-Bank/object-oriented/class-extends',
+                    ]
+                },
+                {
+                    title: 'JS的执行机制',
+                    children: [
+                        '/Question-Bank/execution/interpreter',
+                        '/Question-Bank/execution/context',
+                        '/Question-Bank/execution/event-loop',
+                        '/Question-Bank/execution/asynchronous-cb',
+                        '/Question-Bank/execution/asynchronous-promise',
+                        '/Question-Bank/execution/asynchronous-gen',
+                        '/Question-Bank/execution/asynchronous-async&await',
                     ]
                 },
                 {

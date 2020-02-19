@@ -15,7 +15,6 @@
   - [:100:JS专题-变量与类型-(3)JS 其他引用类型](./basic-grammar/variablesAndTypes3)
   - [:100:JS专题-变量与类型-(4)JS的类型转换](./basic-grammar/variablesAndTypes4)
   - [:100:JS专题-变量与类型-(5)JS的类型判断方法](./basic-grammar/variablesAndTypes5)
-  - [:100:async/await 用法整理](./basic-grammar/async-await)
   - [:100:完美实现深拷贝](./basic-grammar/deep-clone)
   - [:100:深度查询](./basic-grammar/deep-query)
   - [:100:链式调用](./basic-grammar/chain-methods)
@@ -53,6 +52,15 @@
   - [:100:类的声明与实例](./object-oriented/class-declaration)
   - [:100:类与继承](./object-oriented/class-extends)
 
+### JS的执行机制
+  - [:100:JS的解释器过程](./execution/interpreter)
+  - [:100:运行JS](./execution/context)
+  - [:100:任务队列与Event-Loop](./execution/event-loop)
+  - [:100:异步编程（1）：回调函数](./execution/asynchronous-cb)
+  - [:100:异步编程（2）：Promise对象](./execution/asynchronous-promise)
+  - [:100:异步编程（3）：Generator函数](./execution/asynchronous-gen)
+  - [:100:异步编程（4）：async、await](./execution/asynchronous-async&await)
+
 ### css相关
   - [:100:多种方式实现三栏布局](./css/layout-3-col)
   - [:rocket:元素居中方法总结](./css/layout-block-center)
@@ -87,7 +95,7 @@
   - [:100:from memory cache 与 from disk cache](./browser/memory-or-disk-cache)
 
 ### 网络安全
-  - [前端常见安全问题](/Roundtable/Question-Bank/security/fe-security)
+  - [:100:前端常见安全问题](/Roundtable/Question-Bank/security/fe-security)
 
 ### 正则表达式
   - [正则表达式实现大驼峰字符串转换](/Roundtable/Question-Bank/regular-expression/upper-camel-case)
