@@ -114,6 +114,13 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'BOM',
+                    children: [
+                        '/Question-Bank/bom/bom-base',
+                        '/Question-Bank/bom/router',
+                    ]
+                },
+                {
                     title: '通信',
                     children: [
                         '/Question-Bank/communication/http',
@@ -141,6 +148,7 @@ module.exports = {
                 {
                     title: '正则表达式',
                     children: [
+                        '/Question-Bank/regular-expression/reg-base',
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
