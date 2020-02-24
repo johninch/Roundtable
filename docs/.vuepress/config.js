@@ -348,6 +348,24 @@ module.exports = {
                         '/Algorithm/Linked-List/find-Kth-to-tail',
                     ]
                 },
+                {
+                    title: '树和二叉树',
+                    children: [
+                        '/Algorithm/Tree-and-Binary-Tree/',
+                        '/Algorithm/Tree-and-Binary-Tree/inorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/preorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/postorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree',
+                        '/Algorithm/Tree-and-Binary-Tree/get-HRD',
+                        '/Algorithm/Tree-and-Binary-Tree/is-symmetrical',
+                        '/Algorithm/Tree-and-Binary-Tree/mirror',
+                        '/Algorithm/Tree-and-Binary-Tree/kth-node',
+                        '/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST',
+                        '/Algorithm/Tree-and-Binary-Tree/max-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/min-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/is-balanced',
+                    ]
+                },
             ]
         }
     },
