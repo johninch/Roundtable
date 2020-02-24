@@ -28,3 +28,42 @@ function createArray(holder, length){
     return arr;
 }
 ```
+
+## febcat
+### 方法一
+``` js
+const createArray = (holder, length) => {
+  let newHolder = [];
+
+  while (length > 0) {
+    newHolder.push(holder);
+    length--;
+  }
+
+  return newHolder;
+};
+
+console.log("createArray", JSON.stringify(createArray(1, 5)));
+```
+
+### 方法二
+``` js
+const createArray2 = (holder, length) => {
+  let holderType = Object.prototype.toString.call(holder);
+  let holderStr = holder + "";
+  let regStr = `(${holderStr})`;
+  let holderInit = res => {
+    switch (holderType) {
+      case "[object Number]":
+        return res.map(item => item - "");
+      case "[object Null]":
+        return res.map(() => null);
+      case "[object Boolean]":
+        return res.map(item => JSON.parse(item));
+      default:
+        return res;
+    }
+  };
+
+console.log("createArray2", JSON.stringify(createArray2("true", 5)));
+```
