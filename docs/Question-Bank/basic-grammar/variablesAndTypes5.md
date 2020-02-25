@@ -60,13 +60,17 @@ new RegExp() instanceof RegExp // true
 - 4.所有引用类型`__proto__`值指向它构造函数的`prototype`
 - 5.当试图得到一个对象的属性时，如果变量本身没有这个属性，则会去他的`__proto__`中去找
 
-`[] instanceof Array`实际上是判断`Array.prototype`是否在`[]`的原型链上。
+`[] instanceof Array`是用来判断 对象[] 是否是构造函数 Array 的实例。其原理是根据 实例对象[] 的__proto__属性 与 构造函数 Array 的prototype属性 `是否引用的是同一个原型对象地址来判断`的。
 
-通过原型来判断就会造成误差：
+`[] instanceof Array`实际上是判断`Array.prototype`是否在`[]`的原型链上，但在这条原型链上的构造函数都是实例对象的构造函数，因此通过原型来判断就会造成误差：
 ```js
 [] instanceof Object // true
 function(){}  instanceof Object // true
 ```
+
+> 顺便想一下：怎样判断一个实例对象的直接构造函数是谁呢？
+>> 只能通过原型对象的constructor属性来判断是否：`o.__proto__.constructor === M`
+>>> 注意：o.__proto__.constructor与o.constructor是一样的，其实本质就是通过原型链找到constructor属性。
 
 ## toString
 

@@ -57,7 +57,6 @@ module.exports = {
                         '/Question-Bank/basic-grammar/variablesAndTypes3',
                         '/Question-Bank/basic-grammar/variablesAndTypes4',
                         '/Question-Bank/basic-grammar/variablesAndTypes5',
-                        '/Question-Bank/basic-grammar/async-await',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
@@ -79,35 +78,84 @@ module.exports = {
                     ]
                 },
                 {
-                    title: 'CSS相关',
+                    title: '面向对象与原型链',
                     children: [
-                        '/Question-Bank/css/layout-block-center',
+                        '/Question-Bank/object-oriented/prototype-chain',
+                        '/Question-Bank/object-oriented/class-declaration',
+                        '/Question-Bank/object-oriented/class-extends',
                     ]
                 },
                 {
-                    title: '前端性能',
+                    title: 'JS的执行机制',
                     children: [
-                        '/Question-Bank/performance/memory-or-disk-cache',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/execution/interpreter',
+                        '/Question-Bank/execution/context',
+                        '/Question-Bank/execution/event-loop',
+                        '/Question-Bank/execution/asynchronous-cb',
+                        '/Question-Bank/execution/asynchronous-promise',
+                        '/Question-Bank/execution/asynchronous-gen',
+                        '/Question-Bank/execution/asynchronous-async&await',
+                    ]
+                },
+                {
+                    title: 'CSS相关',
+                    children: [
+                        '/Question-Bank/css/layout-3-col',
+                        '/Question-Bank/css/layout-block-center',
+                        '/Question-Bank/css/box-sizing&margin-collapse&BFC',
+                        '/Question-Bank/css/layout-method',
+                        '/Question-Bank/css/css-base',
+                    ]
+                },
+                {
+                    title: 'HTML & DOM',
+                    children: [
+                        '/Question-Bank/dom/dom-event',
+                    ]
+                },
+                {
+                    title: 'BOM',
+                    children: [
+                        '/Question-Bank/bom/bom-base',
+                        '/Question-Bank/bom/router',
+                    ]
+                },
+                {
+                    title: '通信',
+                    children: [
+                        '/Question-Bank/communication/http',
+                        '/Question-Bank/communication/internet-base',
+                        '/Question-Bank/communication/cross-domain',
+                        '/Question-Bank/communication/cors',
+                    ]
+                },
+                {
+                    title: '浏览器及前端性能',
+                    children: [
+                        '/Question-Bank/browser/browser-mechanism',
+                        '/Question-Bank/browser/render',
+                        '/Question-Bank/browser/performance',
+                        '/Question-Bank/browser/process-eventloop',
+                        '/Question-Bank/browser/memory-or-disk-cache',
+                    ]
+                },
+                {
+                    title: '网络安全',
+                    children: [
+                        '/Question-Bank/security/fe-security',
                     ]
                 },
                 {
                     title: '正则表达式',
                     children: [
+                        '/Question-Bank/regular-expression/reg-base',
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
                     ]
                 },
                 {
-                    title: '类与继承',
-                    children: [
-                        '/Question-Bank/class-extends/declaration',
-                        '/Question-Bank/class-extends/child-extends',
-                    ]
-                },
-                {
-                    title: 'ES6 & ESnext',
+                    title: 'ES6+',
                     children: [
                         '/Question-Bank/ES6/deconstruction',
                         '/Question-Bank/ES6/deconstruction-function',
@@ -204,6 +252,7 @@ module.exports = {
                 {
                     title: '工作实践',
                     children: [
+                        '/Question-Bank/work-practices/product-quality',
                         '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',
@@ -297,6 +346,24 @@ module.exports = {
                         '/Algorithm/Linked-List/entry-node-of-loop',
                         '/Algorithm/Linked-List/find-first-common-node',
                         '/Algorithm/Linked-List/find-Kth-to-tail',
+                    ]
+                },
+                {
+                    title: '树和二叉树',
+                    children: [
+                        '/Algorithm/Tree-and-Binary-Tree/',
+                        '/Algorithm/Tree-and-Binary-Tree/inorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/preorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/postorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree',
+                        '/Algorithm/Tree-and-Binary-Tree/get-HRD',
+                        '/Algorithm/Tree-and-Binary-Tree/is-symmetrical',
+                        '/Algorithm/Tree-and-Binary-Tree/mirror',
+                        '/Algorithm/Tree-and-Binary-Tree/kth-node',
+                        '/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST',
+                        '/Algorithm/Tree-and-Binary-Tree/max-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/min-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/is-balanced',
                     ]
                 },
             ]

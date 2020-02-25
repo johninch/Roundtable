@@ -76,7 +76,8 @@
     - 存储的值大小不定，可动态调整
     - 空间较大，运行效率低
     - 无法直接操作其内部存储，使用引用地址读取
-    - 通过代码进行分配空间
+    - 通过代码进行分配空间和释放
+    - 如果程序员没有主动通过代码释放，则由操作系统自动回收
 
     习惯于把对象称为引用类型，引用类型的`值实际存储在堆内存`中，它在`栈中只存储了一个固定长度的地址`，这个地址指向堆内存中的值。
 
@@ -135,8 +136,8 @@ console.log(obj.name); // code秘密花园
 - 参数是原始类型
 ```js
 let name = 'ConardLi';
-function changeValue(name){
-name = 'code秘密花园';
+function changeValue(name) {
+    name = 'code秘密花园';
 }
 changeValue(name);
 console.log(name); // 'ConardLi'
@@ -146,9 +147,9 @@ console.log(name); // 'ConardLi'
 - 参数是引用类型
 ```js
 let obj = {};
-function changeValue(obj){
-obj.name = 'ConardLi';
-obj = {name:'code秘密花园'};
+function changeValue(obj) {
+    obj.name = 'ConardLi';
+    obj = {name:'code秘密花园'};
 }
 changeValue(obj);
 console.log(obj.name); // ConardLi
