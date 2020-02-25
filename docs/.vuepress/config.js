@@ -327,8 +327,8 @@ module.exports = {
                 {
                     title: '第二期',
                     children: [
-                        '/Question-Bank/basic-grammar/async-await',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/execution/asynchronous-async&await',
+                        '/Question-Bank/browser/process-eventloop',
                     ]
                 }
             ],
