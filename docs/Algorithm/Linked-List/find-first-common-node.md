@@ -24,3 +24,38 @@
 
 ## 3、代码实现
 
+## Caleb
+``` js
+function getFirstCommonNode(head1, head2) {
+  if (head1 === null || head2 === null) {
+    return null
+  }
+  var current = head1;
+  var stack1 = putNodeIntoStack[head1];
+  var stack2 = putNodeIntoStack[head2];
+  for(var i=0, len = stack1.length; i<len; i++) {
+    var node = current.next;
+    if (stack1[i] === stack2[i]) {
+      current.next = node;
+      current = current.next;
+    } else {
+      if (i === 0){
+        current = null
+      }
+      break;
+    }
+  }
+
+}
+
+function putNodeIntoStack(head) {
+  var stack = [];
+  while(head) {
+    stack.unshift(head.val);
+    head = head.next
+  }
+
+  return stack;
+}
+```
+
