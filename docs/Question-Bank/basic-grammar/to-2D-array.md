@@ -51,3 +51,19 @@ function to2D(arr) {
   return result
 }
 ```
+
+## Febcat
+``` js
+const arrayTo2D = arr => {
+  return [...new Set(arr)].map(item => {
+    let filterTtem = arr.filter(i => i === item);
+
+    return filterTtem.length !== 1 ? filterTtem : filterTtem[0];
+  });
+};
+
+console.log(
+  "arrayTo2D",
+  JSON.stringify(arrayTo2D([1, 1, 2, 3, 3, 3, 3, 4, 5, 5, 5, 6, 6]))
+);
+```
