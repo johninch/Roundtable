@@ -22,6 +22,7 @@ categories: javascript
     - 表示“缺少值”，即此处应有一个值，但还没有定义，
     - 如果一个对象的某个属性值为undefined，这是不正常的，如obj.name=undefined，我们不应该这样写，应该直接delete obj.name。
     - undefined 转为数值时为`NaN`(非数字值的特殊值)
+    - 典型用法是：变量被声明了，但没有赋值时，就等于undefined；调用函数时，应该提供的参数没有提供，该参数等于undefined；对象没有赋值的属性，该属性的值为undefined；函数没有返回值时，默认返回undefined。
 
 > JavaScript是一门动态类型语言，成员除了表示存在的空值外，还有可能根本就不存在（因为存不存在只在运行期才知道），这就是undefined的意义所在。对于JAVA这种强类型语言，如果有"undefined"这种情况，就会直接编译失败，所以在它不需要一个这样的类型。
 
@@ -32,7 +33,8 @@ Symbol类型是ES6中新加入的一种原始类型。
 ### Symbol的特性
 
 1. 独一无二
-直接使用Symbol()创建新的symbol变量，可选用一个字符串用于描述。当参数为对象时，将调用对象的toString()方法。
+
+    直接使用Symbol()创建新的symbol变量，可选用一个字符串用于描述。当参数为对象时，将调用对象的toString()方法。
 
     ```js
     var sym1 = Symbol();  // Symbol() 
@@ -42,10 +44,12 @@ Symbol类型是ES6中新加入的一种原始类型。
 
     var sym4 = Symbol({name:'ConardLi'}); // Symbol([object Object])
     ```
+
     用两个相同的字符串创建两个Symbol变量，它们是不相等的，独一无二的。
 
     如果我们想创造两个相等的Symbol变量，可以使用`Symbol.for(key)`。
     > 使用给定的key搜索现有的symbol，如果找到则返回该symbol。否则将使用给定的key在全局symbol注册表中创建一个新的symbol。
+
     ```js
     var sym1 = Symbol.for('ConardLi');
     var sym2 = Symbol.for('ConardLi');
@@ -53,6 +57,7 @@ Symbol类型是ES6中新加入的一种原始类型。
     ```
 
 2. 原始类型
+
     注意是使用Symbol()函数创建symbol变量，并非使用构造函数，使用new操作符会直接报错。
     ```js
     new Symbol(); // Uncaught TypeError: Symbol is not a constructor
@@ -64,19 +69,20 @@ Symbol类型是ES6中新加入的一种原始类型。
     ```
 
 3. 不可枚举
+
 - 当使用Symbol作为对象属性时，可以保证对象不会出现重名属性，调用`for...in`不能将其枚举出来，另外调用`Object.getOwnPropertyNames`、`Object.keys()`也不能获取Symbol属性。
 
 - 可以调用`Object.getOwnPropertySymbols()`用于专门获取Symbol属性。
 
     ```js
     var obj = {
-    name:'ConardLi',
-    [Symbol('name2')]:'code秘密花园'
+        name: 'ConardLi',
+        [Symbol('name2')]: 'code秘密花园'
     }
     Object.getOwnPropertyNames(obj); // ["name"]
     Object.keys(obj); // ["name"]
     for (var i in obj) {
-    console.log(i); // name
+        console.log(i); // name
     }
     Object.getOwnPropertySymbols(obj) // [Symbol(name)]
     ```
@@ -92,15 +98,15 @@ Symbol类型是ES6中新加入的一种原始类型。
     ```js
     const privateField = Symbol();
     class myClass {
-    constructor(){
-        this[privateField] = 'ConardLi';
-    }
-    getField(){
-        return this[privateField];
-    }
-    setField(val){
-        this[privateField] = val;
-    }
+        constructor() {
+            this[privateField] = 'ConardLi';
+        }
+        getField() {
+            return this[privateField];
+        }
+        setField(val) {
+            this[privateField] = val;
+        }
     }
     ```
 
@@ -115,19 +121,19 @@ Symbol类型是ES6中新加入的一种原始类型。
 
 ### 1. 为什么会出现 `精度丢失`？
 
-- 计算机中所有的数据都是`以二进制存储`的，所以在计算时计算机要把数据先转换成`二进制`进行计算，然后在把计算结果转换成`十进制`。在计算0.1+0.2时，二进制计算发生了精度丢失，导致再转换成十进制后和预计的结果不符。
+计算机中所有的数据都是`以二进制存储`的，所以在计算时计算机要把数据先转换成`二进制`进行计算，然后再把计算结果转换成`十进制`。在计算0.1+0.2时，二进制计算发生了精度丢失，导致再转换成十进制后和预计的结果不符。
 
 ### 2. 小数的`二进制`大多数都是`无限循环`的，JS是`怎么来存储`他们的呢？
 
 - ECMAScript中的Number类型遵循`IEEE 754`标准。使用`64位固定长度`来表示。不单单是JS，很多语言的数字类型都遵循这个标准，例如JAVA,所以很多语言同样有着上面同样的问题。
 
-    ![精度位数](/images/variablesAndTypes/precision.png)
+    ![精度位数](./images/variablesAndTypes/precision.png)
 
 - IEEE754标准 包含一组实数的二进制表示法。它有三部分组成：符号位、指数位、尾数位。JS使用的是`64位双精度浮点数编码`，所以它的`符号位`占`1位`，`指数位`占`11位`，`尾数位`占`52位`。
 
 - `符号位`就是标识正负的，`1`表示`负`，`0`表示`正`；`指数位`存储科学计数法的指数；`尾数位`存储科学计数法后的`有效数字`；
 
-    ![64位双精度](/images/variablesAndTypes/64double.png)
+    ![64位双精度](./images/variablesAndTypes/64double.png)
 
     以`0.1`为例：它的二进制为：`0.0001100110011001100...`，为了节省存储空间，在计算机中它是以科学计数法表示的，也就是 1.100110011001100... X 2<sup>-4</sup>
 

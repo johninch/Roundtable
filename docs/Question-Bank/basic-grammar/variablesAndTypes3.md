@@ -72,10 +72,10 @@ var name2 = name.substring(2);
     - 若valueOf和toString都不存在，或者没有返回基本类型，则抛出TypeError异常。
 - 注意：valueOf和toString方法在Date，array等对象中有些是被重写过的，所以不同对象调用此方法可能产生的操作不同，如果没有这些方法，会调用最原始的Object.prototype上的valueOf和toString方法
 
-### 主动拆箱装箱
+### 主动拆箱装箱（显式类型转换）
 除了上述程序中自动的拆箱装箱操作，我们也可以手动拆箱装箱：
 ```js
-var num =new Number("123");  
+var num = new Number("123");  
 console.log( typeof num.valueOf() ); //number
 console.log( typeof num.toString() ); //string
 ```
