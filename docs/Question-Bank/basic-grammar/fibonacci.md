@@ -225,4 +225,44 @@ const fibonacci = (start, maxValue) => {
 
 fibonacci(5, 1000);
 ```
+### Mtd
+
+```js
+// 递归
+function fibonacci(min, max, arr){
+  if (!arr) {
+    arr = [min, min + 1];
+  }
+
+  let _len = arr.length;
+  let _sub = arr[_len - 2] + arr[_len - 1];
+  if (_sub < max){
+    arr.push(_sub);
+    fibonacci(min, max, arr);
+  }
+
+  return arr;
+}
+
+// 循环
+function fibonacci2(min ,max) {
+  let next = min + 1;
+  let before = min;
+
+  if (next > max) {
+    return [min]
+  }
+  let arr = [before, next];
+  let current = before + next;
+
+  while (current < max) {
+    arr.push(current);
+    before = next;
+    next = current;
+    current = before + next;
+  }
+
+  return arr;
+}
+```
 

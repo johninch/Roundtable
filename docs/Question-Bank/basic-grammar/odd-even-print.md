@@ -163,4 +163,30 @@ foo();
 foo();
 ```
 
+## Mtd
+
+```js
+// 匿名函数
+let foo = (
+  function () {
+    let counter = 0;
+    return function () {
+      let _counter = ++counter % 2 === 0 ? 2 : 1;
+      console.log(_counter)
+    }
+  }
+)()
+
+// 代理
+let foo = new Proxy(function () {}, {
+  counter: 0,
+  apply: function () {
+    let counter = ++this.counter % 2 === 0 ? 2 : 1;
+    console.log(counter)
+  }
+});
+
+
+```
+
 

@@ -67,3 +67,36 @@ console.log(
   JSON.stringify(arrayTo2D([1, 1, 2, 3, 3, 3, 3, 4, 5, 5, 5, 6, 6]))
 );
 ```
+
+## Mtd
+```js
+function arrayTo2D(arr) {
+  let arr2D = [];
+  let arr2Dindex = 0;
+
+  let start = arr[0];
+  let i = 1;
+  let next = arr[i];
+  let index = 0;
+
+  while (index < arr.length - 1) {
+    if (start === next) {
+      if (!arr2D[arr2Dindex]) {
+        arr2D[arr2Dindex] = [start, next]
+      } else {
+        Array.isArray(arr2D[arr2Dindex]) ? (arr2D[arr2Dindex].push(next)) : (arr2D[arr2Dindex] = [next, next])
+      }
+    } else {
+      arr2Dindex++;
+      arr2D[arr2Dindex] = next
+    }
+
+    index++;
+    i++;
+    start = next;
+    next = arr[i];
+  }
+
+  return arr2D
+}
+```
