@@ -185,3 +185,16 @@ fn();       // xiaoming 23
 let bound = new fn();  // undefined 23
 ```
 
+## Caleb
+
+``` js
+Function.prototype.newBind = function(context) {
+  var self = this,
+      args = Array.prototype.slice.call(arguments, 1);
+  return function() {
+    var newArg = Array.prototype.slice.call(arguments);
+    return self.apply(context, args.contact(newArg))
+  }
+}
+
+```
