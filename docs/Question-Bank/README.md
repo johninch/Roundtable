@@ -115,6 +115,7 @@
   - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6+/class-method)
 
 ### TypeScript
+  - [TypeScript学习笔记](./typescript/typescript-base)
   - [ts与js的区别？ts的优势是什么？](/Roundtable/Question-Bank/ts/)
   - [ts中的基础类型有哪些？](/Roundtable/Question-Bank/ts/)
   - [联合类型union与交叉类型intersection有什么区别？](/Roundtable/Question-Bank/ts/)

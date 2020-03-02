@@ -167,15 +167,12 @@ module.exports = {
                         '/Question-Bank/ES6+/class-method',
                     ]
                 },
-                // {
-                //     title: 'TypeScript',
-                //     children: [
-                //         '/Question-Bank/typescript/查找',
-                //         '/Question-Bank/typescript/二维数组查找',
-                //         '/Question-Bank/typescript/旋转数组的最小数字',
-                //         '/Question-Bank/typescript/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'TypeScript',
+                    children: [
+                        '/Question-Bank/typescript/typescript-base',
+                    ]
+                },
                 {
                     title: 'React',
                     children: [
