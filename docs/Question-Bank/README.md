@@ -206,7 +206,7 @@
   - [@babel/core这种基于scope的包管理方式相比于babel-core有和优势？](/Roundtable/Question-Bank/basic-grammar/)
 
 ### 运维相关
-  - [:100:Nginx](/Roundtable/Question-Bank/Ops/nginx)
+  - [:100:Nginx相关问题](/Roundtable/Question-Bank/Ops/nginx)
 
 ### 工作实践
   - [:100:如何保证产品质量](/Roundtable/Question-Bank/work-practices/product-quality)
