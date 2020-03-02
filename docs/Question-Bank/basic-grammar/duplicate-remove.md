@@ -14,7 +14,6 @@ function duplicateRemove(arr) {
     return [... new Set(arr)]
 }
 ```
-
 ### 方法二
 ```js
 function duplicateRemove(arr) {

@@ -12,7 +12,7 @@ categories: javascript
 ```js
 // 最常用方法
 function isArray(arr){
-    return Object.prototype.toString.call(arr) === 'object Array';
+    return Object.prototype.toString.call(arr) === '[object Array]';
 }
 ```
 

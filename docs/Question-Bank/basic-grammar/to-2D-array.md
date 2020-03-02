@@ -52,6 +52,37 @@ function to2D(arr) {
 }
 ```
 
+## superwyk
+```js
+function to2DArray(arr){
+    let result = [];
+    let i = 0, j = 1;
+    while(j < arr.length){
+        if(arr[i] === arr[j]){
+            j++;
+        } else {
+            if(i + 1 === j){
+                result.push(arr[i]);
+            } else{
+                result.push(arr.slice(i, j))
+            }
+            i = j;
+            j++;
+        }
+
+        if(j === arr.length){
+            if(i + 1 === j){
+                result.push(arr[i]);
+            } else{
+                result.push(arr.slice(i, j))
+            }
+        }
+    }
+
+    return result;
+}
+```
+
 ## Febcat
 ``` js
 const arrayTo2D = arr => {
