@@ -107,10 +107,12 @@
   - [使用正则判断给定的股票代码所属市场](./regular-expression/code-to-market.md)
   - [使用正则验证给定字符串是否是中国居民身份证](./regular-expression/Chinese-ID-card.md)
 
-### ES6 & ESnext
-  - [解构赋值题](/Roundtable/Question-Bank/ES6/deconstruction)
-  - [函数默认参数 & 解构赋值](/Roundtable/Question-Bank/ES6/deconstruction-function)
-  - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6/class-method)
+### 工程化
+  - [JS模块化规范(5种)](/Roundtable/Question-Bank/Engineering/js-module/)
+
+### ES6+
+  - [:100:ES6相比于ES5有什么不同](/Roundtable/Question-Bank/ES6+/ES6)
+  - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6+/class-method)
 
 ### TypeScript
   - [ts与js的区别？ts的优势是什么？](/Roundtable/Question-Bank/ts/)
@@ -125,6 +127,7 @@
 
 ### React
   - [:100:Element、Component、Node、Instance](/Roundtable/Question-Bank/react/element-component-instance-node)
+  - [:100:react类组件中处理this绑定的4种方法](/Roundtable/Question-Bank/react/react-handle-this.md)
   - [:bulb:根据要求定义react组件 Student](/Roundtable/Question-Bank/react/Student)
   - [编写时间打印组件](/Roundtable/Question-Bank/react/time-console)
   - [请指出组件式调用和函数式调用异同点](/Roundtable/Question-Bank/react/calling)
@@ -270,7 +273,6 @@
 ### 待分类
   - [prefetch和preload是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [async和defer是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [js模块化规范有哪些？他们的差异？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中默认导出和子导出有何区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中的as语法有什么作用？](/Roundtable/Question-Bank/basic-grammar/)
   - [常见的web攻击有哪些？如何防范？](/Roundtable/Question-Bank/basic-grammar/)

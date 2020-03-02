@@ -155,11 +155,16 @@ module.exports = {
                     ]
                 },
                 {
+                    title: '工程化',
+                    children: [
+                        '/Question-Bank/Engineering/js-module',
+                    ]
+                },
+                {
                     title: 'ES6+',
                     children: [
-                        '/Question-Bank/ES6/deconstruction',
-                        '/Question-Bank/ES6/deconstruction-function',
-                        '/Question-Bank/ES6/class-method',
+                        '/Question-Bank/ES6+/ES6',
+                        '/Question-Bank/ES6+/class-method',
                     ]
                 },
                 // {
@@ -175,6 +180,7 @@ module.exports = {
                     title: 'React',
                     children: [
                         '/Question-Bank/react/element-component-instance-node',
+                        '/Question-Bank/react/react-handle-this',
                         '/Question-Bank/react/Student',
                         '/Question-Bank/react/time-console',
                         '/Question-Bank/react/calling',
