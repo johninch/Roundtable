@@ -99,7 +99,7 @@
   - [:100:from memory cache 与 from disk cache](./browser/memory-or-disk-cache.md)
 
 ### 网络安全
-  - [:100:前端常见安全问题](/Roundtable/Question-Bank/security/fe-security.md)
+  - [:100:前端常见安全问题](./security/fe-security.md)
 
 ### 正则表达式
   - [正则表达式基础](./regular-expression/reg-base.md)
@@ -115,16 +115,16 @@
   - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6+/class-method)
 
 ### TypeScript
-  - [TypeScript学习笔记](./typescript/typescript-base)
-  - [ts与js的区别？ts的优势是什么？](/Roundtable/Question-Bank/ts/)
-  - [ts中的基础类型有哪些？](/Roundtable/Question-Bank/ts/)
-  - [联合类型union与交叉类型intersection有什么区别？](/Roundtable/Question-Bank/ts/)
-  - [:100:数组与元祖tuple有什么区别？元祖越界元素的类型有什么限制？](/Roundtable/Question-Bank/ts/tuple)
-  - [类型断言type assert与类型保护type guards有什么区别？](/Roundtable/Question-Bank/ts/)
-  - [string与String有什么区别？](/Roundtable/Question-Bank/ts/)
-  - [:100:void、never、any、unknow有什么区别？string可以赋予前面提到的四种类型吗？](/Roundtable/Question-Bank/ts/type-difference)
-  - [什么是泛型？有什么好处？](/Roundtable/Question-Bank/ts/)
-  - [判断下面代码执行结果（类型兼容性考察）](/Roundtable/Question-Bank/ts)
+  - [:100:TypeScript学习笔记](./typescript/typescript-base.html)
+  - [:100:ts与js的区别？ts的优势是什么？](./typescript/typescript-base.html#ts定义)
+  - [:100:数组与元祖tuple有什么区别？元祖越界元素的类型有什么限制？](./typescript/typescript-base.html#元组-tuple)
+  - [:100:ts中的基础类型有哪些？](./typescript/typescript-base.html#原始数据类型)
+  - [:100:ts中string与String有什么区别？](./typescript/typescript-base.html#ts中string与string有什么区别？)
+  - [:100:void、never、any、unknow有什么区别？string可以赋予前面提到的四种类型吗？](./typescript/type-difference)
+  - [:100:联合类型union与交叉类型intersection有什么区别？](./typescript/typescript-base.html#高级类型1-联合类型（-：union-types）)
+  - [:100:类型断言type assert与类型保护type guards有什么区别？](./typescript/typescript-base.html#区分类型1-类型断言)
+  - [:100:什么是泛型？有什么好处？](./typescript/typescript-base.html#泛型)
+  - [:100:什么是类型兼容？](./typescript/ts-compatibility.md)
 
 ### React
   - [:100:Element、Component、Node、Instance](/Roundtable/Question-Bank/react/element-component-instance-node)
@@ -276,13 +276,11 @@
   - [async和defer是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中默认导出和子导出有何区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中的as语法有什么作用？](/Roundtable/Question-Bank/basic-grammar/)
-  - [常见的web攻击有哪些？如何防范？](/Roundtable/Question-Bank/basic-grammar/)
   - [为什么promise的回调异步会比setTimeout优先执行？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的async/await语法如何捕获rejected状态？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy、reflect可以用来做什么？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy和defineProperty在数据拦截方面有什么异同点？](/Roundtable/Question-Bank/basic-grammar/)
   - [:rocket:application/x-www-form-urlencoded、multipart/form-data、json、xml四种主流post数据的编码方式有何区别、各自有什么优劣？](/Roundtable/Question-Bank/basic-grammar/content-type)
-  - [js中哪些情况可能导致内存泄漏问题？](/Roundtable/Question-Bank/basic-grammar/)
   - [举例js中常见的设计模式有哪些？](/Roundtable/Question-Bank/basic-grammar/)
   - [如何设计实现类似jQuery的链式调用？](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述设计实现用户头像上传预览功能大概实现思路](/Roundtable/Question-Bank/basic-grammar/)

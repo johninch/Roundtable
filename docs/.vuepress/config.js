@@ -171,6 +171,8 @@ module.exports = {
                     title: 'TypeScript',
                     children: [
                         '/Question-Bank/typescript/typescript-base',
+                        '/Question-Bank/typescript/type-difference',
+                        '/Question-Bank/typescript/ts-compatibility.md',
                     ]
                 },
                 {
