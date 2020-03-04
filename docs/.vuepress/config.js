@@ -179,10 +179,10 @@ module.exports = {
                     title: 'React',
                     children: [
                         '/Question-Bank/react/element-component-instance-node',
+                        '/Question-Bank/react/SFC',
                         '/Question-Bank/react/react-handle-this',
                         '/Question-Bank/react/Student',
                         '/Question-Bank/react/time-console',
-                        '/Question-Bank/react/calling',
                         '/Question-Bank/react/declare-react-router',
                         '/Question-Bank/react/router-component-render-children',
                         '/Question-Bank/react/withClock',
