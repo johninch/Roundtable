@@ -189,4 +189,12 @@ let foo = new Proxy(function () {}, {
 
 ```
 
+## Wlxm
 
+```js
+function log12() {
+  console.log(log12.counter++ % 2 === 0 ? 2 : 1);
+}
+
+log12.counter = 1;
+```
