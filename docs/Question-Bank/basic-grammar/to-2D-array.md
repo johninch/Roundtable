@@ -131,3 +131,37 @@ function arrayTo2D(arr) {
   return arr2D
 }
 ```
+
+## Wlxm
+```ts
+function composeArrRepeat(arr: any[]) {
+    const ret = [];
+    let len = arr.length;
+
+    if (len < 2) {
+        return [...arr];
+    }
+
+    let slider: any[];
+    let p = 0;
+    let q = 1;
+
+    while (q <= len) {
+        if (arr[p] !== arr[q]) {
+            slider = arr.slice(p, q);
+
+            if (slider.length < 2) {
+                ret.push(...slider);
+            } else {
+                ret.push(slider);
+            }
+
+            p = q;
+        }
+
+        q++;
+    }
+
+    return ret;
+}
+```

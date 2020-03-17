@@ -198,3 +198,13 @@ Function.prototype.newBind = function(context) {
 }
 
 ```
+
+## Wlxm
+
+```js
+function bind(fn: Function, ctx: any, ...bindArgs: any) {
+    return function(...args: any) {
+        return fn.call(ctx, ...bindArgs, ...args);
+    }
+}
+```

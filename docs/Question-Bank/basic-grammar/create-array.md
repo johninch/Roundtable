@@ -90,3 +90,11 @@ function createArray(holder, length) {
   return arr;
 }
 ```
+
+## Wlxm
+
+```
+1. Array(length).fill(holder)
+2. new Array(length).fill(holder)
+3. for循环填充
+```

@@ -276,3 +276,28 @@ function throttle(fun, wait){
     }
 }
 ```
+
+## Wlxm
+
+```js
+function throttle(fn: Function, timeout: number = 200, immediate = false) {
+    let timer: number = null;
+    let isNotExecuted = true;
+
+    return function(...args: any) {
+        if (timer !== null) {
+            if (isNotExecuted && immediate) {
+                fn(...args);
+                isNotExecuted = false;
+            }
+
+            return;
+        }
+
+        timer = setTimeout(() => {
+            fn(...args);
+            timer = null;
+        }, timeout);
+    }
+}
+```

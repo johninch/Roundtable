@@ -93,3 +93,12 @@ function isArray(arr) {
 }
 ```
 
+## Wlxm
+```
+1. Array.isArray
+2. Object.toString.call(*) === '[object Array]'
+3. Object(*).constructor === Array
+4. * instanceof Array
+5. Object(*).constructor.name === 'Array'
+```
+

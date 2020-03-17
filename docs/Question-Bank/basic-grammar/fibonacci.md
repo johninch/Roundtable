@@ -279,3 +279,22 @@ var fibonacci = function(start, end) {
 }
 ```
 
+## Wlxm
+
+```js
+function fibonacci(n: number) {
+    let pre = 1;
+    let cur = 1;
+    const ret = [pre];
+
+    while (n > 1) {
+        let _cur = cur;
+        ret.push(cur);
+        cur += pre;
+        pre = _cur;
+        n--;
+    }
+
+    return ret;
+}
+```
