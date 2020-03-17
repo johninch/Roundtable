@@ -176,17 +176,33 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'MVVM',
+                    children: [
+                        '/Question-Bank/MVVM/mvvm-base.md',
+                    ]
+                },
+                {
                     title: 'React',
                     children: [
                         '/Question-Bank/react/element-component-instance-node',
                         '/Question-Bank/react/SFC',
                         '/Question-Bank/react/react-handle-this',
-                        '/Question-Bank/react/Student',
-                        '/Question-Bank/react/time-console',
-                        '/Question-Bank/react/declare-react-router',
-                        '/Question-Bank/react/router-component-render-children',
+                        '/Question-Bank/react/component-classify.md',
+                        '/Question-Bank/react/react-reuse.md',
                         '/Question-Bank/react/withClock',
                         '/Question-Bank/react/lifecycle',
+                        '/Question-Bank/react/Student',
+                        '/Question-Bank/react/jsx-render',
+                        '/Question-Bank/react/react-event.md',
+                        '/Question-Bank/react/setState.md',
+                        '/Question-Bank/react/react-virtual-dom.md',
+                        '/Question-Bank/react/refs.md',
+                        '/Question-Bank/react/children.md',
+                        '/Question-Bank/react/fiber.md',
+                        '/Question-Bank/react/react-other-points.md',
+                        '/Question-Bank/react/react-router-dom',
+                        '/Question-Bank/react/declare-react-router',
+                        '/Question-Bank/react/time-console',
                     ]
                 },
                 {

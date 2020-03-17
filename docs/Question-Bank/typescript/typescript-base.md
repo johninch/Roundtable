@@ -585,19 +585,29 @@ var Color;
 
 ### TS中 类 的用法 class
 
-#### 修饰符 public、private、protected
+#### 修饰符 public、private、protected 和 只读属性
 TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 public、private 和 protected。
 - `public` 修饰的属性或方法是公有的，可以在任何地方被访问到，`默认所有的属性和方法都是 public 的`；
 - `private` 修饰的属性或方法是私有的，`不能在声明它的类的外部访问`；
 - `protected` 修饰的属性或方法是受保护的，它`和 private 类似`，区别是它`在子类中也是允许被访问的`。
+- `readonly` 将属性设置为只读的。只读属性必须在声明时或构造函数里被初始化。
 
-修饰符和`readonly`还可以使用在构造函数参数中，等同于类中定义该属性同时给该属性赋值，使代码更简洁。
+**参数属性**：通常ts中类的实例属性需要先定义创建，再在构造函数中初始化赋值。但 修饰符和`readonly`还可以使用在构造函数所传参数中，等同于类中定义该属性同时给该属性赋值，使代码更简洁。
 
 只读关键字readonly 和访问修饰符同时存在时，需写在其后面。
 ```ts
+// 通常需要先创建，再初始化类成员属性
 class Animal {
-    // public name: string;
-    public constructor (public readonly name) {
+    public name: string;
+    public constructor (public readonly theName) {
+        this.name = theName;
+    }
+}
+
+// 可以通过 参数属性 简化写法，创建和初始化一步完成
+class Animal {
+    // public name: string = 'xiao hei';
+    public constructor (public readonly name: string = 'xiao hei') {
         // this.name = name;
     }
 }
