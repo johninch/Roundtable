@@ -11,6 +11,8 @@ VDOM 在操作真正的 DOM 之前，先通过 VDOM 前后对比得出需要更�
 
 ![Stack-Reconcilation](./images/Stack-Reconcilation.png)
 
+体验一下：[Fiber vs Stack Demo](https://claudiopro.github.io/react-fiber-vs-stack-demo/)
+
 ::: tip 前端框架可从 3个方向 解决「主线程阻塞」问题
 对于 '前端框架' 来说，解决这种问题有三个方向:
 1. 优化每个任务，让它有多快就多快。挤压CPU运算量；
