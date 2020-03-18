@@ -24,3 +24,32 @@
 
 ## 3、代码实现
 
+#### majun:
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ * node1，node2 分别指向两个链表 headA，headB 的头结点，然后同时分别逐结点遍历
+ * 当 node1 到达链表 headA 的末尾时，重新定位node1到链表 headB 的头结点；
+ * 当 node2 到达链表 headB 的末尾时，重新定位node2到链表 headA 的头结点。
+ */
+var getIntersectionNode = function(headA, headB) {
+    let node1 = headA;
+    let node2 = headB;
+    while(node1 !== node2){
+        node1 = node1 == null ? headB : node1.next;
+        node2 = node2 == null ? headA : node2.next;
+    }
+    return node1
+};
+```

@@ -14,3 +14,31 @@
 
 ## 3、代码实现
 
+#### majun:
+
+```javascript
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    let prev = null
+    let next = head
+    while(next) {
+        let node = next.next
+        next.next = prev
+        prev = next
+        next = node 
+    }
+    return prev
+};
+```
+

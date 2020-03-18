@@ -23,3 +23,33 @@
 
 ## 3、代码实现
 
+#### majun:
+
+```javascript
+/**
+ * // Definition for a Node.
+ * function Node(val,next,random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+/**
+ * @param {Node} head
+ * @return {Node}
+ */
+
+var copyRandomList = function(head) {
+    const map = {};
+    function recur(node){
+        if(!node) return null
+        if(map[node.val]) return map[node.val]
+        let res = new Node(node.val);
+        map[node.val] = res;
+        res.next = recur(node.next);
+        res.random = recur(node.random)
+        return res
+    }
+    return recur(head)
+};
+```

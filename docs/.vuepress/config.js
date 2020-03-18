@@ -29,7 +29,9 @@ module.exports = {
                     { text: 'Caleb', link: 'https://dannisi.github.io/' },
                     { text: 'niannings', link: 'https://niannings.github.io/' },
                     { text: 'Xmtd', link: 'https://Xmtd.github.io/' },
-                    { text: 'febcat', link: 'https://febcat.github.io/' }
+                    { text: 'febcat', link: 'https://febcat.github.io/' },
+                    { text: 'majun', link: 'https://majun.space/' }
+
                 ]
             },
             {
@@ -41,7 +43,9 @@ module.exports = {
                     { text: 'Caleb', link: 'https://github.com/dannisi' },
                     { text: 'niannings', link: 'https://github.com/niannings' },
                     { text: 'Xmtd', link: 'https://github.com/Xmtd' },
-                    { text: 'febcat', link: 'https://github.com/febcat' }
+                    { text: 'febcat', link: 'https://github.com/febcat' },
+                    { text: 'majun', link: 'https://github.com/michaeljunlove' }
+
                 ]
             }
         ],
