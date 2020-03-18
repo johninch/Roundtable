@@ -28,3 +28,40 @@
 
 ## 3、代码实现
 
+#### majun:
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var detectCycle = function(head) {
+    
+    var slow = head;
+    var fast = head;
+    while (fast != null && fast.next != null){
+        slow = slow.next;
+        fast = fast.next.next;
+        // 第一次相遇，说明链表存在环路
+        if (slow == fast) {
+            slow = head;
+            // 第二次相遇即是环入口
+            while (slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow;
+        }
+    }
+    return null;
+    
+};
+```
