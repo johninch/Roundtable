@@ -51,3 +51,117 @@ function to2D(arr) {
   return result
 }
 ```
+
+## superwyk
+```js
+function to2DArray(arr){
+    let result = [];
+    let i = 0, j = 1;
+    while(j < arr.length){
+        if(arr[i] === arr[j]){
+            j++;
+        } else {
+            if(i + 1 === j){
+                result.push(arr[i]);
+            } else{
+                result.push(arr.slice(i, j))
+            }
+            i = j;
+            j++;
+        }
+
+        if(j === arr.length){
+            if(i + 1 === j){
+                result.push(arr[i]);
+            } else{
+                result.push(arr.slice(i, j))
+            }
+        }
+    }
+
+    return result;
+}
+```
+
+## Febcat
+``` js
+const arrayTo2D = arr => {
+  return [...new Set(arr)].map(item => {
+    let filterTtem = arr.filter(i => i === item);
+
+    return filterTtem.length !== 1 ? filterTtem : filterTtem[0];
+  });
+};
+
+console.log(
+  "arrayTo2D",
+  JSON.stringify(arrayTo2D([1, 1, 2, 3, 3, 3, 3, 4, 5, 5, 5, 6, 6]))
+);
+```
+
+## Mtd
+```js
+function arrayTo2D(arr) {
+  let arr2D = [];
+  let arr2Dindex = 0;
+
+  let start = arr[0];
+  let i = 1;
+  let next = arr[i];
+  let index = 0;
+
+  while (index < arr.length - 1) {
+    if (start === next) {
+      if (!arr2D[arr2Dindex]) {
+        arr2D[arr2Dindex] = [start, next]
+      } else {
+        Array.isArray(arr2D[arr2Dindex]) ? (arr2D[arr2Dindex].push(next)) : (arr2D[arr2Dindex] = [next, next])
+      }
+    } else {
+      arr2Dindex++;
+      arr2D[arr2Dindex] = next
+    }
+
+    index++;
+    i++;
+    start = next;
+    next = arr[i];
+  }
+
+  return arr2D
+}
+```
+
+## Wlxm
+```ts
+function composeArrRepeat(arr: any[]) {
+    const ret = [];
+    let len = arr.length;
+
+    if (len < 2) {
+        return [...arr];
+    }
+
+    let slider: any[];
+    let p = 0;
+    let q = 1;
+
+    while (q <= len) {
+        if (arr[p] !== arr[q]) {
+            slider = arr.slice(p, q);
+
+            if (slider.length < 2) {
+                ret.push(...slider);
+            } else {
+                ret.push(slider);
+            }
+
+            p = q;
+        }
+
+        q++;
+    }
+
+    return ret;
+}
+```

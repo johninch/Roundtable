@@ -7,7 +7,7 @@
 <Student name="小明" sex="F" score={99} age={18} class="1班" />
 ```
 
-### 方法一：使用js实现
+## 方法一：使用js实现
 ```js
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
@@ -52,7 +52,7 @@ const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
 ```
 
-### 方法二：使用ts实现
+## 方法二：使用ts实现
 ```tsx
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
@@ -66,7 +66,7 @@ interface IProp {
 }
 
 class Student extends Component<IProp> {
-  // static关键词会使属性挂在prototype上成为静态属性，不加的话就是实例属性，挂在this上
+  // static关键词会使属性挂在类Student上成为静态属性，不加的话就是实例属性，挂在this上
   static defaultProps: Partial<IProp> = {
     age: 18,
     class: "1班"

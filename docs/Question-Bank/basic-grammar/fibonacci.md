@@ -208,6 +208,63 @@ function* fibRange5(start, end) {
 console.log([...fibRange5(6, 9)]); // [8, 13, 21, 34]
 ```
 
+## febcat
+```js
+const fibonacci = (start, maxValue) => {
+  let variate = 1,
+    oldStart;
+
+  while (start <= maxValue) {
+    console.log("fibonacci", start);
+
+    oldStart = start;
+    start += variate;
+    variate = oldStart;
+  }
+};
+
+fibonacci(5, 1000);
+```
+### Mtd
+
+```js
+// 递归
+function fibonacci(min, max, arr){
+  if (!arr) {
+    arr = [min, min + 1];
+  }
+
+  let _len = arr.length;
+  let _sub = arr[_len - 2] + arr[_len - 1];
+  if (_sub < max){
+    arr.push(_sub);
+    fibonacci(min, max, arr);
+  }
+
+  return arr;
+}
+
+// 循环
+function fibonacci2(min ,max) {
+  let next = min + 1;
+  let before = min;
+
+  if (next > max) {
+    return [min]
+  }
+  let arr = [before, next];
+  let current = before + next;
+
+  while (current < max) {
+    arr.push(current);
+    before = next;
+    next = current;
+    current = before + next;
+  }
+
+  return arr;
+  ```
+  
 ## Caleb
 ``` js
 var fibonacci = function(start, end) {
@@ -222,3 +279,22 @@ var fibonacci = function(start, end) {
 }
 ```
 
+## Wlxm
+
+```js
+function fibonacci(n: number) {
+    let pre = 1;
+    let cur = 1;
+    const ret = [pre];
+
+    while (n > 1) {
+        let _cur = cur;
+        ret.push(cur);
+        cur += pre;
+        pre = _cur;
+        n--;
+    }
+
+    return ret;
+}
+```

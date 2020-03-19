@@ -12,7 +12,7 @@ categories: javascript
 ```js
 // 最常用方法
 function isArray(arr){
-    return Object.prototype.toString.call(arr) === 'object Array';
+    return Object.prototype.toString.call(arr) === '[object Array]';
 }
 ```
 
@@ -79,5 +79,26 @@ function isArray(arr){
         typeof arr.splice === "function" &&
         typeof arr.length === "number" && !arr.propertyIsEnumerable("length")
 }
+```
+
+## Mtd
+```js
+
+function isArray(arr) {
+  if (Array.isArray) {
+    return Array.isArray(arr);
+  } else {
+    return Object.prototype.toString.call(arr) === '[object Array]'
+  }
+}
+```
+
+## Wlxm
+```
+1. Array.isArray
+2. Object.toString.call(*) === '[object Array]'
+3. Object(*).constructor === Array
+4. * instanceof Array
+5. Object(*).constructor.name === 'Array'
 ```
 

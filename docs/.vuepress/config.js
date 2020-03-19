@@ -155,33 +155,54 @@ module.exports = {
                     ]
                 },
                 {
-                    title: 'ES6+',
+                    title: '工程化',
                     children: [
-                        '/Question-Bank/ES6/deconstruction',
-                        '/Question-Bank/ES6/deconstruction-function',
-                        '/Question-Bank/ES6/class-method',
+                        '/Question-Bank/Engineering/js-module',
                     ]
                 },
-                // {
-                //     title: 'TypeScript',
-                //     children: [
-                //         '/Question-Bank/typescript/查找',
-                //         '/Question-Bank/typescript/二维数组查找',
-                //         '/Question-Bank/typescript/旋转数组的最小数字',
-                //         '/Question-Bank/typescript/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'ES6+',
+                    children: [
+                        '/Question-Bank/ES6+/ES6',
+                        '/Question-Bank/ES6+/class-method',
+                    ]
+                },
+                {
+                    title: 'TypeScript',
+                    children: [
+                        '/Question-Bank/typescript/typescript-base',
+                        '/Question-Bank/typescript/type-difference',
+                        '/Question-Bank/typescript/ts-compatibility.md',
+                    ]
+                },
+                {
+                    title: 'MVVM',
+                    children: [
+                        '/Question-Bank/MVVM/mvvm-base.md',
+                    ]
+                },
                 {
                     title: 'React',
                     children: [
                         '/Question-Bank/react/element-component-instance-node',
-                        '/Question-Bank/react/Student',
-                        '/Question-Bank/react/time-console',
-                        '/Question-Bank/react/calling',
-                        '/Question-Bank/react/declare-react-router',
-                        '/Question-Bank/react/router-component-render-children',
+                        '/Question-Bank/react/SFC',
+                        '/Question-Bank/react/react-handle-this',
+                        '/Question-Bank/react/component-classify.md',
+                        '/Question-Bank/react/react-reuse.md',
                         '/Question-Bank/react/withClock',
                         '/Question-Bank/react/lifecycle',
+                        '/Question-Bank/react/Student',
+                        '/Question-Bank/react/jsx-render',
+                        '/Question-Bank/react/react-event.md',
+                        '/Question-Bank/react/setState.md',
+                        '/Question-Bank/react/react-virtual-dom.md',
+                        '/Question-Bank/react/refs.md',
+                        '/Question-Bank/react/children.md',
+                        '/Question-Bank/react/fiber.md',
+                        '/Question-Bank/react/react-other-points.md',
+                        '/Question-Bank/react/react-router-dom',
+                        '/Question-Bank/react/declare-react-router',
+                        '/Question-Bank/react/time-console',
                     ]
                 },
                 {
@@ -327,8 +348,8 @@ module.exports = {
                 {
                     title: '第二期',
                     children: [
-                        '/Question-Bank/basic-grammar/async-await',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/execution/asynchronous-async&await',
+                        '/Question-Bank/browser/process-eventloop',
                     ]
                 }
             ],

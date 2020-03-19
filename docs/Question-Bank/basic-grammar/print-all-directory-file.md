@@ -17,7 +17,8 @@ categories: javascript
 │   │   ├── Debug
 ```
 
-## 方法一
+## superwyk
+### 方法一
 ```js
 // 使用同步api实现，阻塞运行，性能不大好
 const fs = require('fs');
@@ -46,7 +47,7 @@ function printAllDirectory(dir){
 
 printAllDirectory('/Users/wuyongkun/Documents/test');
 ```
-### 异步执行，有问题的方法
+#### warn: 异步执行api，有问题
 ```js
 // 异步执行有问题，没有按文件夹嵌套顺序打印
 function printDirectory(dir, deep = ""){
@@ -66,9 +67,15 @@ function printDirectory(dir, deep = ""){
 }
 ```
 
-## 方法二
+### 方法二
 ```js
 // 异步化改造
+const fs = require('fs');
+const path = require('path');
+
+const directoryLabel = '├── ';
+const hierarchyLabel = '│   ';
+
 function readDir(directory){
     return new Promise((resolve, reject) => {
         fs.readdir(directory, {encoding: 'utf-8'}, function(err, files){

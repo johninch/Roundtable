@@ -14,7 +14,6 @@ function duplicateRemove(arr) {
     return [... new Set(arr)]
 }
 ```
-
 ### 方法二
 ```js
 function duplicateRemove(arr) {
@@ -82,9 +81,65 @@ function unique5(arr) {
 console.log(unique5(arr))
 ```
 
-## mtd
+## Mtd
+
+````js
+function uniq(arr) {
+  if (!arr || !arr.length) {
+    return [];
+  }
+
+  let result = [];
+  let i = 0;
+  while (i < arr.length) {
+    if (result.indexOf(arr[i]) === -1) {
+      result.push(arr[i])
+    }
+    i++;
+  }
+
+  return result
+}
+````
 
 ## febcat
+### 方法一
+``` js
+const duplicateRemove = arr => {
+  // 正则\1以为重复第一个括号内的内容
+  let arrToStr = arr.sort().join(",") + ",",
+    newArr = [];
+
+  newArr = arrToStr.replace(/(\d,)\1+/g, (match, p1, index, target) => p1);
+
+  return newArr
+    .split(",")
+    .map(item => item && +item)
+    .filter(i => i);
+};
+
+console.log(
+  "duplicateRemove",
+  JSON.stringify(
+    duplicateRemove([2, 3, 1, 2, 1, 6, 3, 3, 13, 4, 5, 2, 3, 6, 6])
+  )
+);
+```
+### 方法二
+``` js
+const duplicateRemove2 = arr => {
+  let newArr = [];
+
+  arr.map(item => (!newArr.includes(item) ? newArr.push(item) : null));
+
+  return newArr;
+};
+
+console.log(
+  "duplicateRemove2",
+  JSON.stringify(duplicateRemove2([1, 3, 2, 6, 3, 3, 13, 4, 5, 2, 3, 6, 6]))
+);
+```
 
 ## niannings
 
@@ -93,6 +148,4 @@ console.log(unique5(arr))
 [...new Set(arr)]
 
 ```
-
-## Xmtd
 

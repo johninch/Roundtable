@@ -29,7 +29,9 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
+```
 
+```js
 // withClock.js
 import React, { Component } from "react";
 
