@@ -18,3 +18,29 @@
 
 ## 代码
 
+### mtd
+```js
+function isSymmetrical(root) {
+  let isSymmetricalTree = function(left, right) {
+    if (!left && !right) {
+      return true;
+    }
+
+    if (!left || !right) {
+      return false;
+    }
+
+    if (left.val !== right.val) {
+      return false;
+    }
+
+    return (
+      isSymmetricalTree(left.left, right.right) &&
+      isSymmetricalTree(left.right, right.left)
+    );
+  };
+
+  return isSymmetricalTree(root.left, root.right);
+}
+```
+

@@ -21,3 +21,38 @@
 
 ## 代码
 
+### mtd
+```js
+// 二叉树镜像递归
+  mirro: function(root) {
+    if (root) {
+      let treeNodeLeft = root.left;
+      root.left = root.right;
+      root.right = treeNodeLeft;
+      this.mirro(root.left);
+      this.mirro(root.right);
+    }
+  },
+  // 二叉树镜像非递归
+  mirro2: function(root) {
+    if (!root) {
+      return;
+    }
+
+    let arr = [];
+    while (arr.length) {
+      let node = arr.pop();
+      let nodeleft = node.left;
+      node.left = node.right;
+      node.right = nodeleft;
+
+      if (node.left) {
+        arr.push(node.left);
+      }
+      if (node.right) {
+        arr.push(node.right);
+      }
+    }
+  },
+```
+

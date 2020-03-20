@@ -25,3 +25,21 @@ XEDGAF
 ```
 
 ## 代码
+
+### mtd
+```js
+// 先重建二叉树，在求后序遍历
+function createLaterOrder(pre, vin) {
+  let treeNode = reConstructTree(pre, vin);
+
+  let laterOrder = function(root) {
+    if (root) {
+      laterOrder(root.left);
+      laterOrder(root.right);
+      console.log(root.data);
+    }
+  };
+
+  laterOrder(treeNode);
+}
+```
