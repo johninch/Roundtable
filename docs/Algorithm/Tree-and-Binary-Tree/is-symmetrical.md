@@ -18,3 +18,21 @@
 
 ## 代码
 
+## niannings
+
+```ts
+function isSymmetric(tree: IBinaryTree) {
+    if (tree.isEmpty()) return true; // 空树
+    const L = [tree.root.left];
+    const R = [tree.root.right];
+    while (L.length) {
+        const l = L.shift();
+        const r = R.shift();
+        if (l === null && r === null) break; // 只有根节点
+        if (l === null || r === null || l.value !== r.value) return false; // 一方不平或值不等
+        L.push(l.left, r.left);
+        R.push(r.right, l.right);
+    }
+    return true;
+}
+```

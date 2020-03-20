@@ -18,3 +18,10 @@
 
 ## 代码
 
+## niannings
+
+```ts
+function isBalanced(tree: IBinaryTreeBase) {
+    return maxDepth(tree) - minDepth(tree) <= 1;
+}
+```
