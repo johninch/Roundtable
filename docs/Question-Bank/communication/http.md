@@ -39,6 +39,7 @@ categories: http
 3. **GET请求参数会被完整保留在浏览器历史记录中，而POST中的参数不会被保留**；
 3. **GET参数通过URL传递，POST放在Request body中**；
 5. **GET请求在URL中传参是有长度限制的(一般为2kb)，而POST没有限制**；
+6. **get会产生一个tcp数据包，而post产生两个，先发headers响应100 continue，再发data响应200**；
 6. GET产生的URL地址可以被收藏，而POST不可以；
 7. GET参数直接放在URL中，不能传递敏感信息；
 8. GET只能进行url编码，而POST支持多种编码方式。

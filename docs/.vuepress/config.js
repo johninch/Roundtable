@@ -57,7 +57,6 @@ module.exports = {
                         '/Question-Bank/basic-grammar/variablesAndTypes3',
                         '/Question-Bank/basic-grammar/variablesAndTypes4',
                         '/Question-Bank/basic-grammar/variablesAndTypes5',
-                        '/Question-Bank/basic-grammar/async-await',
                         '/Question-Bank/basic-grammar/deep-clone',
                         '/Question-Bank/basic-grammar/deep-query',
                         '/Question-Bank/basic-grammar/chain-methods',
@@ -87,11 +86,25 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'JS的执行机制',
+                    children: [
+                        '/Question-Bank/execution/interpreter',
+                        '/Question-Bank/execution/context',
+                        '/Question-Bank/execution/event-loop',
+                        '/Question-Bank/execution/asynchronous-cb',
+                        '/Question-Bank/execution/asynchronous-promise',
+                        '/Question-Bank/execution/asynchronous-gen',
+                        '/Question-Bank/execution/asynchronous-async&await',
+                    ]
+                },
+                {
                     title: 'CSS相关',
                     children: [
                         '/Question-Bank/css/layout-3-col',
                         '/Question-Bank/css/layout-block-center',
-                        '/Question-Bank/css/box-sizing&margin-collapse&BFC'
+                        '/Question-Bank/css/box-sizing&margin-collapse&BFC',
+                        '/Question-Bank/css/layout-method',
+                        '/Question-Bank/css/css-base',
                     ]
                 },
                 {
@@ -101,28 +114,48 @@ module.exports = {
                     ]
                 },
                 {
-                    title: '通信',
+                    title: 'BOM',
                     children: [
-                        '/Question-Bank/communication/http',
+                        '/Question-Bank/bom/bom-base',
+                        '/Question-Bank/bom/router',
                     ]
                 },
                 {
-                    title: '前端性能',
+                    title: '通信',
                     children: [
-                        '/Question-Bank/performance/memory-or-disk-cache',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/communication/http',
+                        '/Question-Bank/communication/internet-base',
+                        '/Question-Bank/communication/cross-domain',
+                        '/Question-Bank/communication/cors',
+                    ]
+                },
+                {
+                    title: '浏览器及前端性能',
+                    children: [
+                        '/Question-Bank/browser/browser-mechanism',
+                        '/Question-Bank/browser/render',
+                        '/Question-Bank/browser/performance',
+                        '/Question-Bank/browser/process-eventloop',
+                        '/Question-Bank/browser/memory-or-disk-cache',
+                    ]
+                },
+                {
+                    title: '网络安全',
+                    children: [
+                        '/Question-Bank/security/fe-security',
                     ]
                 },
                 {
                     title: '正则表达式',
                     children: [
+                        '/Question-Bank/regular-expression/reg-base',
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
                     ]
                 },
                 {
-                    title: 'ES6 & ESnext',
+                    title: 'ES6+',
                     children: [
                         '/Question-Bank/ES6/deconstruction',
                         '/Question-Bank/ES6/deconstruction-function',
@@ -219,6 +252,7 @@ module.exports = {
                 {
                     title: '工作实践',
                     children: [
+                        '/Question-Bank/work-practices/product-quality',
                         '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',

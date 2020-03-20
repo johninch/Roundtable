@@ -13,7 +13,12 @@ categories: javascript
 
 ## johninch
 
-模拟实现bind的关键点是如下几点：
+### call、apply、bind的区别
+- func.call(thisValue, arg1, arg2, …)：可以理解为在thisValue的作用域内应用func， arg1, arg2是可以传入的参数。
+- func.apply(thisValue, [arg1, arg2, …])：apply方法的作用与call方法类似，也是改变this指向，然后再调用该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数。
+- func.bind(thisValue, arg1, arg2,…)：bind方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。
+
+### 模拟实现bind的关键点是如下几点：
 1. `返回一个函数`；
 2. `可以分开传入参数`: 函数需要传name和age两个参数，竟然还可以在bind的时候，只传一个 name，在执行返回的函数的时候，再传另一个参数age。
 ```js
