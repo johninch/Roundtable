@@ -36,7 +36,7 @@ function minDepth(tree: IBinaryTreeBase) {
     const Q: [IBinaryTreeNodeBase, number][] = [[tree.root, 1]];
     let h = 0;
     while (Q.length) {
-        const p = Q.pop();
+        const p = Q.shift();
         const n = p[1];
         const l = p[0].left;
         const r = p[0].right;
