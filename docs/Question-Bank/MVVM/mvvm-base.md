@@ -188,7 +188,7 @@ Vue的设计虽然没有完全遵循MVVM但也受到了它的启发。因此在�
 不同之处：
 - React 比 Vue 更好的地方，数据流向更清晰，有更丰富的生态系统。
 - Vue 比 React 更好的地方，门槛低，代码更少更易用。
-- :tada::tada::tada:**「数据驱动视图」的原理不同，做成工作方式不同：**
+- :tada::tada::tada:**「数据驱动视图」的原理不同，造成工作方式不同：**
     - React的工作逻辑是：state只能通过setState改变，而state变化就会执行render，即是一个单向数据流的M->V的视图库。*（如果要添加V->M反向绑定，就需要手动添加onChange事件绑定handler改变setState，重新触发render）*。React的state存在于一个个组件中，并不能叫做VM，react没有VM这个东西。
     - Vue的工作逻辑是：通过数据劫持和发布订阅结合，实现双向绑定。Vue中不存在类似setState这种唯一改变状态变量途径的方法，而是通过vm自动为数据Model添加监听，在数据改变时调用订阅的监听回调改变View，触发render；另一方面（vue比react多做的事），在例如表单的场景下，又能通过v-model自动完成View层的事件绑定，触发数据Model的变化。即是一个双向数据绑定的MVVM库。
     - 总得来说：React没有VM而只有组件内的状态state，只能通过唯一的setState途径去改变state，每次setState的动作会触发批处理rerender；Vue没有提供唯一动作(setState)改变状态，Vue实例就是VM，VM通过数据劫持和发布订阅，感知Model的改变后再触发视图更新rerender，而所谓的双向绑定中的反向绑定，只是在表单或自定义组件上使用v-model，来自动完成View层事件监听而已。
