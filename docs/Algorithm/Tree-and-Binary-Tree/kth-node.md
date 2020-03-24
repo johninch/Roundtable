@@ -8,3 +8,25 @@
 二叉搜索树的中序遍历即排序后的节点，本题实际考察二叉树的遍历。
 
 ## 代码
+
+## niannings
+
+```ts
+// 中序遍历的第k个
+export function findKmin<N extends IBinarySearchTreeNode = IBinarySearchTreeNode>(
+    tree: IBinarySearchTree,
+    k: number
+) {
+    if (tree.isEmpty()) return null; // 空树
+    if (k <= 0) return null;
+    let i = 1;
+    let target = null;
+    middleEach<IBinarySearchTreeNode>(tree.root, (node) => {
+        if (i++ === k) {
+            target = node;
+            return false;
+        }
+    });
+    return target as N;
+}
+```
