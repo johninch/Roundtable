@@ -20,39 +20,38 @@ React Mixin将通用共享的方法包装成Mixins方法，然后注入各个组
 ## 高阶组件 (HOC)
 
 - 高阶组件是**重用组件逻辑**的高级方法，其实只是一个装饰器模式，用于增强原有组件的功能。
-- 高阶组件其实并不是组件，只是一个函数而已。它接收一个组件作为参数，返回一个新的组件。我们可以在新的组件中做一些功能增加，渲染原有的组件。这样返回的组件增强了功能，但渲染与原有保持一致，没有破坏原有组件的逻辑。
+- 高阶组件其实并不是组件，它只是一个函数接收一个组件作为参数，经过增加一系列新功能后，返回一个新的组件。这样返回的组件增强了功能，但渲染与原有保持一致，没有破坏原有组件的逻辑。
 
 ```tsx
-function withDraggable(WrappedComponent) {
-  return class NewComponent extends React.Component {
-    // 增加拖拽相关的功能
-    drag = () => {
-        console.log('实现拖拽')；
-    }
+const withUser = WrappedComponent => {
+  const user = sessionStorage.getItem("user");
+  return props => <WrappedComponent user={user} {...props} />;
+};
 
-    render() {
-      //render 和其他生命周期函数可以干各种逻辑，甚至把原有的组件再包一层
-      return <WrappedComponent drag={this.drag} {...this.props} />
-    }
-  }
-}
+const UserPage = props => (
+  <div class="user-container">
+    <p>My name is {props.user}!</p>
+  </div>
+);
+
+export default withUser(UserPage);
 ```
 
 ## 渲染属性 (Render props)
-渲染属性（Render Props）也是一种在不重复代码的情况下共享组件间功能的方法。Render-Props 最重要的是`它通过一个函数返回一个react元素`，属性名不一定是非叫render，其它命名依然有效。
+渲染属性（Render Props）也是一种在不重复代码的情况下共享组件间功能的方法。Render-Props 最重要的是`使用一个值为函数的prop来传递需要动态渲染的nodes或组件`，属性名不一定是非叫render，其它命名依然有效。
 ```tsx
 // 子组件依赖于父组件的某些数据时，需要将父组件的数据传到子组件，子组件拿到数据并渲染
 <DataProvider render={data => (
-  <h1>Hello {data.target}</h1>
+  <Cat target={data.target} />
 )}/>
 
-// 可以在父组件中做一些通用性的逻辑，并将数据抛给子组件。子组件可以任意渲染成自己想要的样子。比如说我们可以在父组件中做一个倒计时的逻辑，然后把倒计时的时间传给子组件，这样子组件任意渲染成什么样都可以，子组件只自己知道会定时的拿到新的时间而已。
-<Clock>
-  {
-    // 你爱渲染成什么样的显示都可以，但是不需要思考倒计时相关的逻辑了，你爹帮你想好了
-    count => <Child count={count} />
-  }
-</Clock>
+// Render Props，不是说非用一个叫render的props不可
+// 习惯上可能常写成下面这种
+<DataProvider>
+  {data => (
+    <Cat target={data.target} />
+  )}
+</DataProvider>
 ```
 
 类（对于一类事物的抽象），接口（对于一类行为的抽象）。JS 里面没有接口，所以用高阶组件和 render props 都可以达到对同一类行为的抽象。所有的手段最终都是为了提高代码的可维护性，减少使用成本。
