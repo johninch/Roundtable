@@ -4,11 +4,38 @@
 }
 ---
 
+## FED 座右铭
+
+::: theorem Atwood 定律
+**Any application that can be written in JavaScript, will eventually be written in JavaScript.**
+
+**凡是可以用 JavaScript 来写的应用，最终都会用 JavaScript 来写。**
+::: right
+来自 [百度百科](https://baike.baidu.com/item/%E9%98%BF%E7%89%B9%E4%BC%8D%E5%BE%B7%E5%AE%9A%E5%BE%8B/631745?fr=aladdin)
+:::
+
+## 知识结构脑图
+
+<div class="container">
+ <iframe  
+  height=600 
+  width=100% 
+  src='https://www.processon.com/view/link/5e7831fce4b092510f6d1884'  
+  frameborder=0  
+  allowfullscreen>
+ </iframe>
+  <style>
+  .container {
+    overflow: hidden;
+  }
+  </style>
+</div>
+
 ## 题库目录
 
 标注：:100:完结题目，:rocket:进行中题目，:bulb:下期题目。
 
-### 基本语法
+#### 基本语法
   - [:100:JS专题-变量与类型-(1)JS数据类型](./basic-grammar/variablesAndTypes1.md)
   - [:100:JS专题-变量与类型-(2)JS 3种疑难基础类型](./basic-grammar/variablesAndTypes2.md)
   - [:100:javascript数值](./basic-grammar/number)
@@ -47,12 +74,12 @@
   - [编写css，实现iPhone手机主屏幕布局](./basic-grammar/)
   - [:rocket:打印树形目录结构【难】](./basic-grammar/print-all-directory-file)
 
-### 面向对象与原型链
+#### 面向对象与原型链
   - [:100:原型链](./object-oriented/prototype-chain.md)
   - [:100:类的声明与实例](./object-oriented/class-declaration.md)
   - [:100:类与继承](./object-oriented/class-extends.md)
 
-### JS的执行机制
+#### JS的执行机制
   - [:100:JS的解释器过程](./execution/interpreter.md)
   - [:100:运行JS](./execution/context.md)
   - [:100:任务队列与Event-Loop](./execution/event-loop.md)
@@ -61,7 +88,7 @@
   - [:100:异步编程（3）：Generator函数](./execution/asynchronous-gen.md)
   - [:100:异步编程（4）：async、await](./execution/asynchronous-async&await.md)
 
-### css相关
+#### css相关
   - [:100:多种方式实现三栏布局](./css/layout-3-col.md)
   - [:rocket:元素居中方法总结](./css/layout-block-center.md)
   - [:100:盒模型 & 外边距重叠 & BFC](./css/box-sizing&margin-collapse&BFC.md)
@@ -71,7 +98,7 @@
   - [使用css3编写loading动画](/Roundtable/Question-Bank/css.md)
   - [编写css实现图示中多列分栏布局](/Roundtable/Question-Bank/css.md)
 
-### HTML & DOM
+#### HTML & DOM
   - [:100:DOM事件基本概念](./dom/dom-event.md)
   - [尽可能使用语义化标签给出符合图示的html定义](./dom/)
   - [编写html注册表单](./dom/)
@@ -81,41 +108,41 @@
   - [实现鼠标在指定节点上移动时，在鼠标位置跟随打印当前时间戳](./dom/)
   - [通过事件委托实现对1w个按钮绑定点击事件](./dom/)
 
-### BOM
+#### BOM
   - [:100:BOM对象基础（五大对象）](./bom/bom-base.md)
   - [:100:前端路由模式](./bom/router.md)
 
-### 通信
+#### 通信
   - [:100:HTTP 协议](./communication/http.md)
   - [:100:网络基础](./communication/internet-base.md)
   - [:100:跨域通信与同源策略](./communication/cross-domain.md)
   - [:100:CORS 跨域资源共享](./communication/cors.md)
 
-### 浏览器及前端性能
+#### 浏览器及前端性能
   - [:100:浏览器工作原理](./browser/browser-mechanism.md)
   - [:100:浏览器渲染](./browser/render.md)
   - [:100:提升页面性能的方法](./browser/performance.md)
   - [:100:从多线程到Event Loop全面梳理](./browser/process-eventloop.md)
   - [:100:from memory cache 与 from disk cache](./browser/memory-or-disk-cache.md)
 
-### 网络安全
+#### 网络安全
   - [:100:前端常见安全问题](./security/fe-security.md)
 
-### 正则表达式
+#### 正则表达式
   - [:100:正则表达式基础](./regular-expression/reg-base.md)
   - [:100:正则表达式实现大驼峰字符串转换](./regular-expression/upper-camel-case.md)
   - [:100:使用正则判断给定的股票代码所属市场](./regular-expression/code-to-market.md)
   - [:100:使用正则验证给定字符串是否是中国居民身份证](./regular-expression/Chinese-ID-card.md)
 
-### 工程化
+#### 工程化
   - [:100:JS模块化规范(5种)](/Roundtable/Question-Bank/Engineering/js-module/)
   - [:100:Code Spliting](/Roundtable/Question-Bank/webpack/code-spliting)
 
-### ES6+
+#### ES6+
   - [:100:ES6相比于ES5有什么不同](/Roundtable/Question-Bank/ES6+/ES6)
   - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6+/class-method)
 
-### TypeScript
+#### TypeScript
   - [:100:TypeScript学习笔记](./typescript/typescript-base.html)
   - [:100:ts与js的区别？ts的优势是什么？](./typescript/typescript-base.html#ts定义)
   - [:100:数组与元祖tuple有什么区别？元祖越界元素的类型有什么限制？](./typescript/typescript-base.html#元组-tuple)
@@ -128,10 +155,10 @@
   - [:100:什么是类型兼容？](./typescript/ts-compatibility.md)
 
 
-### 框架基础
+#### 框架基础
   - [MVVM框架基础](./MVVM/mvvm-base.md)
 
-### React
+#### React
   - [:100:Element、Component、Node、Instance如何区分？](./react/element-component-instance-node)
   - [:100:无状态组件](./react/SFC.md)
   - [:100:react中的Component和PureComponent有什么区别？](/./react/SFC.html#purecomponent-vs-component)
@@ -152,11 +179,14 @@
   - [:100:关于props.children的一切](./react/children.md)
   - [:100:React Fiber](./react/fiber.md)
   - [:bulb:React未归类知识点补充](./react/react-other-points.md)
+  - [:100:React Hooks 概述](./react/react-hooks.md)
+  - [:100:Function VS Class 组件（最大区别 - Capture Value）](./react/function-vs-class.md)
+  - [:rocket:React Hooks 使用技巧](./react/black-magic-of-hooks.md)
   - [react-transition-group的Transition/CSSTransition实现原理是什么？](./react/)
   - [react-transition-group的TransitionGroup实现原理是什么？](./react/)
   - [请列举不少于10个ant-design用过的组件](./react/)
 
-### Vue
+#### Vue
   - [:100:自定义组件实现v-model的双向绑定](/Roundtable/Question-Bank/vue/customized-v-model)
   - [:100:$listeners & $attrs](/Roundtable/Question-Bank/vue/listeners-and-attrs)
   - [:100:编写自定义指令，实现动态列表加载](/Roundtable/Question-Bank/vue/v-loadmore)
@@ -178,11 +208,11 @@
   - [v-for中为什么不绑定key会报错？Vue中diff算法的思路是怎样的？](/Roundtable/Question-Bank/basic-grammar/)
   - [编写自定义组件实现v-model的双向绑定](/Roundtable/Question-Bank/vue)
 
-### Nodejs
+#### Nodejs
   - [:100:EventEmitter实现](/Roundtable/Question-Bank/nodejs/eventEmitter)
   - [:100:Node模块机制的实现](/Roundtable/Question-Bank/nodejs/Node模块机制的实现)
 
-### 包管理
+#### 包管理
   - [:100:package.lock.json](/Roundtable/Question-Bank/pkgmanage/package.lock.json)
   - [简述npm是什么](/Roundtable/Question-Bank/basic-grammar/)
   - [npm和yarn的区别](/Roundtable/Question-Bank/basic-grammar/)
@@ -197,10 +227,10 @@
   - [@next @beta @latest 和@x.x.x 等有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [@babel/core这种基于scope的包管理方式相比于babel-core有和优势？](/Roundtable/Question-Bank/basic-grammar/)
 
-### 运维相关
+#### 运维相关
   - [:100:Nginx相关问题](/Roundtable/Question-Bank/Ops/nginx)
 
-### 工作实践
+#### 工作实践
   - [:100:如何保证产品质量](/Roundtable/Question-Bank/work-practices/product-quality)
   - [:100:前端工程化部署方案](/Roundtable/Question-Bank/work-practices/deploy)
   - [:100:ElementUI Message 二次封装](/Roundtable/Question-Bank/work-practices/eleMessage)
@@ -213,7 +243,7 @@
   - [简单实现断点续传](/Roundtable/Question-Bank/work-practices/range-breakpoint-download)
 
 
-### Webpack & Babel
+#### Webpack & Babel
   - [:bulb:列举不少于5个loader,要求简述其作用和使用](/Roundtable/Question-Bank/basic-grammar/)
   - [:bulb:列举不少于5个plugin，要求简述其作用和使用](/Roundtable/Question-Bank/basic-grammar/)
   - [style-loader css-loader scss-loader有什么区别，他们的调用顺序是什么？](/Roundtable/Question-Bank/basic-grammar/)
@@ -235,7 +265,7 @@
   - [列举ES6+中哪些特性可以使用babel实现哪些不可以？](/Roundtable/Question-Bank/basic-grammar/)
 
 
-### Git
+#### Git
   - [常用的git命令有哪些](/Roundtable/Question-Bank/basic-grammar/)
   - [commit、stash、push有啥区别、fetch和pull有啥区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [谈谈git的工作区（workspace）、暂存区(stash)、仓库（repos）、远程仓库（remote repos）](/Roundtable/Question-Bank/basic-grammar/)
@@ -248,7 +278,7 @@
   - [项目代码commit msg有没有约定一些书写规范？在用/知道的git commit msg规范有哪些](/Roundtable/Question-Bank/basic-grammar/)
   - [谈谈如何使用git进行多人协作开发](/Roundtable/Question-Bank/basic-grammar/)
 
-### ESLint
+#### ESLint
   - [项目中在用的提高代码质量的工具都有哪些](/Roundtable/Question-Bank/basic-grammar/)
   - [html、css、js的代码检查工具都有哪些](/Roundtable/Question-Bank/basic-grammar/)
   - [eslint的作用是什么，用来解决什么问题](/Roundtable/Question-Bank/basic-grammar/)
@@ -257,12 +287,12 @@
   - [eslint可以重读哪些配置文件？读取配置文件的优先级是什么？](/Roundtable/Question-Bank/basic-grammar/)
   - [列举eslint的哪些rules是可以通过--fix命令修复的？](/Roundtable/Question-Bank/basic-grammar/)
 
-### PWA
+#### PWA
   - [什么是PWA？](/Roundtable/Wanted/pwa)
   - [什么是service worker？什么是web worker？](/Roundtable/Wanted/pwa)
   - [pwa和react-native、flutter、weex等有何区别？各自优势是什么？](/Roundtable/Question-Bank/cross-platform/)
 
-### 待分类
+#### 待分类
   - [prefetch和preload是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [async和defer是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中默认导出和子导出有何区别？](/Roundtable/Question-Bank/basic-grammar/)
@@ -280,3 +310,4 @@
   - [请简述实现slider/swiper效果的思路](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述如何对多图片页面实现lazyload的思路](/Roundtable/Question-Bank/basic-grammar/)
   - [为什么静态资源要使用cdn，其好处是什么？](/Roundtable/Question-Bank/basic-grammar/)
+

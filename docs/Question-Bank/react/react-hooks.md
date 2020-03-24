@@ -1,24 +1,31 @@
-# React Hooks
+# React Hooks 概述
 
 Hooks本质上就是一类特殊的函数，它们可以为你的函数型组件（function component）注入一些特殊的功能。
 
 这些hooks的目标就是让你不再写class，让function一统江湖。
 
+钩子 | 用法 | 作用
+|:-- |:-- |:-- |
+useState | const [state, changeState] = useState(initialValue) | 用于生成状态以及改变状态的方法
+useEffect | useEffect(fn, [...relativeState]) | 用于生成与状态绑定的副作用
+useContext | useContext(MyContext) | 用于接收context对象并返回当前值
+useReducer | const [state, dispatch] = useReducer(reducer, initialArg, init) | useState的变体，类似于redux
+useCallback | useCallback(fn, [...relativeState]) | 用于生成与状态绑定的回调函数
+useMemo | useMemo(fn, [...relativeState]) | 用于生成与状态绑定的组件/计算结果
+useRef | const newRef = useRef(initialValue) | 用于 获取节点实例 / 数据保存
 
 ## 为什么要搞一个Hooks
 ### 1、复用一个有状态的组件太麻烦
 
-class的组件，它们本身包含了状态（state），所以复用这类组件就变得很麻烦。官方推荐怎么解决这个问题呢？答案是：渲染属性（Render Props）和高阶组件（Higher-Order Components）。
+class的组件，它们本身包含了状态（state），所以复用这类组件就变得很麻烦。官方推荐怎么解决这个问题呢？答案是：**渲染属性（Render Props）** 和 **高阶组件（Higher-Order Components）**。
 
-
-以上这两种模式看上去都挺不错的，很多库也运用了这种模式，比如我们常用的React Router。但我们仔细看这两种模式，会发现它们会增加我们代码的层级关系。最直观的体现，打开devtool看看你的组件层级嵌套是不是很夸张吧。这时候再回过头看我们上一节给出的hooks例子，是不是简洁多了，没有多余的层级嵌套。把各种想要的功能写成一个一个可复用的自定义hook，当你的组件想用什么功能时，直接在组件里调用这个hook即可。
+以上这两种模式看上去都挺不错的，很多库也运用了这种模式，比如我们常用的 React Router。但我们仔细看这两种模式，会发现它们会增加我们代码的层级关系。最直观的体现，打开devtool看看你的组件层级嵌套是不是很夸张吧。但使用 hooks，没有多余的层级嵌套。把各种想要的功能写成一个一个可复用的自定义hook，当你的组件想用什么功能时，直接在组件里调用这个hook即可。
 
 ### 2、生命周期钩子函数里的逻辑太乱
 我们通常希望一个函数只做一件事情，但我们的生命周期钩子函数里通常同时做了很多事情，有时候在不同的钩子中还会写同样的事情。
 
 ### 3、class 的使用让人困惑
 绑定this的指向问题很麻烦，而无状态function组件由于需求变动需要有自己的state时，还需要将function组件改成class组件，很麻烦。
-
 
 ## useState
 ```jsx
@@ -209,65 +216,130 @@ function FriendStatus(props) {
 }
 ```
 
-
-
-Q：“Capture Value” 特性是如何产生的？
-
-A：每一次 ReRender 的时候，都是重新去执行函数组件了，对于之前已经执行过的函数组件，并不会做任何操作。
-
-
-
-
 ## useContext
-
-
+```js
+const value = useContext(MyContext);
+```
+- useContext(MyContext) 相当于 class 组件中的 `static contextType = MyContext` 或者 `<MyContext.Consumer>`。
+- 接收一个 context 对象（React.createContext 的返回值），并返回该 context 的当前值。当前的 context 值由上层组件中距离当前组件最近的 `<MyContext.Provider>` 的 value prop 决定。
+- useContext(MyContext) 只是让你能够读取 context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 `<MyContext.Provider>` 来为下层组件提供 context。
+- 当组件上层最近的 `<MyContext.Provider> `更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context value 值。即使祖先使用 React.memo 或 shouldComponentUpdate，也会在组件本身使用 useContext 时重新渲染。
 
 ## useReducer
+useReducer 类似于 redux 中的功能，相较于 useState，它**更适合一些逻辑较复杂且包含多个子值**，**或者下一个 state 依赖于之前的 state** 等等的特定场景，useReducer 总共有三个参数：
+```js
+const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+- 第一个参数是 一个 **reducer**，就是一个函数类似 `(state, action) => newState` 的函数，传入 上一个 state 和本次的 action；
+- 第二个参数是 **初始state**，也就是默认值，是比较简单的方法；
+- 第三个参数是 **惰性初始化**，这么做可以将用于计算 state 的逻辑提取到 reducer 外部，这也为对重置 state 的 action 做处理提供了便利。
 
+```jsx
+function init(initialCount) {
+  return {count: initialCount};
+}
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    case 'reset':
+      return init(action.payload);
+    default:
+      throw new Error();
+  }
+}
+
+function Counter({initialCount}) {
+  const [state, dispatch] = useReducer(reducer, initialCount, init);
+  return (
+    <>
+      Count: {state.count}
+      <button
+        onClick={() => dispatch({type: 'reset', payload: initialCount})}>
+        Reset
+      </button>
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+    </>
+  );
+}
+```
 
 ## useCallback
+```js
+const memoizedCallback = useCallback(() => doSomething(a, b), [a, b]);
+```
+返回一个 **memoized 回调函数**。`useCallback(fn, deps) 相当于 useMemo(() => fn, deps)`。
 
+- 用于对不同 useEffect 中存在的相同逻辑的封装，减少代码冗余，配合 useEffect 使用。
+- 把内联回调函数及依赖项数组作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，该回调函数仅在某个依赖项改变时才会更新。当你把回调函数传递给经过优化的并使用引用相等性去避免非必要渲染（例如 shouldComponentUpdate）的子组件时，它将非常有用。
 
+::: tip useMemo与useCallback的唯一区别
+useMemo 和 useCallback 几乎是99%相似的，`useCallback(fn, deps) 相当于 useMemo(() => fn, deps)`。
+
+他们的唯一区别就是：**useCallback是根据依赖(deps)缓存第一个入参的(callback)。useMemo是根据依赖(deps)缓存第一个入参(callback)执行后的值**。
+:::
 
 ## useMemo
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+返回一个 **memoized 值**。
 
+- 把“创建”函数和依赖项数组作为参数传入 useMemo，它仅会在某个依赖项改变时才重新计算 memoized 值。这种优化有助于避免在每次渲染时都进行高开销的计算。
+- 如果没有提供依赖项数组，useMemo 在每次渲染时都会计算新的值。
 
+::: danger useMemo不要包含副作用
+记住，传入 useMemo 的函数会在**渲染期间执行**，这与useEffect在渲染之后执行不同。因此，不要在 useMemo 内部执行与渲染无关的操作，诸如副作用这类的操作属于 useEffect 的适用范畴，而不是 useMemo。
+:::
 
 ## useRef
+```js
+const refContainer = useRef(initialValue);
+```
+- useRef 返回一个 **可变的 ref 对象**，其 **.current** 属性被初始化为传入的参数（initialValue）。本质上，useRef 就像是可以在其 .current 属性中保存一个可变值的“盒子”。
+- 返回的 ref 对象在组件的整个生命周期内保持不变。
+- 使用场景：
+    - 可以用于 DOM refs。
+    ```jsx
+    function TextInputWithFocusButton() {
+        const inputEl = useRef(null);
+        const onButtonClick = () => {
+            // `current` 指向已挂载到 DOM 上的文本输入元素
+            inputEl.current.focus();
+        };
+        return (
+            <>
+                <input ref={inputEl} type="text" />
+                <button onClick={onButtonClick}>Focus the input</button>
+            </>
+        );
+    }
+    ```
+    - 一个属性容器，类似于 class 的实例属性，ref 对象是一个 current 属性可变且可以容纳任意值的通用容器。
+    ```jsx
+    function Timer() {
+        const intervalRef = useRef();
+
+        useEffect(() => {
+            const id = setInterval(() => {
+                // ...
+            });
+
+            intervalRef.current = id;
+            return () => {
+                clearInterval(intervalRef.current);
+            };
+        });
+
+        // ...
+    }
+    ```
 
 
-
-## useImperativeMethods
-
-
-
-## useMutationEffect
-
-
-
-## useLayoutEffect
-
-
-
-
-
-
-
-
-
-## Function VS Class 组件
-
-思维上的不同：Function Component 是更彻底的状态驱动抽象，甚至没有 Class Component 生命周期的概念，只有一个状态，而 React 负责同步到 DOM。 
-
-
-Function Component 不存在生命周期，仅描述 UI 状态，React 会将其同步到 DOM。
-既然是状态同步，那么每次渲染的状态都会固化下来，这包括 state props useEffect 以及写在 Function Component 中的所有函数。
-
-
-
-
-
-参考链接：
+## 参考链接：
 - [30分钟精通React Hooks](https://juejin.im/post/5be3ea136fb9a049f9121014#heading-6)
 - [React Hooks 原理](https://github.com/brickspert/blog/issues/26)

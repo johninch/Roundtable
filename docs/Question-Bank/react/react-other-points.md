@@ -134,13 +134,16 @@ Context 是解决react自上到下通过组件传递数据时，跨组件传递�
         render() {
             let value = this.context;
             /* 基于这个值进行渲染工作 */
+            return (
+              <div>{value}</div>
+            )
         }
     }
     ```
-- **Context.Consumer**：在函数式组件中完成订阅 context，这需要`函数作为子元素（function as a child）`这种做法。这个函数接收当前的 context 值，返回一个 React 节点。
+- **Context.Consumer**：在类组件与函数式组件中都可以通过 Consumer 订阅 context，但这需要`函数作为子元素（function as a child）`。这个函数接收当前的 context 值，返回一个 React 节点。
     ```jsx
     <MyContext.Consumer>
-    {value => /* 基于 context 值进行渲染*/}
+      { value => /* 基于 context 值进行渲染*/ }
     </MyContext.Consumer>
     ```
 - **Context.displayName**：context 对象接受一个名为 displayName 的 property，类型为字符串。React **DevTools** 使用该字符串来确定 context 要显示的内容。
@@ -187,11 +190,68 @@ class ThemedButton extends React.Component {
 }
 ```
 
+### 三种Context的用法比较
+
+分类 | 特点
+|:--|:--|
+consumer |	嵌套复杂，Consumer 第一个子节点必须为一个函数，无形增加了工作量
+contextType |	只支持 类组件，无法在多 context 的情况下使用
+useContext | 一种hooks，不需要嵌套，多 context 写法简单
+```jsx
+// 创建一个 context
+const Context = createContext(0)
+
+// 组件一, Consumer 写法
+class Item1 extends PureComponent {
+  render () {
+    return (
+      <Context.Consumer>
+        {
+          (count) => (<div>{count}</div>)
+        }
+      </Context.Consumer>
+    )
+  }
+}
+// 组件二, contextType 写法
+class Item2 extends PureComponent {
+  static contextType = Context
+  render () {
+    const count = this.context
+    return (
+      <div>{count}</div>
+    )
+  }
+}
+// 组件一, useContext 写法
+function Item3 () {
+  const count = useContext(Context);
+  return (
+    <div>{ count }</div>
+  )
+}
+
+function App () {
+  const [ count, setCount ] = useState(0)
+  return (
+    <div>
+      点击次数: { count } 
+      <button onClick={() => { setCount(count + 1)}}>点我</button>
+      <Context.Provider value={count}>
+        <Item1></Item1>
+        <Item2></Item2>
+        <Item3></Item3>
+      </Context.Provider>
+    </div>
+    )
+}
+```
 
 ## react@16.6种的memo方法是做什么的？
 
 React.memo：
 - React.memo 作为性能优化的高阶组件。只适用于函数组件，但不适用于 class 组件。
+- 说白了 memo 就是函数组件的 PureComponent，用来做性能优化的手段。
 - 包装在 React.memo 中调用，以此通过记忆组件渲染结果的方式来提高组件的性能表现。这意味着在这种情况下，React 将跳过渲染组件的操作并直接复用最近一次渲染的结果。
 - 默认情况下其只会对复杂对象做浅层对比，可通过第二个判断函数自定义。
 ```jsx
