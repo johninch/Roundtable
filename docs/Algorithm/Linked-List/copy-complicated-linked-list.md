@@ -23,3 +23,60 @@
 
 ## 3、代码实现
 
+## Caleb
+``` js
+function Clone(pHead) {
+  if (pHead === null) {
+    return null
+  }
+  cloneNodes(pHead);
+  cloneRandom(pHead);
+  return reconnectNodes(pHead);
+}
+
+function cloneNodes(pHead) {
+  var current = pHead;
+  while (current) {
+    var cloneNodes = {
+      var: current.val,
+      next: current.next
+    };
+    current.next = cloneNodes;
+    current = cloneNodes.next;
+  }
+}
+
+function cloneRandom(pHead) {
+  var current = pHead;
+  while (current) {
+    var cloneNodes = current.next;
+    if (current.random) {
+      cloneNode.random = current.random
+    } else {
+      cloneNode.random = null;
+    }
+
+    current = cloneNode.next;
+  }
+
+function reconnectNodes(pHead) {
+  var current = pHead;
+  var cloneHead = pHead.next;
+  var cloneNode = pHead.next;
+
+  while(current) {
+    current.next = cloneNode.next;
+    current = cloneNode.next
+    if (current) {
+      cloneNode.next = current.next;
+      cloneNode = current.next
+    } else {
+      cloneNode.next = null;
+    }
+  }
+  return cloneHead;
+}
+}
+
+```
+
