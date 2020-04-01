@@ -52,4 +52,27 @@ function reConstruct(preorder, inorder) {
 }
 ```
 
+### niannings
+```ts
+export function rebuildTree(frontEachList: any[], middleEachList: any[]) {
+    const tree = new BinaryTree();
+    if (frontEachList.length === 0) return tree;
+    tree.root = rebuild(frontEachList, middleEachList);
 
+    function rebuild(f: any[], m: any[]) {
+        const v = f[0];
+        const newNode = new BinaryTreeNode(v);
+        const sliceIndex = m.indexOf(v);
+        const l = f.slice(1, sliceIndex + 1);
+        const r = f.slice(sliceIndex + 1);
+        if (l.length) {
+            newNode.left = rebuild(l, m.slice(0, sliceIndex));
+        }
+        if (r.length) {
+            newNode.right = rebuild(r, m.slice(sliceIndex + 1));
+        }
+        return newNode;
+    }
+    return tree;
+}
+```

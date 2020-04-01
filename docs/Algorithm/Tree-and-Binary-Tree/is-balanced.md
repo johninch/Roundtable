@@ -26,3 +26,10 @@ const isBalanced = function(root) {
     return (Math.abs(Depth(root.left) - Depth(root.right)) <= 1) && isBalanced(root.left) && isBalanced(root.right)
 };
 ```
+
+### niannings
+```ts
+function isBalanced(tree: IBinaryTreeBase) {
+    return maxDepth(tree) - minDepth(tree) <= 1;
+}
+```

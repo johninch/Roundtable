@@ -35,3 +35,22 @@ var invertTree = function(root) {
 	return root
 };
 ```
+
+### niannings
+```ts
+function toImage(tree: IBinaryTreeBase) {
+    if (tree.isEmpty()) return tree; // 空树
+    const Q = [tree.root];
+    while (Q.length) {
+        const p = Q.shift();
+        const l = p.left;
+        const r = p.right;
+        if (l === null && r === null) break; // 只有根节点
+        p.left = r;
+        p.right = l;
+        if (l !== null) Q.push(l);
+        if (r !== null) Q.push(r);
+    }
+    return tree;
+}
+```

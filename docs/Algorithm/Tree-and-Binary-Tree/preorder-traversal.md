@@ -19,9 +19,11 @@
 
 ### Johninch
 
-本部分是三序遍历的实现，主要分为两类：递归和迭代
+本部分是三序遍历的实现，主要分为两类：递归和迭代。
+
 三序遍历的递归方式非常简单，而对应的迭代法，本质上是在模拟递归，因为在递归的过程中使用了系统栈，所以在迭代的解法中常用Stack来模拟系统栈。
-其实三序遍历都有一种莫里斯遍历解法，但这种方法会破坏原树结构，且不易理解，感兴趣的话去leetcode研究下。
+
+*其实三序遍历都有一种莫里斯遍历解法，但这种方法会破坏原树结构，且不易理解，感兴趣的话去leetcode研究下。*
 
 #### 前序遍历 - 递归
 ```js
@@ -61,5 +63,30 @@ const preorderTraversal = (root) => {
 };
 ```
 
-
-
+### niannings
+```ts
+/**
+ * 前序遍历算法：
+ * 1. 初始化一个栈stack，并将根节点压入；
+ * 2. 从stack中弹出一个node，**访问**它，并将node的右、左子节点依次压入stack（如果有的话）；
+ * 3. 重复步骤2，直到stack清空；
+ * @param handler 处理函数
+ */
+export function frontEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
+    root: N,
+    handler: (node: N) => void
+) {
+    if (root === null) return;
+    const stack = [root];
+    while (stack.length) {
+        const node = stack.pop();
+        handler(node);
+        if (node.right) {
+            stack.push(node.right as N);
+        }
+        if (node.left) {
+            stack.push(node.left as N);
+        }
+    }
+}
+```

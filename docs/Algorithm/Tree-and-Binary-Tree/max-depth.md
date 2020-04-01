@@ -47,3 +47,22 @@ const sizeOfTree = (root) => {
     return 1 + sizeOfTree(root.left) + sizeOfTree(root.right);
 }
 ```
+
+### niannings
+```ts
+function maxDepth(tree: IBinaryTreeBase) {
+    if (tree.isEmpty()) return 0; // 空树
+    const Q: [IBinaryTreeNodeBase, number][] = [[tree.root, 1]];
+    let h = 0;
+    while (Q.length) {
+        const p = Q.pop();
+        const n = p[1];
+        const l = p[0].left;
+        const r = p[0].right;
+        h = Math.max(p[1], h);
+        if (l !== null) Q.push([l, n + 1]);
+        if (r !== null) Q.push([r, n + 1]);
+    }
+    return h;
+}
+```

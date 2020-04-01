@@ -32,5 +32,25 @@ const kthSmallest = (root, k) => {
 
     return res[k - 1]
 }
+```
 
+### niannings
+```ts
+// 中序遍历的第k个
+export function findKmin<N extends IBinarySearchTreeNode = IBinarySearchTreeNode>(
+    tree: IBinarySearchTree,
+    k: number
+) {
+    if (tree.isEmpty()) return null; // 空树
+    if (k <= 0) return null;
+    let i = 1;
+    let target = null;
+    middleEach<IBinarySearchTreeNode>(tree.root, (node) => {
+        if (i++ === k) {
+            target = node;
+            return false;
+        }
+    });
+    return target as N;
+}
 ```
