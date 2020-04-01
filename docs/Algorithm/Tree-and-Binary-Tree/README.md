@@ -8,141 +8,224 @@
 
 树是用来模拟具有树状结构性质的数据集合。而二叉树是树最简单、应用最广泛的种类。二叉树是每个节点最多有两个子树的树结构，通常将当前节点称作“根节点”，子树被称作“左子树”和“右子树”。
 
-## 二叉树基础
+# 完全二叉树的一些公式
 
-### 完全二叉树的一些公式
-1. 第n层的节点数最多为2n个节点
+完全二叉树：除了最后一层，所有层的节点数达到最大，与此同时，最后一层的所有节点都在最左侧。（堆使用完全二叉树）
 
-2. n层二叉树最多有20+...+2n=2n+1-1个节点
+1. 第n层的节点数最多为2<sup>n</sup>个节点；
+2. n层二叉树最多有2<sup>0</sup>+...+2<sup>n</sup>=2<sup>n+1</sup>-1个节点；
+3. 第一个非叶子节点：length/2；
+4. 一个节点的孩子节点：2n、2n+1。
 
-3. 第一个非叶子节点：length/2
+满二叉树：所有层的节点数达到最大。
 
-4. 一个节点的孩子节点：2n、2n+1
-
-### 基本结构
-
-插入，遍历，深度
-
-::: details 基本结构
+## 二叉树的构造
+二叉树有两种表示形式：链表形式 与 数组形式。
+### 链表形式表示
+一般情况下，二叉树都通过链表形式存储：
 ```js
-        function Node(data, left, right) {
-            this.data = data;
-            this.left = left;
-            this.right = right;
-        }
+// 二叉树节点
+class Node {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+```
 
-        Node.prototype = {
-            show: function () {
-                console.log(this.data);
-            }
-        }
+### 数组形式表示
+对于完全二叉树可以使用「**层序遍历数组**」表示，因为对完全二叉树而言，可以很容易通过数组下标确认相互关系，比如堆排序中使用的最大堆最小堆，就是直接利用数组模拟完全二叉树，进而构造最大（最小）堆，实现排序。
 
-        function Tree() {
-            this.root = null;
-        }
+对于一般二叉树也可以使用数组表示，为表述清晰，会增加必要的null值，比如下图：
+```
+    5
+   / \
+  1   4
+     / \
+    3   6
 
-        Tree.prototype = {
-            insert: function (data) {
-                var node = new Node(data, null, null);
-                if (!this.root) {
-                    this.root = node;
+   1
+    \
+     2
+    /
+   3
+```
+用数组表示为：[5,1,4,null,null,3,6] 、 [1,null,2,3]
+
+注：*在leetcode上做题时，一般都是给出数组表示，leetcode的测试用例会自动将其转成链表形式，但如果我们本地需要验证测试用例时，还需要自己手动转换。*
+
+### 基本结构与功能
+```js
+// 二叉树节点
+class Node {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+    // show() {
+    //     console.log(this.data);
+    // }
+}
+
+class Tree {
+    constructor(data = null) {
+        this.root = data;
+    }
+
+    // 基础方法：插入、遍历、深度
+    insert(data) {
+        var node = new Node(data, null, null);
+        if (!this.root) {
+            this.root = node;
+            return;
+        }
+        var current = this.root;
+        var parent = null;
+        while (current) {
+            parent = current;
+            if (data < parent.data) {
+                current = current.left;
+                if (!current) {
+                    parent.left = node;
                     return;
                 }
-                var current = this.root;
-                var parent = null;
-                while (current) {
-                    parent = current;
-                    if (data < parent.data) {
-                        current = current.left;
-                        if (!current) {
-                            parent.left = node;
-                            return;
-                        }
-                    } else {
-                        current = current.right;
-                        if (!current) {
-                            parent.right = node;
-                            return;
-                        }
-                    }
+            } else {
+                current = current.right;
+                if (!current) {
+                    parent.right = node;
+                    return;
+                }
+            }
 
-                }
-            },
-            preOrder: function (node) {
-                if (node) {
-                    node.show();
-                    this.preOrder(node.left);
-                    this.preOrder(node.right);
-                }
-            },
-            middleOrder: function (node) {
-                if (node) {
-                    this.middleOrder(node.left);
-                    node.show();
-                    this.middleOrder(node.right);
-                }
-            },
-            laterOrder: function (node) {
-                if (node) {
-                    this.laterOrder(node.left);
-                    this.laterOrder(node.right);
-                    node.show();
-                }
-            },
-            getMin: function () {
-                var current = this.root;
-                while(current){
-                    if(!current.left){
-                        return current;
-                    }
-                    current = current.left;
-                }
-            },
-            getMax: function () {
-                var current = this.root;
-                while(current){
-                    if(!current.right){
-                        return current;
-                    }
-                    current = current.right;
-                }
-            },
-            getDeep: function (node,deep) {
-                deep = deep || 0;
-                if(node == null){
-                    return deep;
-                }
-                deep++;
-                var dleft = this.getDeep(node.left,deep);
-                var dright = this.getDeep(node.right,deep);
-                return Math.max(dleft,dright);
+        }
+    },
+    preOrder(node) {
+        if (node) {
+            node.show();
+            this.preOrder(node.left);
+            this.preOrder(node.right);
+        }
+    },
+    middleOrder(node) {
+        if (node) {
+            this.middleOrder(node.left);
+            node.show();
+            this.middleOrder(node.right);
+        }
+    },
+    laterOrder(node) {
+        if (node) {
+            this.laterOrder(node.left);
+            this.laterOrder(node.right);
+            node.show();
+        }
+    },
+    getMin() {
+        var current = this.root;
+        while (current) {
+            if (!current.left) {
+                return current;
+            }
+            current = current.left;
+        }
+    },
+    getMax() {
+        var current = this.root;
+        while (current) {
+            if (!current.right) {
+                return current;
+            }
+            current = current.right;
+        }
+    },
+    getDeep(node, deep) {
+        deep = deep || 0;
+        if (node == null) {
+            return deep;
+        }
+        deep++;
+        var dleft = this.getDeep(node.left, deep);
+        var dright = this.getDeep(node.right, deep);
+        return Math.max(dleft, dright);
+    }
+
+    // 将 层序遍历数组 转换成 链表形式
+    static toLinklistMode(data) {
+        let toNode = item => {
+            if (!item) {
+                return null;
+            } else {
+                return new Node(item);
+            }
+        };
+
+        let queue = [];
+        const root = toNode(data.shift());
+        queue.push(root); // 入队列第一个元素
+
+        while (data.length > 0) {
+            //当数组里还有项的时候就拿数组的项去填充队列
+            let current = queue.shift();
+
+            current.left = toNode(data.shift());
+            if (current.left) {
+                queue.push(current.left);
+            }
+
+            current.right = toNode(data.shift());
+            if (current.right) {
+                queue.push(current.right);
             }
         }
 
-```
+        return root;
+    }
 
-```js
-        var t = new Tree();
-        t.insert(3);
-        t.insert(8);
-        t.insert(1);
-        t.insert(2);
-        t.insert(5);
-        t.insert(7);
-        t.insert(6);
-        t.insert(0);
-        console.log(t);
-        // t.middleOrder(t.root);
-        console.log(t.getMin(), t.getMax());
-        console.log(t.getDeep(t.root, 0));
-        console.log(t.getNode(5,t.root));
+    // 将 链表形式 转换成 层序遍历数组
+    static toArrayMode(root) {
+        let queue = [];
+        let list = [];
+
+        queue.push(root);
+
+        while (queue.length > 0) {
+            let current = queue.shift();
+
+            if (current.left) {
+                queue.push(current.left);
+                list.push(current.left.val);
+            } else {
+                list.push(null);
+            }
+
+            if (current.right) {
+                queue.push(current.right);
+                list.push(current.right.val);
+            } else {
+                list.push(null);
+            }
+        }
+
+        // 我们在深度优先遍历的时候将节点保存下来，如果是null也保存，完全二叉树的性质要求我们不能有null混在值中
+        // 拿到这个list之后
+        // 第一步是将最后连续的null删掉
+        let point = list.length - 1; // 从表最后开始看
+        while (list[point] === null) {
+            list.pop();
+            point--;
+        }
+
+        // 之后再检查list中是否还有null，如果没有就是完全二叉树，有就不是
+        //  return list.every((item)=>{return item!==null})
+        return [root.val].concat(list); // 换成输出这行代码就能输出二叉树的数组表示形式，与前面的constructor方法正好相反
+    }
+}
 ```
-:::
 
 ### 树查找
 ::: details 树查找
 ```js
-getNode: function (data, node) {
+getNode(data, node) {
     if (node) {
         if (data === node.data) {
             return node;
@@ -157,7 +240,6 @@ getNode: function (data, node) {
 }
 ```
 :::
-
 
 ### 二分查找
 
@@ -184,36 +266,40 @@ console.log(binarySearch(1, arr, 0, arr.length-1));
 ```
 :::
 
-## 1、二叉树遍历
+## 经典题目
+
+### 1、二叉树遍历
 > 重点中的重点，最好同时掌握递归和非递归版本，递归版本很容易书写，但是真正考察基本功的是非递归版本。
 
- - [二叉树的中序遍历](/Algorithm/Tree-and-Binary-Tree/inorder-traversal)
- - [二叉树的前序遍历](/Algorithm/Tree-and-Binary-Tree/preorder-traversal)
- - [二叉树的后序遍历](/Algorithm/Tree-and-Binary-Tree/postorder-traversal)
- - [✔️重建二叉树](/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree)
- - [求二叉树的遍历](/Algorithm/Tree-and-Binary-Tree/get-HRD)
+ - [:100:二叉树的中序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal)
+ - [:100:二叉树的前序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/preorder-traversal)
+ - [:100:二叉树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/postorder-traversal)
+ - [:100:重建二叉树](/Roundtable/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree)
+ - [:100:求二叉树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/get-HRD)
 
-## 2、二叉树的对称性
+### 2、二叉树的对称性
 
- - [✔️对称的二叉树](/Algorithm/Tree-and-Binary-Tree/is-symmetrical)
- - [二叉树的镜像](/Algorithm/Tree-and-Binary-Tree/mirror)
+ - [:100:对称的二叉树](/Roundtable/Algorithm/Tree-and-Binary-Tree/is-symmetrical)
+ - [:100:二叉树的镜像](/Roundtable/Algorithm/Tree-and-Binary-Tree/mirror)
 
-## 3、二叉搜索树
+### 3、二叉搜索树
 > 二叉搜索树是特殊的二叉树，考察二叉搜索树的题目一般都是考察二叉搜索树的特性，所以掌握好它的特性很重要。
 
-1. 若任意节点的左⼦子树不不空，则左⼦子树上所有结点的值均⼩小于它的 根结点的值;
-2. 若任意节点的右⼦子树不不空，则右⼦子树上所有结点的值均⼤大于它的 根结点的值;
-3. 任意节点的左、右⼦子树也分别为⼆二叉查找树。
+1. 节点的左子树只包含小于当前节点的数。
+2. 节点的右子树只包含大于当前节点的数。
+3. 所有左子树和右子树自身必须也是二叉搜索树。
 
- - [二叉搜索树的第k个节点](/Algorithm/Tree-and-Binary-Tree/kth-node)
- - [二叉搜索树的后序遍历](/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST)
+ - [生成二叉搜索树](/Roundtable/Algorithm/Tree-and-Binary-Tree/gennerate-BST)
+ - [:100:验证二叉搜索树](/Roundtable/Algorithm/Tree-and-Binary-Tree/isValidBST)
+ - [:100:二叉搜索树的第k个节点](/Roundtable/Algorithm/Tree-and-Binary-Tree/kth-node)
+ - [:100:二叉搜索树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST)
 
-## 4、二叉树的深度
+### 4、二叉树的深度
 > 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
 
 > 平衡二叉树：左右子树深度之差大于1。
 
- - [二叉树的最大深度](/Algorithm/Tree-and-Binary-Tree/max-depth)
- - [二叉树的最小深度](/Algorithm/Tree-and-Binary-Tree/min-depth)
- - [平衡二叉树](/Algorithm/Tree-and-Binary-Tree/is-balanced)
+ - [:100:二叉树的最大深度](/Roundtable/Algorithm/Tree-and-Binary-Tree/max-depth)
+ - [:100:二叉树的最小深度](/Roundtable/Algorithm/Tree-and-Binary-Tree/min-depth)
+ - [:100:平衡二叉树](/Roundtable/Algorithm/Tree-and-Binary-Tree/is-balanced)
 

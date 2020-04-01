@@ -1,4 +1,6 @@
-# 二叉树的镜像
+# 二叉树的镜像（翻转二叉树）
+
+[leetcode - 226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
 ## 题目
 操作给定的二叉树，将其变换为源二叉树的镜像。
@@ -21,3 +23,15 @@
 
 ## 代码
 
+### Johninch
+```js
+var invertTree = function(root) {
+    if (!root) {
+        return null
+	}
+	
+	[root.left, root.right] = [invertTree(root.right), invertTree(root.left)]
+
+	return root
+};
+```
