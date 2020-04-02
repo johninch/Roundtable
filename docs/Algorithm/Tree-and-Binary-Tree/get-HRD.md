@@ -1,4 +1,4 @@
-# 求二叉树的遍历
+# 求二叉树的后序遍历
 
 ## 题目
 给定一棵二叉树的前序遍历和中序遍历，求其后序遍历
@@ -25,6 +25,37 @@ XEDGAF
 ```
 
 ## 代码
+
+### johninch
+```js
+var getHRD = () => {
+    let preorder, inorder;
+    let rebulidPostTree = (preorder, inorder) => {
+        if (!preorder.length) {
+            return null;
+        }
+
+        if (preorder.length === 1) {
+            return preorder[0];
+        }
+
+        const root = preorder[0];
+        const index = inorder.findIndex(root);
+
+        const inLeft = inorder.slice(0, index);
+        const inRight = inorder.slice(index + 1);
+        const preLeft = preorder.slice(1, index + 1);
+        const preRight = preorder.slice(index + 1);
+
+        return rebulidPostTree(preLeft, inLeft) + rebulidPostTree(preRight, inRight) + root;
+    }
+
+    while(preorder = readline()) {
+        inorder = readline();
+        console.log(rebulidPostTree(preorder, inorder))
+    }
+}
+```
 
 ### mtd
 ```js

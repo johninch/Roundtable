@@ -1,5 +1,7 @@
 # 二叉树的最小深度
 
+[leetcode - 111. 二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
+
 ## 题目
 给定一个二叉树，找出其最小深度。
 
@@ -21,9 +23,44 @@
 
 ## 思路
 深度优先 + 分治
-
-左右子树都不为空：左子树深度和右子树最小深度的最小值 + 1
-左树为空：右子树最小深度的最小值 + 1
-右树为空：左子树最小深度 + 1
+- 左树为空：右子树最小深度的最小值 + 1
+- 右树为空：左子树最小深度 + 1
+- 左右子树都不为空：左子树深度和右子树最小深度的最小值 + 1
 
 ## 代码
+
+### Johninch
+```js
+const minDepth = (root) => {
+    if (!root) {
+        return 0;
+    }
+    if (!root.left) {
+        return 1 + minDepth(root.right);
+    }
+    if (!root.right) {
+        return 1 + minDepth(root.left);
+    }
+    return Math.min(minDepth(root.left), minDepth(root.right)) + 1
+};
+```
+
+### niannings
+```ts
+function minDepth(tree: IBinaryTreeBase) {
+    if (tree.isEmpty()) return 0; // 空树
+    const Q: [IBinaryTreeNodeBase, number][] = [[tree.root, 1]];
+    let h = 0;
+    while (Q.length) {
+        const p = Q.shift();
+        const n = p[1];
+        const l = p[0].left;
+        const r = p[0].right;
+        h = Math.max(p[1], h);
+        if (l === null || r === null) break;
+        Q.push([l, n + 1]);
+        Q.push([r, n + 1]);
+    }
+    return h;
+}
+```

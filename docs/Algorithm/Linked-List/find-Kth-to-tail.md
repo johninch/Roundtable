@@ -18,3 +18,22 @@
 
 ## 3、代码实现
 
+## Caleb
+``` js
+function findKthNode(head, k) {
+  var fastPointer = head;
+  var slowPointer = head;
+  var curStep = 0;
+  var current = head;
+  while(current) {
+    if (curStep >= k) {
+      slowPointer = current;
+    }
+    curStep++;
+    current = current.next;
+  }
+
+  return slowPointer
+}
+```
+

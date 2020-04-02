@@ -409,6 +409,7 @@ module.exports = {
                     {name: 'Sea Of Voices (RAC Mix)',artist: 'Porter Robinson',url: 'https://cdn-image.tsanfer.xyz/music/Porter%20Robinson%20-%20Sea%20Of%20Voices%20%28RAC%20Mix%29.mp3',cover: 'https://p1.music.126.net/zjQROkEUokU7iS5eUvnVZQ==/3264450027161111.jpg'},
                     {name: 'New Lipstick',artist: 'The Kissaway Trail',url: 'https://cdn-image.tsanfer.xyz/music/The%20Kissaway%20Trail%20-%20New%20Lipstick.flac',cover: 'https://p2.music.126.net/VjN74c1hoYgPCEZ9DngeQw==/109951163772624643.jpg'},
                 ],
+                floatPosition: 'left'
             },
         ],
         [
@@ -425,6 +426,30 @@ module.exports = {
                 before: info => `<div class="theorem"><p class="title">${info}</p>`,
                 after: '</div>',
             },
+        ],
+        [
+            'vuepress-plugin-helper-live2d', {
+              live2d: {
+                // 是否启用(关闭请设置为false)(default: true)
+                enable: true,
+                // 模型名称(default: hibiki)>>>取值请参考：
+                // https://github.com/JoeyBling/hexo-theme-yilia-plus/wiki/live2d%E6%A8%A1%E5%9E%8B%E5%8C%85%E5%B1%95%E7%A4%BA
+                model: 'hijiki',
+                display: {
+                  position: "right", // 显示位置：left/right(default: 'right')
+                  width: 290, // 模型的长度(default: 135)
+                  height: 400, // 模型的高度(default: 300)
+                  hOffset: 10, //  水平偏移(default: 65)
+                  vOffset: -20, //  垂直偏移(default: 0)
+                },
+                mobile: {
+                  show: false // 是否在移动设备上显示(default: false)
+                },
+                react: {
+                  opacity: 0.9 // 模型透明度(default: 0.8)
+                }
+              }
+            }
         ],
         ['@vuepress/back-to-top'],
         ['vuepress-plugin-smooth-scroll'],  // 平滑滚动
