@@ -32,7 +32,7 @@ let str: unknow;
 let str2: any;
 let str3: string = str // Type 'unknown' is not assignable to type 'string'.
 ```
-<strong>string可以赋值unKnow类型</strong>
+<strong>任何值都可以赋值给unKnow类型(另一种any)， 故string可以赋值unKnow类型</strong>
 
 ## never
 
