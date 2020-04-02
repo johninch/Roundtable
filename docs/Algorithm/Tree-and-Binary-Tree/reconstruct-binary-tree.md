@@ -76,3 +76,24 @@ export function rebuildTree(frontEachList: any[], middleEachList: any[]) {
     return tree;
 }
 ```
+
+### mtd
+```js
+// 前序+中序
+function reConstructTree(pre, vin) {
+  if (!pre || !pre.length) {
+    return null;
+  }
+
+  let treeNode = new Node(pre[0]);
+
+  for (let i = 0; i < pre.length; i++) {
+    if (vin[i] === pre[0]) {
+      treeNode.left = reConstructTree(pre.slice(1, i + 1), vin.slice(0, i + 1));
+      treeNode.right = reConstructTree(pre.slice(i + 1), vin.slice(i + 1));
+    }
+  }
+
+  return treeNode;
+  }
+```

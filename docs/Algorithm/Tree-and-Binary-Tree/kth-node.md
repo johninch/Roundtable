@@ -54,3 +54,30 @@ export function findKmin<N extends IBinarySearchTreeNode = IBinarySearchTreeNode
     return target as N;
 }
 ```
+
+```js
+ // 第k个几点
+  KthNode: function(root, k) {
+    if (!root || !k) {
+      return null;
+    }
+    return KthCore(root);
+
+    function KthCore(node) {
+      let target = null;
+      if (node.left) {
+        target = KthCore(node.left);
+      }
+      if (!target) {
+        if (k === 1) {
+          target = node;
+        }
+        k--;
+      }
+      if (!target && node.right) {
+        target = KthCore(node.right);
+      }
+      return target;
+    }
+  },
+```

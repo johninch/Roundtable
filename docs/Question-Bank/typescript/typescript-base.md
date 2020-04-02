@@ -618,6 +618,34 @@ class Animal {
 - 抽象类是不允许被实例化的；
 - 抽象类中的抽象方法必须被子类实现；
 
+```typescript
+/*
+* 抽象类： abstract 修饰，里面可以没有抽象方法。 但有抽象方法（abstract method）的类必须声明为抽象类
+* */
+
+// Animal 是一个抽象类，里面含有一个eat()抽象方法
+
+abstract class Animal {
+    public name: string;
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    // 抽象方法， 不包含具体实现，要求子类中必须实现此方法
+    abstract eat(): any;
+}
+
+class Dog extends Animal {
+    // 子类必须实现父类的抽象方法，否则ts编译报错
+    eat() {
+        console.log(this.name + '吃肉')
+    }
+}
+
+const dog = new Dog('tom');
+dog.eat(); // tom吃肉
+```
+
 #### 类的类型
 给类加上 TypeScript 的类型很简单，与接口类似：
 ```ts
