@@ -74,7 +74,6 @@ export function rebuildTree(frontEachList: any[], middleEachList: any[]) {
         return newNode;
     }
     return tree;
->>>>>>> c4da8521037fd62810837a7ff18d41d0c6578477
 }
 ```
 
@@ -96,4 +95,5 @@ function reConstructTree(pre, vin) {
   }
 
   return treeNode;
+  }
 ```
