@@ -33,3 +33,32 @@ function isBalanced(tree: IBinaryTreeBase) {
     return maxDepth(tree) - minDepth(tree) <= 1;
 }
 ```
+
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+// 判断是否是平衡二叉树
+// 所有节点左右子树高度差不超过1
+isBalancedTree(node = this.root){
+    if (node === null) {
+        return { flag: true, depth: 0 };
+    }
+    const leftResult = this.isBalancedTree(node.left);
+    const rightResult = this.isBalancedTree(node.right);
+
+    const result = {
+        flag: leftResult.flag && rightResult.flag && Math.abs(leftResult.depth - rightResult.depth) <= 1,
+        depth: Math.max(leftResult.depth, rightResult.depth) + 1
+    }
+    return result;
+}
+```
+
+#### 代码测试
+```js
+const tree = new Tree([1, 2, 3, 4, 5, 6, null, 7]);
+console.log(tree.isBalancedTree().flag);
+const tree2 = new Tree([1, 2, 3, 4, 5, 6, null, 7, null, null, null, null, null, 8]);
+console.log(tree2.isBalancedTree().flag);
+```

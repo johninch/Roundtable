@@ -64,3 +64,26 @@ function minDepth(tree: IBinaryTreeBase) {
     return h;
 }
 ```
+
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+// 二叉树最大深度
+// 二叉树最小深度
+min_depth(node = this.root){
+    if(node){
+        const leftDepth = this.max_depth(node.left) + 1;
+        const rightDepth = this.max_depth(node.right) + 1;
+        return rightDepth > leftDepth ? leftDepth : rightDepth;
+    } else {
+        return 0;
+    }
+}
+```
+
+#### 代码测试
+```js
+const tree = new Tree([1,2,3,4,5,null,6,7,null,null,8]);
+console.log(tree.min_depth());
+```

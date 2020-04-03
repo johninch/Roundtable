@@ -124,3 +124,32 @@ export function backEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
 }
 ```
 
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 后序遍历，递归实现
+```js
+// 后序遍历，使用递归
+LRD_recursive(node = this.root){
+    if(node){
+        this.LRD_recursive(node.left);
+        this.LRD_recursive(node.right);
+        console.log(node.value);
+    }
+}
+```
+
+#### 后序遍历，非递归实现
+```js
+// 后序遍历，使用非递归-堆栈
+LRD_stack(){
+    // todo
+}
+```
+
+#### 后序遍历，测试
+```js
+const tree = new Tree([1,2,3,4,5,null,6,7,null,null,8]);
+tree.LRD_recursive();
+tree.LRD_stack();
+```
+

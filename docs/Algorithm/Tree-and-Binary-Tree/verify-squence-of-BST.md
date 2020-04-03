@@ -33,3 +33,35 @@ const verifyPostorder = (postorder) => {
 }
 ```
 
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+// 判断数组是否是某二叉搜索树的后序遍历的结果
+Tree.isLRD_result = function(data){
+    if(!Array.isArray(data)) return false;
+    if(data.length === 0) return true;
+
+    const rootNodeValue = data.pop();
+    // 查找第一个大于rootNodeValue的位置
+    // index左边的数据都是左子树，右边的数据都是右子树
+    let index = data.findIndex(item => item > rootNodeValue)
+    if (index === -1){
+        index = data.length;
+    }
+    const leftNodes = data.slice(0, index);
+    const rightNodes = data.slice(index, data.length);
+    // 判断右边的数据是否都大于rootNodeValue
+    if(!rightNodes.every(item => item > rootNodeValue)){
+        return false
+    }
+
+    return Tree.isLRD_result(leftNodes) && Tree.isLRD_result(rightNodes)
+}
+```
+
+#### 代码测试
+```js
+console.log(Tree.isLRD_result([1, 3, 2, 5, 4, 7, 6, 9, 11, 10, 13, 12, 8]));
+console.log(Tree.isLRD_result([1, 3, 2, 7, 4, 5, 6, 9, 11, 10, 13, 12, 8]));
+```
