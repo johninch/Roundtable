@@ -50,13 +50,80 @@ categories: execution
     - 这样，一直延续到全局执行环境；全局执行环境的变量对象始终都是作用域链中的最后一个对象。
 - **解析标识符**的过程，是沿着作用域链一级一级地搜索标识符。搜索过程始终从作用域链的前端开始， 然后逐级地向上查找，直至找到标识符为止，如果在全局作用域依然没有找到，则报错。
 
-### this指向
-this是在运行时基于函数的执行环境绑定的（`谁调用，指向谁`，他指向什么完全由函数在哪里被调用决定）：在全局函数中，this等于window，而当函数被作为某个对象的方法调用时，this等于那个对象。不过，匿名函数的执行环境具有全局性，因此其 this对象通常指向 window。
-#### 指向情况
-1. 由new调用：绑定到新创建的对象。
-2. 由call或者apply(或者bind)调用：绑定到指定的对象。
-3. 由上下文对象调用：绑定到那个上下文对象。
-4. 默认绑定：在严格模式下绑定到undefined，否则绑定到全局对象。
+### this指向问题
+this是在运行时基于函数的执行环境绑定的，是由其调用方式决定的。
+
+#### 绑定规则
+1. `默认绑定`：绑定到全局对象window或global，在严格模式下绑定到undefined。
+2. `隐式绑定`：由上下文对象调用，绑定到那个上下文对象（`谁调用，指向谁`）。
+3. `主动绑定`：由call或者apply(或者bind)调用，绑定到指定的对象。
+4. 由new调用：绑定到新创建的实例对象。
+
+#### 例子及回退机制
+1. 默认绑定
+```js
+function display(){
+ console.log(this); // 'this' 将指向全局变量
+}
+
+display();
+```
+解析：这是一个普通的函数调用。在这种情况下，
+display() 方法中的 this 在非严格模式下指向 window 或 global 对象。
+在严格模式下，this 指向 undefined。
+
+2. 隐式绑定
+```js
+var obj = {
+ name: 'Saurabh',
+ display: function(){
+   console.log(this.name); // 'this' 指向 obj
+  }
+};
+
+obj.display(); // Saurabh 
+```
+以上就是常规调用规则：谁调用，指向谁。
+
+但是，当将这个函数引用赋值给其他变量，并使用这个新函数引用去调用该函数时，我们在 display() 中获得了不同的this值。
+```js
+var name = "uh oh! global";
+var outerDisplay = obj.display;
+outerDisplay(); // uh oh! global
+```
+当调用 outerDisplay() 时，我们没有指定一个具体的上下文对象。这是一个没有所有者对象的纯函数调用。在这种情况下，display() 内部的 this 值回退到默认绑定。现在这个 this 指向全局对象，在严格模式下，它指向 undefined。
+
+::: warning 回退机制：隐式绑定 => 默认绑定
+在将隐式绑定的函数**以回调的形式传递给**另一个`自定义函数`、`第三方库函数`或者像 `setTimeout 这样的内置JavaScript函数`时，都适用于上述情况，**回退到默认绑定规则**，例如：
+```js
+var name = "uh oh! global";
+
+var obj = {
+ name: 'Saurabh',
+ display: function(){
+   console.log(this.name); // 'this' 指向 obj
+  }
+};
+
+setTimeout( obj.display, 1000 ); // uh oh! global
+```
+分析：当调用 setTimeout 时，JavaScript 在内部将 obj.display 赋给 setTimeout的回调参数 callback。这种**赋值操作会导致 display() 函数丢失其上下文**。当此函数最终在 setTimeout 函数里面被调用时，display()内部的 this 的值会退回至默认绑定。
+:::
+
+3. 主动绑定
+```js
+var name = "uh oh! global";
+var obj = {
+    ...
+};
+
+obj.display = obj.display.bind(obj); 
+var outerDisplay = obj.display;
+
+outerDisplay(); // Saurabh
+```
+分析：将 this 的值通过 bind() 方法绑定到对象上。即使我们将 obj.display 直接作为 callback 参数传递给函数，display() 内部的 this 也会正确地指向 obj。
+
 
 #### 忘记使用new
 如果你不是使用new来调用构造函数，那其实你就是在使用一个实函数。因此this就不会是你预期的值。this指向的就是window，而你将会创建全局变量（不过如果使用的是strict模式，那你还是会得到警告（this===undefined））。

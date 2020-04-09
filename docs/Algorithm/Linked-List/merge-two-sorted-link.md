@@ -17,3 +17,21 @@
 
 ## 3、代码实现
 
+## Caleb
+``` js
+function mergeList(head1, head2) {
+
+  if(head1 === null || head2 === null){
+    return head1 || head2
+  }
+  const head = null;
+  if(head1.val <= head2.val){
+    head = head1;
+    head.next = mergeList(head1.next, head2)
+  }else{
+    head = head2;
+    head.next = mergeList(head1, head2.next)
+  }
+}
+```
+

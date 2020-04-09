@@ -9,10 +9,12 @@ module.exports = {
         ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
     ],
     serviceWorker: true,
+    smoothScroll: true,
     themeConfig: {
+        logo: '/logo.png',
         sidebar: 'auto',
         sidebarDepth: 2,
-        activeHeaderLinks: false,
+        activeHeaderLinks: true,
         lastUpdated: 'Last Updated',
         nav: [
             { text: 'Home', link: '/' },
@@ -155,33 +157,57 @@ module.exports = {
                     ]
                 },
                 {
-                    title: 'ES6+',
+                    title: '工程化',
                     children: [
-                        '/Question-Bank/ES6/deconstruction',
-                        '/Question-Bank/ES6/deconstruction-function',
-                        '/Question-Bank/ES6/class-method',
+                        '/Question-Bank/Engineering/js-module',
                     ]
                 },
-                // {
-                //     title: 'TypeScript',
-                //     children: [
-                //         '/Question-Bank/typescript/查找',
-                //         '/Question-Bank/typescript/二维数组查找',
-                //         '/Question-Bank/typescript/旋转数组的最小数字',
-                //         '/Question-Bank/typescript/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'ES6+',
+                    children: [
+                        '/Question-Bank/ES6+/ES6',
+                        '/Question-Bank/ES6+/class-method',
+                    ]
+                },
+                {
+                    title: 'TypeScript',
+                    children: [
+                        '/Question-Bank/typescript/typescript-base',
+                        '/Question-Bank/typescript/type-difference',
+                        '/Question-Bank/typescript/ts-compatibility.md',
+                    ]
+                },
+                {
+                    title: 'MVVM',
+                    children: [
+                        '/Question-Bank/MVVM/mvvm-base.md',
+                    ]
+                },
                 {
                     title: 'React',
                     children: [
                         '/Question-Bank/react/element-component-instance-node',
-                        '/Question-Bank/react/Student',
-                        '/Question-Bank/react/time-console',
-                        '/Question-Bank/react/calling',
-                        '/Question-Bank/react/declare-react-router',
-                        '/Question-Bank/react/router-component-render-children',
+                        '/Question-Bank/react/SFC',
+                        '/Question-Bank/react/react-handle-this',
+                        '/Question-Bank/react/component-classify.md',
+                        '/Question-Bank/react/react-reuse.md',
                         '/Question-Bank/react/withClock',
                         '/Question-Bank/react/lifecycle',
+                        '/Question-Bank/react/Student',
+                        '/Question-Bank/react/jsx-render',
+                        '/Question-Bank/react/react-event.md',
+                        '/Question-Bank/react/setState.md',
+                        '/Question-Bank/react/react-virtual-dom.md',
+                        '/Question-Bank/react/refs.md',
+                        '/Question-Bank/react/children.md',
+                        '/Question-Bank/react/fiber.md',
+                        '/Question-Bank/react/react-other-points.md',
+                        '/Question-Bank/react/react-router-dom',
+                        '/Question-Bank/react/declare-react-router',
+                        '/Question-Bank/react/react-hooks.md',
+                        '/Question-Bank/react/function-vs-class.md',
+                        '/Question-Bank/react/black-magic-of-hooks.md',
+                        '/Question-Bank/react/time-console',
                     ]
                 },
                 {
@@ -327,8 +353,8 @@ module.exports = {
                 {
                     title: '第二期',
                     children: [
-                        '/Question-Bank/basic-grammar/async-await',
-                        '/Question-Bank/performance/process-eventloop',
+                        '/Question-Bank/execution/asynchronous-async&await',
+                        '/Question-Bank/browser/process-eventloop',
                     ]
                 }
             ],
@@ -348,13 +374,97 @@ module.exports = {
                         '/Algorithm/Linked-List/find-Kth-to-tail',
                     ]
                 },
+                {
+                    title: '树和二叉树',
+                    children: [
+                        '/Algorithm/Tree-and-Binary-Tree/',
+                        '/Algorithm/Tree-and-Binary-Tree/inorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/preorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/postorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree',
+                        '/Algorithm/Tree-and-Binary-Tree/get-HRD',
+                        '/Algorithm/Tree-and-Binary-Tree/is-symmetrical',
+                        '/Algorithm/Tree-and-Binary-Tree/mirror',
+                        '/Algorithm/Tree-and-Binary-Tree/kth-node',
+                        '/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST',
+                        '/Algorithm/Tree-and-Binary-Tree/max-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/min-depth',
+                        '/Algorithm/Tree-and-Binary-Tree/is-balanced',
+                    ]
+                },
             ]
         }
     },
+    plugins: [
+        ['flowchart'],  // 支持流程图
+        [
+            '@vuepress-reco/vuepress-plugin-bgm-player',  // BGM播放器
+            {
+                audios: [
+                    {name: 'Faster Than Light',artist: 'Andreas Waldetoft / Mia Stegmar',url: 'https://cdn-image.tsanfer.xyz/music/Andreas%20Waldetoft%2CMia%20Stegmar%20-%20Faster%20Than%20Light.mp3',cover: 'https://p1.music.126.net/Gxv6d9W4Yd9q9WNHPpi8rw==/1379887104073348.jpg'},
+                    {name: 'Dawn',artist: 'DDRKirby(ISQ)',url: 'https://cdn-image.tsanfer.xyz/music/Dawn%20-%20DDRKirby%28ISQ%29.mp3',cover: 'https://p2.music.126.net/IPnqMCk8YaN9inwYV2bdgQ==/18774161044446693.jpg'},
+                    {name: 'TRON Legacy (End Titles)',artist: 'Daft Punk',url: 'https://cdn-image.tsanfer.xyz/music/Daft%20Punk%20-%20TRON%20Legacy%20%28End%20Titles%29.mp3',cover: 'https://p2.music.126.net/qOOTIykbSLw9RHB0vI83GA==/737772302281958.jpg'},
+                    {name: 'Broken Boy',artist: 'Tonspender',url: 'https://cdn-image.tsanfer.xyz/music/Tonspender%20-%20Broken%20Boy.flac',cover: 'https://p2.music.126.net/4TnTRyHqa3-D2H1UnOa00w==/109951163666994621.jpg'},
+                    {name: 'Life Of Sin Pt. 4',artist: 'MitiS',url: 'https://cdn-image.tsanfer.xyz/music/MitiS%20-%20Life%20Of%20Sin%20Pt.%204.mp3',cover: 'https://p2.music.126.net/LmjTrSwvSLSNBsfFsQFO6g==/2533274793491743.jpg'},
+                    {name: 'Sea Of Voices (RAC Mix)',artist: 'Porter Robinson',url: 'https://cdn-image.tsanfer.xyz/music/Porter%20Robinson%20-%20Sea%20Of%20Voices%20%28RAC%20Mix%29.mp3',cover: 'https://p1.music.126.net/zjQROkEUokU7iS5eUvnVZQ==/3264450027161111.jpg'},
+                    {name: 'New Lipstick',artist: 'The Kissaway Trail',url: 'https://cdn-image.tsanfer.xyz/music/The%20Kissaway%20Trail%20-%20New%20Lipstick.flac',cover: 'https://p2.music.126.net/VjN74c1hoYgPCEZ9DngeQw==/109951163772624643.jpg'},
+                ],
+                floatPosition: 'left'
+            },
+        ],
+        [
+            'vuepress-plugin-container',
+            {
+              type: 'right',
+              defaultTitle: '',
+            },
+        ],
+        [
+            'vuepress-plugin-container',
+            {
+                type: 'theorem',
+                before: info => `<div class="theorem"><p class="title">${info}</p>`,
+                after: '</div>',
+            },
+        ],
+        [
+            'vuepress-plugin-helper-live2d', {
+              live2d: {
+                // 是否启用(关闭请设置为false)(default: true)
+                enable: true,
+                // 模型名称(default: hibiki)>>>取值请参考：
+                // https://github.com/JoeyBling/hexo-theme-yilia-plus/wiki/live2d%E6%A8%A1%E5%9E%8B%E5%8C%85%E5%B1%95%E7%A4%BA
+                model: 'hijiki',
+                display: {
+                  position: "right", // 显示位置：left/right(default: 'right')
+                  width: 290, // 模型的长度(default: 135)
+                  height: 400, // 模型的高度(default: 300)
+                  hOffset: 10, //  水平偏移(default: 65)
+                  vOffset: -20, //  垂直偏移(default: 0)
+                },
+                mobile: {
+                  show: false // 是否在移动设备上显示(default: false)
+                },
+                react: {
+                  opacity: 0.9 // 模型透明度(default: 0.8)
+                }
+              }
+            }
+        ],
+        ['@vuepress/back-to-top'],
+        ['vuepress-plugin-smooth-scroll'],  // 平滑滚动
+        ['@vuepress/nprogress'],  // 加载进度条
+        ['reading-progress'],  // 阅读进度条
+        ['@vuepress/active-header-links', {
+            sidebarLinkSelector: '.sidebar-link',
+            headerAnchorSelector: '.header-anchor'
+        }]
+            
+    ]
     // configureWebpack: {
     //     resolve: {
     //         alias: {
-    //             '@alias': 'path/to/some/dir'
+    //             '@public': 'docs/.vuepress/public'
     //         }
     //     }
     // }
