@@ -5,12 +5,12 @@
 
 #### 示例
 ```js
-输入: [1,null,2,3]  
+输入: [1,null,2,3]
    1
     \
      2
     /
-   3 
+   3
 输出: [3,2,1]
 ```
 请分别以 `递归`、`非递归` 方法实现？
@@ -91,7 +91,7 @@ const postorderTraversal = (root) => {
 }
 ```
 
-## niannings
+### niannings
 ```ts
 /**
  * 后续遍历算法：
@@ -122,5 +122,59 @@ export function backEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
         handler(s2.pop());
     }
 }
+```
+
+### febcat
+```js
+postorderTraversal(node = this.root) {
+    let postorderTraversalArr = [];
+
+    const loop = (node) => {
+        if (!node) {
+            return;
+        }
+
+        loop(node.left);
+        loop(node.right);
+        postorderTraversalArr.push(node.data);
+    }
+
+    loop(node);
+
+    console.log("后序排列:", postorderTraversalArr);
+    return postorderTraversalArr;
+}
+
+postorderTraversal2(node = this.root) {
+    if (!node) {
+      return;
+    }
+
+    let stack = [];
+    let postorderTraversalArr = [];
+    let hasRight = []; // 标记遍历过右子树
+
+    while (stack.length || node) {
+      if (node) {
+        stack.push(node);
+        node = node.left;
+      } else {
+        node = stack.slice(-1)[0]; // 暂存栈的末尾 不做出栈动作
+
+        // 存则右子树 同时 没有标记遍历右子树
+        if (node.right && !hasRight.includes(node.data)) {
+          hasRight.push(node.data);
+          node = node.right;
+        } else {
+          postorderTraversalArr.push(node.data);
+          stack.pop(); // 正常出栈操作
+          node = null;
+        }
+      }
+    }
+
+    console.log("后序遍历迭代：", postorderTraversalArr);
+    return postorderTraversalArr;
+  }
 ```
 
