@@ -18,18 +18,18 @@
 ## 1、基本应用
 > 主要是对链表基本概念和特性的应用，如果基础概念掌握牢靠，此类问题即可迎刃而解
 
- - [✔️从尾到头打印链表](/Algorithm/Linked-List/print-from-tail-to-head)
- - [✔️删除链表中重复的节点](/Algorithm/Linked-List/delete-repeat-node)
- - [✔️反转链表](/Algorithm/Linked-List/reverse-linked-list)
- - [✔️合并两个有序链表](/Algorithm/Linked-List/merge-two-sorted-link)
- - [✔️复杂链表的复制](/Algorithm/Linked-List/copy-complicated-linked-list)
+ - [✔️从尾到头打印链表](./print-from-tail-to-head)
+ - [✔️删除链表中重复的节点](./delete-repeat-node)
+ - [✔️反转链表](./reverse-linked-list)
+ - [✔️合并两个有序链表](./merge-two-sorted-link)
+ - [✔️复杂链表的复制](./copy-complicated-linked-list)
 
 ## 2、环类题目
 > 环类题目即从判断一个单链表是否存在循环而扩展衍生的问题
 
- - [✔️链表中环的入口结点](/Algorithm/Linked-List/entry-node-of-loop)
- - [环形链表](/Algorithm/Linked-List/deep-clone)
- - [约瑟夫环](/Algorithm/Linked-List/deep-clone)
+ - [✔️链表中环的入口结点](./entry-node-of-loop)
+ - [环形链表](./deep-clone)
+ - [约瑟夫环](./deep-clone)
 
 ## 3、双指针
 > 双指针的思想在链表和数组中的题目都经常会用到，主要是利用两个或多个不同位置的指针，通过速度和方向的变换解决问题。
@@ -39,15 +39,15 @@
 
 > 对于单链表，因为我们只能在一个方向上遍历链表，所以第一种情景可能无法工作。然而，第二种情景，也被称为慢指针和快指针技巧，是非常有用的。
 
- - [✔️两个链表的第一个公共节点](/Algorithm/Linked-List/find-first-common-node)
- - [✔️链表倒数第k个节点](/Algorithm/Linked-List/find-Kth-to-tail)
- - [相交链表](/Algorithm/Linked-List/deep-clone)
+ - [✔️两个链表的第一个公共节点](./find-first-common-node)
+ - [✔️链表倒数第k个节点](./find-Kth-to-tail)
+ - [相交链表](./deep-clone)
 
 ## 4、双向链表
 > 双链还有一个引用字段，称为prev字段。有了这个额外的字段，您就能够知道当前结点的前一个结点。
 
- - [扁平化多级双向链表](/Algorithm/Linked-List/deep-clone)
+ - [扁平化多级双向链表](./deep-clone)
 
 ## 5、未归类
 
- - [合并两个排序的链表](/Algorithm/Linked-List/deep-clone)
+ - [合并两个排序的链表](./deep-clone)

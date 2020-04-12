@@ -63,51 +63,58 @@
 
 #### 链表
 
- - [✔️从尾到头打印链表](/Algorithm/Linked-List/print-from-tail-to-head)
- - [✔️删除链表中重复的节点](/Algorithm/Linked-List/delete-repeat-node)
- - [✔️反转链表](/Algorithm/Linked-List/reverse-linked-list)
- - [✔️复杂链表的复制](/Algorithm/Linked-List/copy-complicated-linked-list)
- - [✔️链表中环的入口结点](/Algorithm/Linked-List/entry-node-of-loop)
+ - [:100:从尾到头打印链表](/Algorithm/Linked-List/print-from-tail-to-head)
+ - [:100:删除链表中重复的节点](/Algorithm/Linked-List/delete-repeat-node)
+ - [:100:反转链表](/Algorithm/Linked-List/reverse-linked-list)
+ - [:100:复杂链表的复制](/Algorithm/Linked-List/copy-complicated-linked-list)
+ - [:100:链表中环的入口结点](/Algorithm/Linked-List/entry-node-of-loop)
  - [环形链表](/Algorithm/Linked-List/deep-clone)
  - [约瑟夫环](/Algorithm/Linked-List/deep-clone)
- - [✔️两个链表的第一个公共节点](/Algorithm/Linked-List/find-first-common-node)
- - [✔️链表倒数第k个节点](/Algorithm/Linked-List/find-Kth-to-tail)
+ - [:100:两个链表的第一个公共节点](/Algorithm/Linked-List/find-first-common-node)
+ - [:100:链表倒数第k个节点](/Algorithm/Linked-List/find-Kth-to-tail)
  - [相交链表](/Algorithm/Linked-List/deep-clone)
  - [扁平化多级双向链表](/Algorithm/Linked-List/deep-clone)
  - [合并两个排序的链表](/Algorithm/Linked-List/deep-clone)
 
 #### 数组
-  - [✔️完美实现深拷贝](/Algorithm/Array/deep-clone)
+  - [xxx](/Algorithm/Array/deep-clone)
 
 #### 栈和队列
-  - [完美实现深拷贝](/Algorithm/Stack-and-Queue/deep-clone)
+  - [xxx](/Algorithm/Stack-and-Queue/deep-clone)
 
 #### 树和二叉树
-  - [完美实现深拷贝](/Algorithm/Tree-and-Binary-Tree/deep-clone)
+  - [xxx](/Algorithm/Tree-and-Binary-Tree/deep-clone)
 
 #### 字符串
-  - [完美实现深拷贝](/Algorithm/String/deep-clone)
+  - [xxx](/Algorithm/String/deep-clone)
 
-#### 递归与循环
-  - [完美实现深拷贝](/Algorithm/Recursion-and-Loop/deep-clone)
+#### 递归
+  - [:100:汉诺塔问题](/Algorithm/Recursion/hanota.md)
 
 #### 查找
-  - [完美实现深拷贝](/Algorithm/Search/deep-clone)
+  - [xxx](/Algorithm/Search/deep-clone)
 
 #### 位运算
-  - [完美实现深拷贝](/Algorithm/Bitwise/deep-clone)
+  - [xxx](/Algorithm/Bitwise/deep-clone)
 
 #### 回溯法
-  - [完美实现深拷贝](/Algorithm/Backtracking/deep-clone)
+  - [xxx](/Algorithm/Backtracking/deep-clone)
 
 #### 数学
-  - [完美实现深拷贝](/Algorithm/Math/deep-clone)
+  - [xxx](/Algorithm/Math/deep-clone)
 
 #### 哈希表
-  - [完美实现深拷贝](/Algorithm/Hashtable/deep-clone)
+  - [xxx](/Algorithm/Hashtable/deep-clone)
 
 #### 堆
-  - [完美实现深拷贝](/Algorithm/Heap/deep-clone)
+  - [xxx](/Algorithm/Heap/deep-clone)
 
-#### 其他
-  - [完美实现深拷贝](/Algorithm/Other/deep-clone)
+#### 贪心算法
+  - [:100:买卖股票的最佳时机](./Greedy/maxProfit.md)
+  - [:100:买卖股票的最佳时机 II](./Greedy/maxProfit2.md)
+  - [:100:柠檬水找零](./Greedy/lemonadeChange.md)
+
+#### 动态规划与
+  - [:100:不同路径](/Algorithm/Dynamic-Programming/uniquePaths.md)
+  - [:100:不同路径 II](/Algorithm/Dynamic-Programming/uniquePaths2.md)
+  - [:100:K 站中转内最便宜的航班](/Algorithm/Dynamic-Programming/within-k-stops/)

@@ -74,41 +74,4 @@ updateEmployeeBankCard(obj) {
 ```
 通过Object.assign，给监听对象**重新分配一个新对象**（`新的栈内存地址会促使重新执行监听初始化`）方式，注意和文章开头部分写法的微小区别。
 
-### 关于这一块，vue也有相似的问题处理
-
-1. 由于 性能的考量，Vue **不能检测以下两种`数组`的变动**:
-    - 利用索引直接设置一个数组项时，例如：`vm.items[index] = newValue`，解决方式：
-    ```js
-    // Vue.set
-    Vue.set(vm.items, index, newValue)
-    // 等价于 (vm.$set 实例方法是全局方法 Vue.set 的一个别名)
-    vm.$set(vm.items, index, newValue)
-    
-    // 或 Array.prototype.splice
-    vm.items.splice(index, 1, newValue)
-    ```
-    - 修改数组的长度时，例如：`vm.items.length = newLength`，解决方式：`vm.items.splice(newLength)`
-2. 由于 JS 的限制，Vue **不能检测`对象属性`的添加或删除**，对于已经创建的实例，Vue 不允许动态添加根级别的响应式属性：
-- 解决方式：
-    - 单个属性添加：
-    ```js
-    // 可以使用 方法向嵌套对象添加响应式属性。
-    Vue.set(obj, propertyName, value)
-    vm.$set(obj, propertyName, value)
-    ```
-    - 赋值多个新属性：应该`用两个对象的属性创建一个新的对象`，新的内存地址会促使重新添加监听。
-    ```js
-    // 不要像下面这样：
-    vm.profile = Object.assign(vm.profile, { age: 27 });
-
-    // 正确的做法：使用合并对象创建一个新对象，新的内存地址会促使重新添加监听
-    vm.profile = Object.assign({}, vm.profile, { age: 27 });
-    ```
-    - 单个属性删除：
-    ```js
-    Vue.delete(obj, key)
-    vm.$delete(obj, key)
-    ```
-
-参考链接：[记一次思否问答的问题思考：Vue为什么不能检测数组变动](https://segmentfault.com/a/1190000015783546)
-
+关于这一块，vue也有相似的问题处理：传送门[vue中数据劫持的明显缺点（两点）](../MVVM/mvvm-base.html#_4-vue中数据劫持的明显缺点（两点）：)
