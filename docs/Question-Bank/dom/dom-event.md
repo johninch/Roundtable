@@ -58,9 +58,9 @@ setTimeout(function() {
 - 事件代理利用两个js事件特性：事件冒泡、目标元素。
 - 使用事件代理的话我们可以把事件处理器添加到一个祖先元素上，等待事件从它的子级元素里冒泡上来，并且可以很方便地判断出这个事件是从哪个元素开始的。
 ```js
-var liList = document.getElementById("list");
+var ulNode = document.getElementById("ul");
 
-liList.addEventListener('click', function(e) {
+ulNode.addEventListener('click', function(e) {
   if (e.target && e.target.tagName.toLowrCase() === 'li') {
     //需要执行的代码
   }

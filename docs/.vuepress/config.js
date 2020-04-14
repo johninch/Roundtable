@@ -72,11 +72,14 @@ module.exports = {
                         '/Question-Bank/basic-grammar/bind-implementation',
                         '/Question-Bank/basic-grammar/debounce',
                         '/Question-Bank/basic-grammar/fibonacci',
-                        '/Question-Bank/basic-grammar/upload',
                         '/Question-Bank/basic-grammar/print-all-directory-file',
                         '/Question-Bank/basic-grammar/type-judge',
                         '/Question-Bank/basic-grammar/li-index',
                         '/Question-Bank/basic-grammar/football-people',
+                        '/Question-Bank/basic-grammar/back-to-top',
+                        '/Question-Bank/basic-grammar/curry',
+                        '/Question-Bank/basic-grammar/js-querySelector',
+                        '/Question-Bank/basic-grammar/js-tricks',
                     ]
                 },
                 {
@@ -129,6 +132,10 @@ module.exports = {
                         '/Question-Bank/communication/internet-base',
                         '/Question-Bank/communication/cross-domain',
                         '/Question-Bank/communication/cors',
+                        '/Question-Bank/communication/upload',
+                        '/Question-Bank/communication/download',
+                        '/Question-Bank/communication/json',
+                        '/Question-Bank/communication/axios',
                     ]
                 },
                 {
@@ -138,6 +145,7 @@ module.exports = {
                         '/Question-Bank/browser/render',
                         '/Question-Bank/browser/performance',
                         '/Question-Bank/browser/process-eventloop',
+                        '/Question-Bank/browser/from-url-input',
                         '/Question-Bank/browser/memory-or-disk-cache',
                     ]
                 },
@@ -151,6 +159,7 @@ module.exports = {
                     title: '正则表达式',
                     children: [
                         '/Question-Bank/regular-expression/reg-base',
+                        '/Question-Bank/regular-expression/handle-string',
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
@@ -160,6 +169,9 @@ module.exports = {
                     title: '工程化',
                     children: [
                         '/Question-Bank/Engineering/js-module',
+                        '/Question-Bank/Engineering/css-naming-standard',
+                        '/Question-Bank/Engineering/repo-naming-standard',
+                        '/Question-Bank/Engineering/design-patterns',
                     ]
                 },
                 {
@@ -214,12 +226,14 @@ module.exports = {
                     title: 'Vue',
                     children: [
                         '/Question-Bank/vue/vue-base',
-                        '/Question-Bank/vue/customized-v-model',
+                        '/Question-Bank/vue/vue-router',
+                        '/Question-Bank/vue/vuex',
+                        '/Question-Bank/vue/watch',
                         '/Question-Bank/vue/listeners-and-attrs',
+                        '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
                         '/Question-Bank/vue/v-search-select',
                         '/Question-Bank/vue/v-infinite-scroll',
-                        '/Question-Bank/vue/watch'
                     ]
                 },
                 {
@@ -229,38 +243,26 @@ module.exports = {
                     ]
                 },
                 {
-                    title: '包管理',
+                    title: '包管理 Npm & Yarn',
                     children: [
                         '/Question-Bank/pkgmanage/package.lock.json',
                     ]
                 },
-                // {
-                //     title: 'Webpack & Babel',
-                //     children: [
-                //         '/Question-Bank/webpack-babel/查找',
-                //         '/Question-Bank/webpack-babel/二维数组查找',
-                //         '/Question-Bank/webpack-babel/旋转数组的最小数字',
-                //         '/Question-Bank/webpack-babel/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: 'Git',
-                //     children: [
-                //         '/Question-Bank/git/查找',
-                //         '/Question-Bank/git/二维数组查找',
-                //         '/Question-Bank/git/旋转数组的最小数字',
-                //         '/Question-Bank/git/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: 'Npm & Yarn',
-                //     children: [
-                //         '/Question-Bank/npm-yarn/查找',
-                //         '/Question-Bank/npm-yarn/二维数组查找',
-                //         '/Question-Bank/npm-yarn/旋转数组的最小数字',
-                //         '/Question-Bank/npm-yarn/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'Webpack',
+                    children: [
+                        '/Question-Bank/webpack/babel',
+                        '/Question-Bank/webpack/code-splitting',
+                    ]
+                },
+                {
+                    title: 'Git',
+                    children: [
+                        '/Question-Bank/git/base',
+                        '/Question-Bank/git/git-stash',
+                        '/Question-Bank/git/git-bisect',
+                    ]
+                },
                 // {
                 //     title: 'ESlint',
                 //     children: [
@@ -288,8 +290,6 @@ module.exports = {
                         '/Question-Bank/work-practices/css-module',
                         '/Question-Bank/work-practices/eslintPrettier',
                         '/Question-Bank/work-practices/i18n',
-                        '/Question-Bank/work-practices/range-download',
-                        '/Question-Bank/work-practices/range-breakpoint-download',
                     ]
                 },
                 {
@@ -298,15 +298,6 @@ module.exports = {
                         '/Wanted/pwa',
                     ]
                 },
-                // {
-                //     title: '待分类',
-                //     children: [
-                //         '/Question-Bank/eslint/查找',
-                //         '/Question-Bank/eslint/二维数组查找',
-                //         '/Question-Bank/eslint/旋转数组的最小数字',
-                //         '/Question-Bank/eslint/在排序数组中查找数字',
-                //     ]
-                // },
             ],
             '/Wanted/': [
                 {
@@ -391,6 +382,15 @@ module.exports = {
                         '/Algorithm/Tree-and-Binary-Tree/max-depth',
                         '/Algorithm/Tree-and-Binary-Tree/min-depth',
                         '/Algorithm/Tree-and-Binary-Tree/is-balanced',
+                    ]
+                },
+                {
+                    title: '排序',
+                    children: [
+                        '/Algorithm/sort/',
+                        '/Algorithm/sort/fast-sort.md',
+                        '/Algorithm/sort/selection-sort.md',
+                        '/Algorithm/sort/shell-sort.md',
                     ]
                 },
                 {

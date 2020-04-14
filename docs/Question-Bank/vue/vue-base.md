@@ -38,7 +38,7 @@ Object.defineProperty的优势如下:
 
 ::: tip AST是VNode吗
 - AST是指抽象语法树（abstract syntax tree），或者语法树（syntax tree），是源代码的抽象语法结构的树状表现形式。Vue在mount过程中，template会被编译成AST语法树。
-- 然后，经过generate（将AST语法树转化成render function字符串的过程）得到render函数，返回VNode。即 `VNode所有渲染函数得出的真实DOM的抽象`。
+- 然后，经过generate（将AST语法树转化成render function字符串的过程）得到render函数，返回VNode。即 `VNode是由渲染函数得出的真实DOM的抽象`。
 :::
 
 ## 既然Vue通过数据劫持可以精准探测数据变化，为什么还需要虚拟DOM进行diff检测差异? 「pull、push」
@@ -76,6 +76,7 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 - ref 获取实例的方式调用组件的属性或者方法；
 - 获取父子组件实例 $parent、$children，耦合性太强，不推荐使用；
 - 使用 slot 插槽；
+
 ### 2、兄弟组件通信
 - EventBus：通过EventBus（一个空的 Vue 实例作为中央事件中心）进行信息的发布与订阅，实现跨组件通信。（Vue.prototype.$bus = new Vue）
 - Vuex
@@ -83,22 +84,18 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 - Vuex：Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。“store”是一个容器，包含着应用中大部分的状态 ( state )。**Vuex与单纯的全局对象差别**在于：
     - Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。
     - 改变 store 中的状态的唯一途径就是显式地提交  (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化。
-::: details Vuex组成
-- State：定义了应用状态的数据结构，可以在这里设置默认的初始状态。
-- Getter：允许组件从 Store 中获取数据，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性。
-- Mutation：是唯一更改 store 中状态的方法，且必须是同步函数。
-- Action：用于提交 mutation，而不是直接变更状态，可以包含任意异步操作。
-- Module：允许将单一的 Store 拆分为多个 store 且同时保存在单一的状态树中。
-:::
-::: details 为什么Vuex中mutation不能执行异步操作
-每个mutation执行完成后都会对应到一个新的状态变更，这样devtools就可以打个快照存下来，然后就可以实现 time-travel 了。
-如果mutation支持异步操作，就没有办法知道状态是何时更新的，无法很好的进行状态的追踪，给调试带来困难。
-:::
+- Provide、inject：官方不推荐使用，但是写组件库时很常用。允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深。
+- 通过根实例$root访问。
 - $attrs、$listeners
     - $attrs：包含了父作用域中不被 prop 所识别 (且获取) 的特性绑定 ( class 和 style 除外 )。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 ( class 和 style 除外 )，并且可以通过 v-bind="$attrs" 传入内部组件。通常配合 inheritAttrs 选项一起使用。
     - $listeners：包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件。
-- Provide、inject：官方不推荐使用，但是写组件库时很常用。允许一个祖先组件向其所有子孙后代注入一个依赖，不论组件层次有多深。
-- 通过根实例$root访问。
+    
+#### 非prop特性
+*非prop特性: 一个非 prop 特性是指传向一个组件，但是该组件并没有相应 prop 定义的特性。*
+
+这种特性的意思是：没有被定义为 prop 的特性会`以HTML特性形式`，自动添加到`组件的根元素上`，将已有的**同名特性进行替换**或**与其进行智能合并**：
+- **替换/合并已有的特性**：这里的`以HTML特性形式`传到根元素，是当做dom属性传给根元素，并不是当做组件属性传给根元素的，即如果根组件是个封装组件，而不是原生标签的话，非props属性也只是当做普通dom属性传给根组件，想要当做组件属性传给根组件使用，还是要主动v-bind="$attrs"。
+- **禁用特性继承**：`inheritAttrs: false` 是不影响class与style的，它与 **$attrs** 配合，你就禁用根组件继承，并可以v-bind到非根元素上了。
 
 ## nextTick 实现原理是什么？
 在下次 DOM 更新循环结束后执行延迟回调，在修改数据之后立即使用 nextTick 来获取更新后的 DOM。nextTick主要使用了宏任务和微任务。根据执行环境分别尝试采用：
@@ -127,6 +124,16 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 - **destroyed**：发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
 - *activited*：keep-alive 专属，组件被激活时调用。
 - *deactivated*：keep-alive 专属，组件被销毁时调用。
+
+#### this.$refs为什么会是undefined
+父组件可以通过this.$refs.xx.fn调用子组件里的函数，但是有时会出现 fn 未定义的情况，这是为什么呢？
+
+`$refs` 只会在组件`渲染完成之后生效`，并且它们`不是响应式的`。这仅作为一个用于直接操作子组件的“逃生舱”——你**应该避免在模板或计算属性中访问** `$refs`。
+
+**解决办法**：
+1. 如果你在mounted里获取this.$refs，因为dom还未完全加载，所以你是拿不到的，update阶段则是完成了数据更新到 DOM 的阶段(对加载回来的数据进行处理)，此时，就可以使用this.$refs了。
+2、如果写在method中，那么可以使用 this.$nextTick(() => {}) 等页面渲染好再调用，这样就可以了。
+
 
 ## Vue中父子组件生命周期执行顺序
 
@@ -194,14 +201,14 @@ mounted(){
 ## Vue事件绑定原理说一下
     原生事件绑定是通过addEventListener绑定给真实元素的，组件事件绑定是通过Vue自定义的$on实现的。
 
-## Vue模版编译原理?
-简单说，Vue的编译过程就是将template转化为render函数的过程。会经历以下阶段：
+## Vue模版编译原理（compiler）?
+简单说，Vue complier 是将 template 转化成一个 render 字符串。会经历以下阶段：
 
-1. 生成AST树：
+1. **parse过程（生成AST树）**：
     - 首先解析模版，生成`AST语法树`(一种用JavaScript对象的形式来描述整个模板)。使用`大量的正则表达式对模板进行解析`，遇到标签、文本的时候都会执行对应的钩子进行相关处理。
-2. 优化：
+2. **optimize过程（优化，标记静态节点diff跳过）**：
     - Vue的数据是响应式的，但`其实模板中并不是所有的数据都是响应式的`。有一些数据首次渲染后就不会再变化，对应的DOM也不会变化。那么优化过程就是`深度遍历AST树`，按照相关条件对树节点进行标记。这些`被标记的节点(静态节点)`我们就可以`跳过对它们的比对`，对运行时的模板起到很大的优化作用。
-3. code generate：
+3. **generate过程（生成render字符串）**：
     - 编译的最后一步是`将优化后的AST树转换为可执行的代码，即render函数`（而render函数会返回VNode）。
 
 ## Vue双向绑定原理实现
@@ -224,6 +231,20 @@ View 变化更新 Data ，可以通过事件监听的方式来实现，所以 Vu
 Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
 Vue3.x借鉴了 ivi算法和 inferno算法，在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。该算法中还运用了`动态规划`的思想求解最长递归子序列。
 
+::: details
+比较只会在同层级进行, 不会跨层级比较，复杂度为O(n)。
+如果不值得比较时，新节点直接把老节点整个替换了；如果值得比较会执行patchVnode(oldVnode, vnode)，diff的核心实现主要通过两个方法，patchVnode 与 updateChildren 。
+patchVnode 有两个参数，分别是老节点 oldVnode, 新节点 vnode 。主要分五种比较情况：
+- if (oldVnode === vnode)，他们的引用一致，可以认为没有变化。
+- if(oldVnode.text !== null && vnode.text !== null && oldVnode.text !== vnode.text)，文本节点的比较，需要修改，则会调用Node.textContent = vnode.text。
+- if( oldCh && ch && oldCh !== ch ), 两个节点都有子节点，而且它们不一样，这样我们会调用 updateChildren 函数比较子节点，这是diff的核心，后边会讲到。
+- if (ch)，只有新的节点有子节点，调用createEle(vnode)，vnode.el已经引用了老的dom节点，createEle函数会在老dom节点上添加子节点。
+- if (oldCh)，新节点没有子节点，老节点有子节点，直接删除老节点。
+updateChildren 是关键，这个过程可以概括如下：
+
+oldCh 和 newCh 各有两个头尾的变量 StartIdx 和 EndIdx ，它们的2个变量相互比较，一共有4种比较方式。如果 4 种比较都没匹配，如果设置了key，就会用key进行比较，在比较的过程中，变量会往中间靠，一旦 StartIdx > EndIdx 表明 oldCh 和 newCh 至少有一个已经遍历完了，就会结束比较。
+:::
+
 ## Vue中的key到底有什么用
 key是为Vue中的vnode唯一标记id，通过这个key，diff操作可以更准确、更快速。
 
@@ -231,8 +252,9 @@ key是为Vue中的vnode唯一标记id，通过这个key，diff操作可以更准
 - **快速**: key的唯一性可以被Map数据结构充分利用，相比于遍历查找的时间复杂度`O(n)`，Map的时间复杂度仅仅为`O(1)`.
 
 ## 虚拟Dom以及key属性的作用
-由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的产生原因。
-Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。(也就是源码中的VNode类，它定义在src/core/vdom/vnode.js中。)
+（首先明白：使用document.CreateElement 和 document.CreateTextNode创建的就是真实节点）由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的产生原因。
+
+Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。
 
 VirtualDOM映射到真实DOM要经历VNode的create、diff、patch等阶段。
 
@@ -247,21 +269,6 @@ keep-alive可以实现`组件缓存`，当组件切换时不会对当前组件�
     - max 表示允许缓存的组件数目，如果超出，keep-alive 会通过 `LRU(Least Recently Used)`-最近最少使用算法，来丢弃最久未被使用的组件。
 - 两个生命周期`activated/deactivated`，用来得知当前组件是否处于活跃状态。
 
-## vue-router导航守卫
-
-- 全局前置/钩子：beforeEach、beforeResolve、afterEach
-- 路由独享的守卫：beforeEnter
-- 组件内的守卫：beforeRouteEnter、beforeRouteUpdate、beforeRouteLeave
-
-完整的导航解析流程见官网：[完整的导航解析流程](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%AE%8C%E6%95%B4%E7%9A%84%E5%AF%BC%E8%88%AA%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B)
-
-## vue-router模式
-
-传送门:[前端路由模式](../bom/router.html#前端路由模式)
-
-- hash：使用 URL hash 值来作路由。支持所有浏览器，包括不支持 HTML5 History Api 的浏览器；
-- history：依赖 HTML5 History API 和服务器配置。具体可以查看 HTML5 History 模式；
-- abstract：支持所有 JavaScript 运行环境，如 Node.js 服务器端。如果发现没有浏览器的 API，路由会自动强制进入这个模式。
 
 ## Vue SSR
 SSR也就是服务端渲染，也就是**将Vue在客户端把标签渲染成HTML的工作放在`服务端完成`，然后再把html片段直接返回给客户端**。

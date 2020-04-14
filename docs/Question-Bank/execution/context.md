@@ -26,6 +26,100 @@ categories: execution
 3. 这样依次执行（最终都会回到全局执行上下文）。
 4. 当前执行上下文执行完毕时，被弹出执行栈，然后如果其没有被引用（没有形成闭包），那么这个函数中用到的内存就会被垃圾处理器*自动回收*。
 
+::: details 例题：函数与变量提升
+这题就像脑筋急转弯：
+```js
+function Foo() {
+    getName = function() {
+        console.log(1)
+    }
+    return this
+}
+
+Foo.getName = function() {
+    console.log(2)
+}
+
+Foo.prototype.getName = function() {
+    console.log(3)
+}
+
+var getName = function() {
+    console.log(4)
+}
+
+function getName() {
+    console.log(5)
+}
+
+// 请写出如下输出结果：
+Foo.getName()               // (1)
+getName()                   // (2)
+Foo().getName()             // (3)
+getName()                   // (4)
+new Foo.getName()           // (5)
+new Foo().getName()         // (6)
+new new Foo().getName()     // (7)
+```
+要解出这道题，关键要搞懂两个知识点：函数变量提升 与 运算优先级。
+首先，输出4与5的两处是有变量提升的，提升后如下：
+```js
+// 提升到顶部
+var getName;
+function getName() {
+    console.log(5)
+}
+
+function Foo() {
+    getName = function() {
+        console.log(1)
+    }
+    return this
+}
+
+Foo.getName = function() {
+    console.log(2)
+}
+
+Foo.prototype.getName = function() {
+    console.log(3)
+}
+
+// 声明提升到顶部，但函数体还在原处
+getName = function() {
+    console.log(4)
+}
+
+// 声明与函数体整体提升到顶部
+// function getName() {
+//     console.log(5)
+// }
+```
+因此，(1)到(4)输出如下：
+```js
+Foo.getName()               // (1)：输出2，直接调用Foo的静态方法
+getName()                   // (2)：输出4，由于赋值为4的函数体在最后执行，给getName最终赋值为4
+Foo().getName()             // (3)：输出1，调用函数Foo，返回this，其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
+getName()                   // (4)：输出1，由于前一步中对全局getName变量重新赋值为1，因此这里还是打印1
+```
+再考虑第二个关键知识点，运算符优先级：**`()` > `.` > `带参数New` > `无参数New`**，因此(5)到(7)输出如下：
+```js
+new Foo.getName()           // (5)：输出2，因为.的优先级大于new，先得出2，new 2，最终输出2
+new Foo().getName()         // (6)：输出3，因为()的优先级大于. ，因此new Foo()先实例化得到foo，再计算foo.getName()，则会从原型上找到方法，输出3
+new new Foo().getName()     // (7)：输出3，因为第二个new是带参数的new操作符，所以new Foo()先实例化得到foo，原式等价于new foo.getName()，先计算.操作符得到3，new 3，得到最终3
+```
+至此，最终结果为：
+```js
+// 请写出如下输出结果：
+Foo.getName()               // (1)：2
+getName()                   // (2)：4
+Foo().getName()             // (3)：1
+getName()                   // (4)：1
+new Foo.getName()           // (5)：2
+new Foo().getName()         // (6)：3
+new new Foo().getName()     // (7)：3
+```
+:::
 ### 怎样理解“父作用域”
 **注意**：函数的父级作用域是指函数定义的时候的父级作用域，不是指执行时候的父级作用域。
 - 函数的局部环境不仅有权访问函数作用域中的变量，而且有权访问其包含(父)环境，乃至全局环境;
@@ -142,6 +236,42 @@ console.log(x); // 7
 console.log(y); // 5
 ```
 
+#### 例题1
+```js
+var name = 'tiger'
+
+var handle = function() {
+    var name = 'fintech'
+    return `${name}-${this.name}`
+}
+
+var departments = {
+    name: 'trade',
+    getName: function() {
+        return `${name}-${this.name}`
+    },
+    esop: {
+        name: 'fe',
+        getName: function() {
+            return `${name}-${this.name}`
+        },
+    },
+    other: {
+        name: 'dev',
+        getName: function() {
+            return `${name}-${this.name}`
+        },
+    }
+}
+
+var getName = departments.getName;
+
+console.log(handle()) // fintech-tiger
+console.log(getName()) // tiger-tiger
+console.log(departments.getName()) // tiger-trade，注意隐式绑定回退到默认
+console.log(departments.esop.getName()) // tiger-fe
+console.log(departments.other.getName()) // tiger-tiger
+```
 
 ## 闭包
 

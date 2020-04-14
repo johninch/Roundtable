@@ -248,7 +248,6 @@ class Animal {
 console.log(Animal.num); // 42
 ```
 
-
 ### 静态方法
 - 在一个方法前，加上static关键字，就表示`该方法不会被实例继承`，而是`直接通过类来调用`，这就称为“`静态方法`”。
 - 如果静态方法包含this关键字，这个this指的是类，而不是实例。
@@ -275,6 +274,40 @@ class Bar extends Foo {
 }
 Bar.classMethod() // 'hello'，可被继承
 ```
+
+::: details 例题：函数方法优先级
+函数方法优先级：`实例追加方法` > `构造函数方法` > `原型对象方法` > `（报错）构造函数的静态方法`
+```js
+function Foo() {
+  this.print = function() {
+    // 构造函数this上，优先级2
+    console.log('Ctor function')
+  }
+}
+
+Foo.print = function() {
+  // 构造函数静态方法，优先级4，且实例取不到会报错
+  console.log('static function')
+}
+
+Foo.prototype.print = function() {
+  // 原型方法，优先级3
+  console.log('prototype function')
+}
+
+var foo = new Foo()
+
+foo.print = function() {
+  // 实例追加方法，优先级1
+  console.log('instance function')
+}
+
+a.print()
+```
+此题定义了4种方法，按注释提示，上题会输出`'instance function'`，依次注释掉会按顺序输出不同结果，如果只有构造函数的静态方法会报错，因为a是取不到的。
+
+**注意**：*通常会把原型链上的方法叫做实例方法，因为实例上一版不会追加方法，通过实例调用就会去原型链上找。*
+:::
 
 ### this指向问题
 类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法（比如从实例中解构出来单独使用），很可能报错。
