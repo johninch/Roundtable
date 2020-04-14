@@ -387,10 +387,10 @@ module.exports = {
                 {
                     title: '排序',
                     children: [
-                        '/Algorithm/sort/',
-                        '/Algorithm/sort/fast-sort.md',
-                        '/Algorithm/sort/selection-sort.md',
-                        '/Algorithm/sort/shell-sort.md',
+                        '/Algorithm/Sort/',
+                        '/Algorithm/Sort/fast-sort.md',
+                        '/Algorithm/Sort/selection-sort.md',
+                        '/Algorithm/Sort/shell-sort.md',
                     ]
                 },
                 {
