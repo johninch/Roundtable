@@ -89,6 +89,7 @@
   - [:100:异步编程（2）：Promise对象](./execution/asynchronous-promise.md)
   - [:100:异步编程（3）：Generator函数](./execution/asynchronous-gen.md)
   - [:100:异步编程（4）：async、await](./execution/asynchronous-async&await.md)
+  - [:100:深入javascript运行机制--部分](./execution/深入javascript运行机制--部分.md)
 
 #### css相关
   - [:100:多种方式实现三栏布局](./css/layout-3-col.md)

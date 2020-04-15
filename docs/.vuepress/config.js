@@ -100,6 +100,7 @@ module.exports = {
                         '/Question-Bank/execution/asynchronous-promise',
                         '/Question-Bank/execution/asynchronous-gen',
                         '/Question-Bank/execution/asynchronous-async&await',
+                        '/Question-Bank/execution/深入javascript运行机制--部分'
                     ]
                 },
                 {
