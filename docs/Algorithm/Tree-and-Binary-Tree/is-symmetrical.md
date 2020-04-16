@@ -82,3 +82,39 @@ function isSymmetric(tree: IBinaryTree) {
     return true;
 }
 ```
+
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+// 判断是否是平衡二叉树
+// 所有节点左右子树高度差不超过1
+isSymmetrical(){
+    if (!this.root) return false;
+    return this._isSymmetrical(this.root.left, this.root.right);
+}
+_isSymmetrical(node1, node2){
+    // console.log(node1, node2)
+    if (node1 === null || node2 === null) {
+        if (node1 === null && node2 === null) {
+            return true;
+        }
+        return false;
+    }
+    
+    if (node1.value !== node2.value){
+        return false;
+    }
+    return this._isSymmetrical(node1.left, node2.right) && this._isSymmetrical(node1.right, node2.left);
+}
+```
+
+#### 代码测试
+```js
+const t1 = new Tree([8, 6, 6, 5, 7, 7, 5, 1, 2, 3, 4, 4, 3, 2, 1]);
+console.log(t1.isSymmetrical());
+const t2 = new Tree([8, 6, 9, 5, 7, 7, 5]);
+console.log(t2.isSymmetrical());
+const t3 = new Tree([7, 7, 7, 7, 7, 7]);
+console.log(t3.isSymmetrical());
+```

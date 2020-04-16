@@ -57,4 +57,19 @@ var getHRD = () => {
 }
 ```
 
-
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+getDLR(preOrder, inOrder){
+    // 重建二叉树
+    this.reconstructionTree(preOrder, inOrder);
+    // 后序遍历输出
+    this.LRD_recursive();
+}
+```
+#### 测试
+```js
+const tree = new Tree();
+tree.getDLR(['B', 'A', 'D', 'E', 'C', 'F', 'G'], ['D', 'A', 'E', 'B', 'F', 'C', 'G']);
+```

@@ -76,3 +76,35 @@ export function rebuildTree(frontEachList: any[], middleEachList: any[]) {
     return tree;
 }
 ```
+
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 代码实现
+```js
+// 输入二叉树的前序遍历和中序遍历，重建该二叉树；假设前序遍历和中序遍历结果中都不含重复的数字
+reconstructionTree(preOrder, inOrder){
+    this.root = this._reconstructionTree(preOrder, inOrder);
+}
+_reconstructionTree(preOrder, inOrder) {
+    if (!preOrder || preOrder.length === 0 || !inOrder || inOrder.length === 0) return null;
+    const value = preOrder.shift();
+    const node = new TreeNode(value);
+    const index = inOrder.indexOf(value)
+    const leftInOrder = inOrder.slice(0, index);
+    const rightInOrder = inOrder.slice(index + 1, inOrder.length);
+    const leftPreOrder = preOrder.slice(0, leftInOrder.length);
+    const rightPreOrder = preOrder.slice(leftInOrder.length, preOrder.length);
+    
+    node.left = this._reconstructionTree(leftPreOrder, leftInOrder);
+    node.right = this._reconstructionTree(rightPreOrder, rightInOrder);
+
+    return node;
+}
+```
+
+#### 代码测试
+```js
+const tree = new Tree();
+tree.reconstructionTree(['B', 'A', 'D', 'E', 'C', 'F', 'G'], ['D', 'A', 'E', 'B', 'F', 'C', 'G']);
+tree.LRD_recursive()
+```

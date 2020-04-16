@@ -90,3 +90,56 @@ export function frontEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
     }
 }
 ```
+
+### superwyk
+树基本结构[参见](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal.html#%E6%A0%91%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84)
+#### 前序遍历，递归实现
+```js
+// 前序遍历，使用递归
+DLR_recursive(node = this.root){
+    if(node){
+        console.log(node.value);
+        this.DLR_recursive(node.left);
+        this.DLR_recursive(node.right);
+    }
+}
+```
+
+#### 前序遍历，非递归实现
+```js
+// 前序遍历，使用非递归-堆栈
+DLR_stack(){
+    const stack = []; // 用来保存中间节点的堆栈
+    const leftStack = []; // 用来保存左边节点的堆栈
+    let node = this.root;
+    if(node){
+        stack.push(node);
+        console.log(node.value);
+        if(node.left){
+            leftStack.push(node.left);
+        }
+        while(leftStack.length > 0 || stack.length > 0){
+            if (leftStack.length > 0) {
+                node = leftStack.pop();
+                if(node.left){
+                    leftStack.push(node.left);
+                }
+                stack.push(node);
+                console.log(node.value);
+            } else {
+                node = stack.pop();
+                if(node.right){
+                    leftStack.push(node.right);
+                }
+            }
+        }
+    }
+}
+```
+
+#### 前序遍历，测试
+```js
+const tree = new Tree([1,2,3,4,5,null,6,7,null,null,8]);
+tree.DLR_recursive();
+tree.DLR_stack();
+```
