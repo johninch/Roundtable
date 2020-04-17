@@ -252,7 +252,15 @@ module.exports = {
                     title: 'Webpack',
                     children: [
                         '/Question-Bank/webpack/babel',
+                        '/Question-Bank/webpack/webpack-base',
+                        '/Question-Bank/webpack/loader-sequence',
+                        '/Question-Bank/webpack/source-map',
+                        '/Question-Bank/webpack/chunkhash',
                         '/Question-Bank/webpack/code-splitting',
+                        '/Question-Bank/webpack/watch',
+                        '/Question-Bank/webpack/HMR',
+                        '/Question-Bank/webpack/building-speed-up',
+                        '/Question-Bank/webpack/alias',
                     ]
                 },
                 {
