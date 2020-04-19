@@ -41,6 +41,10 @@ typeof /^\d*$/; // object
 typeof null // object  初版Js就留下来的bug
 ```
 
+::: warning null不是一个对象，但为什么typeof null === object?
+原理是这样的，不同的对象在底层都会表示为二进制，在`js中如果二进制的前三位都为0`，就会被判断为**object类型**，`null的二进制全为0`，自然前三位也是0，所以typeof null === objcet。
+:::
+
 ## instanceof
 
 ::: warning

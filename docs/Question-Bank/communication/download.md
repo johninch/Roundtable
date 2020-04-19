@@ -1,7 +1,26 @@
-# 简单实现断点续传
+# 文件下载实现
 
-> 将请求的信息记录下来,在中断后重新读取记录，然后从记录点开始请求数据，并且将数据追加到文件中就行了。
+## 案例：分块下载
+分块下载的原理简述：
 
+#### 1. 是否支持范围请求：
+- 如果 `响应头response headers`中，有 `Accept-Ranges:bytes` 标识，则代表当前资源是支持范围请求的。
+
+#### 2. 获取与发送范围：
+- 在HTTP/1.1中定义了一个`Range的请求头`来指定请求的实体的范围，即`Range: bytes=0-1xxx`，它的范围取值是在 `0 - 总Length` 之间。
+- 通过指定 Range: bytes=0-1 发送请求后，返回的响应为 HTTP/1.1 206 Partial Content ，有一个`Content-Range响应头`，`Content-range: bytes 0-1/1484477`，即 `Range请求头类型 范围值 / 总Length`。
+
+#### 3. 检查资源是否变化：
+- 在终端发起续传请求时，很有可能，URL对应的文件内容在服务端已经发生变化。因此需要检查文件是否变化；
+- 检查资源变化最简单的方式是通过判断响应头的`ETag`的值，`ETag用于标识当前文件的唯一性`。在Response Headers中返回ETag。
+
+#### 4. 下载实现：
+- 就是先判断服务器是否支持分块，分块Size设置是否小于文件大小，如果小于则根据分块Size计算请求头中的Range的范围值去请求切割的块。当所有分块都请求成功之后将其合并保存成文件。
+
+#### 5. 断点续下：
+- 如果要实现断点续下，就需要记录当前请求点，如果下载中断，需要丢弃当前未完成的分片，然后从记录点开始请求数据，并且将数据追加到文件中就行了。
+
+::: details 简单实现
 ```js
 const fetch = require("node-fetch");
 const fs = require('fs'); // 引入fs模块
@@ -144,3 +163,8 @@ function cutSize(contentLength, blockSize) {
     }
 })();
 ```
+:::
+
+## 参考链接
+
+- [NodeJS实现简单的HTTP文件断点续传下载功能](https://www.jianshu.com/p/934d3e8d371e?tdsourcetag=s_pctim_aiomsg)

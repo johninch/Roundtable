@@ -72,11 +72,14 @@ module.exports = {
                         '/Question-Bank/basic-grammar/bind-implementation',
                         '/Question-Bank/basic-grammar/debounce',
                         '/Question-Bank/basic-grammar/fibonacci',
-                        '/Question-Bank/basic-grammar/upload',
                         '/Question-Bank/basic-grammar/print-all-directory-file',
                         '/Question-Bank/basic-grammar/type-judge',
                         '/Question-Bank/basic-grammar/li-index',
                         '/Question-Bank/basic-grammar/football-people',
+                        '/Question-Bank/basic-grammar/back-to-top',
+                        '/Question-Bank/basic-grammar/curry',
+                        '/Question-Bank/basic-grammar/js-querySelector',
+                        '/Question-Bank/basic-grammar/js-tricks',
                     ]
                 },
                 {
@@ -129,6 +132,10 @@ module.exports = {
                         '/Question-Bank/communication/internet-base',
                         '/Question-Bank/communication/cross-domain',
                         '/Question-Bank/communication/cors',
+                        '/Question-Bank/communication/upload',
+                        '/Question-Bank/communication/download',
+                        '/Question-Bank/communication/json',
+                        '/Question-Bank/communication/axios',
                     ]
                 },
                 {
@@ -138,6 +145,7 @@ module.exports = {
                         '/Question-Bank/browser/render',
                         '/Question-Bank/browser/performance',
                         '/Question-Bank/browser/process-eventloop',
+                        '/Question-Bank/browser/from-url-input',
                         '/Question-Bank/browser/memory-or-disk-cache',
                     ]
                 },
@@ -151,6 +159,7 @@ module.exports = {
                     title: '正则表达式',
                     children: [
                         '/Question-Bank/regular-expression/reg-base',
+                        '/Question-Bank/regular-expression/handle-string',
                         '/Question-Bank/regular-expression/upper-camel-case',
                         '/Question-Bank/regular-expression/code-to-market',
                         '/Question-Bank/regular-expression/Chinese-ID-card',
@@ -160,6 +169,9 @@ module.exports = {
                     title: '工程化',
                     children: [
                         '/Question-Bank/Engineering/js-module',
+                        '/Question-Bank/Engineering/css-naming-standard',
+                        '/Question-Bank/Engineering/repo-naming-standard',
+                        '/Question-Bank/Engineering/design-patterns',
                     ]
                 },
                 {
@@ -213,12 +225,15 @@ module.exports = {
                 {
                     title: 'Vue',
                     children: [
-                        '/Question-Bank/vue/customized-v-model',
+                        '/Question-Bank/vue/vue-base',
+                        '/Question-Bank/vue/vue-router',
+                        '/Question-Bank/vue/vuex',
+                        '/Question-Bank/vue/watch',
                         '/Question-Bank/vue/listeners-and-attrs',
+                        '/Question-Bank/vue/customized-v-model',
                         '/Question-Bank/vue/v-loadmore',
                         '/Question-Bank/vue/v-search-select',
                         '/Question-Bank/vue/v-infinite-scroll',
-                        '/Question-Bank/vue/watch'
                     ]
                 },
                 {
@@ -228,38 +243,34 @@ module.exports = {
                     ]
                 },
                 {
-                    title: '包管理',
+                    title: '包管理 Npm & Yarn',
                     children: [
                         '/Question-Bank/pkgmanage/package.lock.json',
                     ]
                 },
-                // {
-                //     title: 'Webpack & Babel',
-                //     children: [
-                //         '/Question-Bank/webpack-babel/查找',
-                //         '/Question-Bank/webpack-babel/二维数组查找',
-                //         '/Question-Bank/webpack-babel/旋转数组的最小数字',
-                //         '/Question-Bank/webpack-babel/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: 'Git',
-                //     children: [
-                //         '/Question-Bank/git/查找',
-                //         '/Question-Bank/git/二维数组查找',
-                //         '/Question-Bank/git/旋转数组的最小数字',
-                //         '/Question-Bank/git/在排序数组中查找数字',
-                //     ]
-                // },
-                // {
-                //     title: 'Npm & Yarn',
-                //     children: [
-                //         '/Question-Bank/npm-yarn/查找',
-                //         '/Question-Bank/npm-yarn/二维数组查找',
-                //         '/Question-Bank/npm-yarn/旋转数组的最小数字',
-                //         '/Question-Bank/npm-yarn/在排序数组中查找数字',
-                //     ]
-                // },
+                {
+                    title: 'Webpack',
+                    children: [
+                        '/Question-Bank/webpack/babel',
+                        '/Question-Bank/webpack/webpack-base',
+                        '/Question-Bank/webpack/loader-sequence',
+                        '/Question-Bank/webpack/source-map',
+                        '/Question-Bank/webpack/chunkhash',
+                        '/Question-Bank/webpack/code-splitting',
+                        '/Question-Bank/webpack/watch',
+                        '/Question-Bank/webpack/HMR',
+                        '/Question-Bank/webpack/building-speed-up',
+                        '/Question-Bank/webpack/alias',
+                    ]
+                },
+                {
+                    title: 'Git',
+                    children: [
+                        '/Question-Bank/git/base',
+                        '/Question-Bank/git/git-stash',
+                        '/Question-Bank/git/git-bisect',
+                    ]
+                },
                 // {
                 //     title: 'ESlint',
                 //     children: [
@@ -287,8 +298,6 @@ module.exports = {
                         '/Question-Bank/work-practices/css-module',
                         '/Question-Bank/work-practices/eslintPrettier',
                         '/Question-Bank/work-practices/i18n',
-                        '/Question-Bank/work-practices/range-download',
-                        '/Question-Bank/work-practices/range-breakpoint-download',
                     ]
                 },
                 {
@@ -297,15 +306,6 @@ module.exports = {
                         '/Wanted/pwa',
                     ]
                 },
-                // {
-                //     title: '待分类',
-                //     children: [
-                //         '/Question-Bank/eslint/查找',
-                //         '/Question-Bank/eslint/二维数组查找',
-                //         '/Question-Bank/eslint/旋转数组的最小数字',
-                //         '/Question-Bank/eslint/在排序数组中查找数字',
-                //     ]
-                // },
             ],
             '/Wanted/': [
                 {
@@ -392,26 +392,60 @@ module.exports = {
                         '/Algorithm/Tree-and-Binary-Tree/is-balanced',
                     ]
                 },
+                {
+                    title: '排序',
+                    children: [
+                        '/Algorithm/Sort/',
+                        '/Algorithm/Sort/fast-sort.md',
+                        '/Algorithm/Sort/selection-sort.md',
+                        '/Algorithm/Sort/shell-sort.md',
+                    ]
+                },
+                {
+                    title: '递归',
+                    children: [
+                        '/Algorithm/Recursion/',
+                        '/Algorithm/Recursion/hanota'
+                    ]
+                },
+                {
+                    title: '贪心算法',
+                    children: [
+                        '/Algorithm/Greedy/',
+                        '/Algorithm/Greedy/maxProfit',
+                        '/Algorithm/Greedy/maxProfit2',
+                        '/Algorithm/Greedy/lemonadeChange',
+                    ]
+                },
+                {
+                    title: '动态规划',
+                    children: [
+                        '/Algorithm/Dynamic-Programming/',
+                        '/Algorithm/Dynamic-Programming/uniquePaths',
+                        '/Algorithm/Dynamic-Programming/uniquePaths2',
+                        '/Algorithm/Dynamic-Programming/findCheapestPrice',
+                    ]
+                },
             ]
         }
     },
     plugins: [
         ['flowchart'],  // 支持流程图
-        [
-            '@vuepress-reco/vuepress-plugin-bgm-player',  // BGM播放器
-            {
-                audios: [
-                    {name: 'Faster Than Light',artist: 'Andreas Waldetoft / Mia Stegmar',url: 'https://cdn-image.tsanfer.xyz/music/Andreas%20Waldetoft%2CMia%20Stegmar%20-%20Faster%20Than%20Light.mp3',cover: 'https://p1.music.126.net/Gxv6d9W4Yd9q9WNHPpi8rw==/1379887104073348.jpg'},
-                    {name: 'Dawn',artist: 'DDRKirby(ISQ)',url: 'https://cdn-image.tsanfer.xyz/music/Dawn%20-%20DDRKirby%28ISQ%29.mp3',cover: 'https://p2.music.126.net/IPnqMCk8YaN9inwYV2bdgQ==/18774161044446693.jpg'},
-                    {name: 'TRON Legacy (End Titles)',artist: 'Daft Punk',url: 'https://cdn-image.tsanfer.xyz/music/Daft%20Punk%20-%20TRON%20Legacy%20%28End%20Titles%29.mp3',cover: 'https://p2.music.126.net/qOOTIykbSLw9RHB0vI83GA==/737772302281958.jpg'},
-                    {name: 'Broken Boy',artist: 'Tonspender',url: 'https://cdn-image.tsanfer.xyz/music/Tonspender%20-%20Broken%20Boy.flac',cover: 'https://p2.music.126.net/4TnTRyHqa3-D2H1UnOa00w==/109951163666994621.jpg'},
-                    {name: 'Life Of Sin Pt. 4',artist: 'MitiS',url: 'https://cdn-image.tsanfer.xyz/music/MitiS%20-%20Life%20Of%20Sin%20Pt.%204.mp3',cover: 'https://p2.music.126.net/LmjTrSwvSLSNBsfFsQFO6g==/2533274793491743.jpg'},
-                    {name: 'Sea Of Voices (RAC Mix)',artist: 'Porter Robinson',url: 'https://cdn-image.tsanfer.xyz/music/Porter%20Robinson%20-%20Sea%20Of%20Voices%20%28RAC%20Mix%29.mp3',cover: 'https://p1.music.126.net/zjQROkEUokU7iS5eUvnVZQ==/3264450027161111.jpg'},
-                    {name: 'New Lipstick',artist: 'The Kissaway Trail',url: 'https://cdn-image.tsanfer.xyz/music/The%20Kissaway%20Trail%20-%20New%20Lipstick.flac',cover: 'https://p2.music.126.net/VjN74c1hoYgPCEZ9DngeQw==/109951163772624643.jpg'},
-                ],
-                floatPosition: 'left'
-            },
-        ],
+        // [
+        //     '@vuepress-reco/vuepress-plugin-bgm-player',  // BGM播放器
+        //     {
+        //         audios: [
+        //             {name: 'Faster Than Light',artist: 'Andreas Waldetoft / Mia Stegmar',url: 'https://cdn-image.tsanfer.xyz/music/Andreas%20Waldetoft%2CMia%20Stegmar%20-%20Faster%20Than%20Light.mp3',cover: 'https://p1.music.126.net/Gxv6d9W4Yd9q9WNHPpi8rw==/1379887104073348.jpg'},
+        //             {name: 'Dawn',artist: 'DDRKirby(ISQ)',url: 'https://cdn-image.tsanfer.xyz/music/Dawn%20-%20DDRKirby%28ISQ%29.mp3',cover: 'https://p2.music.126.net/IPnqMCk8YaN9inwYV2bdgQ==/18774161044446693.jpg'},
+        //             {name: 'TRON Legacy (End Titles)',artist: 'Daft Punk',url: 'https://cdn-image.tsanfer.xyz/music/Daft%20Punk%20-%20TRON%20Legacy%20%28End%20Titles%29.mp3',cover: 'https://p2.music.126.net/qOOTIykbSLw9RHB0vI83GA==/737772302281958.jpg'},
+        //             {name: 'Broken Boy',artist: 'Tonspender',url: 'https://cdn-image.tsanfer.xyz/music/Tonspender%20-%20Broken%20Boy.flac',cover: 'https://p2.music.126.net/4TnTRyHqa3-D2H1UnOa00w==/109951163666994621.jpg'},
+        //             {name: 'Life Of Sin Pt. 4',artist: 'MitiS',url: 'https://cdn-image.tsanfer.xyz/music/MitiS%20-%20Life%20Of%20Sin%20Pt.%204.mp3',cover: 'https://p2.music.126.net/LmjTrSwvSLSNBsfFsQFO6g==/2533274793491743.jpg'},
+        //             {name: 'Sea Of Voices (RAC Mix)',artist: 'Porter Robinson',url: 'https://cdn-image.tsanfer.xyz/music/Porter%20Robinson%20-%20Sea%20Of%20Voices%20%28RAC%20Mix%29.mp3',cover: 'https://p1.music.126.net/zjQROkEUokU7iS5eUvnVZQ==/3264450027161111.jpg'},
+        //             {name: 'New Lipstick',artist: 'The Kissaway Trail',url: 'https://cdn-image.tsanfer.xyz/music/The%20Kissaway%20Trail%20-%20New%20Lipstick.flac',cover: 'https://p2.music.126.net/VjN74c1hoYgPCEZ9DngeQw==/109951163772624643.jpg'},
+        //         ],
+        //         floatPosition: 'left'
+        //     },
+        // ],
         [
             'vuepress-plugin-container',
             {

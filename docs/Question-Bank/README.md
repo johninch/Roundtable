@@ -57,8 +57,10 @@
   - [点击li标签打印该其所处列表次序](./basic-grammar/li-index.md)
   - [:rocket:实现函数调用节流](./basic-grammar/debounce.md)
   - [:rocket:实现斐波那契数列](./basic-grammar/fibonacci.md)
-  - [手写文件上传](./basic-grammar/upload.md)
-  - [编写一段js代码，实现“回到顶部”动画效果，要求尽可能的动画流畅](./basic-grammar/)
+  - [:100:函数式编程柯里化](./basic-grammar/curry.md)
+  - [:100:JS原生选择器](./basic-grammar/js-querySelector.md)
+  - [:bulb:JS中的奇技淫巧](./basic-grammar/js-tricks.md)
+  - [:bulb:实现回到顶部效果](./basic-grammar/back-to-top.md)
   - [编写js，要求在给定的节点(target)上，实现鼠标移动时，跟随鼠标实时出现表示鼠标主要移动方向的文字：上/下/左/右](./basic-grammar/)
   - [编写js，将给定的已知节点(img#icon)添加上一个包装节点(div.icon-wrapper)，要求保持该节点对象不变（即不可克隆或者破坏节点上绑定的任意属性值和事件）](./basic-grammar/)
   - [编写js，要求编写方法，通过事件委托方式，给目标节点（target）的所有具有.btn-delete的子/孙节点绑定click事件（clickHandler）](./basic-grammar/)
@@ -94,9 +96,11 @@
   - [:100:盒模型 & 外边距重叠 & BFC](./css/box-sizing&margin-collapse&BFC.md)
   - [:100:CSS中的定位机制](./css/layout-method.md)
   - [:100:CSS 基础属性](./css/css-base.md)
-  - [使用scss编写代码，快速创建100条规则](/Roundtable/Question-Bank/css.md)
-  - [使用css3编写loading动画](/Roundtable/Question-Bank/css.md)
-  - [编写css实现图示中多列分栏布局](/Roundtable/Question-Bank/css.md)
+  - [使用scss编写代码，快速创建100条规则](./css.md)
+  - [使用css3编写loading动画](./css.md)
+  - [编写css实现图示中多列分栏布局](./css.md)
+  - [:rocket:移动端响应式适配方案](./css/flexible.md)
+  - [:bulb:样式布局中的奇技淫巧](./css-tricks.md)
 
 #### HTML & DOM
   - [:100:DOM事件基本概念](./dom/dom-event.md)
@@ -117,12 +121,17 @@
   - [:100:网络基础](./communication/internet-base.md)
   - [:100:跨域通信与同源策略](./communication/cross-domain.md)
   - [:100:CORS 跨域资源共享](./communication/cors.md)
+  - [:100:文件上传实现](./communication/upload.md)
+  - [:100:文件下载实现](./communication/download.md)
+  - [:100:关于Json](./communication/json.md)
+  - [:bulb:关于axios的使用](./communication/axios.md)
 
 #### 浏览器及前端性能
   - [:100:浏览器工作原理](./browser/browser-mechanism.md)
   - [:100:浏览器渲染](./browser/render.md)
   - [:100:提升页面性能的方法](./browser/performance.md)
   - [:100:从多线程到Event Loop全面梳理](./browser/process-eventloop.md)
+  - [:100:简述输入URL到页面显示全过程](./browser/from-url-input.md)
   - [:100:from memory cache 与 from disk cache](./browser/memory-or-disk-cache.md)
 
 #### 网络安全
@@ -135,12 +144,14 @@
   - [:100:使用正则验证给定字符串是否是中国居民身份证](./regular-expression/Chinese-ID-card.md)
 
 #### 工程化
-  - [:100:JS模块化规范(5种)](/Roundtable/Question-Bank/Engineering/js-module/)
-  - [:100:Code Spliting](/Roundtable/Question-Bank/webpack/code-spliting)
+  - [:100:JS模块化规范(5种)](./Engineering/js-module/)
+  - [:100:CSS命名风格规范](./Engineering/css-naming-standard.md)
+  - [:100:代码管理风格规范](./Engineering/repo-naming-standard.md)
+  - [:100:JS常见设计模式](./Engineering/design-patterns.md)
 
 #### ES6+
-  - [:100:ES6相比于ES5有什么不同](/Roundtable/Question-Bank/ES6+/ES6)
-  - [:bulb:ES6类语法中，三种类成员方法有什么区别](/Roundtable/Question-Bank/ES6+/class-method)
+  - [:100:ES6相比于ES5有什么不同](./ES6+/ES6)
+  - [:bulb:ES6类语法中，三种类成员方法有什么区别](./ES6+/class-method)
 
 #### TypeScript
   - [:100:TypeScript学习笔记](./typescript/typescript-base.html)
@@ -156,7 +167,7 @@
 
 
 #### 框架基础
-  - [MVVM框架基础](./MVVM/mvvm-base.md)
+  - [:100:MVVM框架基础](./MVVM/mvvm-base.md)
 
 #### React
   - [:100:Element、Component、Node、Instance如何区分？](./react/element-component-instance-node)
@@ -187,26 +198,15 @@
   - [请列举不少于10个ant-design用过的组件](./react/)
 
 #### Vue
-  - [:100:自定义组件实现v-model的双向绑定](/Roundtable/Question-Bank/vue/customized-v-model)
-  - [:100:$listeners & $attrs](/Roundtable/Question-Bank/vue/listeners-and-attrs)
-  - [:100:编写自定义指令，实现动态列表加载](/Roundtable/Question-Bank/vue/v-loadmore)
-  - [:100:实现可搜索可分片加载的select组件](/Roundtable/Question-Bank/vue/v-search-select)
-  - [:100:关于ElementUI的无限滚动](/Roundtable/Question-Bank/vue/v-infinite-scrol)
-  - [根据要求定义vue组件 Student](/Roundtable/Question-Bank/vue/Student)
-  - [v-if与v-show的区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [vue的声明周期是指什么？包括哪几个主要的声明周期钩子？created与mounted的主要区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [vue的实例中data为什么一定是个function？](/Roundtable/Question-Bank/basic-grammar/)
-  - [vue 不能检测data中数组、对象的哪些变动？解决方法是什么？](/Roundtable/Question-Bank/basic-grammar/)
-  - [computed与watch的使用有什么差别，分别适用于什么使用场景？](/Roundtable/Question-Bank/basic-grammar/)
-  - [$route与$router的区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [this.$router.push中使用params和使用query有什么不同？](/Roundtable/Question-Bank/basic-grammar/)
-  - [axios与vue-resource的区别，二者分别是怎么完成跨域处理的？](/Roundtable/Question-Bank/basic-grammar/)
-  - [请写出vue-resource及axios对于http请求拦截的使用方法？](/Roundtable/Question-Bank/basic-grammar/)
-  - [Vue有哪些常见的组件通信方式？它们的应用场景分别是怎样的？](/Roundtable/Question-Bank/basic-grammar/)
-  - [Vuex的实现原理是怎样的？（语言描述或图示均可）](/Roundtable/Question-Bank/basic-grammar/)
-  - [Vuex 的dispatch和commit提交mutation的区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [v-for中为什么不绑定key会报错？Vue中diff算法的思路是怎样的？](/Roundtable/Question-Bank/basic-grammar/)
-  - [编写自定义组件实现v-model的双向绑定](/Roundtable/Question-Bank/vue)
+  - [:100:Vue框架基础](./vue/vue-base)
+  - [:100:vue-router路由](./vue/vue-router)
+  - [:100:Vuex状态管理](./vue/vuex.md)
+  - [:100:自定义组件实现v-model的双向绑定](./vue/customized-v-model)
+  - [:100:$listeners & $attrs](./vue/listeners-and-attrs)
+  - [:100:编写自定义指令，实现动态列表加载](./vue/v-loadmore)
+  - [:100:实现可搜索可分片加载的select组件](./vue/v-search-select)
+  - [:100:关于ElementUI的无限滚动](./vue/v-infinite-scrol)
+  - [根据要求定义vue组件 Student](./vue/Student)
 
 #### Nodejs
   - [:100:EventEmitter实现](/Roundtable/Question-Bank/nodejs/eventEmitter)
@@ -225,7 +225,7 @@
   - [如何查询一个包是否存在、如何搜索依赖包？](/Roundtable/Question-Bank/basic-grammar/)
   - [如何查看本地安装的依赖包？](/Roundtable/Question-Bank/basic-grammar/)
   - [@next @beta @latest 和@x.x.x 等有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [@babel/core这种基于scope的包管理方式相比于babel-core有和优势？](/Roundtable/Question-Bank/basic-grammar/)
+  - [@babel/core这种基于scope的包管理方式相比于babel-core有何优势？](/Roundtable/Question-Bank/basic-grammar/)
 
 #### 运维相关
   - [:100:Nginx相关问题](/Roundtable/Question-Bank/Ops/nginx)
@@ -239,30 +239,19 @@
   - [:100:vue css中/deep/深度选择](/Roundtable/Question-Bank/work-practices/deepcss)
   - [:100:团队代码质量：eslint+husky+prettier+lint-staged](/Roundtable/Question-Bank/work-practices/eslintPrettier)
   - [:100:前端多语言方案实现总结](/Roundtable/Question-Bank/work-practices/i18n)
-  - [简单实现分块下载](/Roundtable/Question-Bank/work-practices/range-download)
-  - [简单实现断点续传](/Roundtable/Question-Bank/work-practices/range-breakpoint-download)
 
 
-#### Webpack & Babel
-  - [:bulb:列举不少于5个loader,要求简述其作用和使用](/Roundtable/Question-Bank/basic-grammar/)
-  - [:bulb:列举不少于5个plugin，要求简述其作用和使用](/Roundtable/Question-Bank/basic-grammar/)
-  - [style-loader css-loader scss-loader有什么区别，他们的调用顺序是什么？](/Roundtable/Question-Bank/basic-grammar/)
-  - [webpack配置中的entry属性有哪几种配置方式？](/Roundtable/Question-Bank/basic-grammar/)
-  - [webpack配置中的output下的，path和publicPath分别什么作用？](/Roundtable/Question-Bank/basic-grammar/)
-  - [webpack的输出中，hash和chunkhash有什么区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [如果想在项目中无需导入模块即可全局使用jQuery的$，需要如何配置webpack？](/Roundtable/Question-Bank/basic-grammar/)
-  - [如果项目中某些模块所属目录路径特别深(../../../../compoennts/User)，如何使用webpack配置优化？](/Roundtable/Question-Bank/basic-grammar/)
-  - [webpack如何抽取公共chunk?(回答webpack3或者4都可以)](/Roundtable/Question-Bank/basic-grammar/)
-  - [如何配置webpack，以更好的支持持久化缓存（caching）](/Roundtable/Question-Bank/basic-grammar/)
-  - [什么是tree shaking？](/Roundtable/Question-Bank/basic-grammar/)
-  - [webpack4的splitChunks的主要用法是什么？](/Roundtable/Question-Bank/basic-grammar/)
-  - [列举webpack可以配置哪几种devTool来控制souceMap的输出？他们的性能如何？](/Roundtable/Question-Bank/basic-grammar/)
-  - [列举webpack的插件系统有哪些勾子？如何编写一个webpack插件？](/Roundtable/Question-Bank/basic-grammar/)
-  - [babel-core和babel-cli的区别](/Roundtable/Question-Bank/basic-grammar/)
-  - [babel的preset和plugin有什么区别](/Roundtable/Question-Bank/basic-grammar/)
-  - [列举babel的常用插件](/Roundtable/Question-Bank/basic-grammar/)
-  - [简述babel的实现原理是什么](/Roundtable/Question-Bank/basic-grammar/)
-  - [列举ES6+中哪些特性可以使用babel实现哪些不可以？](/Roundtable/Question-Bank/basic-grammar/)
+#### Webpack
+  - [:100:关于babel](./webpack/babel.md)
+  - [:100:webpack基础](./webpack/webpack-base.md)
+  - [:100:loader执行顺序](./webpack/loader-sequence.md)
+  - [:100:在生产环境使用source map](./webpack/source-map.md)
+  - [:100:文件指纹chunkhash 与 持久化缓存caching](./webpack/chunkhash.md)
+  - [:100:代码分割技术](./webpack/code-splitting.md)
+  - [:100:如何优化 Webpack 的构建速度](./webpack/building-speed-up.md)
+  - [:100:webpack文件监听原理](./webpack/watch.md)
+  - [:100:webpack热更新原理](./webpack/HMR.md)
+  - [:100:省略文件后缀及配置别名](./webpack/alias.md)
 
 
 #### Git
@@ -293,21 +282,13 @@
   - [pwa和react-native、flutter、weex等有何区别？各自优势是什么？](/Roundtable/Question-Bank/cross-platform/)
 
 #### 待分类
-  - [prefetch和preload是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
-  - [async和defer是指什么？二者的区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中默认导出和子导出有何区别？](/Roundtable/Question-Bank/basic-grammar/)
   - [es module中的as语法有什么作用？](/Roundtable/Question-Bank/basic-grammar/)
-  - [为什么promise的回调异步会比setTimeout优先执行？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的async/await语法如何捕获rejected状态？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy、reflect可以用来做什么？](/Roundtable/Question-Bank/basic-grammar/)
-  - [es6中的proxy和defineProperty在数据拦截方面有什么异同点？](/Roundtable/Question-Bank/basic-grammar/)
   - [:rocket:application/x-www-form-urlencoded、multipart/form-data、json、xml四种主流post数据的编码方式有何区别、各自有什么优劣？](/Roundtable/Question-Bank/basic-grammar/content-type)
   - [举例js中常见的设计模式有哪些？](/Roundtable/Question-Bank/basic-grammar/)
-  - [如何设计实现类似jQuery的链式调用？](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述设计实现用户头像上传预览功能大概实现思路](/Roundtable/Question-Bank/basic-grammar/)
-  - [请简述实现前端路由功能的所涉及到的技术和思路](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述实现模态框的思路](/Roundtable/Question-Bank/basic-grammar/)
-  - [请简述实现slider/swiper效果的思路](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述如何对多图片页面实现lazyload的思路](/Roundtable/Question-Bank/basic-grammar/)
-  - [为什么静态资源要使用cdn，其好处是什么？](/Roundtable/Question-Bank/basic-grammar/)
 

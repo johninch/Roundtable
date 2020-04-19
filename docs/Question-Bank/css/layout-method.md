@@ -65,7 +65,7 @@ CSS 有三种基本的定位机制：`普通流`、`浮动`和`绝对定位`。
 - inline(默认值)：内部元素的宽高+padding会撑开其宽高，主动给其设置宽高是无效的。inline不单独占一行，其他元素紧跟其后。
 - block：实际宽高是本身宽高+padding，但block是可以设置宽高的。独占一行。
 - inline-block：inline-block既具有block的宽高特性又具有inline的同行元素特性。
-- none：display: none不会保留元素本该显示的空间（`即不在render tree中`），但是visibility: hidden 还会保留（在render tree中），只是视觉上看不到而已。
+- none：`display: none`**不渲染**，不会保留元素本该显示的空间（`即不在 render tree中`），但是`visibility: hidden`还是**渲染了**，会保留空间（在render tree中），只是视觉上看不到而已。
 
 ### 行内元素和块级元素
 

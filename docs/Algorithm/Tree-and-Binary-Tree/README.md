@@ -269,11 +269,24 @@ console.log(binarySearch(1, arr, 0, arr.length-1));
 ## 经典题目
 
 ### 1、二叉树遍历
+如何遍历一棵树
+有两种通用的遍历树的策略：
+
+1. 深度优先搜索（DFS）
+    - 在这个策略中，我们采用深度作为优先级，以便从根开始一直到达某个确定的叶子，然后再返回根到达另一个分支。
+    - 深度优先搜索策略又可以根据根节点、左孩子和右孩子的相对顺序被细分为`先序遍历`，`中序遍历`和`后序遍历`。
+2. 宽度优先搜索（BFS）
+    - `层序遍历`，按照高度顺序一层一层的访问整棵树，高层次的节点将会比低层次的节点先被访问到。
+
+下图中的顶点按照访问的顺序编号，按照 `1-2-3-4-5` 的顺序来比较不同的策略。
+![DFS与BFS](./images/DFS-and-BFS.png)
+
 > 重点中的重点，最好同时掌握递归和非递归版本，递归版本很容易书写，但是真正考察基本功的是非递归版本。
 
  - [:100:二叉树的中序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/inorder-traversal)
  - [:100:二叉树的前序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/preorder-traversal)
  - [:100:二叉树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/postorder-traversal)
+ - [:100:二叉树的层序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/levelOrder-traversal)
  - [:100:重建二叉树](/Roundtable/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree)
  - [:100:求二叉树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/get-HRD)
 
