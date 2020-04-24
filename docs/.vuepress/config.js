@@ -361,14 +361,15 @@ module.exports = {
                     title: '链表',
                     children: [
                         '/Algorithm/Linked-List/',
+                        '/Algorithm/Linked-List/sortList.md',
                         '/Algorithm/Linked-List/print-from-tail-to-head',
-                        '/Algorithm/Linked-List/delete-repeat-node',
                         '/Algorithm/Linked-List/reverse-linked-list',
                         '/Algorithm/Linked-List/merge-two-sorted-link',
-                        '/Algorithm/Linked-List/copy-complicated-linked-list',
                         '/Algorithm/Linked-List/entry-node-of-loop',
                         '/Algorithm/Linked-List/find-first-common-node',
                         '/Algorithm/Linked-List/find-Kth-to-tail',
+                        '/Algorithm/Linked-List/delete-repeat-node',
+                        '/Algorithm/Linked-List/copy-complicated-linked-list',
                     ]
                 },
                 {
@@ -393,16 +394,61 @@ module.exports = {
                     title: '排序',
                     children: [
                         '/Algorithm/Sort/',
+                        '/Algorithm/Sort/firstMissingPositive.md',
                         '/Algorithm/Sort/fast-sort.md',
                         '/Algorithm/Sort/selection-sort.md',
                         '/Algorithm/Sort/shell-sort.md',
                     ]
                 },
                 {
+                    title: '正则',
+                    children: [
+                        '/Algorithm/Reg/',
+                        '/Algorithm/Reg/repeatedSubstringPattern.md',
+                        '/Algorithm/Reg/isMatch.md',
+                    ]
+                },
+                {
+                    title: '字符串',
+                    children: [
+                        '/Algorithm/String/',
+                        '/Algorithm/String/revertByWord.md',
+                        '/Algorithm/String/countBinarySubstrings.md)',
+                    ]
+                },
+                {
+                    title: '数组',
+                    children: [
+                        '/Algorithm/Array/',
+                        '/Algorithm/Array/letterCombinations.md',
+                        '/Algorithm/Array/canPlaceFlowers.md',
+                        '/Algorithm/Array/hasGroupsSizeX.md',
+                        '/Algorithm/Array/grayCode.md',
+                    ]
+                },
+                {
+                    title: '栈',
+                    children: [
+                        '/Algorithm/Stack/',
+                        '/Algorithm/Stack/calPoints.md',
+                        '/Algorithm/Stack/maximalRectangle.md',
+                        '/Algorithm/Stack/largestRectangleArea.md',
+                    ]
+                },
+                {
+                    title: '队列',
+                    children: [
+                        '/Algorithm/Queue/',
+                        '/Algorithm/Queue/MyCircularQueue.md',
+                        '/Algorithm/Queue/leastInterval.md',
+                    ]
+                },
+                {
                     title: '递归',
                     children: [
                         '/Algorithm/Recursion/',
-                        '/Algorithm/Recursion/hanota'
+                        '/Algorithm/Recursion/hanota.md',
+                        '/Algorithm/Recursion/restoreIpAddresses.md',
                     ]
                 },
                 {

@@ -94,8 +94,8 @@
   - [:100:平衡二叉树](./Tree-and-Binary-Tree/is-balanced)
 
 #### 排序
-  - [:100:快速排序](./Sort/fast-sort.md)
   - [:100:缺失的第一个正数](./Sort/firstMissingPositive.md)
+  - [:100:快速排序](./Sort/fast-sort.md)
 
 #### 正则
   - [:100:重复的子字符串（正则匹配模式）](./Reg/repeatedSubstringPattern.md)
