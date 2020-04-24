@@ -417,10 +417,10 @@ module.exports = {
                 {
                     title: '动态规划',
                     children: [
-                        '/Algorithm/Dynamic-Programming/',
-                        '/Algorithm/Dynamic-Programming/uniquePaths',
-                        '/Algorithm/Dynamic-Programming/uniquePaths2',
-                        '/Algorithm/Dynamic-Programming/findCheapestPrice',
+                        '/Algorithm/DP/',
+                        '/Algorithm/DP/uniquePaths',
+                        '/Algorithm/DP/uniquePaths2',
+                        '/Algorithm/DP/findCheapestPrice',
                     ]
                 },
             ]
