@@ -194,14 +194,7 @@ mounted(){
 ## 组件中的data为什么是一个函数？
 一个组件被复用多次的话，也就会创建多个实例。本质上，`这些实例用的都是同一个构造函数`。如果data是对象的话，对象属于引用类型，会影响到所有的实例。所以为了保证组件不同的实例之间data不冲突，data必须是一个函数。
 
-
-## v-model的原理
-v-model本质就是一个语法糖，可以看成是`value + input`方法的`语法糖`。 可以通过**model属性**的**prop和event**属性来进行自定义。原生的v-model，会根据标签的不同生成不同的事件和属性。  
-
-## Vue事件绑定原理说一下
-原生事件绑定是通过addEventListener绑定给真实元素的，组件事件绑定是通过Vue自定义的$on实现的。
-
-## Vue模版编译原理（compiler）?
+## Vue模版编译原理（compiler）
 简单说，Vue complier 是将 template 转化成一个 render 字符串。会经历以下阶段：
 
 1. **parse过程（生成AST树）**：
@@ -211,6 +204,13 @@ v-model本质就是一个语法糖，可以看成是`value + input`方法的`语
 3. **generate过程（生成render字符串）**：
     - 编译的最后一步是`将优化后的AST树转换为可执行的代码，即render函数`（而render函数会返回VNode）。
 
+
+## v-model的原理
+v-model本质就是一个语法糖，可以看成是`value + input`方法的`语法糖`。 可以通过**model属性**的**prop和event**属性来进行自定义。原生的v-model，会根据标签的不同生成不同的事件和属性。  
+
+## Vue事件绑定原理
+原生事件绑定是通过addEventListener绑定给真实元素的，组件事件绑定是通过Vue自定义的$on实现的。
+
 ## Vue双向绑定原理实现
 View 变化更新 Data ，可以通过事件监听的方式来实现，所以 Vue 的数据双向绑定的工作主要是如何根据 Data 变化更新 View（4 个步骤）：
 1. 实现一个监听器 Observer：对数据对象进行遍历，包括子属性对象的属性，利用 Object.defineProperty() 对属性都加上 setter 和 getter。这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化。
@@ -219,7 +219,7 @@ View 变化更新 Data ，可以通过事件监听的方式来实现，所以 Vu
 4. 实现一个订阅器 Dep：订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和 订阅者 Watcher 进行统一管理。
 ![vue双向绑定](./images/vue-bind.png)
 
-## Vue2.x和Vue3.x渲染器的diff算法:
+## Vue2.x和Vue3.x渲染器的diff算法
 简单来说，diff算法有以下过程
 
 - 同级比较，再比较子节点
@@ -228,7 +228,9 @@ View 变化更新 Data ，可以通过事件监听的方式来实现，所以 Vu
 - 递归比较子节点
 
 正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们`很少会进行跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
+
 Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
+
 Vue3.x借鉴了 ivi算法和 inferno算法，在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。该算法中还运用了`动态规划`的思想求解最长递归子序列。
 
 ::: details

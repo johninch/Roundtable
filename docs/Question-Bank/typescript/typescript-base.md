@@ -1,10 +1,10 @@
 ---
-title: TypeScript学习笔记
+title: TypeScript基础
 date: 2020-01-16 14:41:08
 tags: [TypeScript]
 ---
 
-# TypeScript学习笔记
+# TypeScript基础
 
 ## TS定义
 TypeScript 是 JavaScript 的一个`超集`，主要提供了**类型系统**和**对 ES6 的支持**，它由 Microsoft 开发，可以编译成纯 JavaScript，运行在任何浏览器上。

@@ -79,7 +79,7 @@ var o3 = Object.create(p);
 - 步骤二：执行构造函数M，并绑定M的作用域上下文到新实例对象o上；
 - 步骤三：判断步骤二中返回的res是否为(广义上)对象，如果是对象则抛弃o返回res；如果不是对象则返回o。
 
-### 代码模拟
+### 模拟实现new操作符
 ```js
 var thisNew = function(M) {
     // Object.create()返回空对象o，并关联M的原型对象

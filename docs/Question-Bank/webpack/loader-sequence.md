@@ -4,6 +4,7 @@ loader具有**职责单一**，**组合使用**的原则，所以loader处理的
 
 ::: tip 以「样式loader」为例
 - `sass-loader`：把sass编译成css。
+- `postcss-loader`：自动添加css前缀。
 - `css-loader`：让webpack能识别处理css，转化成 CommonJS 模块。
 - `style-loader`：把css识别处理后转成的js字符串，生成为 style节点，插入到 html中。
 :::
@@ -16,11 +17,14 @@ module: {
         test: /\.less$/,
         use: 'style-loader'
       },
-     {
+      {
         test: /\.less$/,
         use: 'css-loader'
       },
-     {
+      {
+        loader: 'postcss-loader'// 自动添加css前缀
+      },
+      {
         test: /\.less$/,
         use: 'less-loader'
       }

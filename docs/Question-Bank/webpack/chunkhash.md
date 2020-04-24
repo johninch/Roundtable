@@ -10,13 +10,13 @@
     - **适用于生产环境打包后的JS文件**`'[name].[chunkhash]'`，最大限度利用浏览器缓存。
 - `Contenthash`：根据文件内容来定义 hash，文件内容不变，则 contenthash 不变。
 
-::: danger
+::: danger [chunkhash]不能和 HMR 一起使用
 注意：开发环境应该直接用`[name]`，不要在开发环境使用`[chunkhash]、[hash]、[contenthash]`，因为**不需要在开发环境**做**持久缓存**，而且这样会增加编译时间。
 
 这也是为什么常说”**[chunkhash]不能和 HMR 一起使用**“。
 :::
 
-::: tip
+::: tip 占位符指定长度
 注意：hash都是比较长的，可以在占位符上指定我们要的长度，来生成我们想要的位数，如：`[hash:8]、[chunkhash:8]、[contenthash:8]`。
 :::
 ### 各类别适用文件

@@ -94,6 +94,7 @@ React-Redux 将所有组件分成两大类：UI组件（纯组件，没有状态
 
 Context 是解决react自上到下通过组件传递数据时，跨组件传递非常麻烦不便的问题。Context 可以让我们无须明确地传遍每一个组件，就能将值“广播式”地深入传递进组件树。
 
+### 新版本ContextAPI
 新版本ContextAPI：React.createContext、Context.Provider、Class.contextType、Context.Consumer、Context.displayName。
 
 - **React.createContext**：创建一个 Context 对象。当 React 渲染一个订阅了这个 Context 对象的组件，这个组件会从组件树中离自身最近的那个匹配的 Provider 中读取到当前的 context 值。只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。

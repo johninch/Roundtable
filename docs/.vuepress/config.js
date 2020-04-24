@@ -159,10 +159,7 @@ module.exports = {
                     title: '正则表达式',
                     children: [
                         '/Question-Bank/regular-expression/reg-base',
-                        '/Question-Bank/regular-expression/handle-string',
-                        '/Question-Bank/regular-expression/upper-camel-case',
-                        '/Question-Bank/regular-expression/code-to-market',
-                        '/Question-Bank/regular-expression/Chinese-ID-card',
+                        '/Question-Bank/regular-expression/reg-example',
                     ]
                 },
                 {
@@ -172,6 +169,9 @@ module.exports = {
                         '/Question-Bank/Engineering/css-naming-standard',
                         '/Question-Bank/Engineering/repo-naming-standard',
                         '/Question-Bank/Engineering/design-patterns',
+                        '/Question-Bank/Engineering/deploy',
+                        '/Question-Bank/Engineering/eslintPrettier',
+                        '/Question-Bank/Engineering/i18n',
                     ]
                 },
                 {
@@ -260,7 +260,7 @@ module.exports = {
                         '/Question-Bank/webpack/watch',
                         '/Question-Bank/webpack/HMR',
                         '/Question-Bank/webpack/building-speed-up',
-                        '/Question-Bank/webpack/alias',
+                        '/Question-Bank/webpack/webpack-tricks',
                     ]
                 },
                 {
@@ -290,14 +290,11 @@ module.exports = {
                     title: '工作实践',
                     children: [
                         '/Question-Bank/work-practices/product-quality',
-                        '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
                         '/Question-Bank/work-practices/css-module',
-                        '/Question-Bank/work-practices/eslintPrettier',
-                        '/Question-Bank/work-practices/i18n',
                     ]
                 },
                 {

@@ -4,14 +4,14 @@
 }
 ---
 
-### 链式调用实现
+# 链式调用实现
 
 > 实现类似Jquery的链式调用
 > 例如：$('div').addClass('add-class')
 
 ----
 
-#### 推荐答案:
+## 推荐答案:
 
 ```js
   let jq = function (selector) {
@@ -42,9 +42,7 @@
   // jq('#test').on('click', function () {}).attr('title', '1111')
 ```
 
-----
-<details>
-<summary>johninch:</summary>
+## Johninch
 
 - 原理：其实链式调用就是让一个类的每个方法都返回this值，从而达到链式调用；
 - 步骤：首先创建一个构造函数，把那些元素作为数组保存在一个实例属性中，并把所有定义在构造器函数上的prototype属性指向对象中的方法都返回用以调用方法的那个实例的引用，那么它就具有了进行链式调用的能力。
@@ -107,10 +105,7 @@ function add(num){
 ```
 [相关链接](https://segmentfault.com/q/1010000004342477)
 
-</details>
-
-<details>
-<summary>febcat:</summary>
+## febcat
 
 ```javascript
 class Chain {
@@ -167,10 +162,8 @@ class Chain {
   console.log('chain=> color ', $('div').color())
 
 ```
-</details>
 
-<details>
-<summary>Caleb:</summary>
+## Caleb
 
 ``` javascript
 var $ = function(id) {
@@ -194,11 +187,8 @@ $2.prototype = {
 $('div').addClass('ppp')
 
 ```
-</details>
 
-<details>
-sdfsdfsdf
-<summary>Xmtd:</summary>
+## Xmtd
 
 ```js
   let jq = function (selector) {
@@ -228,10 +218,8 @@ sdfsdfsdf
 
   // jq('#test').on('click', function () {}).attr('title', '1111')
 ```
-</details>
 
-<details>
-<summary>niannings:</summary>
+## niannings
 
 ```js
 /**
@@ -266,4 +254,4 @@ const a = {
 
 chainify(a).foo().bar(100)
 ```
-</details>
+

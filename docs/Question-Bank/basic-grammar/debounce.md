@@ -1,4 +1,4 @@
-### 实现防抖函数 debounce
+# 实现 防抖debounce & 节流throttle
 
 ## mtd
 ```js
@@ -60,8 +60,6 @@
     }
     
 ```
-
-### 实现节流函数 throttle
 
 ```js
     /*

@@ -32,8 +32,8 @@ babel的最主要工作都集中Transformer上，即在把解析生成的AST经�
 - Babel6 不再是一个整体包了，它分为了两个单独的包（babel-cli 和 babel-core），此外还有一些插件预设（如babel-preset-es2015、babel-preset-react等）：
 
 #### babel-core和babel-cli的区别
-- 在命令行使用Babel，安装babel-cli
-- 在一个Node项目中使用Babel，使用babel-core
+- 安装babel-cli，用于命令行转码
+- 使用babel-core，在一个Node项目中使用Babel
 
 
 #### 声明作用域@babel/core
@@ -107,5 +107,6 @@ babel/preset-env | babel预制环境的集合插件，通过配置目标环境�
 babel/preset-stage-2 | 转换草案stage-2以及stage-3阶段的的新属性 | ---
 
 #### babel-polyfill
-Babel 几乎可以编译所有时新的 JavaScript 语法，但对于 APIs 来说却并非如此。比如说：Promise、WeakMap、Array.from 、Object.assign、Array.prototype.includes、generator等。为了解决这个问题，我们使用一种叫做 Polyfill（代码填充，也可译作兼容性补丁） 的技术。
+Babel默认只转换新的JavaScript句法（syntax），而不转换新的API。比如说：**Promise、Array.from 、Object.assign、Array.prototype.includes、Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Async**等 **都不会转码**。为了解决这个问题，必须使用`babel-polyfill`，为当前环境提供**一个垫片**，`实现浏览器不支持的原生功能`。
+
 

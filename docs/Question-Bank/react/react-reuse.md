@@ -10,7 +10,7 @@ React中有3种代码复用的方法：Mixin、`HOC`、`Render props`。
 
 React Mixin将通用共享的方法包装成Mixins方法，然后注入各个组件实现，但Mixin已经不被官方推荐使用，所以本文只重点介绍**高阶组件**和**渲染属性**。
 
-::: details Mixin为何被官网废弃
+::: details Mixin为何被官方废弃
 1. Mixin引入了隐式依赖关系。
 2. Mixin导致名称冲突。
 3. Mixin导致复杂的滚雪球：随着时间和业务的增长， 你对Mixin的修改越来越多， 到最后会变成一个难以维护的Mixin。

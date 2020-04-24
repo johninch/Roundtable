@@ -16,8 +16,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
-> **注意**：
->> Router中只能有唯一的一个子元素（如上只有一个App）。
+**注意**：*Router中只能有唯一的一个子元素（如上只有一个App）。*
 
 ## 路由匹配组件（Route、Switch）
 
@@ -41,8 +40,7 @@ component 的值是一个组件，当 URL 和 Route 匹配时，Component属性�
 <Route path='/foo' component={Foo} >
 ```
 
-> **注意**：
->> 不要将component属性设置为一个函数，然后在其内部渲染组件。这样会*导致已经存在的组件被卸载，然后重新创建一个新组件，而不是仅仅对组件进行更新*。
+**注意**：不要将component属性设置为一个函数，然后在其内部渲染组件。这样会*导致已经存在的组件被卸载，然后重新创建一个新组件，而不是仅仅对组件进行更新*。
 
 #### render
 render 的值是一个函数，这个函数返回一个 React 元素。这种方式方便地为待渲染的组件传递额外的属性。例如：
@@ -57,8 +55,7 @@ render 的值是一个函数，这个函数返回一个 React 元素。这种方
 #### children
 children 与render类似，也是一个函数，函数返回要渲染的 React 元素。
 
-> 不同之处:
->> 与前两种方式不同之处是，**无论是否匹配成功**， children 返回的组件**都会被渲染**，但当匹配不成功时，match 属性为 null，这意为着可以据此作出UI上的调整。例如:
+**不同之处**：与前两种方式不同之处是，**无论是否匹配成功**， children 返回的组件**都会被渲染**，但当匹配不成功时，match 属性为 null，这意为着可以据此作出UI上的调整。例如:
 ```tsx
 // 如果 Route 匹配当前 URL，待渲染元素的根节点 div 的 class 将设置成 active.
 <Route path='/foo' render={(props) => {

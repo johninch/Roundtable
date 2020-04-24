@@ -8,7 +8,9 @@ tags: [HTTP, 浏览器, 跨域, 预检请求]
 
 <!-- more -->
 
-## CORS 简介
+# CORS 跨域资源共享
+
+## 概念简介
 
 CORS（Cross-origin resource sharing）跨域资源共享：需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。
 

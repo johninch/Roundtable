@@ -1,8 +1,3 @@
----
-{
-  "title": "[基本]合并有序链表",
-}
----
 
 # 合并两个有序链表
 
@@ -15,7 +10,61 @@
 
 两个链表都是排序好的，我们只需要从头遍历链表，判断当前指针，哪个链表中的值小，即赋给合并链表指针，剩余的结点仍然是排序的，所以合并的步骤和之前是一样的，所以这是典型的递归过程，用递归可以轻松实现。
 
-## 3、代码实现
+## Johninch
+- 递归：
+```js
+function merge(p1, p2) {
+  if (!p1 || !p2) {
+    return p1 || p2
+  }
+
+  let head = null // 头节点
+  if (p1.value < p2.value) {
+    head = p1
+    head.next = merge(p1.next, p2)
+  } else {
+    head = p2
+    head.next = merge(p1, p2.next)
+  }
+
+  return head
+}
+```
+- 非递归：
+```js
+function merge(p1, p2) {
+  if (!p1 || !p2) {
+    return p1 || p2
+  }
+
+  let head = new Node() // 增加头节点
+  let node = head
+
+  while (p1 && p2) {
+    if (p1.value < p2.value) {
+      node.next = p1
+      p1 = p1.next
+    } else {
+      node.next = p2
+      p2 = p2.next
+    }
+
+    node = node.next
+  }
+
+  if (p1) {
+    node.next = p1
+  }
+
+  if (p2) {
+    node.next = p2
+  }
+
+  return head.next;
+}
+```
+
+
 
 ## Caleb
 ``` js

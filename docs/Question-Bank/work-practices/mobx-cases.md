@@ -14,7 +14,7 @@
 
 ::: warning
 - Q：为啥store里@observable 标识的变量改变了，就是不走render?
-- A：当 observer 需要组合其它装饰器或高阶组件时，请确保 observer 是最深处(第一个应用)的装饰器，否则它可能什么都不做。
+- A：当 observer 需要组合其它装饰器或高阶组件时，请`确保 observer 是最深处(第一个应用)的装饰器`，否则它可能什么都不做。
 :::
 
 装饰器语法是比export时用高阶组件的写法离组件近的，因此如下这种写法会导致render不执行：
@@ -45,17 +45,17 @@ class AccountSet extends Component<RouteComponentProps> {
 export default withToast(observer(AccountSet));
 ```
 
-## Mobx observer问题描述
+## @observable 监听不到变化
+
+业务功能里对userBankCard属性进行操作之后，但是业务组件 并没有监听到userBankCard属性的变化：
 ``` js
+// 初始化监听一个userbankCard空对象；
 @observable userBankCard = {};
-初始化监听一个userbankCard空对象；
 
 @action
 updateEmployeeBankCard(obj) {
     this.userBankCard = Object.assign(this.userBankCard, obj);
 }
-
-业务功能里对userBankCard属性进行操作之后，但是业务组件 并没有监听到userBankCard属性的变化
 ```
 ### mobx Observable对象
 通过`Observable` 可以将一个普通对象的所有属性拷贝至一个克隆对象并将克隆对象转变成可观察的 (普通对象是指不是使用构造函数创建出来的对象，而是以 Object 作为其原型，或者根本没有原型。)

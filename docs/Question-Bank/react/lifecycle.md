@@ -1,6 +1,6 @@
 # React 生命周期
 
-## 请给出下面render代码执行后控制台的字符串输出内容
+::: details 生命周期输出示例
 ```js
 // 已知组件
 class Base extends Component{
@@ -23,7 +23,6 @@ render(<Base prefixer="parent">
     <Base prefixer="child" />
 </Base>, document.querySelector('#root'))
 ```
-
 答案：
 ```
 parent constructor
@@ -35,6 +34,7 @@ child render
 child did mount
 parent did mount
 ```
+:::
 
 ## React生命周期有哪些，16版本生命周期发生了哪些变化
 15生命周期：

@@ -1,5 +1,6 @@
 # webpack基础
 
+## 什么是webapck
 Webpack是一个现代Javascript应用的模块打包器 (module bundler)，能够将任何资源如 JavaScript 文件、CSS 文件、图片等打包成一个或少数文件。这是最核心的功能。
 - 这意味着与以往的发起多个 HTTP 请求来获得资源相比，现在只需要发起少量的 HTTP 请求。
 - 它采用`tool+plugins`的结构。tool提供基础能力，即文件依赖管理和资源加载管理；在此基础上通过一系列的plugins来丰富打包工具的功能。
@@ -68,8 +69,8 @@ Webpack构建流程是一个`串行`的过程：
 - **初始化参数**：从配置文件和 Shell 语句中`读取与合并参数`，得出最终的参数；
 - **实例化编译器**：用上一步得到的参数`初始化 Compiler 对象`，加载所有配置的`插件Plugin`，执行对象的 `run` 方法开始`执行编译`；
 - **确定入口**：根据配置中的 `entry` 找出所有的`入口文件`；
-- **编译模块**：从入口文件出发，调用所有配置的 `Loader对模块进行翻译`，再找出该模块依赖的模块，再**递归本步骤直到所有入口依赖的文件都经过了本步骤的处理**；`得到`每个模块被翻译后的**最终内容以及它们之间的依赖关系**；
-- **输出资源**：根据入口和模块之间的依赖关系，`组装成一个个包含多个模块的 Chunk`，再把每个 Chunk 转换成**一个单独的文件加入到输出列表**，这步是可以修改输出内容的最后机会；
+- **编译模块**：从入口文件出发，调用所有配置的 `Loader对模块进行翻译`，再找出该模块依赖的模块，再`递归本步骤直到所有入口依赖的文件都经过了本步骤的处理`；`得到`每个模块被翻译后的`最终内容以及它们之间的依赖关系`；
+- **输出资源**：根据入口和模块之间的依赖关系，`组装成一个个包含多个模块的 Chunk`，再把每个 Chunk 转换成`一个单独的文件加入到输出列表`，这步是可以修改输出内容的最后机会；
 - **输出完成**：在确定好输出内容后，`根据配置确定输出的路径和文件名，把文件内容写入到文件系统`；
 
 在以上过程中，Webpack 会在特定的时间点`广播出`特定的事件，插件Plugin 在监听到感兴趣的事件后会`执行特定的逻辑`，并且 插件Plugin 可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。
@@ -86,7 +87,7 @@ Webpack构建流程是一个`串行`的过程：
 - `module` 是开发中的单个模块。
 
 ## entry、output、path、publicPath
-- `entry`：入口文件是webpack建立依赖图的起点，有3种方式配置：字符串、数组、对象。
+- `entry`：入口文件是webpack建立依赖图的起点，有3种方式配置：**字符串、数组、对象**。
 - `output`：output配置告诉webpack怎么处理打包的代码。
     - `path`：所有输出文件的目标路径，即打包后文件在硬盘中的存储位置（**dist文件夹**）。
     - `publicPath`：输出“解析文件的目录”，指定资源文件引用的目录，打包后浏览器访问服务时url 中的通用部分：
@@ -146,21 +147,7 @@ plugins: [
 ```
 
 
-## 如何提高webpack开发效率
-
-- webpack-merge：提取公共配置，减少重复配置代码。
-- speed-measure-webpack-plugin：简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。
-- webpack-dashboard：可以更友好的展示相关打包信息。
-- size-plugin：监控资源体积变化，尽早发现问题。
-- HotModuleReplacementPlugin：模块热替换。
-
-## 如何对bundle体积进行监控和分析
-
-- VSCode 中有一个`插件 Import Cost` 可以帮助我们对引入模块的大小进行实时监测。
-- 还可以使用 `webpack-bundle-analyzer` 生成 bundle 的模块组成图，显示所占体积。
-- `bundlesize` 工具包可以进行自动化资源体积监控。
-
-## Webpack常用loader和plugin：
+#### Webpack常用loader和plugin：
 - `sass-loader`, 把sass编译成css。
 - `css-loader`, 让webpack能识别处理css，转化成 CommonJS 模块。
 - `style-loader`, 把css识别处理后转成的js字符串，生成为 style节点，插入到 html中。
@@ -176,6 +163,21 @@ plugins: [
 - `HashedModuleIdsPlugin`，用hash代替id命名
 - `LoaderOptionsPlugin`，代码迁移
 
+
+
+## 如何提高webpack开发效率
+
+- `webpack-merge`：提取公共配置，减少重复配置代码。
+- speed-measure-webpack-plugin：简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。
+- webpack-dashboard：可以更友好的展示相关打包信息。
+- size-plugin：监控资源体积变化，尽早发现问题。
+- `HotModuleReplacementPlugin`：模块热替换。
+
+## 如何对bundle体积进行监控和分析
+
+- VSCode 中有一个`插件 Import Cost` 可以帮助我们对引入模块的大小进行实时监测。
+- 还可以使用 `webpack-bundle-analyzer` 生成 bundle 的模块组成图，显示所占体积。
+- `bundlesize` 工具包可以进行自动化资源体积监控。
 
 ## 简述编写loader思路
 略
