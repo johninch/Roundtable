@@ -76,3 +76,38 @@ export function rebuildTree(frontEachList: any[], middleEachList: any[]) {
     return tree;
 }
 ```
+
+### febcat
+```js
+const reBuild = (inorder, preorder) => {
+  let newTree = new Tree();
+
+  if (!preorder.length) {
+    return newTree;
+  }
+
+  const loop = (inorder, preorder) => {
+    let data = preorder[0];
+    let root = new Node(data);
+    let num = inorder.indexOf(data);
+    let inorderLeft = inorder.slice(0, num);
+    let inorderRight = inorder.slice(num + 1);
+    let preorderLeft = preorder.slice(1, inorderLeft.length + 1);
+    let preorderRight = preorder.slice(preorderLeft.length + 1);
+
+    if (inorderLeft.length) {
+      root.left = loop(inorderLeft, preorderLeft);
+    }
+
+    if (inorderRight.length) {
+      root.right = loop(inorderRight, preorderRight);
+    }
+
+    return root;
+  };
+
+  newTree.root = loop(inorder, preorder);
+
+  return newTree;
+};
+```

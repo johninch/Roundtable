@@ -91,3 +91,47 @@ export function middleEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
 }
 ```
 
+### febcat
+```js
+inorderTraversal(node = this.root) {
+    let inorderTraverArr = [];
+
+    const loop = (node) => {
+        if (!node) {
+            return;
+        }
+
+        loop(node.left);
+        inorderTraverArr.push(node.data);
+        loop(node.right);
+    }
+
+    loop(node);
+
+    console.log("中序排列:", inorderTraverArr);
+    return inorderTraverArr;
+}
+
+inorderTraversal2(node = this.root) {
+    if (!node) {
+      return;
+    }
+
+    let stack = [];
+    let inorderTraversalArr = [];
+
+    while (stack.length || node) {
+      if (node) {
+        stack.push(node);
+        node = node.left;
+      } else {
+        node = stack.pop();
+        inorderTraversalArr.push(node.data);
+        node = node.right;
+      }
+    }
+
+    console.log("中序遍历迭代：", inorderTraversalArr);
+    return inorderTraversalArr;
+  }
+```

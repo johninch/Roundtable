@@ -5,7 +5,7 @@
 ## 题目
 操作给定的二叉树，将其变换为源二叉树的镜像。
 ```
-       源二叉树 
+       源二叉树
     	    8
     	   /  \
     	  6   10
@@ -29,7 +29,7 @@ var invertTree = function(root) {
     if (!root) {
         return null
 	}
-	
+
 	[root.left, root.right] = [invertTree(root.right), invertTree(root.left)]
 
 	return root
@@ -53,4 +53,26 @@ function toImage(tree: IBinaryTreeBase) {
     }
     return tree;
 }
+```
+
+### febcat
+```js
+const reverse = node => {
+    if (!node) {
+      return null;
+    }
+
+    let nodeLeft = node.left;
+    let nodeRight = node.right;
+    node = new Node(node.data);
+
+    if (nodeRight) {
+      node.left = _reverse(nodeRight);
+    }
+    if (nodeLeft) {
+      node.right = _reverse(nodeLeft);
+    }
+
+    return node;
+  };
 ```
