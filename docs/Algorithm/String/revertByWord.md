@@ -38,7 +38,7 @@ function revertByWord(str) {
 
 // 3、使用正则match匹配
 const revertByWord = (str) =>
-    str.match(/[\w']+/g).map(item =>
+    str.match(/[\S]+/g).map(item =>
         item.split('').reverse().join('')
     ).join(' ')
 

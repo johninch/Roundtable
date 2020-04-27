@@ -248,17 +248,17 @@ getNode(data, node) {
 和线性表的中点值进行比较，如果小就继续在小的序列中查找，如此递归直到找到相同的值。
 ::: details 二分查找
 ```js
-function binarySearch(data, arr, start, end) {
+function binarySearch(target, arr, start, end) {
     if (start > end) {
         return -1;
     }
     var mid = Math.floor((end + start) / 2);
-    if (data == arr[mid]) {
+    if (target == arr[mid]) {
         return mid;
-    } else if (data < arr[mid]) {
-        return binarySearch(data, arr, start, mid - 1);
+    } else if (target < arr[mid]) {
+        return binarySearch(target, arr, start, mid - 1);
     } else {
-        return binarySearch(data, arr, mid + 1, end);
+        return binarySearch(target, arr, mid + 1, end);
     }
 }
 var arr = [0, 1, 1, 1, 1, 1, 4, 6, 7, 8]
@@ -302,7 +302,7 @@ console.log(binarySearch(1, arr, 0, arr.length-1));
 2. 节点的右子树只包含大于当前节点的数。
 3. 所有左子树和右子树自身必须也是二叉搜索树。
 
- - [生成二叉搜索树](/Roundtable/Algorithm/Tree-and-Binary-Tree/gennerate-BST)
+ - [:100:生成二叉搜索树](/Roundtable/Algorithm/Tree-and-Binary-Tree/gennerate-BST)
  - [:100:验证二叉搜索树](/Roundtable/Algorithm/Tree-and-Binary-Tree/isValidBST)
  - [:100:二叉搜索树的第k个节点](/Roundtable/Algorithm/Tree-and-Binary-Tree/kth-node)
  - [:100:二叉搜索树的后序遍历](/Roundtable/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST)

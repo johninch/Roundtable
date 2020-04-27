@@ -85,7 +85,7 @@
   - [:100:求二叉树的后序遍历](./Tree-and-Binary-Tree/get-HRD)
   - [:100:对称的二叉树](./Tree-and-Binary-Tree/is-symmetrical)
   - [:100:二叉树的镜像](./Tree-and-Binary-Tree/mirror)
-  - [:100:生成二叉搜索树](./Tree-and-Binary-Tree/gennerate-BST)
+  - [:100:生成二叉搜索树](./Tree-and-Binary-Tree/generate-BST)
   - [:100:验证二叉搜索树](./Tree-and-Binary-Tree/isValidBST)
   - [:100:二叉搜索树的第k个节点](./Tree-and-Binary-Tree/kth-node)
   - [:100:二叉搜索树的后序遍历](./Tree-and-Binary-Tree/verify-squence-of-BST)

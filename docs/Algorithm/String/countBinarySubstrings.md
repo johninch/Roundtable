@@ -33,7 +33,7 @@ const countBinarySubstrings = (s) => {
     let result = []
     let helper = (str) => {
         let left = str.match(/(0+|1+)/)[0]
-        let right = (str[0]^1).toString().repeat((left.length))
+        let right = (str[0]^1).toString().repeat(left.length)
 
         let reg = new RegExp(`^(${left}${right})`)
         if (reg.test(str)) {

@@ -15,30 +15,28 @@
 - 可以设置一个 mid 数组用来保存等于基准元素的元素集合，基准元素其实可是是任意一个元素，这里选了最后一个，比较方便。
 ```js
 // 三路快排
-quick3waySort = function (arr) {
-  var len = arr.length;
-  if (len <= 1) return arr;
-
-  var pivot = arr.pop(),
-      left = [],
-      right = [],
-      mid = pivot;
-
-  arr.forEach(item => {
-    if (item < pivot) {
-      left.push(item);
-    } else if (item > pivot) {
-      right.push(item);
-    } else {
-      mid.push(item);
+const quickSort = (arr) => {
+    if (arr.length <= 1) {
+        return arr
     }
-  });
 
-  var _left = quick3waySort(left),
-      _right = quick3waySort(right);
+    let pivot = arr.pop(),
+        left = [],
+        right = [],
+        mid = [pivot];
 
-  return _left.concat(mid, _right);
-};
+    arr.forEach(item => {
+        if (item < pivot) {
+            left.push(item)
+        } else if (item > pivot) {
+            right.push(item)
+        } else {
+            mid.push(item)
+        }
+    })
+
+    return quickSort(left).concat(mid, quickSort(right))
+}
 ```
 
 #### 一行代码实现快排
