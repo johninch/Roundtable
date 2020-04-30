@@ -134,6 +134,7 @@ module.exports = {
                         '/Question-Bank/communication/cors',
                         '/Question-Bank/communication/upload',
                         '/Question-Bank/communication/download',
+                        '/Question-Bank/communication/preview',
                         '/Question-Bank/communication/json',
                         '/Question-Bank/communication/axios',
                     ]

@@ -68,12 +68,8 @@
   - [编写js，实现当浏览器窗口宽度小于500时，全屏显示；大于500时，目标节点总是上下左右居中、长宽分别是整个窗口尺寸的一半；需要支持浏览器窗口尺寸任意改变，并且考虑一定的事件响应性能问题](./basic-grammar/)
   - [编写css，实现当浏览器窗口宽度小于500时，全屏显示；大于500时，目标节点总是上下左右居中、长宽分别是整个窗口尺寸的一半](./basic-grammar/)
   - [编写js，实现一个简单的js加载器方法，可以实现按照指定的文件顺序加载js：参数顺序即为串行加载顺序，前序加载成功方可加载下一个；如果某个参数是个数组，则需要并行加载数组中的所有指定文件](./basic-grammar/)
-  - [编写js或者css，实现对目标节点，鼠标移上去不断闪烁的动画效果（闪烁间隔500ms，类似输入时光标闪烁](./basic-grammar/)
-  - [编写js，使下面的代码可以正确运行（注：已知数组默认并没有magicMe方法](./basic-grammar/)
-  - [编写js，实现一个polyfill，用来在低版本浏览器中实现ES5中的Function.prototype.bind()的兼容](./basic-grammar/)
   - [编写js，实现一个wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)](./basic-grammar/)
   - [编写js，实现对足球比赛的剩余人数判断](./basic-grammar/football-people)
-  - [编写css，实现iPhone手机主屏幕布局](./basic-grammar/)
   - [:rocket:打印树形目录结构【难】](./basic-grammar/print-all-directory-file)
 
 #### 面向对象与原型链
