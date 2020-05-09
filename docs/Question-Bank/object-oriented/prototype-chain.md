@@ -30,6 +30,17 @@ var p = { name: 'p' }
 var o3 = Object.create(p);
 ```
 
+::: details 手写实现 Object.create
+```js
+Object.create = Object.create || function(obj) {
+    var F = function(){};
+    F.prototype = obj;
+
+    return new F();
+}
+```
+:::
+
 控制台输出：
 
 ![](./images/prototype-1-01.png)

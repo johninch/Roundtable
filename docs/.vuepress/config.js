@@ -110,6 +110,7 @@ module.exports = {
                         '/Question-Bank/css/box-sizing&margin-collapse&BFC',
                         '/Question-Bank/css/layout-method',
                         '/Question-Bank/css/css-base',
+                        '/Question-Bank/css/circle-loading.md',
                     ]
                 },
                 {
@@ -214,6 +215,7 @@ module.exports = {
                         '/Question-Bank/react/react-virtual-dom.md',
                         '/Question-Bank/react/refs.md',
                         '/Question-Bank/react/children.md',
+                        '/Question-Bank/react/mobx.md',
                         '/Question-Bank/react/fiber.md',
                         '/Question-Bank/react/react-other-points.md',
                         '/Question-Bank/react/react-router-dom',
@@ -305,6 +307,12 @@ module.exports = {
                         '/Wanted/pwa',
                     ]
                 },
+                {
+                    title: '其他',
+                    children: [
+                        '/Question-Bank/johninch.md'
+                    ]
+                }
             ],
             '/Wanted/': [
                 {

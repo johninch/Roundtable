@@ -21,13 +21,13 @@ const generateBST = (data) => {
             if (!node.left) {
                 node.left = new Node(data)
             } else {
-                this.insert(node.left, data)
+                insert(node.left, data)
             }
         } else {
             if (!node.right) {
                 node.right = new Node(data)
             } else {
-                this.insert(node.right, data)
+                insert(node.right, data)
             }
         }
     }

@@ -4,7 +4,7 @@
 Webpack是一个现代Javascript应用的模块打包器 (module bundler)，能够将任何资源如 JavaScript 文件、CSS 文件、图片等打包成一个或少数文件。这是最核心的功能。
 - 这意味着与以往的发起多个 HTTP 请求来获得资源相比，现在只需要发起少量的 HTTP 请求。
 - 它采用`tool+plugins`的结构。tool提供基础能力，即文件依赖管理和资源加载管理；在此基础上通过一系列的plugins来丰富打包工具的功能。
-- 在webpack里，所有的文件都是模块。但是`webpack只认识js模块`，所以要通过一些loader插件把css、图片等文件转化成webpack认识的模块。
+- 在webpack里，所有的文件都是模块。但是`webpack只认识js模块`，所以要通过一些loader把css、图片等文件转化成webpack认识的模块。
 
 
 ## webpack的工作步骤

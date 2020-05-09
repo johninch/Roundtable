@@ -106,6 +106,49 @@ var result = ('jian' in obj); // false
 var result1 = ("j" in obj);  // true
 ```
 
+## for in 与 for of
+JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
+```js
+var arr = ['a', 'b', 'c', 'd'];
+
+for (let a in arr) {
+  console.log(a); // 0 1 2 3
+}
+for (let a of arr) {
+  console.log(a); // a b c d
+}
+```
+
+## 遍历对象的方法
+- `for in`：遍历对象的可枚举属性，包括自有属性、继承自原型的属性
+- `Object.keys`：返回一个数组，元素均为可枚举属性，且必须是自有属性
+- `Object.getOwnProperty`：返回一个数组，元素包括可枚举和不可枚举的属性，必须是自有属性
+
+```js
+var obj = { name: "tom", sex: "male" }
+
+Object.defineProperty(obj, "age", {
+    value: "18",
+    enumerable: false
+}); // 增加不可枚举的属性age
+Object.prototype.protoPer1 = function() { console.log(1) } //通过原型链增加属性，为一个函数
+Object.prototype.protoPer2 = 2; // 通过原型链增加属性，为一个整型值2
+
+
+for (var k in obj) {
+  console.log(k);
+}
+// name 
+// sex 
+// protoPer1 
+// protoPer2 
+
+console.log(Object.keys(obj)) // ["name", "sex"]
+
+console.log(Object.getOwnPropertyNames(obj)) // ["name", "sex", "age"]
+```
+
+
 ## b = a.filter(Boolean)
 
 实际上，下面这样的写法是一种简写模式:
@@ -177,13 +220,40 @@ var arr = Object.keys(data);
 alert(arr.length == 0);//true
 ```
 
+## 判断是数组
+
+- [] instanceof Array
+- [].constructor === Array
+- Object.prototype.toString.call([]) === '[object Array]'
+- Array.isArray([])
+
 ## 数组方法 sort排序
-不传排序规则函数时，默认是按照字符编码Unicode的顺序进行排序。
+不传排序规则函数时，sort方法默认是将数组元素转为字符串，然后根据Unicode字符集编号的大小排序的。传规则函数时：
 ```js
 arr.sort((a, b) => a - b) // 升序
 arr.sort((a, b) => a.age - b.age) // 按属性升序
 arr.sort((a, b) => b - a) // 降序
 arr.sort(() => Math.random() < 0.5 ? 1 : -1) // 乱序
+```
+
+#### Array.prototype.sort()底层实现
+ECMA只说`Array.prototype.sort`并不一定稳定，但没有规定具体的排序算法，所以具体实现是由各个JavaScript引擎决定的：
+- Chrome V8引擎：
+    - 数组长度`>10`时，使用`快速排序`
+    - 当数组长度`<=10`时，使用`插入排序`
+    - 因为插入排序是稳定的，在数组长度小于一定值的时候是会比快速排序速度更快。因为规模小，所以复杂度是`O(n)`。
+    - 快速排序是不稳定的，快排在大规模数据排序的时候更有优势。复杂度是`O(nlogn)`。
+- Firefox SpiderMonkey引擎：
+    - 归并排序，归并排序是稳定的。
+- Safari Nitro引擎：
+    - 有comparator函数就使用归并排序
+    - 没有的话就使用桶排序
+
+#### 手写快排（3路快排）
+```js
+const quickSort = (arr) => {
+    return arr.length <= 1 ? arr : quickSort(arr.slice(1).filter(item => item < arr[0])).concat(arr[0], quickSort(arr.slice(1).filter(item => item >= arr[0])))
+}
 ```
 
 ## 数组方法 slice与concat

@@ -141,15 +141,15 @@
 - 如果方法多次触发，则把上次记录的延迟执行代码用clearTimeout清掉，重新开始。
 - 如果计时完毕，没有方法进来访问触发，则执行代码。
 ```js
-const debounce = (handler, delay) => {
-  let timer;
-  return function() {
-    const ctx = this;
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      handler.apply(ctx, arguments)
-    }, delay)
-  }
+const debounce = (fn, time) => {
+    let timer
+    return function(...args) {
+        let that = this
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn,apply(that, [...args])
+        }, time)
+    }
 }
 
 /**
@@ -185,17 +185,17 @@ const debounce2 = (handler, delay = 300, immediate = false) => {
 - 函数节流的要点是，声明一个变量当标志位，记录当前代码是否在执行。
 - 如果空闲，则可以正常触发方法执行；如果代码正在执行，则取消这次方法执行，直接return。
 ```js
-const throttle = (handler, delay) => {
-  let canDo = true;
-  return function() {
-    if (!canDo) {
-      return;
+const throttle = (fn, time) => {
+    let canDo = true;
+    return function(...args) {
+        if (!canDo) {
+            return
+        }
+        let that = this
+        setTimeout(() => {
+            fn.apply(that, [...args])
+        }, time)
     }
-    let ctx = this;
-    setTimeout(() => {
-      handler.apply(ctx, arguments)
-    }, delay)
-  }
 }
 
 /**

@@ -113,7 +113,7 @@ console.log('e');
 // b e c d a
 ```
 
-**解释**：首先 `new Promise`和console.log都是同步任务，是在执行栈同步执行的，所以输出b e，且在创建实例p时，就resolve()了，因此宏任务产生了与其对应的微任务（p.then），在此次宏任务执行完时会立即执行微任务输出c d，最后执行第二个宏任务settimeout的回调，输出a。
+**解释**：首先 new Promise 和 console.log 都是同步任务，是在执行栈同步执行的，所以输出b e，且在创建实例p时，就resolve()了，因此宏任务产生了与其对应的微任务（p.then），在此次宏任务执行完时会立即执行微任务输出c d，最后执行第二个宏任务settimeout的回调，输出a。
 
 ```js
 // 例子2

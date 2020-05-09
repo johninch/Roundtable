@@ -11,8 +11,10 @@
     - 导致的结果就是给shallowObj.arr[1]=5赋值，同时也改变了obj.arr[1]的值(也变为5)。
     - 因为浅复制比深复制简单得多，ES6定义了`Object.assign(...)`方法来实现`浅复制`。它会遍历一个或多个源对象的所有可枚举的自有键并把它们复制到目标对象，最后返回目标对象。`var newObj = Object.assign( {}, obj )`
 - **深复制**：深复制不仅将源对象的各个属性逐个复制出去，而且将源对象各个属性所包含的对象也**逐一递归**复制到新对象上，这就不会导致 `obj.arr` 和 `deepObj.arr` 属性指向同一个对象的问题。
-    - `最简单的深拷贝`，利用JSON全局对象的parse和stringify方法：`var b = JSON.parse(JSON.stringify(a))`。
-    - `最简单的深拷贝`**缺点是**：无法复制函数，只能处理如 Number，String，Boolean，Array 等那些**能够被json直接表示的**数据结构。即`JSON安全的数据结构`。
+    - `最简单的深拷贝`，利用JSON全局对象的parse和stringify方法：`var b = JSON.parse(JSON.stringify(a))`。这种简单方式的**缺点是**：
+        - 无法复制函数，只能处理如 Number，String，Boolean，Array 等那些**能够被json直接表示的**数据结构。即`JSON安全的数据结构`。
+        - 会抛弃对象的constructor，所有的构造函数会指向Object；
+        - 对象有循环引用，会报错。
 
 ## 推荐答案
 ::: details 推荐答案-完美深拷贝

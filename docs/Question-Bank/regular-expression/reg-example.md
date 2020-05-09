@@ -106,4 +106,25 @@ console.log(checkIdCard("11011119890222064A")); // 非法
 ```
 
 
+## 实现简单模板字符串
+```js
+const template = "I am {{name }}, {{ age}} years old";
+var context = { name: "xiaoming", age: 2 };
+
+function templateStr(template, context) {
+  return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+    return context[key.replace(/\s/g, '')];
+  });
+}
+
+console.log(templateStr(template, context));
+```
+**关键点：**
+- replace方法支持第二个参数传入替换函数，函数包含2个参数，即第一个正则参数匹配项`match及捕获key`；
+- `.*?`代表`非贪婪匹配`除换行符的任意字符至少0次，这里之所以用非贪婪匹配，是因为如果在*后加?的话，表达式会匹配到template中最后一个}}才结束匹配；
+- 不需要循环来做，只需要`/g`全局匹配，replace就会逐个匹配并完成替换过程；
+- 其实大括号也可以不转义，大部分编辑器都可以识别，这里还是稳妥的转义了。至于为什么不需要转义，需进一步研究下；
+- 最后返回的属性匹配过程中，`.replace(/\s/g, '')`是为了兼容空格导致无法匹配的问题。
+
+
 

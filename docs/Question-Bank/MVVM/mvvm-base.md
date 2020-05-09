@@ -119,7 +119,7 @@ object上的方法都将慢慢迁移到reflect上。
 1. 不能检测到**添加**或**删除**的属性。
     - `object.defineProperty`对于添加的新属性我们并没有监听，而删除属性并不被get和set拦截，所以也检测不到。
 2. 数组方面的变动，如**根据索引改变元素**，以及**直接改变数组长度**，不能被检测到。例如`vm.items[indexOfItem] = newValue`，`vm.items.length = newLength`。
-    - 其实`object.defineProperty`本身是可以监听和响应数组`arr[index] = val`的变动的，但 尤大 说，出于从 性能代价和用户体验收益权衡，并没与实现这个功能。
+    - 其实`object.defineProperty`本身是可以监听和响应数组`arr[index] = val`的变动的，但 尤大 说，出于从 性能代价和用户体验收益权衡，并没有实现这个功能。
 
 ::: details Vue提供了解决方法：
 1. 由于 性能的考量，Vue **不能检测以下两种`数组`的变动**:

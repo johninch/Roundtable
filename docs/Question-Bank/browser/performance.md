@@ -1,10 +1,10 @@
 ---
-title: 提升页面性能的方法（5点）
+title: 提升页面性能的方法（6点）
 tags: [gzip, defer, async, 强缓存, 协商缓存, prefetch, preload, DNS预解析, CDN]
 categories: performance
 ---
 
-# 提升页面性能的方法（5点）
+# 提升页面性能的方法（6点）
 
 ## 资源压缩合并
 
@@ -24,7 +24,7 @@ categories: performance
 ![](./images/cache-1-01.png)
 
 #### 一、强缓存：浏览器如果判断本地缓存未过期，就直接使用，无需发起http请求
-- Expires Expires: Thu, 21 Jan 2017 23:00:00 GMT   （http1.0）。如果发送请求的时间在expires之前，那么本地缓存始终有效。
+- Expires: Thu, 21 Jan 2017 23:00:00 GMT   （http1.0）。如果发送请求的时间在expires之前，那么本地缓存始终有效。
 - Cache-Control: max-age=600(注: 十分钟)/ no-cache/ no-store/ public/ private（http1.1）
     - max-age用来控制强缓存，是一个相对值，相对于第一次请求的时间点的过期时间，如果当前请求时间在过期时间之前，就能命中强缓存;
     - no-cache：不使用强缓存。需要使用协商缓存，先与服务器确认返回的响应是否被更改

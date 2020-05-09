@@ -23,11 +23,11 @@ CSS 有三种基本的定位机制：`普通流`、`浮动`和`绝对定位`。
 1. `after伪选择符`，就可以在父容器的尾部自动创建一个子元素。
     ```css
     div:after {
-    content: ".";
-    height: 0;
-    visibility: hidden;
-    display: block;
-    clear: both;
+        content: ".";
+        height: 0;
+        visibility: hidden;
+        display: block;
+        clear: both;
     }
     ```
 2. `工程上常用的.clearfix`一般是这样描述的：

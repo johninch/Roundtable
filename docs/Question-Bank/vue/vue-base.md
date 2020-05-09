@@ -7,17 +7,20 @@
 ### Vue的响应式系统
 响应式系统简述:
 
-任何一个 Vue Component 都有一个与之对应的 Watcher 实例。
-Vue 的 data 上的属性会被添加 getter 和 setter 属性。
-当 Vue Component render 函数被执行的时候，data 上会被 触碰(touch)，即被读，getter 方法会被调用，此时 Vue 会去记录此 Vue component 所依赖的所有 data。(这一过程被称为依赖收集)
-data 被改动时（主要是用户操作），即被写，setter 方法会被调用，此时 Vue 会去通知所有依赖于此 data 的组件去调用他们的 render 函数进行更新。
+- 任何一个 Vue Component 都有一个与之对应的 Watcher 实例。
+- Vue 的 data 上的属性会被添加 getter 和 setter 属性。
+- 当 Vue Component render 函数被执行的时候，data 上会被 触碰(touch)，即被读，getter 方法会被调用，此时 Vue 会去记录此 Vue component 所依赖的所有 data(这一过程被称为依赖收集)。
+- data 被改动时（主要是用户操作），即被写，setter 方法会被调用，此时 Vue 会去通知所有依赖于此 data 的组件去调用他们的 render 函数进行更新。
 
 
 ### Vue2.x响应式数据原理
-vue2.x中如何监测数组变化？  使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法。这样当调用数组api时，可以通知依赖更新。如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
+vue2.x中如何监测数组变化？
+
+使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法。这样当调用数组api时，可以通知依赖更新。如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
 
 ### Vue3.x响应式数据原理
 怎么解决Proxy只会代理对象的第一层？ Vue3 会 判断当前Reflect.get的返回值是否为Object，如果是则再通过reactive方法做代理， 这样就实现了深度观测。
+
 监测数组的时候可能触发多次get/set，如何防止触发多次呢？  可以判断key是否为当前被代理对象target自身属性，也可以判断旧值与新值是否相等，只有满足以上两个条件之一时，才有可能执行trigger。
 
 ### Proxy与Object.defineProperty的优劣对比
@@ -132,6 +135,7 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 
 **解决办法**：
 1. 如果你在mounted里获取this.$refs，因为dom还未完全加载，所以你是拿不到的，update阶段则是完成了数据更新到 DOM 的阶段(对加载回来的数据进行处理)，此时，就可以使用this.$refs了。
+
 2、如果写在method中，那么可以使用 this.$nextTick(() => {}) 等页面渲染好再调用，这样就可以了。
 
 
@@ -187,7 +191,7 @@ mounted(){
 
 ## v-if和v-show的区别
 - `v-if` 是真正的条件渲染，会控制真实DOM元素的销毁和重建。
-- `v-show` 的元素`始终会被渲染`，只是简单地切换元素的 CSS 属性 `display`。如果条件不成立，元素`display: none`（在Dom tree中，但因为不在Css tree中，所以也就不在render tree中），右键检查元素的话也是有Dom元素结构的，因为在Dom tree中。
+- `v-show` 的元素`始终会被渲染`，只是简单地切换元素的 CSS 属性 `display`。如果条件不成立，元素`display: none`（在Dom tree中，但不在render tree中），右键检查元素的话也是有Dom元素结构的，因为在Dom tree中。
 
 传送门：结合 [display: none与 visibility: hidden]() 一起理解。
 
@@ -248,19 +252,12 @@ oldCh 和 newCh 各有两个头尾的变量 StartIdx 和 EndIdx ，它们的2个
 :::
 
 ## Vue中的key到底有什么用
-key是为Vue中的vnode唯一标记id，通过这个key，diff操作可以更准确、更快速。
-
-- **准确**: **如果不加key，那么vue会选择复用节点**(Vue的`就地更新策略`)，导致之前节点的状态被保留下来，会产生一系列的bug.
-- **快速**: key的唯一性可以被Map数据结构充分利用，相比于遍历查找的时间复杂度`O(n)`，Map的时间复杂度仅仅为`O(1)`.
-
-## 虚拟Dom以及key属性的作用
 （首先明白：使用document.CreateElement 和 document.CreateTextNode创建的就是真实节点）由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的产生原因。
 
-Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。
-
-VirtualDOM映射到真实DOM要经历VNode的create、diff、patch等阶段。
-
-**「key的作用是尽可能的复用 DOM 元素。」**：新旧 children 中的节点只有顺序是不同的时候，「最佳实践」应该是通过移动元素的位置来达到更新的目的。因此，需要在新旧 children 的节点中保存映射关系，以便能够在旧 children 的节点中找到可复用的节点。key也就是children中节点的唯一标识。
+key是为Vue中的vnode唯一标记id，通过这个key，diff操作可以更准确、更快速。
+- **复用**: 新旧 children 中的节点**只有顺序是不同的时候**，「最佳实践」应该是通过**移动元素**的位置来达到更新的目的。key作为唯一标识，保存映射关系帮助复用实现。
+- **准确**: **如果不加key，那么vue会选择复用节点**(Vue的`就地更新策略`)，导致之前节点的状态被保留下来，会产生一系列的bug.
+- **快速**: key的唯一性可以被Map数据结构充分利用，相比于遍历查找的时间复杂度`O(n)`，Map的时间复杂度仅仅为`O(1)`.
 
 ## keep-alive
 keep-alive可以实现`组件缓存`，当组件切换时不会对当前组件进行卸载（切换时不卸载）。

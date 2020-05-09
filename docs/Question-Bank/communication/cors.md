@@ -53,9 +53,9 @@ Origin字段用来说明，本次请求来自哪个源（协议、域名、端�
     Content-Type: text/html; charset=utf-8
     ```
     - **Access-Control-Allow-Origin**：必须。它的值要么是请求时Origin字段的值，要么是一个*，表示接受任意域名的请求；
-    - **Access-Control-Allow-Credentials**：选填。布尔值，表示是否允许发送Cookie。**默认情况下，Cookie不包括在CORS请求之中。**设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可；
+    - **Access-Control-Allow-Credentials**：选填。布尔值，表示是否允许发送Cookie。**默认情况下，Cookie不包括在CORS请求之中**。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可；
         - CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，一方面要服务器同意，指定` Access-Control-Allow-Credentials: true`；
-        - 另一方面，开发者需要再XHR对象中开启 `withCredentials: true`；
+        - 另一方面，开发者需要在XHR对象中开启 `withCredentials: true`；
         - 否则，即使服务器同意发送Cookie，浏览器也不会发送。或者，服务器要求设置Cookie，浏览器也不会处理。
         - 如果省略withCredentials设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭withCredentials。
         - `注意一点！！！`如果要发送Cookie（Access-Control-Allow-Credentials: true），`Access-Control-Allow-Origin就不能设为星号(通配符)`，必须指定明确的、与请求网页一致的域名，否则请求失败。同时，Cookie依然遵循同源政策，只有用服务器域名设置的Cookie才会上传，其他域名的Cookie并不会上传，且（跨源）原网页代码中的document.cookie也无法读取服务器域名下的Cookie（为什么有这个规则：因为Cookie还是遵循同源策略的，每个Origin的Cookie是不能被其他Origin获取到的，也就是不允许Access-Control-Allow-Origin 的值为“*”）。

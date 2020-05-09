@@ -27,17 +27,17 @@ ECMAScript 6 (ES6)/ECMAScript 2015 (ES2015):  第6个ECMAScript版本，于2015�
     :::
 
 3. `暂时性死区`（因为`没有变量提升`）：
-    - **原因**：let、const 没有声明提升的作用，这是导致“暂时性死区”的原因（ps：只有var和Function是函数级作用域，具有变量声明提升的作用）。
+    - **原因**：let、const 没有声明提升的作用，这是导致“暂时性死区”的原因（ps：只有var和function是函数级作用域，具有变量声明提升的作用）。
     - **定义**：在代码块内，使用let、const命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
     - 只能在let、const声明之后使用变量或常量，在声明之前调用 变量/常量 就属于该 变量/常量 的“死区”，会报错。
 4. 重复声明和赋值：
     - let定义变量，不能重复声明，而 var可以重复声明。
     - const定义常量，在定义时必须赋值，否则报错，且对于原始类型不能再修改，而对于Object类型（引用类型），可以修改堆内存空间中的存储值value，不能修改栈内存中的常量引用key：比如
     ```js
-    const a = { b: 1}
+    const a = { b: 1 }
     a.b = 2 // 修改值没问题
     a.c = 3 // 新增属性也没问题
-    a = { d: 1} // 报 error，因为引用地址不能重新赋值
+    a = { d: 1 } // 报 error，因为引用地址不能重新赋值
     ```
 
 ## 模板字符串 ``
@@ -84,7 +84,7 @@ let { a: b, c: d } = { a: 1, b: 2, c: 3, d: 4};
 a // a会报错，a is not defined
 c // c会报错，c is not defined
 b // 1
-d // 2
+d // 3
 ```
 
 ## 扩展(spread)运算符 ...
@@ -400,43 +400,57 @@ console.log(a.name); // Jack
 ```
 
 ### 类继承 extends/super
-
-super可作为函数和对象两种方式使用，且使用方式完全不同：
-#### 1. 作为函数，只能在constructor中使用
-ES6 要求，`子类的构造函数必须执行一次super函数`（子类必须在constructor方法中调用super方法），如果不调用super方法，子类就得不到this对象，会报错。
-
-**注意**：super虽然代表了父类A的构造函数，但是`返回的是子类B的实例`，即super内部的this指的是B的实例，
-
-#### 2. 作为对象，使用在函数中
-super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
-
+#### Class通过extends关键字实现继承
 ```js
-class ColorPoint extends Point {
-  constructor(x, y, color) {
-    super(x, y); // 作为函数使用，只能在子类constructor中 调用父类的constructor(x, y)
-    this.color = color;
+class Parent {
+}
+
+class Child extends Parent {
+  constructor(x, y) {
+    super(x, y); // 调用父类的constructor(x, y)
+    this.type = type;
   }
 
   toString() {
-    return this.color + ' ' + super.toString(); // 作为对象使用，调用父类的toString()
+    return this.type + ' ' + super.toString(); // 调用父类的toString()
   }
 }
 ```
 
-**注意**：如果子类没有定义constructor方法，这个`方法会被默认添加`，代码如下。也就是说，不管有没有显式定义，任何一个子类都有constructor方法。
-::: details 默认给子类添加constructor和super
-```js
-class ColorPoint extends Point {
-}
+#### super可作为`函数`和`对象`两种方式使用
+且使用方式完全不同：
+1. **作为函数，只能在constructor中使用**
+  - ES6 要求，`子类的构造函数必须执行一次super函数`（子类必须在constructor方法中调用super方法），如果不调用super方法，子类就得不到this对象，会报错。
+  - **注意**：super虽然代表了父类A的构造函数，但是`返回的是子类B的实例`，即super内部的this指的是B的实例，
 
-// 等同于
-class ColorPoint extends Point {
-  constructor(...args) {
-    super(...args);
+2. **作为对象，使用在函数中**
+  - super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+  ```js
+  class ColorPoint extends Point {
+    constructor(x, y, color) {
+      super(x, y); // 作为函数使用，只能在子类constructor中 调用父类的constructor(x, y)
+      this.color = color;
+    }
+
+    toString() {
+      return this.color + ' ' + super.toString(); // 作为对象使用，调用父类的toString()
+    }
   }
-}
-```
-:::
+  ```
+  - **注意**：如果子类没有定义constructor方法，这个`方法会被默认添加`，代码如下。也就是说，不管有没有显式定义，任何一个子类都有constructor方法。
+  ::: details 默认给子类添加constructor和super
+  ```js
+  class ColorPoint extends Point {
+  }
+
+  // 等同于
+  class ColorPoint extends Point {
+    constructor(...args) {
+      super(...args);
+    }
+  }
+  ```
+  :::
 
 #### ES6继承与ES5继承机制比较
 - ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。

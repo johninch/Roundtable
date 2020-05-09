@@ -52,7 +52,7 @@ let hanota = function(A, B, C) {
     let move = (A, B, C, n) => {
         if (n === 0) return
         move(A, C, B, n-1)  // n-1从A到B
-        C.push(A.pop())     // n从A到C
+        C.push(A.pop())     // 第n从A到C
         move(B, A, C, n-1)  // n-1从B到C
 
         return C

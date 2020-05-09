@@ -95,7 +95,7 @@
   - [:rocket:移动端响应式适配方案](./css/flexible.md)
   - [:bulb:样式布局中的奇技淫巧](./css-tricks.md)
   - [使用scss编写代码，快速创建100条规则](./css.md)
-  - [使用css3编写loading动画](./css.md)
+  - [:100:用css3写一个环形进度条](./circle-loading.md)
   - [编写css实现图示中多列分栏布局](./css.md)
 
 #### HTML & DOM
@@ -282,6 +282,7 @@
   - [es6中的async/await语法如何捕获rejected状态？](/Roundtable/Question-Bank/basic-grammar/)
   - [es6中的proxy、reflect可以用来做什么？](/Roundtable/Question-Bank/basic-grammar/)
   - [:rocket:application/x-www-form-urlencoded、multipart/form-data、json、xml四种主流post数据的编码方式有何区别、各自有什么优劣？](/Roundtable/Question-Bank/basic-grammar/content-type)
+  - [johninch](./johninch.md)
   - [举例js中常见的设计模式有哪些？](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述设计实现用户头像上传预览功能大概实现思路](/Roundtable/Question-Bank/basic-grammar/)
   - [请简述实现模态框的思路](/Roundtable/Question-Bank/basic-grammar/)
