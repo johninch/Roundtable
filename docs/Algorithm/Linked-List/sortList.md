@@ -115,7 +115,7 @@ const sortList = function(head) {
 		// 保证 p左小，p右大
 		while (q !== end) {
 			if (q.val < val) {
-				// 遍历小于基准时，移动p并交换pq
+				// 遍历小于基准时，要跟p的下一个节点交换
 				p = p.next
 				swap(p, q)
 			}

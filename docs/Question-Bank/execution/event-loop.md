@@ -30,11 +30,17 @@ categories: execution
 #### 常见宏任务
 - setTimeout
 - setInterval 
-- setImmediate（nodejs环境）
+- setImmediate
 - UI rendering（比如一些改变页面css的js代码任务）
+- script
+- I/O
+
 #### 常见微任务
-- Promise
-- process.nextTick（nodejs环境）
+- Promise.then()或catch()
+- Promise为基础开发的其它技术，比如fetch API
+- process.nextTick（Node独有的）
+- V8的垃圾回收过程
+- MutationObserver
 
 #### JS引擎线程(宏任务微任务) 与 GUI渲染线程 的互斥执行顺序
 

@@ -82,9 +82,9 @@ Webpack构建流程是一个`串行`的过程：
 :::
 
 ## bundle、chunk、module
-- `bundle` 是webpack打包出来的文件。
-- `chunk` 是webpack在进行模块的依赖分析的时候，代码分割出来的代码块。
-- `module` 是开发中的单个模块。
+- `module` 在开发中的所有的资源(.js、.css、.png)都是module，是webpack打包前的概念。
+- `chunk` 是webpack在进行模块的依赖分析的时候，代码分割出来的代码块。一个 chunk 可能包含若干 module。
+- `bundle` 最终输出到用户端的chunk，被称之为bundle；一般一个chunk对应一个bundle，只有在配置了sourcemap时，才会出现一个chunk对应多个bundle的情况。
 
 ## entry、output、path、publicPath
 - `entry`：入口文件是webpack建立依赖图的起点，有3种方式配置：**字符串、数组、对象**。

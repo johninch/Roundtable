@@ -28,18 +28,18 @@
 
 ### `路由同构`：双端路由如何维护？
 
-原理是将**路由配置抽取出来**，方便在服务端以及客户端共用（建议将路由配置统一放置到stores/routes）。node server 通过req url path 进行组件的查找，得到需要渲染的组件。路由匹配可以使用
-React官方维护的`react-router-config`库，实现嵌套路由的查找。
+原理是将**路由配置抽取出来**，方便在服务端以及客户端共用（建议将路由配置统一放置到stores/routes）。node server 通过req url path 进行组件的查找，得到需要渲染的组件。路由匹配可以使用 React官方维护的`react-router-config`库，实现嵌套路由的查找。
 
 
 ### `数据预取同构`：获取数据的方法和逻辑写在哪里？
 
 `数据预取同构`，解决双端如何使用同一套数据请求方法来进行数据请求。在查找到要渲染的组件后，需要预先得到此组件所需要的数据，然后将数据传递给组件后，再进行组件的渲染。
 
-#### 可选的方案有
-- 使用高阶组件给路由页面组件绑定数据获取方法（比如`withSSR(WrappedCompoennt, getInitialProps)`）。因此，我们的页面组件应该尽可能依赖于从其props中获取相关页面所需数据，减少其内部自身的数据获取逻辑。
-- 可以通过给组件定义静态（static）方法来处理，在 server 端和组件内都也可以直接通过组件（function）来进行访问（比如`Index.getInitialProps`）。
-- 再或者在声明路由的时候把数据请求方法关联到路由中（比如定一个 `getInitialProps` 方法，然后在查找到路由后就可以判断`route`上是否存在`getInitialProps`这个方法）。
+#### 可选的方案有（比较推荐前两种）
+获取数据方法写在哪里：
+1. 使用高阶组件给路由页面组件绑定数据获取方法（比如`withSSR(WrappedCompoennt, getInitialProps)`）。因此，我们的页面组件应该尽可能依赖于从其props中获取相关页面所需数据，减少其内部自身的数据获取逻辑。
+2. 可以通过给组件定义静态（static）方法来处理，在 server 端和组件内都也可以直接通过组件（function）来进行访问（比如`Index.getInitialProps`）。
+3. 再或者在声明路由的时候把数据请求方法关联到路由中（比如定一个 `getInitialProps` 方法，然后在查找到路由后就可以判断`route`上是否存在`getInitialProps`这个方法）。
 
 ### `渲染同构`：如何复用 服务端html？
 
@@ -51,10 +51,14 @@ React官方维护的`react-router-config`库，实现嵌套路由的查找。
 #### 解决方式
 `渲染同构`方案：
 1. 数据注水：**在服务端将预取的数据注入到浏览器，使浏览器端可以访问到。**
+  - 实现方式：直接`挂在html`中
+    ```js
+    let html = template.replace('%DATA%', `var __DATA__=${initialProps ? JSON.stringify(initialProps) : 'null'}`);。
+    ```
 2. 数据脱水：**客户端进行渲染前，需要先将数据传入对应的组件，保证props的一致性。**
     - 实现方式1：通过`高阶组件`，添加预取的数据。
     - 实现方式2：通过 `context` 传递，只需要在入口处传入。
-    - 实现方式3：直接`挂在html`中。
+    
 
 ## 其他要注意的问题
 

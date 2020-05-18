@@ -238,7 +238,7 @@ console.log(x); // 7
 console.log(y); // 5
 ```
 
-#### 例题 tiger-fintech
+::: details 例题 tiger-fintech
 ```js
 var name = 'tiger'
 
@@ -274,6 +274,25 @@ console.log(departments.getName()) // tiger-trade，注意隐式绑定回退到�
 console.log(departments.esop.getName()) // tiger-fe
 console.log(departments.other.getName()) // tiger-tiger
 ```
+::: 
+
+::: details 
+```js
+window.name = 'ByteDance';
+function A () {
+   this.name = 123;
+}
+A.prototype.getA = function(){
+    console.log(this);
+    return this.name + 1;
+}
+let a = new A();
+let funcA = a.getA;
+
+console.log(a.getA()); // 124
+console.log(funcA()); // ByteDance1
+```
+:::
 
 ## 闭包
 
@@ -324,7 +343,7 @@ foo() // 5 5 5 5 5
 - 函数在预解释阶段，都被当成字符串存入堆内存，在真正执行时，才会被拿出来执行（这里就是上文提到的，`函数在预解释阶段，被闭包引用的原始数据也被存在了堆内存中`）。
 - 数组中存储的，其实只是指向这个堆内存的指针，i并没有传进去，执行的时候i才被传进去。
 - 每次循环中的函数都会在父层执行环境中寻找i，他们都保有这个变量 i的引用。
-- 在预解释阶段执行结束（即循环结束），变量i的值自增为5，才到达函数执行阶段，此时每个函数返回的都是这个最终值5。
+- 在预解释阶段执行结束（即循环结束），变量i的值自增为6，才到达函数执行阶段，此时每个函数返回的都是这个最终值6。
 
 ```js
 function foo() {
@@ -344,15 +363,24 @@ foo() // [0, 1, 2, 3, 4]
 ::: details 也可以直接使用let的块级作用域
 ```js
 function foo() {
-  var res = [];
-  for (let i = 0; i < 5; i++) {
-    res[i] = i;
-  }
-
-  return res;
+    for (var i = 0; i < 6; i++) {
+        setTimeout(function() {
+            console.log(new Date, i);
+        }, 1000);
+    }
 }
 
-foo(); // [0, 1, 2, 3, 4]
+foo(); // 6 6 6 6 6 6
+
+function foo() {
+    for (let i = 0; i < 6; i++) {
+        setTimeout(function() {
+            console.log(new Date, i);
+        }, 1000);
+    }
+}
+
+foo(); // 0 1 2 3 4 5
 ```
 :::
 

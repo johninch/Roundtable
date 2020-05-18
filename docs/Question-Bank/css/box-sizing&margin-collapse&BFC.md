@@ -26,6 +26,41 @@ categories: css
 
 ![](./images/layout-3-col-01.png)
 
+::: details 例题
+以下dom结构中，child的offsetWidth与clientWidth分别是多少？
+```html
+<style>
+    .parent {
+      background: red;
+      width: 100px;
+      height: 100px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .child {
+      background: green;
+      width: 50px;
+      height: 50px;
+      padding: 10%; /* 继承父级的width就是10px */
+      border: 10px solid black;
+      box-sizing: border-box;
+    }
+</style>
+<div class="parent">
+   <div class="child"></div>
+</div>
+```
+- offsetWidth 水平方向 width + 左右padding + 左右border-width
+- clientWidth 水平方向 width + 左右padding
+- margin与padding值设置为百分数时，其值的计算参照 最近父级元素width，注意，四个方向都是以父级的宽来百分比的
+
+答案：
+- child.offsetWidth = 50
+- child.clientWidth = 30
+- child的content的宽是10，左右padding共20，左右border共20，共50
+:::
+
 ## 外边距重叠 margin-collapse
 
 ### 根据盒模型解释边距重叠margin-collapse

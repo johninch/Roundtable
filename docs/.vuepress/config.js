@@ -25,6 +25,12 @@ module.exports = {
             { text: '算法', link: '/Algorithm/' },
             { text: 'Ani-Css', link: 'https://esop-fed.github.io/ani-css/' },
             {
+                text: '个人备忘',
+                items: [
+                    { text: 'johninch', link: '/Mark/johninch/' },
+                ]
+            },
+            {
                 text: 'blog',
                 items: [
                     { text: 'johninch', link: 'https://johninch.github.io/' },
@@ -482,7 +488,25 @@ module.exports = {
                         '/Algorithm/DP/findCheapestPrice',
                     ]
                 },
-            ]
+            ],
+            '/Mark/': [
+                // {
+                //     title: 'Mark',
+                //     path: '/Mark/'
+                // },
+                {
+                    title: 'Johninch',
+                    // path: '/Mark/johninch',
+                    children: [
+                        '/Mark/johninch/base',
+                        '/Mark/johninch/coding',
+                        '/Mark/johninch/leetcode',
+                        '/Mark/johninch/lib',
+                        '/Mark/johninch/project',
+                        '/Mark/johninch/promise',
+                    ]
+                },
+            ],
         }
     },
     plugins: [
@@ -545,6 +569,14 @@ module.exports = {
         ['vuepress-plugin-smooth-scroll'],  // 平滑滚动
         ['@vuepress/nprogress'],  // 加载进度条
         ['reading-progress'],  // 阅读进度条
+        ['@vuepress/plugin-medium-zoom', { // Note: This is not @vuepress/medium-zoom
+            selector: '.theme-default-content img',
+            // medium-zoom options here
+            // See: https://github.com/francoischalifour/medium-zoom#options
+            options: {
+                margin: 16
+            }
+        }],
         ['@vuepress/active-header-links', {
             sidebarLinkSelector: '.sidebar-link',
             headerAnchorSelector: '.header-anchor'

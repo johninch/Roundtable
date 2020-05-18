@@ -11,7 +11,7 @@
 4. 使用nginx作为静态服务器，代理静态服务，将前端构建好的静态资源dist文件包，都托管到指定服务目录，通过listen配置好的端口（默认80），即可访问静态服务；
 5. npm run build 会把构建好的代码输出到dist目录中，放到nginx静态资源服务器的指定目录里。为了优化，将大部分的静态资源托管到第三方cdn平台上，而在nginx服务器上只托管dist下的index.html入口文件就好了；
 6. npm run cdn 把静态资源（除入口文件外所有的 js，css，img，font等等）上传到 cdn。每次上传都会在项目根目录下生成静态资源清单文件（static.config.json），以输出比较本次构建与之前构建的静态资源文件列表日志；
-7. 通过浏览器，访问网站前端域名，网站通过index.html入口文件的script标签记录的链接，加载app.xxx.js（同步模块代码）、vendor.xxx.js（依赖包代码）、manifest.xxx.js（异步模块清单），当路由切换时动态获取异步模块；
+7. 通过浏览器，访问网站前端域名，网站通过index.html入口文件的script标签记录的链接，加载app.xxx.js（同步模块代码）、vendor.xxx.js（依赖包代码）、manifest.xxx.js（指引文件），当路由切换时动态获取异步模块；
 
 ## 二、CI/CD相关知识
 CI/CD系统：持续集成和持续部署是微服务架构下的必要组成部分， `Jenkins`、Github 默认支持的 `Travis` 以及 `GitLab CI` 都是常用的 CI 工具。

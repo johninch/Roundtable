@@ -119,6 +119,18 @@ var newArr = arr.map(item => item+2) // item 和 item+2 很简单时无需包裹
 3. 不可以使用arguments对象，可以用rest参数代替；
 4. 不可以使用yield命令，因此箭头函数不能用作Generator函数。
 
+::: details 例题
+```js
+var func1 = x => x;
+var func2 = x => {x};
+var func3 = x => ({x});
+
+console.log(func1(1)); // 1
+console.log(func2(1)); // undefined
+console.log(func3(1)); // {x: 1}
+```
+:::
+
 #### 为什么箭头函数没有this指向问题
 箭头函数中，事件处理程序已经自动绑定到了组件实例上，这是由于在箭头函数的情况下，`this 是有词法约束力的，使用词法this绑定`。这意味它可以使用封闭的函数上下文或者全局上下文作为 this 的值。
 
@@ -302,7 +314,7 @@ foo.print = function() {
   console.log('instance function')
 }
 
-a.print()
+foo.print()
 ```
 此题定义了4种方法，按注释提示，上题会输出`'instance function'`，依次注释掉会按顺序输出不同结果，如果只有构造函数的静态方法会报错，因为a是取不到的。
 

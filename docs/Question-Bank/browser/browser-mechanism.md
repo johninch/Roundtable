@@ -128,7 +128,7 @@ categories: browser
 
 **服务端设置 cookie**：
 - 服务端都会返回response。header中有一项叫set-cookie，是服务端专门用来设置cookie的。
-- 一个set-Cookie字段只能设置一个cookie，当你要想设置多个 cookie，需要添加同样多的set-Cookie字段。
+- 一个set-cookie字段只能设置一个cookie，当你要想设置多个 cookie，需要添加同样多的set-Cookie字段。
 - 服务端可以设置cookie 的所有选项：expires、domain、path、secure、HttpOnly
 
 **客户端设置 cookie**：
