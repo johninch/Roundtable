@@ -312,12 +312,6 @@ module.exports = {
                     children: [
                         '/Wanted/pwa',
                     ]
-                },
-                {
-                    title: '其他',
-                    children: [
-                        '/Question-Bank/johninch.md'
-                    ]
                 }
             ],
             '/Wanted/': [
