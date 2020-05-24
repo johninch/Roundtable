@@ -227,6 +227,7 @@ module.exports = {
                         '/Question-Bank/react/react-router-dom',
                         '/Question-Bank/react/declare-react-router',
                         '/Question-Bank/react/react-hooks.md',
+                        '/Question-Bank/react/react-performance.md',
                         '/Question-Bank/react/function-vs-class.md',
                         '/Question-Bank/react/black-magic-of-hooks.md',
                         '/Question-Bank/react/time-console',

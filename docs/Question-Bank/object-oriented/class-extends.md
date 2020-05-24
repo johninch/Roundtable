@@ -19,6 +19,9 @@ function Parent() {
 function Child() {
 }
 
+// const s1 = new Child();
+// console.log(s1.type);  // undefined，这里注意在原型链改变之前实例化s1的话，s1的原型链就断了
+
 Child.prototype = new Parent();
 
 const s1 = new Child();

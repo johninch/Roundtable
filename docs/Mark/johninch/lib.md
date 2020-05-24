@@ -1,5 +1,12 @@
 ## 框架关键点
 
+为什么废弃那3个钩子，怎么替代
+
+
+css modules
+
+
+
 ### 框架
 ::: details
 - MVC
@@ -35,31 +42,62 @@
         - 函数式组件，每次 Render 都有自己的 Props 与 State，可以认为每次 Render 的内容都会形成一个`快照`并保留下来，因此当状态变更而 Rerender 时，就形成了 N 个 Render 状态，而每个 Render 状态都拥有自己固定不变的 Props 与 State。这就是 Capture Value 特性。即函数式组件中的props是不可变的。
         - 而类组件，因为使用this.props来访问状态，且this是可变的（每次渲染都不同），所以this.props总是访问最新的props。
 
-- React中为什么需要绑定this？有几种绑定方法？
+- React事件机制
+    - 什么是合成事件
+    - 为什么要合成事件
+    - 合成事件与原生事件的执行顺序，能否混用
+    - 合成事件的注册和分发执行（`addEventListener`、`dispatchEvent`、`listenerBank`）
+    - React中为什么需要绑定this？有几种绑定方法？
+        - 源码的invokeGuardedCallback函数中，**事件处理函数作为回调函数是直接调用的**，`并没有指定调用的组件`，所以不进行手动绑定的情况下this会回退到默认绑定，所以我们需要手动将当前组件绑定到 this上。
 
 - React生命周期
     - 15（*16*）
         - 初始化阶段
+            - constructor
         - 挂载
-            - **componentWillMount**（替换为*getDerivedStateFromProps*）
+            - **componentWillMount**（替换为*static getDerivedStateFromProps*）
+            - render
             - componentDidMount
         - 更新
-            - **componentWillReceiveProps**（替换为*getDerivedStateFromProps*）
+            - **componentWillReceiveProps**（替换为*static  getDerivedStateFromProps*）
             - shouldComponentUpdate
             - **componentWillUpdate**（删掉）
+            - render
             - （*getSnapshotBeforeUpdate*）
             - componentDidUpdate
         - 卸载
             - componentWillUnmount
         - *错误处理*
             - （*componentDidCatch*）
-    - 由于Fiber在新版本中会支持`异步渲染的特性`，而componentWillMount、componentWillReceiveProps、componentWillUpdate这3个生命周期钩子，在异步渲染模式下会有一些潜在的问题，因此被弃用。
+    - 废弃的 componentWillMount() 可用componentDidMount()来代替，或者constructor替代；
+        - 放在didMount里，是为了保证componentWillUnmount的在组件移除时执行，防止内存泄漏
+    - 废弃的 componentWillReceiveProps() 可用 getDerivedStateFromProps(nextProps, prevState) 代替
+        - 
+    - 废弃的 componentWillUpdate() 可用 getSnapshotBeforeUpdate() 替代
 
-- 如何避免组件的重新渲染？
-    - 直接用PureComponent，就自带了 shallowEqual 的 shouldComponentUpdate。
-    - 使用 React.memo()：也会实现浅比较
-    - 在hooks中，使用useMemo
-        - Only re-rendered if `a` changes: const child1 = `useMemo(() => <Child1 a={a} />, [a])`;
+    - 由于Fiber在新版本中会支持`异步渲染的特性`，而16 版本 render 之前的生命周期可能会被多次执行（componentWillMount、componentWillReceiveProps、componentWillUpdate这3个生命周期钩子，在异步渲染模式下会有一些潜在的问题）因此被弃用。
+
+    - getDerivedStateFromProps
+        - getDerivedStateFromProps接收最新的Props值nextProps、上一个state值prevState两个参数
+        - 返回一个对象来更新state，或者返回null表示不需要更新state。
+        - 要注意的是，getDerivedStateFromProps 是一个静态方法，纯函数，不能访问this，所以如果要跟上一个props值作比较，只能是把上一个props值存到state里
+
+    - [](https://juejin.im/post/5b97abcaf265da0afa3dcb2e#heading-0)
+
+- React的请求应该放在哪个生命周期中?
+    - 官方推荐的异步请求是在**componentDidmount**中进行.
+    - 如果有特殊需求需要提前请求，也可以在特殊情况下在**constructor**中请求
+    - React的异步请求到底应该放在哪个生命周期里，有人认为在*componentWillMount*中可以提前进行异步请求，避免白屏，其实这个观点是有问题的.
+        - 由于JavaScript中异步事件的性质，当启动API调用时，浏览器会在此期间返回执行其他工作。当React渲染一个组件时，它不会等待*componentWillMount*它完成任何事情
+        - React继续前进并继续render，没有办法“暂停”渲染以等待数据到达。
+        - 而且在*componentWillMount*请求会有一系列潜在的问题
+            - 首先，在SSR端渲染时，如果在 *componentWillMount* 里获取数据，fetch data会执行两次，一次在SSR端，一次在CSR端，这造成了多余的请求；
+            - 其次，在React 16进行React Fiber重写后，*componentWillMount*可能在一次渲染中多次被调用
+
+
+- React 按需加载
+    - 使用 react-loadable库，项目中对齐进行封装
+    - 使用 React.lazy，返回一个 thenable 对象，拥有3个enum状态，分别对应 Promise 的3种状态。
 
 - Refs 3种使用方式（字符串、回调refs、creatRef()）
 
@@ -67,8 +105,6 @@
     - 无需手动操作dom
     - 保证性能下限
     - 可跨平台
-
-- setState
 
 - hooks的好处是啥？
     - 从类组件的一些弊端说起：
@@ -88,7 +124,7 @@
     - 怎么保证多个useState的相互独立的？（同样适用于useEffect）
         - 使用 memoizedStates数组，来解决 Hooks 的复用问题
         - react根据useState出现的顺序，依次收集相互独立的state到memoizedStates数组中，从而保证相互间的独立性。
-        - 这也是为什么，hooks必须卸载函数的最外层，而不能写在循环或条件语句中。
+        - 这也是为什么，hooks必须写在函数的最外层，而不能写在循环或条件语句中。
 - useEffect
     - 是用来处理副作用函数的，它相当于类组件的3个生命周期钩子（componentDidMount、componentDidUpdate、componentWillUnmount），以一抵三。
     - 使用中，应该给每一个副作用一个单独的useEffect钩子
@@ -99,6 +135,8 @@
         - 如果 deps 不存在，那么 callback 每次 render 都会执行；
         - 如果 deps 存在，只有当它发生了变化，callback 才会执行；
         - 如果 deps 为[]，则相当于只有componentDidMount，只在 首次render 后执行；
+    - 传入的deps依赖，可以是变量也可以是函数。如果传入的是组件内的函数，每次渲染都会重新生成这个函数，如果订阅了它就会触发副作用函数的执行，这也是useCallback被使用的原因。
+        - 如果订阅的函数F包含了变量A，那么副作用函数只需要订阅F就可以了，不需要订阅A，因为A的变化肯定会触发F的变化
     - useEffect解绑副作用
         - 场景：避免内存泄漏
         - 方法：使useEffect的副作用函数A返回一个清理函数B即可
@@ -126,6 +164,38 @@
     - 本质上，useRef 就像是可以在其 .current 属性中保存一个任意可变值的“盒子”。
     - 返回的 ref 对象在组件的整个生命周期内保持不变
 
+
+- React 性能优化
+    - 主要两个方向：
+        - 减少重新render：
+            - 类组件中使用 SCU、PureComponent
+            - 函数式组件使用 
+                - React.memo（包裹子组件，props不变就不重新渲染），对标PureComponent
+                - useCallback（解决props如果包含callback，函数式组件每次重渲都会重新生成callback，即callback的引用变化，即使用React.memo包裹还是会触发子组件重渲。。useCallback得到一个缓存的函数，同一个引用）
+        - 减少重复计算：
+            - 使用 useMemo包裹大计算量函数，缓存计算结果。类似于Vue的计算属性。
+                - 默认是浅对比，注意当传入第二个参数来自定义比较时，与SCU返回的bool值刚好相反。
+
+- SCU 跟 immutable 强相关，如何理解 react 的 immutable？
+    - JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象。因此，对象值改变时引用地址却不变，这时使用PureComponent进行浅比较，只比较一层，SCU无法正确做出判断。
+    当然，可以在SCU中通过 深拷贝deepCopy 和 深层比较deepCompare来正确判断，但这些操作非常耗性能。
+    - 综上，React社区推荐React和Immutable.js库配套使用。使用immutable可以生成不可变state。
+        - immutable的state，即在改变state的时候，需要重新生成一个对象去代替原来的state，而不是直接改原来的。
+            - 并且，目前的Immutable库，都实现了`结构共享`，即**如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享**，*避免了deepCopy把所有节点都复制一遍带来的性能损耗*。比较两个Immutable对象是否相同，只需要使用`===`就可以轻松判别。
+        - immutable的state同样也决定了**不能直接修改state**
+            - 直接修改state会导致state不可预期。要知道setState本质是通过`一个队列机制`实现`state的批处理更新的`。执行setState时，会将需要更新的state合并后放入状态队列，而不会立刻更新state，队列机制可以批量更新state。
+            - 如果不通过setState而直接修改this.state，那么这个state不会放入状态队列中，下次调用setState对状态队列进行合并时，会忽略之前直接被修改的state，这样我们就无法合并了，而且实际也没有把你想要的state更新上去。
+            ```js
+            saveOrderList(state, {payload: items}) {
+                return Object.assign({}, state, orderList: Immutable(items));
+            }
+
+            saveOrderList(state, {payload: items}) {
+                return {...state, orderList: Immutable(items)};
+            }
+            ```
+
+
 - key
     - 准确复用、快速
 
@@ -134,26 +204,23 @@
     - component diff：拥有相同类的两个组件 生成相似的树形结构，拥有不同类的组件....
     - element diff：对于同一层级的一组子节点，通过唯一key区分。
 
-- setState
-    - 同步还是异步的
-        - 本身是同步的，是因为react的批处理策略，会先添加到队列中批量执行，才看起来像异步的
-        - 可以立刻拿到变化后值的场景：
-            - 如果是在异步事件中，添加到异步队列的事件晚于批处理策略执行，所以可以拿到最新的
-            - 在原生事件中，setState不会触发批处理策略，因此也能拿到最新值
-        - 可通过第二个参数返回一个回调函数，此回调总是在批处理策略后执行，所以肯定能拿到更新后的值
-    - 多次传入对象来更新，会合并为一次更新
-    - 多次传入函数来更新，每次都会立即更新，后执行的函数会以前一次的函数更新结果为输入值
 
 - fiber
     - fiber的出现，是React为了解决`「主线程阻塞」`的问题
     - `「主线程阻塞」`是因为JS引擎与GUI引擎互斥执行，当react对较大的组件树进行**协调算法**时，会持续占用主线程，且协调过程一气呵成不能被打断。
     - Vue得益于其可以精确定位节点更新，所以采用的策略是，把更新做得足够快，理论上就不需要时间分片了。
     - 而React采用的策略是，时间分片，通过某种调度，合理分配CPU资源，从而提高浏览器的用户响应速录，同时兼顾任务执行。
-        - React@15使用的是 JS 引擎自身的函数调用栈，它会一直执行到栈空为止。即不能被打断。
-        - React@16 的 Fiber实现了自己的组件调用栈，它以链表的形式遍历组件树，让协调 过程变成可中断的，适时地让出CPU执行权。
+    - fiber原理：
+        - React@15使用的是 *JS 引擎自身的函数调用栈*，它会一直执行到栈空为止。即**不能被打断**。
+        - React@16 的 Fiber实现了*自己的组件调用栈*，它以**链表的形式**遍历组件树，让协调 过程变成**可中断的**，适时地让出CPU执行权。
     - 综上：
         - Fiber 也称「协程」，是一种控制流程的让出机制；
         - Fiber 也称「纤维」，是一种数据结构或者说执行单元。
+    - Fiber结构
+        - 新增属性：
+            - 结构信息（上下文信息）
+            - 副作用（链表effectTag）
+            - 替身（WIP树）
     - React@16 还是同步渲染的，因为没有开启并发模式 Concurrent。想要真正体会到 React Fiber 重构的效果（异步渲染），可能要等到 v17。v16 只是一个过渡版本。
 
 - mobx
@@ -187,13 +254,14 @@
         - ReactElement.isValidElement用来判断一个元素是否有效，其中会判断$$typeof。
     - setState的执行机制
         - 是异步的吗？（setState本身并不是异步的，而是 React的批处理机制给人一种异步的假象）
-            - 1、React的生命周期和合成事件中，React仍然处于它的批处理更新机制中，这时无论调用多少次 setState，都不会立即执行更新
-            - 2、异步代码中调用 setState时，React的批处理机制已经走完，这时再调用完后就能立刻拿到更新后的结果。
-            - 3、在原生事件中调用 setState并不会触发 React的批处理机制，所以立即能拿到最新结果
-            - 最佳实践，使用回调拿到更新
+            - 1、React的`生命周期`和`合成事件`中，React仍然处于它的批处理更新机制中，这时无论调用多少次 setState，都不会立即执行更新
+            - 2、`异步代码`中调用 setState时，React的批处理机制已经走完，这时再调用完后就能立刻拿到更新后的结果。
+            - 3、在`原生事件`中调用 setState并不会触发 React的批处理机制，所以立即能拿到最新结果
+            - 最佳实践：
+                - 可通过第二个参数返回一个回调函数，此回调总是在批处理策略后执行，所以肯定能拿到更新后的值
         - 连续多次setState只有一次生效？（队列合并机制）
-            - 以对象形式更新时，React会将批处理机制中存储的多个setState进行合并
-            - 以函数形式更新时，每次都立即计算
+            - 多次传入对象来更新时，React会将批处理机制中存储的多个setState进行合并
+            - 多次传入函数来更新时，每次都立即计算，后执行的函数会以前一次的函数更新结果为输入值
         - 几个钩子中注意：
             - componentDidMount直接调用 setState，会重复渲染过程
             - 在componentWillUpdate、componentDidUpdate中setState，需要条件控制，否则会死循环
@@ -213,7 +281,6 @@
         - 3、跨平台，本质上是JS对象，可以服务端开发，移动端开发等
     - Vitrual Dom 的「缺点」只有一个：
         - 无法进行极致优化
-- 
 
 :::
 ### Vue

@@ -187,7 +187,7 @@
             - 3. 绝对定位元素居中 无论知不知道宽高
             - 4. flex居中
 
-- 提升页面性能的方法（5点）
+- 提升页面性能的方法（6点）
     - 资源压缩合并
     - 善用浏览器缓存
         - 缓存命中流程
@@ -206,6 +206,9 @@
     - DNS预解析
         - rel="dns-prefetch"
         - 标签 《meta http-equiv="x-dns-prefetch-control" content="on">在https下开启a标签的dns预解析
+    - 避免JS运行时间过长而掉帧（JS持续占用主线程）
+        - 利用requestAnimationFrame（rAF）
+        - 利用requestIdleCallback（Idle）
 
 - PNG，JPG，GIF，WEBP的区别
 
@@ -216,30 +219,35 @@
         - flex：1 （1 1 0）
         - flex：auto (1 1 auto) 和 none (0 0 auto)。
         - 两列布局
+        - flex-basis 属性定义了在分配多余空间之前，item占据的主轴空间（main size）。*浏览器根据这个属性，计算主轴是否有多余空间*。它的默认值为auto，即项目的本来大小。
     - 多种方式实现三栏布局
         - 只有 flex弹性布局 与 table表格布局 是在高度超出后其他块的高度也跟随变高
 
-- fastClick
-    - 解决的问题（在H5端）
-        - 手动点击与真正触发click事件会存在300ms的延迟
-        - 点击穿透问题
-    - fastclick原理: 
+- 移动端
+    - fastClick
+        - 解决的问题（在H5端）
+            - 手动点击与真正触发click事件会存在300ms的延迟
+            - 点击穿透问题
+        - fastclick原理: 
 
-- 移动端适配
-        - 基本概念：
-            - `设备像素比`(device pixel ratio，简称为`dpr`)：设备像素比 ＝ 物理像素 / 设备独立像素；
-                - 在JS中获取dpr：window.devicePixelRatio。
-                - 在CSS中，通过-webkit-device-pixel-ratio，-webkit-min-device-pixel-ratio和 -webkit-max-device-pixel-ratio进行媒体查询。
-        - 适配方案
-            1. lib-flexible 手淘H5
-                - rem就是相对于根元素`<html>`的font-size来做计算。
-                - 通过Hack手段来根据设备的dpr值相应改变`<meta>`标签中viewport的值
-                    - 根据dpr的值来修改viewport实现1px的线
-                    - 根据dpr的值来修改html的font-size，从而使用rem实现等比缩放
-                    - 使用Hack手段用rem模拟vw特性
-            2. Viewport（vw）
-                - 以前的Flexible方案是通过JS来模拟vw的特性，但目前，vw已经得到了众多浏览器的支持，因此可以直接考虑将vw单位运用于我们的适配布局中。
-                - PostCSS的插件`postcss-px-to-viewport`把px转换成vw
+    - 移动端适配
+            - 基本概念：
+                - `设备像素比`(device pixel ratio，简称为`dpr`)：设备像素比 ＝ 物理像素 / 设备独立像素；
+                    - 在JS中获取dpr：window.devicePixelRatio。
+                    - 在CSS中，通过-webkit-device-pixel-ratio，-webkit-min-device-pixel-ratio和 -webkit-max-device-pixel-ratio进行媒体查询。
+            - 适配方案
+                1. lib-flexible 手淘H5
+                    - rem就是相对于根元素`<html>`的font-size来做计算。
+                    - 通过Hack手段来根据设备的dpr值相应改变`<meta>`标签中viewport的值
+                        - 根据dpr的值来修改viewport实现1px的线
+                        - 根据dpr的值来修改html的font-size，从而使用rem实现等比缩放
+                        - 使用Hack手段用rem模拟vw特性
+                2. Viewport（vw）
+                    - 以前的Flexible方案是通过JS来模拟vw的特性，但目前，vw已经得到了众多浏览器的支持，因此可以直接考虑将vw单位运用于我们的适配布局中。
+                    - PostCSS的插件`postcss-px-to-viewport`把px转换成vw
+    - 1px border问题
+        - 产生原因：由于不同的手机有不同的CSS像素密度，所以设备独立像素（css像素）中的1px 并不等于设备的物理像素的1px。所以当你写1px样式时，当dpr为2时，显示的就是2px。
+        - 解决办法：
 
 - 事件流
     - DOM2级 事件规定的事件流包括 3个阶段：`事件捕获阶段`，`处于目标阶段`，`事件冒泡阶段`。
@@ -334,6 +342,8 @@
     - ESM 与 CommonJS 两种模块化规范的比较
         - 输出类型不同
         - 执行时机不同
+        - 执行位置不同
+        - 性能差异
         - 循环加载时处理不同
 
 - Webpack
@@ -366,6 +376,7 @@
     - 持久化缓存caching（注意id问题）
         - 注意模块id变化问题：
     - 如何将文件名发送到浏览器
+    - webpack 动态加载就两种方式
     - code splitting
         - 将项目代码中无需立即调用的代码，在代码构建时转变为异步加载的过程。
         - 代码分割入手点（如何分割）（3种）
@@ -509,7 +520,7 @@
                 - 为什么一开始使用非对称加密，传输数据使用对称加密
             - https通信过程
             - 中间人劫持，怎么防止。x-frame-option?白屏的喔，怎么办？也不一定嵌入iframe啊，可以嵌入脚本、图片，怎么阻止【描述】
-                - https也不是绝对安全的，如下图所示为中间人劫持攻击，中间人可以获取到客户端与服务器之间所有的通信内容。 
+                - https也不是绝对安全的，中间人劫持攻击，中间人可以获取到客户端与服务器之间所有的通信内容。 
                     中间人截取客户端发送给服务器的请求，然后伪装成客户端与服务器进行通信；将服务器返回给客户端的内容发送给客户端，伪装成服务器与客户端进行通信。 
                     通过这样的手段，便可以获取客户端和服务器之间通信的所有内容。 
                 - 使用中间人攻击手段，必须要让客户端信任中间人的证书，如果客户端不信任，则这种攻击手段也无法发挥作用。
@@ -659,7 +670,7 @@
 - 跨域问题
     - 同源策略：协议、域名、端口
     - 常用跨域策略（8种）
-        - 1、CORS（跨域资源共享）：原理是浏览器在识别ajax发送了跨域请求的时候，会将其拦截并在http头中加一个origin字段，允许跨域通信。
+        - 1、CORS（跨域资源共享）：原理是浏览器在识别ajax发送了跨域请求的时候，会将其拦截并在http头中加一个`origin字段`，允许跨域通信。
             - CORS请求分成两类，浏览器对这两种请求的处理是不一样的：简单请求、非简单请求。
                 - 判断条件，需同时满足：
                     - 必须是三种方法之一：HEAD、GET、POST，
@@ -723,10 +734,20 @@
             - 无arguments，用rest参数替代
             - 不能用yield
 - ts
+    - 优点（得益于静态语言的优势）
+        - TS 增加了代码的可读性和可维护性。
+            - 类型系统实际上是最好的文档，大部分的函数看看类型的定义就可以知道如何使用了；
+            - 可以在编译阶段就发现大部分错误，这总比在运行时候出错好；
+            - 增强了编辑器和 IDE 的功能，包括代码补全、接口提示、跳转到定义、重构等；
+        - TS 具有包容性。
+            - TypeScript 是 JavaScript 的超集，.js 文件可以直接重命名为 .ts 即可；
+            - 即使不显式的定义类型，也能够自动做出类型推论；
+            - 编译报错也还是会生成js文件；
     - type和interface区别
         - interface 只能定义对象类型；type声明的方式可以定义原始类型、组合类型
         - interface 可以实现接口的extends/implements，而type 不行
         - interface 可以实现接口的merge，但是type不行
+        - 其实 type 只是一个类型别名，**并不会产生类型**。所以其实 type 和 interface 其实不是同一个概念，其实他们俩不应该用来比较的，只是有时候用起来看着类似。
 
 
 - 列举各种排序算法 分别对应的优缺点和时间复杂度
@@ -906,29 +927,104 @@
             - grid-template-rows: 
             - grid-template-column:
         - 只有 flex弹性布局 与 table表格布局 是在高度超出后其他块的高度也跟随变高
+    - 经典布局 Sticky Footer
+            ```html
+            <div class="wrapper">
+                <div class="content"><!-- 页面主体内容区域 --></div>
+                <div class="footer"><!-- 需要做到 Sticky Footer 效果的页脚 --></div>
+            </div>
+            ```
+        - 方法1：absolute（需指定 html、body 100% 的高度，wrapper的min且 content 的 padding-bottom 需要与 footer 的 height 一致。）
+            ```css
+            html, body {
+                height: 100%;
+            }
+            .wrapper {
+                position: relative;
+                min-height: 100%;
+                padding-bottom: 50px; // padding-bottom预留footer高度
+                box-sizing: border-box;
+            }
+            .footer {
+                position: absolute;
+                bottom: 0;
+                height: 50px;
+            }
+            ```
+        - 方法2：Flexbox（指定flex容器为纵向，content flex 1自动占满可用空间）
+            ```css
+            html {
+                height: 100%;
+            }
+            body {
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            .content {
+                flex: 1;
+            }
+            ```
 
-- fastClick
-    - 解决的问题（在H5端）
-        - 手动点击与真正触发click事件会存在300ms的延迟
-            - 延迟的存在是因为浏览器想知道你是否在进行双击操作，如果是双击，移动端会缩放
-        - 点击穿透问题（点击行为会穿透元素触发非父子关系元素的事件）
-            - 点击穿透是因为300ms延迟触发时的副作用。
-            - 具体穿透现象：
-                        比如点击弹窗浮层关闭按钮时，也点击了浮层下页面上对应位置的元素（正常是不应该点击到页面上的对应的元素的）
-                            之所以说点击穿透是300ms延迟触发的副作用，可通过如下过程分析得出：
-                                手指触碰到屏幕时，触发 touchstart , 弹窗隐藏（这里就已经隐藏了，而如果不是双击，click可能在300ms后才触发）
-                                手指按上时，可能会有短暂的停留和轻微的移动，触发 touchmove
-                                手指离开屏幕时，触发 touchend
-                                等待 300ms 后，看用户在此时间内是否再次触摸屏幕，如果没有
-                                300ms 后，此时弹窗已消失，浏览器在用户手指离开的位置触发 click 事件，所以点到了页面上的元素
-    - fastclick原理: 
-        - 在检测到touchend事件的时候，会通过DOM自定义事件立即触发模拟一个click事件，并把浏览器在300ms之后真正的click事件阻止掉
+- 移动端问题
+    - fastClick
+        - 解决的问题（在H5端）
+            - 手动点击与真正触发click事件会存在300ms的延迟
+                - 延迟的存在是因为浏览器想知道你是否在进行双击操作，如果是双击，移动端会缩放
+            - 点击穿透问题（点击行为会穿透元素触发非父子关系元素的事件）
+                - 点击穿透是因为300ms延迟触发时的副作用。
+                - 具体穿透现象：
+                            比如点击弹窗浮层关闭按钮时，也点击了浮层下页面上对应位置的元素（正常是不应该点击到页面上的对应的元素的）
+                                之所以说点击穿透是300ms延迟触发的副作用，可通过如下过程分析得出：
+                                    手指触碰到屏幕时，触发 touchstart , 弹窗隐藏（这里就已经隐藏了，而如果不是双击，click可能在300ms后才触发）
+                                    手指按上时，可能会有短暂的停留和轻微的移动，触发 touchmove
+                                    手指离开屏幕时，触发 touchend
+                                    等待 300ms 后，看用户在此时间内是否再次触摸屏幕，如果没有
+                                    300ms 后，此时弹窗已消失，浏览器在用户手指离开的位置触发 click 事件，所以点到了页面上的元素
+        - fastclick原理: 
+            - 在检测到touchend事件的时候，会通过DOM自定义事件立即触发模拟一个click事件，并把浏览器在300ms之后真正的click事件阻止掉
+                - 移动端，当用户点击屏幕时，会依次触发 touchstart，touchmove(0 次或多次)，touchend，mousemove，mousedown，mouseup，click。即【touch事件】【mouse事件】【click事件】
+                - touchmove 只有当手指在屏幕发生移动的时候才会触发 touchmove 事件。**在 touchstart ，touchmove 或者 touchend 事件中的任意一个调用 event.preventDefault，mouse 事件 以及 click 事件将不会触发。**
+            - 具体实现：
+                - `在 touchend 阶段 调用 event.preventDefault`，然后通过 `document.createEvent 创建一个 MouseEvents，然后 通过 event​Target​.dispatch​Event 触发对应目标元素上绑定的 click 事件。`
+                - [2019 再聊移动端 300ms 延迟及 fastClick 原理解析](https://juejin.im/post/5ce764a2f265da1b8c19645a#heading-3)
 
-- 移动端适配
+        - 其他解决点击穿透问题的方案：
+            1. pointer-events，让被覆盖元素（下层元素box）短时间内无法触发click
+                CSS3 的 pointer-events 属性有很多值，有用的主要是 auto（与不设置一样） 和 none（元素不再是target）
+                ```js
+                // 监听touchstart事件，让下方的box元素先 pointer-events: none。。。延迟350ms后再改回auto
+                $('.mask').on('touchstart', function() {
+                    console.log('mask-touchstart');
+                    $(this).css('display', 'none');
+                    //让被覆盖元素无法响应click
+                    $('.box').css('pointer-events', 'none');
+                    //恢复被覆盖元素
+                    setTimeout(function() {
+                        $('.box').css('pointer-events', 'auto');
+                    }, 300);
+                })
+                ```
+            2. 设置蒙层mask消失的延迟
+                touch后延迟350ms再隐藏mask。先把透明度设置为0，解决视觉层面的效果，在设置定时器延迟，让蒙层元素消失
+                ```js
+                // 监听touchstart事件，让mask的透明度先设为0，并延迟350ms后再 display: node
+                $('.mask').on('touchstart', function() {
+                    console.log('mask-touchstart');
+                    $(this).css('opacity', 0);
+                    setTimeout(function() {
+                        $('.mask').css('display', 'none');
+                    },
+                    350);
+                })
+                ```
+                - [点击穿透问题的方案](https://www.cnblogs.com/leftJS/p/11095226.html)
+
+    - 移动端适配
         - 基本概念：
             - 物理像素(physical pixel)：物理像素又被称为设备像素，显示设备中一个**最微小的物理部件**；
             - 设备独立像素(density-independent pixel，简称DIPs)：设备独立像素也称为`密度无关像素`，可以认为是计算机**坐标系统中的一个点**，程序使用的虚拟像素(比如说CSS像素)，然后由相关系统转换为物理像素。
-            - `设备像素比`(device pixel ratio，简称为`dpr`)：设备像素比 ＝ 物理像素 / 设备独立像素；
+            - `设备像素比`(device pixel ratio，简称为`dpr`)：设备像素比 ＝ 物理像素 / 设备独立像素(即CSS像素)；
                 - 在JS中获取dpr：window.devicePixelRatio。
                 - 在CSS中，通过-webkit-device-pixel-ratio，-webkit-min-device-pixel-ratio和 -webkit-max-device-pixel-ratio进行媒体查询。
                 `<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>`
@@ -954,7 +1050,57 @@
                 缺点：
                     - px转换成vw单位，多少还会存在一定的像素差，毕竟很多时候无法完全整除。
                     - 当容器使用vw单位，margin采用px单位时，很容易造成整体宽度超过100vw，可以使用calc()函数解决vw和px混合使用的问题。
-
+    - 1px border问题
+        - 产生原因：由于不同的手机有不同的CSS像素密度，所以设备独立像素（css像素）中的1px 并不等于设备的物理像素的1px。所以当你写1px样式时，当dpr为2时，显示的就是2px。
+        - 解决办法：
+            - 使用 viewport设置rem基准（手淘使用的lib-flexible就是这种方式）
+                ```html
+                在devicePixelRatio = 2 时，输出viewport：
+                <meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+                在devicePixelRatio = 3 时，输出viewport：
+                <meta name="viewport" content="initial-scale=0.3333333333333333, maximum-scale=0.3333333333333333, minimum-scale=0.3333333333333333, user-scalable=no">
+                ```
+            - 利用 伪类 + transform 实现
+                - 原理是：把原先元素相对定位，border 去掉，然后利用 :before 或者 :after 重做 border，设为绝对定位，并 transform 的 scale 缩小为对应dpr比例
+                ```css
+                .border-1px{
+                position: relative;
+                &::before{
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 200%;
+                    border:1px solid red;
+                    color: red;
+                    height: 200%;
+                    -webkit-transform-origin: left top;
+                    transform-origin: left top;
+                    -webkit-transform: scale(0.5);
+                    transform: scale(0.5);
+                    pointer-events: none; /* 防止点击触发 */
+                    box-sizing: border-box;
+                    @media screen and (min-device-pixel-ratio:3),(-webkit-min-device-pixel-ratio:3){
+                    width: 300%;
+                    height: 300%;
+                    -webkit-transform: scale(0.33);
+                    transform: scale(0.33);
+                    }
+                }
+                }
+                ```
+            - 使用border-image实现
+                ```css
+                .test{
+                    border: 1px solid transparent;
+                    border-image: url('./border-1px.png') 2 repeat;
+                }
+                ```
+            - 使用box-shadow模拟边框
+            - 直接写0.5px边框
+                - 这种方法有的浏览器不支持，会识别为0px
+            - [7种方法解决移动端Retina屏幕1px边框问题](http://blog.lemonss.net/2016/12/08/retina-1px-border/)
+            - [1px边框解决方案总结](https://juejin.im/post/5af136b8f265da0b7a20a40e#heading-5)
 
 - 事件流
     - DOM2级 事件规定的事件流包括 3个阶段：`事件捕获阶段`，`处于目标阶段`，`事件冒泡阶段`。
@@ -1073,9 +1219,19 @@ js解释器
         - 执行时机不同
             - CommonJS 运行时加载
             - ES6Module 编译时输出接口
+        - 执行位置不同
+            - require可以理解为一个全局方法，就意味着可以在任何地方执行
+            - import因为在编译时执行，所以必须写在文件的顶部
+        - 性能差异
+            - require的性能相对于import稍低，因为require是在**运行时才加载整个模块**并且还赋值给某个变量
+            - import只需要依据import中的接口在编译时引入指定模块所以性能稍高
         - 循环加载时处理不同
             - CommonJS require的时候，就会全部执行。一旦出现某个模块被"循环加载"，就只输出已经执行的部分，还未执行的部分不会输出。
             - ES6Module import时成为指向被加载模块的引用，因此在"循环加载"时，也只能由开发者自己保证，真正取值的时候能够取到值。
+
+
+
+    
 - Webpack
     - 所有文件都是模块，只认识js模块，所以要通过一些loader把css、图片等文件转化成webpack认识的模块。
     - 打包结果
@@ -1143,10 +1299,11 @@ js解释器
         - loader：sass-loader, postcss-loader, css-loader, style-loader, file-loader, vue-loader, babel-loader
         - plugin：uglifyjs-webpack-plugin, terser-webpack-plugin（压缩js）, define-plugin, CommonsChunkPlugin, SplitChunksPlugin, HashedModuleIdsPlugin, html-webpack-plugin, WebpackManifestPlugin, MiniCssExtractPlugin, HotModuleReplacementPlugin
     - 提高webpack开发效率
+        - 对打包速度分析：speed-measure-webpack-plugin
         - webpack-merge
         - HotModuleReplacementPlugin
     - 对bundle体积进行监控和分析
-        - webpack-bundle-analyzer
+        - 对打包体积分析：webpack-bundle-analyzer
         - VSCode 插件 Import Cost
     - loader执行顺序
         - 1、默认情况下，会按照配置文件中的书写顺序 从下往上 处理
@@ -1181,6 +1338,8 @@ js解释器
     - 如何将文件名发送到浏览器
         - HtmlWebpackPlugin
         - WebpackManifestPlugin
+    - webpack 动态加载就两种方式：
+        - import()和 require.ensure，不过他们实现原理是相同的。
     - code splitting
         - 将项目代码中无需立即调用的代码，在代码构建时转变为异步加载的过程。
         - 代码分割入手点（如何分割）
@@ -1258,6 +1417,10 @@ js解释器
         - 省略文件后缀及配置别名：`extensions`、`alias`
         - 模块注入全局变量：使用 `ProvidePlugin` 配置全局注入
 
+    - babel转译过程：
+        - parseing：babylon进行解析得到ES6代码的 AST
+        - transforming：plugin 用 babel-traverse 对AST转译得到新的AST
+        - generating：用 babel-generator 通过 新的AST 树生成 ES5 代码
 
 
 

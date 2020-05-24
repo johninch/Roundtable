@@ -188,6 +188,7 @@
   - [:100:React Fiber](./react/fiber.md)
   - [:bulb:React未归类知识点补充](./react/react-other-points.md)
   - [:100:React Hooks 概述](./react/react-hooks.md)
+  - [:100:React 性能优化](./react/react-performance.md)
   - [:100:Function VS Class 组件（最大区别 - Capture Value）](./react/function-vs-class.md)
   - [:rocket:React Hooks 使用技巧](./react/black-magic-of-hooks.md)
   - [编写时间打印组件](./react/time-console)

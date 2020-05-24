@@ -95,7 +95,7 @@ class EventEmitter {
              })
         } else {
             // 单个函数直接触发
-            args.length > 0 ? cb.apply(this, args) : cb.call(this)
+            args.length > 0 ? handler.apply(this, args) : handler.call(this)
         }
 
         return true

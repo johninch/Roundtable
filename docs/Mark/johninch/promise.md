@@ -13,6 +13,8 @@
 - 实现mergePromise函数
 - 封装一个异步加载图片的方法
 - 限制异步操作的并发个数并尽可能快的完成全部
+- 实现finally
+- 实现Promise.all
 - 根据promiseA+实现promise
     - 步骤一：实现成功和失败的回调方法
     - 步骤二：then方法链式调用
@@ -140,6 +142,7 @@ cacheRequest.clear = () => (cacheRequest.cache = {});
     如果job返回失败（即Promise rejected）,retry函数会再次尝试调用job函数。
     如果job连续三次均返回失败，retry则不再尝试调用，并返回其最后一次失败的内容。
 ```js
+// 可以再attempt中每次new一个Promise对象
 let count = 0
 function job() {
     return new Promise((resolve, reject) => {
@@ -153,28 +156,78 @@ function job() {
         }, 1000)
     })
 }
-function retry(job) {
+function retry(job, times, delay) {
     let flag = 0;
-    const walk = () => {
-        flag++
+    const attempt = () => {
         new Promise((resolve, reject) => {
             job().then(response => {
                 console.log(`第${flag}次成功`)
                 resolve(response)
             }).catch(err => {
-                if (flag === 4) {
+                console.log(`重试第${flag}次`)
+                if (flag === times) {
                     reject(err);
                 } else {
-                    console.log(`重试第${flag}次`)
-                    resolve(walk());
+                    flag++
+                    setTimeout(() => {
+                      resolve(attempt());
+                    }, delay);
                 }
             })
+        }).catch(err => {
+          console.log(`重试${flag}次失败`, err)
         })
     }
-    walk()
+    attempt()
 }
 
-retry(job)
+retry(job, 3, 1000)
+
+
+// 也可以将attempt放在一个Promise之中
+
+let count = 0
+function job() {
+    return new Promise((resolve, reject) => {
+        count++
+        setTimeout(() => {        
+            if (count === 6) {
+                resolve('成功')
+            } else {
+                reject('失败')
+            }
+        }, 1000)
+    })
+}
+
+function retry(job, times, delay) {
+  let flag = 0
+  new Promise((resolve, reject) => {
+    var attempt = function() {
+      job().then(response => {
+          console.log(`第${flag}次成功`)
+          resolve(response)
+      }).catch(err => {
+        console.log(`重试第${flag}次`);
+        if (flag == times) {
+          reject(err);
+        } else {
+          flag++;
+          setTimeout(() => {
+            attempt()
+          }, delay);
+        }
+      });
+    };
+    attempt();
+  }).catch(err => {
+    console.log(`重试${flag}次失败`, err)
+  });
+};
+
+retry(job, 3, 1000)
+
+
 ```
 
 - 异步最大并发请求并按顺序组成结果
@@ -537,7 +590,7 @@ async function mergePromise(arr) {
         data.push(res)
     }
 
-    return data
+    return data // async 直接返回data
 }
 
 // 2
@@ -562,7 +615,7 @@ function mergePromise(arr) {
         })
     })
 
-    return resolve
+    return resolve // promise 需要返回resolve
 }
 ```
 
@@ -570,6 +623,51 @@ function mergePromise(arr) {
 - 根据promiseA+实现promise
     - 步骤一：实现成功和失败的回调方法
     - 步骤二：then方法链式调用
+
+```js
+// 面试版
+// 未添加异步处理等其他边界情况
+// ①自动执行函数，②三个状态，③then
+class Promise {
+  constructor(executor) {
+    // 三个状态
+    this.state = 'pending'
+    this.value = undefined
+    this.reason = undefined
+    let resolve = value => {
+      if (this.state === 'pending') {
+        this.state = 'fulfilled'
+        this.value = value
+      }
+    }
+    let reject = value => {
+      if (this.state === 'pending') {
+        this.state = 'rejected'
+        this.reason = value
+      }
+    }
+    // 自动执行函数
+    try {
+      executor(resolve, reject)
+    } catch (e) {
+      reject(e)
+    }
+  }
+  // then
+  then(onFulfilled, onRejected) {
+    switch (this.state) {
+      case 'fulfilled':
+        onFulfilled(this.value)
+        break
+      case 'rejected':
+        onRejected(this.reason)
+        break
+      default:
+    }
+  }
+}
+```
+
 ```js
 class Promise {
     constructor(executor) {
@@ -590,7 +688,7 @@ class Promise {
 
         let reject = (reason) => {
             if (this.status === 'pending') {
-                this.value = reason
+                this.reason = reason
                 this.status = 'rejected'
                 this.onRejectedCallbacks.forEach(cb => cb())
             }
@@ -666,8 +764,6 @@ function resolvePromise(promise2, x, resolve, reject) {
         resolve(x)
     }
 }
-
-
 ```
 
 
@@ -684,7 +780,8 @@ function loadImg(url) {
     	reject(new Error('Could not load image at' + url));
     };
     img.src = url;
-  });
+  })
+};
 ```
 
 
@@ -732,6 +829,44 @@ limitLoad(urls, loadImg, 3)
   });
 
 ```
+
+- 实现finally
+```js
+Promise.prototype.finally = function(onFinally) {
+  return this.then(
+    /* onFulfilled */
+    res => Promise.resolve(onFinally()).then(() => res),
+    /* onRejected */
+    err => Promise.resolve(onFinally()).then(() => { throw err; })
+  );
+};
+```
+
+- 实现Promise.all
+```js
+  Promise.all = function(promises) {
+    return new Promise(function(resolve, reject) {
+      var resolvedCounter = 0
+      var promiseNum = promises.length
+      var resolvedValues = new Array(promiseNum)
+      for (var i = 0; i < promiseNum; i++) {
+        // 自执行函数传入i
+        (function(i) {
+          Promise.resolve(promises[i]).then(function(value) {
+            resolvedCounter++
+            resolvedValues[i] = value
+            if (resolvedCounter == promiseNum) {
+              return resolve(resolvedValues)
+            }
+          }, function(reason) {
+            return reject(reason)
+          })
+        })(i)
+      }
+    })
+  }
+```
+
 
 - Promise 的错误捕获
     当 promise 的状态为 rejected 且未对 promise 对象使用 catch 方法，此时的异常信息会被 promise 对象吃掉 可以通过监听 `unhandledRejection` 事件，专门监听未捕获的reject错误。
@@ -872,9 +1007,9 @@ async function async1 () {
   console.log('async1 success');
   return 'async1 end'
 }
-console.log('srcipt start')
+console.log('script start')
 async1().then(res => console.log(res))
-console.log('srcipt end')
+console.log('script end')
 
 // 'script start'
 // 'async1 start'
@@ -894,9 +1029,9 @@ async function async1 () {
   console.log('async1 success');
   return 'async1 end'
 }
-console.log('srcipt start')
+console.log('script start')
 async1().then(res => console.log(res))
-console.log('srcipt end')
+console.log('script end')
 
 // 'script start'
 // 'async1 start'
@@ -1045,6 +1180,11 @@ const p1 = new Promise((resolve) => {
   console.log('finally', res)
 })
 
+resolve1
+finally undefined
+timer1
+Promise{<resolved>: resolve1}
+
 // 'resolve1'
 // 'finally' undefined
 // 'timer1'
@@ -1065,29 +1205,6 @@ arr.reduce((p, x) =>
 )
 
 ```
-[](https://juejin.im/post/5e58c618e51d4526ed66b5cf#heading-54)
+[参考文章](https://juejin.im/post/5e58c618e51d4526ed66b5cf#heading-54)
 [「ES6系列」彻底弄懂Promise](https://juejin.im/post/5d06e9c76fb9a07ee4636235#heading-26)  
 
-
-暂时实现promise：
-```js
-function Promise(exec) {
-  this.onResolvedCbs = [];
-  exec(value => {
-    setTimeout(() => {
-      this.data = value;
-      this.onResolvedCbs.forEach(cb => cb(value));
-    });
-  });
-}
-
-Promise.prototype.then = function(onResolved) {
-  return new Promise(resolve => {
-    this.onResolvedCbs.push(() => {
-      const result = onResolved(this.data);
-      result instanceof Promise ? result.then(resolve) : resolve(result);
-    });
-  });
-};
-
-```

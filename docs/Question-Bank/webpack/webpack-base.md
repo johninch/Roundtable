@@ -168,7 +168,7 @@ plugins: [
 ## 如何提高webpack开发效率
 
 - `webpack-merge`：提取公共配置，减少重复配置代码。
-- speed-measure-webpack-plugin：简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。
+- `speed-measure-webpack-plugin`：简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。
 - webpack-dashboard：可以更友好的展示相关打包信息。
 - size-plugin：监控资源体积变化，尽早发现问题。
 - `HotModuleReplacementPlugin`：模块热替换。
@@ -177,7 +177,7 @@ plugins: [
 
 - VSCode 中有一个`插件 Import Cost` 可以帮助我们对引入模块的大小进行实时监测。
 - 还可以使用 `webpack-bundle-analyzer` 生成 bundle 的模块组成图，显示所占体积。
-- `bundlesize` 工具包可以进行自动化资源体积监控。
+- 另外，对打包速度分析用：`speed-measure-webpack-plugin` 插件
 
 ## 简述编写loader思路
 略

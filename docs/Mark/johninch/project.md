@@ -104,7 +104,7 @@ this.$Dialog({
 
 #### api切换配置优化
 
-1. 最开始是通过建立不同的环境变量文件：（dev.env.js、test.env.js、prod.env.js）都设置各自的 NODE_ENV，BASE_API 变量，在webpack中，new webpack.DefinePlugin({'process.env': require('../config/dev.env')})，再npm run test之后，就有了环境变量process.env.BASE_API；在axios封装时，直接取const baseURL = process.env.BASE_API。
+1. 最开始是通过建立不同的环境变量文件：（dev.env.js、test.env.js、prod.env.js）都设置各自的 NODE_ENV，BASE_API 变量，在webpack中，new webpack.DefinePlugin({'process.env': require('../config/test.env')})，再npm run test之后，就有了环境变量process.env.BASE_API；在axios封装时，直接取const baseURL = process.env.BASE_API。
     - 缺点很明显，每次要改环境都需要重新build项目，也就是说，是在webpack打包时就取到值，在本地联调时需要切换环境，只能改本地dev的BASE_API并重新build
     - 另外，由于部署测试服务时，如果有多个test环境，就只能配置多个环境变量文件；或者还采取过hack的方式，在gitlab-ci.yml文件配置中，写shell script命令
         ```
@@ -127,7 +127,7 @@ this.$Dialog({
     - 需注意在BOS2中的使用：
         - 因为BOS2作为金融业务运营平台，有多个业务线共同使用，我们ESOP只占其中一个模块，因此，需要避免影响到其他业务线使用。
         - 如果直接在我们ESOP的业务入口引入 HostSwitch 组件，那么其他业务线的人访问系统时，无论进不进我们ESOP的模块，HostSwitch组件都会执行render挂载，里面的请求拦截会把全部的请求都拦截并替换成我们ESOP的BASE_API地址，这样其他业务就不能使用了。。
-        - 因此，需要采用高阶组件 withHostSwitch(creatModule)，在里面添加 HostSwitch 的渲染挂载，这样当退出ESOP模块时，HostSwitch会随着整个ESOP模块的卸载而卸载。。。这样，HostSwitch只会在访问ESOP业务模块时运行，不会影响其他。
+        - 因此，需要采用高阶组件 withHostSwitch(creatModule)，在里面添加 HostSwitch 的渲染挂载，这样当退出ESOP模块时，HostSwitch会随着整个ESOP模块的卸载而卸载，拦截器也执行eject。。。这样，HostSwitch只会在访问ESOP业务模块时运行，不会影响其他。
 
 #### 自定义指令 v-loadmore 实现分部分获取数据
 - 自定义指令，通过dom元素判断select和autocomplete组件options下拉是否到底，从而触发获取更多数据的动作
@@ -251,6 +251,7 @@ Vue.directive('loadmore', {
 	- 如果有异步加载的模块，还会使用`__webpack_require__.e(chunkId)`去返回promise
 
 
+- [webpack是如何实现动态导入的](https://juejin.im/post/5d26e7d1518825290726f67a)
 - [](https://juejin.im/post/5a23b130f265da432003101a)
 - [](https://juejin.im/post/5ad8c96ff265da0ba062b190)
 

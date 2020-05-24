@@ -61,6 +61,44 @@ fetch(url, {
 - 凡是拥有“src”属性的标签都拥有跨域的能力，如`<script>,<img>,<iframe>`等。
 - Jsonp只能发`get请求`。
 
+::: details 封装实现JSONP
+```js
+// 实现JSONP
+function JSONP({url, params = {}, callbackKey = 'cb', callback}) {
+    // 定义本地的唯一callbackId，若是没有的话则初始化为1
+    JSONP.callbackId = JSONP.callbackId || 1;
+    JSONP.callbacks = JSONP.callbacks || [];
+
+    // 把要执行的回调加入到JSON对象中，避免污染window
+    let callbackId = JSONP.callbackId;
+    JSONP.callbacks[callbackId] = callback;
+
+    params[callbackKey] = `JSONP.callbacks[${callbackId}]` // 把设定的函数名称放入到参数中，'cb=JSONP.callbacks[1]'
+
+    const paramString = Object.keys(params).map(key => {
+        return `${key}=${encodeURIComponent(params[key])}`
+    }).join('&')
+
+    const script = document.createElement('script')
+    script.setAttribute('src', `${url}?${paramString}`)
+    document.body.appendChild(script)
+
+    JSONP.callbackId++ // id自增，保证唯一
+}
+
+JSONP({
+    url: 'http://localhost:8080/api/jsonp',
+    params: {
+        id: 1
+    },
+    callbackKey: 'cb',
+    callback (res) {
+        console.log(res)
+    }
+})
+```
+:::
+
 ![jsonp示例](./images/jsonp.png)
 
 ### 4、Hash

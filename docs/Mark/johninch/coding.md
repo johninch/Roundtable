@@ -2,6 +2,9 @@
 
 ### 目录
 ::: details
+- 私有属性实现，ES5、ES6
+- 实现 fill(3, 4) 为 [4,4,4]
+- 模拟实现instanceof
 - one(add(two())) 或 two(add(one())) 等于3
 - 斐波那契数列，使用memo做缓存，减少运算量
 - new的时候加1
@@ -10,7 +13,7 @@
 - 实现队列函数（先进先出），以实现一次100秒后打印出1，200秒后打印2，300秒后打印3这样
 - setInterval有两个缺点
 - 实现一个wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)
-- 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣') 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
+- 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣').valueOf() 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
 - add(1, 3, 4)(7)(5, 5).valueOf();
 - 实现JSONP
 - 手写双向绑定
@@ -39,6 +42,70 @@
 ### details
 ::: details 业务小代码
 ```js
+// - 私有属性实现
+// ES6
+var Person = (() => {
+    let _name = Symbol()
+    class Person {
+        constructor(name) {
+            this[_name] = name
+        }
+        get name() { // 使用 getter可以改变属性name的读取行为
+            return this[_name]
+        }
+    }
+
+    return Person
+})()
+// ES5
+var Person = (() => {
+    var _name = '00' + Math.random() // 用一个随机数来做 
+    function Person(name) {
+        this[_name] = name
+    }
+    Object.defineProperty(Person.prototype, 'name', {
+        get: function() {
+            return this[_name]
+        }
+    })
+
+    return Person
+})()
+
+
+// - 实现 fill(3, 4) 为 [4,4,4]
+function fill(n, m) {
+    n--
+    if(n) {
+        return [m].concat(fill(n, m))
+    } else {
+        return m
+    }
+}
+
+
+
+
+// - 模拟实现instanceof
+    // left是对象，right是原型对象
+function myInstanceof(left, right) {
+	//基本数据类型直接返回false
+	if (typeof left !== 'object' || left == null) return false;
+	//getPrototypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
+	let proto = Object.getPrototypeOf(left);
+	while (true) {
+		// 如果查找到尽头，还没找到，return false
+		if (proto == null) return false;
+		//找到相同的原型对象
+		if (proto === right.prototype) return true;
+		proto = Object.getPrototypeOf(proto);
+	}
+}
+
+console.log(myInstanceof("111", String)); //false
+console.log(myInstanceof(new String("111"), String)); //true
+
+
 // - one(add(two())) 或 two(add(one())) 等于3
 console.log(one(add(two()))); // 3
 console.log(two(add(one()))); // 3
@@ -85,10 +152,15 @@ console.log(fib4(9)); // 34
 
 
 // ### new的时候加1
-const Foo = (function() {
-    let count = 0;
-    return function() {
-        console.log(++count);
+const fn = (() => {
+    let count = 0
+    return function _fn() {
+        if (this.constructor == _fn) { // es5中判断是new调用
+        // if (new.target) { // es6中判断是new调用
+            console.log(`new了${++count}次`)
+        } else {
+            console.log('普通函数执行')
+        }
     }
 })()
 
@@ -146,6 +218,9 @@ function findMaxChar(str) {
 
 // ### 实现队列函数（先进先出），以实现一次100秒后打印出1，200秒后打印2，300秒后打印3这样
 // #### setInterval有两个缺点
+    //   - 某些间隔会被跳过
+    //   - 可能多个定时器会连续执行
+    //   这是因为每个 setTimeout 产生的任务会直接 push 到任务队列中，而 setInterval 在每次把任务 push 到任务队列时，都要进行一次判断（判断 上次的任务是否仍在队列中，是则跳过）。所以通过用 setTimeout 模拟 setInterval 可以规避上面的缺点。
 const moniInterval = (fn, time) => {
     const interval = () => {
         setTimeout(interval, time)
@@ -250,6 +325,8 @@ JSONP({
         console.log(res)
     }
 })
+// 后端会将数据传参到拿来的函数，赋值给响应体。。。前端拿到的就是一个'JSONP.callbacks[1](data)'这样的字符串，script加载完脚本后立即执行，就能拿到数据了
+this.body = `${callback}(${JSON.stringify(callbackData)})`
 
 
 // ### 手写双向绑定
@@ -322,7 +399,7 @@ const debounce = (fn, time) => {
         let that = this
         clearTimeout(timer)
         timer = setTimeout(() => {
-            fn,apply(that, [...args])
+            fn.apply(that, [...args])
         }, time)
     }
 }
@@ -333,27 +410,30 @@ const throttle = (fn, time) => {
         if (!canDo) {
             return
         }
+        canDo = false
         let that = this
         setTimeout(() => {
             fn.apply(that, [...args])
+            canDo = true
         }, time)
     }
 }
 
 
 // ### promise实现图片懒加载
-function lazyLoad(src) {
-    return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.onload = function(ev) {
-            resolve(ev)
-        }
-        img.onerror = function(ev) {
-            reject(ev)
-        }
-        img.src = src
-    })
-}
+function loadImg(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = function() {
+      console.log("一张图片加载完成");
+      resolve(img);
+    };
+    img.onerror = function() {
+    	reject(new Error('Could not load image at' + url));
+    };
+    img.src = url;
+  })
+};
 
 // ### 二分查找
 function binarySearch(target, arr, start, end) {
@@ -378,10 +458,11 @@ function getType(data) {
         return type
     }
 
-    return Object.prototype.toString.call(data).replace(/^\[object (\S)\]$/, '$1')
+    // return Object.prototype.toString.call(data).match(/\s(\w+)/)[1].toLowerCase()
+    return Object.prototype.toString.call(data).replace(/^\[object (\w+)\]$/,"$1").toLowerCase()
 }
 
-
+"[object Array]".match(/\s(\w+)/)
 
 
 // ### 如何效率的向一个ul里面添加10000个li
@@ -448,6 +529,12 @@ function flatten(arr) {
     return newArr
 }
 
+
+
+// ### 数组去重
+Array.from(new Set(arr))
+[...new Set(arr)]
+
 // ### 简单版EventEmitter实现
 class EventEmitter {
     constructor() {
@@ -508,7 +595,8 @@ class EventEmitter {
                 args.length > 0 ? cb.apply(this, args) : cb.call(this)
             })
         } else {
-            args.length > 0 ? cb.apply(this, args) : cb.call(this)
+            // 单个函数直接触发
+            args.length > 0 ? handler.apply(this, args) : handler.call(this)
         }
     }
 
@@ -648,7 +736,13 @@ function templateStr(template, context) {
 
 console.log(templateStr(template, context));
 
-// 与千分位题
+// 千分位题
+function toThousands(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+}
+toThousands(123456789011)
+
+
 // 写一个方法,实现字符串从后往前每三个插入|,得到"ad|abc|def|ghi"
 const str = "adabcdefghi"
 let newStr = str.replace(/(\w)(?=(?:\w{3})+$)/g, "$1|");

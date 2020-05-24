@@ -191,9 +191,11 @@ const throttle = (fn, time) => {
         if (!canDo) {
             return
         }
+        canDo = false
         let that = this
         setTimeout(() => {
             fn.apply(that, [...args])
+            canDo = true
         }, time)
     }
 }
