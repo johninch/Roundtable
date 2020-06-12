@@ -16,8 +16,11 @@
 - 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣').valueOf() 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
 - add(1, 3, 4)(7)(5, 5).valueOf();
 - 实现JSONP
+- 返回promise的JSONP封装
+- 实现promisify
 - 手写双向绑定
 - 手写vue observe数据劫持
+- 用JS模拟DOM结构（手写vnode）
 - 防抖节流
 - promise实现图片懒加载
 - 二分查找
@@ -36,6 +39,8 @@
 - 手写bind函数
 - 实现一个函数trim(str) 字符串前后去空格
 - 如何用ES5实现promise
+- 手写文件上传
+- 手写文件预览
 :::
 
 
@@ -97,7 +102,8 @@ function myInstanceof(left, right) {
 		// 如果查找到尽头，还没找到，return false
 		if (proto == null) return false;
 		//找到相同的原型对象
-		if (proto === right.prototype) return true;
+        if (proto === right.prototype) return true;
+
 		proto = Object.getPrototypeOf(proto);
 	}
 }
@@ -293,7 +299,7 @@ const add = (...args) => {
 
 
 // 实现JSONP
-function JSONP({url, params = {}, callbackKey = 'cb', callback}) {
+function JSONP(url, params = {}, callbackKey = 'cb', callback) {
     // 定义本地的唯一callbackId，若是没有的话则初始化为1
     JSONP.callbackId = JSONP.callbackId || 1;
     JSONP.callbacks = JSONP.callbacks || [];
@@ -315,7 +321,7 @@ function JSONP({url, params = {}, callbackKey = 'cb', callback}) {
     JSONP.callbackId++ // id自增，保证唯一
 }
 
-JSONP({
+JSONP(
     url: 'http://localhost:8080/api/jsonp',
     params: {
         id: 1
@@ -324,9 +330,125 @@ JSONP({
     callback (res) {
         console.log(res)
     }
-})
+)
 // 后端会将数据传参到拿来的函数，赋值给响应体。。。前端拿到的就是一个'JSONP.callbacks[1](data)'这样的字符串，script加载完脚本后立即执行，就能拿到数据了
 this.body = `${callback}(${JSON.stringify(callbackData)})`
+
+// 返回promise的JSONP封装
+function JSONP(url, params = {}, callbackKey = 'cb') {
+    return new Promise((resolve, reject) => {
+        // 定义本地的唯一callbackId，若是没有的话则初始化为1
+        JSONP.callbackId = JSONP.callbackId || 1;
+        JSONP.callbacks = JSONP.callbacks || [];
+
+        // 把要执行的回调加入到JSON对象中，避免污染window
+        let callbackId = JSONP.callbackId;
+    
+        params[callbackKey] = `JSONP.callbacks[${callbackId}]` // 把设定的函数名称放入到参数中，'cb=JSONP.callbacks[1]'
+
+        const paramString = Object.keys(params).map(key => {
+            return `${key}=${encodeURIComponent(params[key])}`
+        }).join('&')
+    
+        const script = document.createElement('script')
+        script.setAttribute('src', `${url}?${paramString}`)
+        
+        // 注册全局函数，等待执行
+        JSONP.callbacks[callbackId] = result => {
+            // 一旦执行，就要删除js标签和注册的函数
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+            if (result) {
+                resolve(result);
+            } else {
+                reject(new Error('没有返回数据'))
+            }
+        }
+
+        // js加载异常的情况
+        script.addEventListener('error', () => {
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+
+            reject(new Error('JavaScript资源加载失败'))
+        }, false)
+
+        // 添加js节点到document上时，开始请求
+        document.body.appendChild(script)
+        
+        JSONP.callbackId++ // id自增，保证唯一
+    })
+}
+
+
+
+// 实现promisify
+const promisify = (func) => (...args) =>
+    new Promise((resolve, reject) => {
+        func(...args, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        })
+    })
+// 或者
+const promisify = function(func) {
+    return function(...args) {
+        var ctx = this
+        return new Promise((resolve, reject) => {
+            func.call(ctx, ...args, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+}
+
+// nodeCallback方法func1
+var func1 = function(a, b, c, callback) {
+    callback(null, a+b+c);
+}
+// promise化后的func2
+var func2 = promisify(func1);
+// 调用后输出6
+func1(1, 2, 3, (err, result) => {
+    if (!err) {
+        console.log(result); //输出6
+    }
+})
+func2(1, 2, 3).then(console.log); //输出6
+
+
+// 原有的callback调用方式
+fs.readFile('test.js', function(err, data) {
+    if (!err) {
+        console.log(data);
+    } else {
+        console.log(err);
+    }
+});
+
+// promisify后调用方式
+var readFileAsync = promisify(fs.readFile);
+readFileAsync('test.js').then(data => {
+    console.log(data);
+}, err => {
+    console.log(err);
+});
+
+// 只有nodeCallback方法可以通过 promisify 变成 promise，nodeCallback需满足两个条件
+// - 1、回调函数在主函数中的参数位置必须是最后一个；
+// - 2、回调函数参数中的第一个参数必须是 error。
+// var func = function(a, b, c, callback) {
+//     callback(null, a+b+c);
+// }
+// [Callback 与 Promise 间的桥梁 —— promisify](https://juejin.im/post/59f99d916fb9a0450b65b538)
+
 
 
 // ### 手写双向绑定
@@ -390,6 +512,29 @@ class Vue {
         })
     }
 }
+
+// 用JS模拟DOM结构（手写vnode）
+<template>
+   <div id="div1" class="container">
+        <p>vdom</p>
+   </div> 
+</template>
+
+{
+    tag: 'div',
+    props: {
+        className: 'container',
+        id: 'div1'
+    },
+    children: [
+        {
+            tag: 'p',
+            children: 'vdom'
+        }
+    ]
+}
+
+
 
 
 // ### 防抖节流
@@ -459,7 +604,7 @@ function getType(data) {
     }
 
     // return Object.prototype.toString.call(data).match(/\s(\w+)/)[1].toLowerCase()
-    return Object.prototype.toString.call(data).replace(/^\[object (\w+)\]$/,"$1").toLowerCase()
+    return Object.prototype.toString.call(data).replace(/^\[object (\w+)\]$/, "$1").toLowerCase()
 }
 
 "[object Array]".match(/\s(\w+)/)
@@ -505,7 +650,7 @@ var thisNew = function(M) {
     // 执行构造函数M，并绑定作用域到o上
     var res = M.call(o);
     // 判断res是否是广义上的对象，是则返回res，否则返回o
-    if (typeof res === "object") {
+    if (res instanceof Object) { // 使用typeof不行，因为需要排除null的情况
         return res;
     } else {
         return o;
@@ -529,11 +674,22 @@ function flatten(arr) {
     return newArr
 }
 
+[1, [2, [3, 4]]].toString().split(',').map(i => Number(i))
+
+function flatten(arr) {
+    while(arr.some(item => Array.isArray(item))) {
+        arr = [].concat(...arr)
+    }
+    return arr
+}
+
 
 
 // ### 数组去重
 Array.from(new Set(arr))
 [...new Set(arr)]
+
+
 
 // ### 简单版EventEmitter实现
 class EventEmitter {
@@ -820,6 +976,113 @@ Function.prototype._bind = function(ctx) {
 String.prototype.trim = function() {
     return this.replace(/(^\s*)|(\s*$)/g, '')
 }
+
+
+
+// - 如何用ES5实现promise
+class Promise {
+    constructor(executor) {
+        this.status = 'pending'
+        this.value = undefined
+        this.reason = undefined
+
+        let resolve = function(value) {
+            if (this.status === 'pending') {
+                this.value = value
+                this.status = 'fulfiled'
+            }
+        }
+
+        let reject = function(reason) {
+            if (this.status === 'pending') {
+                this.reason = reason
+                this.status = 'rejected'
+            }
+        }
+
+        try {
+            executor(resolve, reject)
+        } catch(e) {
+            reject(e)
+        }
+    }
+
+    then(onFulfiled, onRejected) {
+        switch(this.status) {
+            case 'fulfiled':
+                onFulfiled()
+                break
+            case 'rejected':
+                onRejected()
+                break
+            default: 
+        }
+    }
+}
+
+
+
+
+
+
+// - 手写文件上传
+const input = document.createElement('input')
+document.querySelector('body').appendChild(input)
+input.click()
+setTimeout(() => {
+    input.remove()
+}, 1000)
+
+input.onchange = function() {
+    let file = input.files[0]
+    let fd = new FormData()
+    fd.append('file', file)
+    fd.append('filename', file.name)
+    fd.append('other', file.xxx)
+
+    let xhr = new XMLHttpRequest()
+    let action = 'http://xxxx.com/upload'
+    xhr.open('POST', action, true)
+    xhr.send(fd)
+    xhr.onreadystatechange = function() {
+
+    }
+}
+
+
+
+
+
+// - 手写文件预览
+var file = document.getElementById('file')
+var img = document.getElementById('img')
+
+file.addEventListener('change', function(){
+    var obj = file.files[0]
+    var src = window.URL.createObjectURL(obj)
+    img.setAttribute('src', src);
+})
+
+
+var file = document.getElementById('file')
+var img = document.getElementById('img')
+
+file.addEventListener('change', function(){
+    var obj = file.files[0]
+    var reader = new FileReader();
+    reader.readAsDataURL(obj);
+    reader.onloadend = function() {
+        img.setAttribute('src', reader.result);
+    }
+})
+
+
+
+
+
+
+
+
 
 ```
 :::

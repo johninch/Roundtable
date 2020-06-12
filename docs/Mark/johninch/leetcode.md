@@ -10,14 +10,14 @@
         area += (h[i] - height[i]) * 1; // h为下雨之后的水位
     }
     - h[i] = Math.min(左边柱子最大值, 右边柱子最大值)
-- `H 25. K 个一组翻转链表`
-- `E 1. 两数之和`
+- `H 25. K 个一组翻转链表`*（没掌握）*
+**- `E 1. 两数之和`**
     - 用一个对象注册，类似哈希表
-- :rocket:`M 15. 三数之和`
+**- :rocket:`M 15. 三数之和`**
     - 双指针法
 - :rocket:`M 43. 字符串相乘（大数相乘）`
 - `E 字符串相加（处理加法精度）`
-- :rocket:`M 2. 两数相加`
+**- :rocket:`M 2. 两数相加`**
     - 这个题，链表head是个位：(2 -> 4 -> 3) 342
 - `M 445. 两数相加 II`
     - 链表尾部是个位：(2 -> 4 -> 3) 243
@@ -25,7 +25,7 @@
 - :rocket:`M 3. 无重复字符的最长子串`
     - 维护一个数组作为滑动窗口，
     - 如果数组中已经有了字符a，则删除a包括自己在内及之前的所有元素
-- `M 5. 最长回文子串`
+**- `M 5. 最长回文子串`**
 - :rocket:`E 21. 合并两个有序链表`
 - `E 53. 最大子序和`
     - 这道题用动态规划的思路并不难解决，比较难的是后文提出的用分治法求解，但由于其不是最优解法，所以先不列出来
@@ -33,7 +33,7 @@
     - 如果 sum > 0，则说明 sum 对结果有增益效果，则 sum 保留并加上当前遍历数字
     - 如果 sum <= 0，则说明 sum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
     - 每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果
-- `M 11. 盛最多水的容器`
+**- `M 11. 盛最多水的容器`**
     - 左右双指针，每次都 向内移动短板，直到相撞
 - :rocket:`M 146. LRU缓存机制`
     - Map 中的键值是有序的，而添加到对象中的键则不是。因此，当对它进行遍历时，Map 对象是按插入的顺序返回键值
@@ -53,11 +53,11 @@
 - :rocket:`M 56. 合并区间`
 - `M 46. 全排列`
 - :rocket:`M 面试题38. 字符串的排列`
-- `E 20. 有效的括号`
+**- `E 20. 有效的括号`**
     - 利用栈。
     - 遇到左括号，一律推入栈中，
     - 遇到右括号，将栈顶部元素拿出，如果不匹配则返回 false，如果匹配则继续循环。
-- `E 7. 整数反转`
+**- `E 7. 整数反转`**
     - 取余数，最后判断正负号及是否越界
 - `M 102. 二叉树的层序遍历`
 - `M 199. 二叉树的右视图`
@@ -65,7 +65,7 @@
 - :rocket:`M 103. 二叉树的锯齿形层次遍历`
     - 偶数时，push进队列；奇数时，unshift进队列
 - `M 70. 爬楼梯`
-- `M 22. 括号生成`
+**- `M 22. 括号生成`**
     - 递归，记录当前字符以及字符中左右括号的个数
 - :rocket:`M 93. 复原IP地址`
     - 递归分成四部分
@@ -73,8 +73,9 @@
     - 对于一个为 1 且未被访问过的位置，我们递归进入其上下左右位置上为 1 的数，将其 visited 变成 true（即设置为0）
     - 重复上述过程，找完相邻区域后，我们将结果 res 自增1，然后我们在继续找下一个为 1 且未被访问过的位置，直至遍历完.
 - :rocket:`M 695. 岛屿的最大面积`
-- `E 9. 回文数`
-- `M 19. 删除链表的倒数第N个节点`
+**- `E 9. 回文数`**
+**- `M 19. 删除链表的倒数第N个节点`**
+    - 注意使用哑结点解决head问题
 - `M 322. 零钱兑换`
     - dp[n] 为组成n的最少硬币数
 - `E 160. 相交链表`
@@ -111,7 +112,7 @@
     - 此题必须从根节点到叶子节点，判断是否存在和
 - `E 437. 路径总和 III`
     - 此题不需要从根节点到叶子节点，但必须是向下遍历求和，返回路径数
-- `M 24. 两两交换链表中的节点`
+**- `M 24. 两两交换链表中的节点`**
     - 使用四指针
 - H 41. 缺失的第一个正数
 - `M 300. 最长上升子序列`
@@ -124,11 +125,12 @@
     - 若某格子值为 1，则以此为右下角的正方形的、最大边长为：上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
     - 状态定义：dp[i][j] 以 matrix[i][j] 为右下角的正方形的最大边长
     - dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
-- `E 26. 删除排序数组中的重复项`
+**- `E 26. 删除排序数组中的重复项`**
     - 需要再原数组上操作
     - 双指针法 i，j
     - 当且仅当遇到下一个不相同即不重复的元素时，更新指针位置为下一个元素
-- `M 17. 电话号码的字母组合`
+**- `M 17. 电话号码的字母组合`**
+**- `求组合：从n个数组中各选一个元素，有多少种组合`**
 - :rocket:`M 71. 简化路径`
     - 遇到正常的字母时，推入 stack 中
     - 遇到 .. 时，stack 弹出最近一个路径
@@ -136,7 +138,7 @@
     - 最后返回 '/' + stack.join('/') 为新的路径
 - `E 169. 多数元素`
     - 因为大于一半, 所以排序后的 中间那个数必是所求
-- `M 6. Z 字形变换`
+**- `M 6. Z 字形变换`**
 - `E 455. 分发饼干`
     - 使用双指针
 - `M 442. 数组中重复的数据`
@@ -145,7 +147,6 @@
 - :rocket:`E 557. 反转字符串中的单词 III`
 - `E 459. 重复的子字符串`
 - `E 414. 第三大的数`
-- `E 125. 验证回文串`
 - `M 1143. 最长公共子序列`
 - `E 62. 不同路径`
 - `M 63. 不同路径 II`
@@ -167,9 +168,7 @@
 - `电话号码的字母组合（组合运算）`
 - `种花问题（筛选运算-贪心）`
 - `链表倒数第k个节点`
-- `两个链表的第一个公共节点`
 - `链表中环的入口结点`
-- 
 - `从尾到头打印`
 - `创建链表`
 - `设计循环队列`
@@ -236,8 +235,6 @@ var trap = function(height) {
         max = Math.max(height[i], max);
         leftMax[i] = max
     }
-
-    max = 0;
 
     for(let i = height.length - 1, max = 0; i >= 0; i--) { // 反向遍历，注意max赋初值0
         max = Math.max(height[i], max);
@@ -317,7 +314,7 @@ var threeSum = function(nums) {
             let first = i + 1
             let last = length - 1
             do {
-                if (first >= last || nums[i] *nums[last] > 0) {
+                if (first >= last || nums[i] * nums[last] > 0) {
                     // 两人选相遇，或者三人同符号，则退出
                     break
                 }
@@ -344,18 +341,22 @@ var threeSum = function(nums) {
 // - M 43. 字符串相乘（大数相乘）
 var multiply = function (num1, num2) {
     if (num1 === '0' || num2 === '0') return '0'
-    let len1 = num1.length, len2 = num2.length, res = new Array(len1 + len2).fill(0)
+
+    let len1 = num1.length,
+        len2 = num2.length,
+        res = new Array(len1 + len2).fill(0)
+
     // 结果最多为 m + n 位数
     for (let i = len1 - 1; i >= 0; i--) {
         for (let j = len2 - 1; j >= 0; j--) {
             // 从个位数开始，逐步相乘
             const mul = num1[i] * num2[j]
             // 乘积在结果数组中对应的位置
-            const p1 = i + j, p2 = i + j + 1
+            const p1 = i + j, p2 = i + j + 1 // p2是当前位，p1是进位（因为最高位索引是0，低位索引更大啊）
             // 对结果进行累加
             const sum = mul + res[p2]
-            res[p1] += Math.floor(sum / 10)
             res[p2] = sum % 10
+            res[p1] = res[p1] + Math.floor(sum / 10)
         }
     }
     if (res[0] === 0) res.shift()
@@ -366,7 +367,11 @@ var multiply = function (num1, num2) {
 
 // - E 字符串相加（处理加法精度）
 var addStrings = function(num1, num2) {
-    let a = num1.length, b = num2.length, result = '', tmp = 0
+    let a = num1.length, 
+        b = num2.length,
+        result = '',
+        tmp = 0
+
     while(a || b) {
         a ? tmp += +num1[--a] : ''
         b ? tmp += +num2[--b] : ''
@@ -574,7 +579,7 @@ var maxArea = function(height) {
 
     while (i < j) {
         if (height[i] < height[j]) {
-            area = Math.max(area, height[i] *(j - i))
+            area = Math.max(area, height[i] * (j - i))
             i++
         } else {
             area = Math.max(area, height[j] * (j - i))
@@ -1114,7 +1119,7 @@ var removeNthFromEnd = function(head, n) {
 
 
 
-// M 322. 零钱兑换
+// M 322. 零钱兑换 ————————————————————————————————————————————》好好理解下
 // dp[n] 为组成n的最少硬币数
 var coinChange = function(coins, amount) {
     // 因为每次都要取最小的值，所以一开始用正无穷初始化
@@ -1170,9 +1175,9 @@ var getIntersectionNode = function(headA, headB) {
 // E 88. 合并两个有序数组
 // 这个题主要是要注意在nums1上做改动，不用返回任何值
 var merge = function(nums1, m, nums2, n) {
-    nums1.splice(m,nums1.length - m)
-    nums2.splice(n,nums2.length - n)    
-    Object.assign(nums1,[...nums1,...nums2].sort((a,b) => a - b))
+    nums1.splice(m, nums1.length - m)
+    nums2.splice(n, nums2.length - n)    
+    Object.assign(nums1, [...nums1,...nums2].sort((a,b) => a - b))
 };
 
 
@@ -1281,7 +1286,7 @@ var reverseList = (head) => {
 
 
 // M 92. 反转链表 II
-var reverseBetween = function(head, m, n) {
+var reverseBetween = function(head, m, n) { 
     let dummyHead = new ListNode(0)
     dummyHead.next = head
     let tmpHead = dummyHead
@@ -1304,7 +1309,7 @@ var reverseBetween = function(head, m, n) {
 
     // 将原链表与区间反转的链表拼接
     console.log(cur.val, prev.val, tmpHead.val)
-    tmpHead.next.next = cur
+    tmpHead.next.next = cur //  ————————————————————————————————————————————》好好理解下
     tmpHead.next = prev
 
     return dummyHead.next
@@ -1351,7 +1356,7 @@ var reorderList = function (head) {
 
     right = reverseList(right)
 
-    while (left && right) {
+    while (left && right) { // ————————————————————————————————————————————》好好理解下
         let lNext = left.next
         let rNext = right.next
     
@@ -1364,6 +1369,8 @@ var reorderList = function (head) {
 
     return dummy.next
 }
+
+
 const sortList = function(head) {
 	// 保持链表结构不改变，只交换值
 	const swap = (p, q) => {
@@ -1373,7 +1380,7 @@ const sortList = function(head) {
 	}
 
 	// 寻找基准元素的节点
-	const partion = (begin, end = null) => {
+	const partion = (begin, end = null) => { // ————————————————————————————————————————————》好好理解下
 		const val = begin.val
 		let p = begin
 		let q = begin.next
@@ -1517,15 +1524,15 @@ var isSymmetric = (root) => {
 // 递归查找当前root中的左右子树是否有p节点或者q节点，有则返回p或q，没有返回null
 var lowestCommonAncestor = function(root, p, q) {
     // 递归终止条件，查找的临界条件
-    if(root === null || root === p || root === q) {
+    if(root === null || root === p || root === q) { //  ————————————————————————————————————————————》好好理解下
         return root
     }
     // 没到临界条件时，递归查找左右子树
     // 从左右子树分别递归查找，看是否找到
-    let left = lowestCommonAncestor(root.left,p,q)
-    let right = lowestCommonAncestor(root.right,p,q)
+    let left = lowestCommonAncestor(root.left, p, q)
+    let right = lowestCommonAncestor(root.right, p, q)
 
-    if(left !== null && right !== null){
+    if(left && right){
         // 左右子树都找到了，说明就是当前root，返回root
         return root
     } else {
@@ -1628,7 +1635,7 @@ var firstMissingPositive = function(arr) {
 };
 
 
-// M 300. 最长上升子序列
+// M 300. 最长上升子序列 
 // 由于一个子序列一定会以一个数结尾，于是将状态定义成：dp[i] 表示以 nums[i] 结尾的「上升子序列」的长度
 var lengthOfLIS = function(nums) {
     let len = nums.length
@@ -1639,7 +1646,7 @@ var lengthOfLIS = function(nums) {
     for(let i = 1; i < len; i++) {
         for(let j = 0; j < i; j++) {
             if (nums[j] < nums[i]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1)
+                dp[i] = Math.max(dp[i], dp[j] + 1) // ————————————————————————————————————————————》好好理解下
             }
         }
     }
@@ -1695,7 +1702,7 @@ var buildTree = (preorder, inorder) => {
 }
 
 
-// M 221. 最大正方形
+// M 221. 最大正方形  ————————————————————————————————————————————》好好理解下
 // 若某格子值为 1，则以此为右下角的正方形的、最大边长为：上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
 // 状态定义：dp[i][j] 以 matrix[i][j] 为右下角的正方形的最大边长
 // dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
@@ -1781,6 +1788,31 @@ function letterCombinations(str) {
     return combine(codes)
 }
 
+// 求组合：从n个数组中各选一个元素，有多少种组合
+const combine = (arr) => {
+    if (arr.length < 2) return arr[0].split('')
+
+    let tmp = []
+    for(let i = 0; i < arr[0].length; i++) {
+        for(let j = 0; j < arr[1].length; j++) {
+            tmp.push(`${arr[0][i]}${arr[1][j]}`)
+        }
+    }
+
+    arr.splice(0, 2, tmp)
+
+    if (arr.length > 1) {
+        return combine(arr)
+    } else {
+        return arr[0]
+    }
+}
+// combine([[1,3,4], [5,6,7]])
+// ["15", "16", "17", "35", "36", "37", "45", "46", "47"]
+// combine(['abc', 'def'])
+// ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+// combine(['abc', 'def', 'ghig'])
+// ["adg", "adh", "adi", "adg", "aeg", "aeh", "aei", "aeg", "afg", "afh", "afi", "afg", "bdg", "bdh", "bdi", "bdg", "beg", "beh", "bei", "beg", "bfg", "bfh", "bfi", "bfg", "cdg", "cdh", "cdi", "cdg", "ceg", "ceh", "cei", "ceg", "cfg", "cfh", "cfi", "cfg"]
 
 // M 71. 简化路径
     // 遇到正常的字母时，推入 stack 中
@@ -1865,7 +1897,7 @@ var convert = function(s, numRows) {
 
 
 // 455. 分发饼干
-    - 使用双指针
+    // - 使用双指针
 var findContentChildren = function (g, s) {
     g = g.sort((a, b) => a - b);
     s = s.sort((a, b) => a - b);
@@ -1912,7 +1944,7 @@ var findDuplicates = function (nums) {
 // - E 696. 计数二进制子串
 const countBinarySubstrings = (s) => {
     let result = []
-    let helper = (str) => {
+    let helper = (str) => { // ————————————————————————————————————————————》好好理解下
         let left = str.match(/^(0+|1+)/)[0]
         let right = (str[0]^1).toString().repeat((left.length))
 
@@ -1968,21 +2000,6 @@ var thirdMax = function(nums) {
     return nums[2]
 }
 
-// - E 125. 验证回文串
-var isPalindrome = function(str) {
-    str = str.replace(/[^0-9a-zA-Z]/g,'').toLowerCase();
-    let n = str.length;
-    let left = 0;
-    let right = n-1;
-    while(left < right){
-        if(str[left] != str[right]){
-            return false;
-        }
-        left++;
-        right--;
-    }
-    return true;
-};
 
 // M 1143. 最长公共子序列
 var longestCommonSubsequence = function(str1, str2) {
@@ -1996,7 +2013,7 @@ var longestCommonSubsequence = function(str1, str2) {
             if (str[i-1] === str[j-1]) {
                 dp[i][j] = dp[i - 1][j - 1] + 1
             } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1])
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) // ————————————————————————————————————————————》好好理解下
             }
         }
     }
@@ -2092,15 +2109,14 @@ var isCompleteTree = function(root) {
     let count = 0
 
     while (queue.length) {
-        const item = queue.shift()
-        let [node, index] = item
-        // 用来判断索引位置节点是否存在，如果index !== ++count代表左右子树层级相差超过1层，或者最后一层没有左节点却有右节点
+        let [cur, index] = queue.shift()
+        // 用来判断索引位置节点是否存在，如果index !== ++count代表左右子树层级相差超过1层，或者最后一层没有左节点却有右节点 // ————————————————————————————————————————————》好好理解下
         if (index !== ++count) {
             return false
         }
         // 层序遍历过程中，用index来维护节点索引，如果根节点index为1，那么一个节点索引是index,那他的左孩子索引是index * 2,右孩子索引是index * 2 +1
-        node.left && queue.push([node.left, index * 2])
-        node.right && queue.push([node.right, index * 2 + 1])
+        cur.left && queue.push([cur.left, index * 2])
+        cur.right && queue.push([cur.right, index * 2 + 1])
     }
 
     return true
@@ -2127,47 +2143,6 @@ const sizeOfTree = (root) => {
     }
 
     return 1 + sizeOfTree(root.left) + sizeOfTree(root.right)
-}
-
-// - [14. 对称的二叉树](./Tree-and-Binary-Tree/is-symmetrical)
-// 判断树相同
-const isSameTree = (left, right) => {
-    if (!left && !right) {
-        return true
-    }
-
-    if (!left || !right) {
-        return false
-    }
-
-    if (left.val !== right.val) {
-        return false
-    }
-
-    return isSameTree(left.left, right.left) && isSameTree(left.right, right.right)
-}
-
-// 判断对称树
-const isSymmetric = (root) => {
-    if (!root) return true
-
-    const walk = (left, right) => {
-        if (!left && !right) {
-            return true
-        }
-
-        if (!left || !right) {
-            return false
-        }
-
-        if (left.val !== right.val) {
-            return false
-        }
-
-        return walk(left.left, right.right) && walk(left.right, right.left)
-    }
-
-    return walk(root.left, root.right)
 }
 
 
@@ -2200,8 +2175,6 @@ const levelOrder = function(root) {
 
     return res
 }
-
-
 
 // - 二叉树的中序遍历
 const inorderTraversal = (root) => {
@@ -2328,7 +2301,7 @@ var getHRD = () => {
 
 
 // - 生成二叉搜索树
-const generateBST = (data) => {
+const generateBST = (data) => { // ————————————————————————————————————————————》好好理解下
     let root = new Node(data.shift())
 
     let insert = (node, data) => {
@@ -2356,7 +2329,7 @@ const generateBST = (data) => {
 
 
 // - 二叉搜索树的第k个节点
-// 利用BST的中序遍历是升序
+// 利用BST的中序遍历是升序 // ————————————————————————————————————————————》好好理解下
 const kthSmallest = (root, k) => {
     const res = []
     const stack = []
@@ -2443,38 +2416,6 @@ function findKthFromTail(head, k) {
 
 
 
-// - 两个链表的第一个公共节点
-function findCommon(list1, list2) {
-  const stack1 = [],
-        stack2 = [];
-
-  let node = list1;
-  while (node) {
-    stack1.push(node);
-    node = node.next;
-  }
-
-  node = list2;
-  while (node) {
-    stack2.push(node);
-    node = node.next;
-  }
-
-  node = null;
-  while (stack1.length && stack2.length) {
-    let top1 = stack1.pop(),
-        top2 = stack2.pop();
-    if (top1 === top2) {
-      node = top1;
-    } else {
-      break;
-    }
-  }
-
-  return node;
-}
-
-
 
 // - 链表中环的入口结点
     // 环形链表的入口节点
@@ -2525,50 +2466,6 @@ function printFromTailToHead(node) {
   node.value && console.log(node.value)
 }
 
-
-
-
-
-// - 排序链表
-const sortList = function(head) {
-	// 保持链表结构不改变，只交换值
-	const swap = (p, q) => {
-		const val = p.val
-		p.val = q.val
-		q.val = val
-	}
-
-	// 寻找基准元素的节点
-	const partion = (begin, end = null) => {
-		const val = begin.val
-		let p = begin
-		let q = begin.next
-		// 保证 p左小，p右大
-		while (q !== end) {
-			if (q.val < val) {
-				// 遍历小于基准时，要跟p的下一个节点交换
-				p = p.next
-				swap(p, q)
-			}
-			q = q.next
-		}
-		// 让基准元素跑到中间去
-		swap(p, begin)
-
-		return p
-	}
-
-	const sort = (begin, end = null) => {
-		if (begin !== end && begin !== null) {
-			const part = partion(begin, end)
-			sort(begin, part)
-			sort(part.next, end)
-		}
-		return begin
-	}
-
-	return sort(head)
-}
 
 
 

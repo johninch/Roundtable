@@ -1,5 +1,207 @@
 
 
+// 返回promise的JSONP封装
+function JSONP(url, params = {}, callbackKey = 'cb') {
+    return new Promise((resolve, reject) => {
+        // 定义本地的唯一callbackId，若是没有的话则初始化为1
+        JSONP.callbackId = JSONP.callbackId || 1;
+        JSONP.callbacks = JSONP.callbacks || [];
+
+        // 把要执行的回调加入到JSON对象中，避免污染window
+        let callbackId = JSONP.callbackId;
+    
+        params[callbackKey] = `JSONP.callbacks[${callbackId}]` // 把设定的函数名称放入到参数中，'cb=JSONP.callbacks[1]'
+
+        const paramString = Object.keys(params).map(key => {
+            return `${key}=${encodeURIComponent(params[key])}`
+        }).join('&')
+    
+        const script = document.createElement('script')
+        script.setAttribute('src', `${url}?${paramString}`)
+        
+        // 注册全局函数，等待执行
+        JSONP.callbacks[callbackId] = result => {
+            // 一旦执行，就要删除js标签和注册的函数
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+            if (result) {
+                resolve(result);
+            } else {
+                reject(new Error('没有返回数据'))
+            }
+        }
+
+        // js加载异常的情况
+        script.addEventListener('error', () => {
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+
+            reject(new Error('JavaScript资源加载失败'))
+        }, false)
+
+        // 添加js节点到document上时，开始请求
+        document.body.appendChild(script)
+        
+        JSONP.callbackId++ // id自增，保证唯一
+    })
+}
+
+
+function JSONP({url, params = {}, callbackKey = 'cb', callback}) {
+    JSONP.callbackId = JSONP.callbackId || 1
+    JSONP.callbacks = JSONP.callbacks || []
+
+    let callbackId = JSONP.callbackId
+    JSONP.callbacks[callbackId] = callback
+
+    params[callbackKey] = `JSONP.callbacks[${callbackId}]`
+
+    const paramString = Object.keys(params).map(key => {
+        return `${key}=${encodeURIComponent(params[key])}`
+    }).join('&')
+
+    const script = document.createDocument('script')
+    script.setAttribute('src', `${url}?${paramString}`)
+    document.body.appendChild(script)
+
+    JSONP.callbackId++
+}
+
+const input = document.getElementById('input')
+let obj = {val: ''}
+
+Object.defineProperties(obj, 'val', {
+    get() {
+        return input.value
+    },
+    set(value) {
+        input.value = value
+    }
+})
+
+input.addEventListener('input', (ev) => {
+    obj.val = ev.target.value
+})
+
+
+
+function findPath(a, obj) {
+    for(var key in obj) {                                         // for each key in the object obj
+        if(obj.hasOwnProperty(key)) {                             // if it's an owned key
+            if(a === obj[key]) return key;                        // if the item beign searched is at this key then return this key as the path
+            else if(obj[key] && typeof obj[key] === "object") {   // otherwise if the item at this key is also an object
+                var path = findPath(a, obj[key]);                 // search for the item a in that object
+                if(path) return key + "." + path;                 // if found then the path is this key followed by the result of the search
+            }
+        }
+    }
+}
+
+var obj = {
+  "a": [1, 2, {"o": 5}, 7],
+  "b": [0, [{"bb": [0, "str"]}]]
+};
+
+console.log(findPath(5, obj)); // a.2.o
+console.log(findPath("str", obj).split(".")); // ["b", "1", "0", "bb", "1"]
+
+var arr = [
+    {
+        "id": 1,
+        "department_code": "XIAOMI",
+        "department_name": "小米",
+        "children": [
+            {
+                "id": 2,
+                "department_code": "HR",
+                "department_name": "人力资源部",
+                "children": [
+                    {
+                        "id": 4,
+                        "department_code": "dubin",
+                        "department_name": "杜冰"
+                    },
+                    {
+                        "id": 6,
+                        "department_code": "yuchi",
+                        "department_name": "ESOP"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "department_code": "BUSINESS",
+                "department_name": "商务部"
+            }
+        ]
+    }
+]
+
+findPath('yuchi', arr)
+
+function findPath(target, arr) {
+    function _findPath(target, arr) {
+        if (arr && arr.length) {
+            for(let i = 0; i < arr.length; i++) {
+                if (target === arr[i].department_code) {
+                    return arr[i].department_code
+                } else if (arr[i] && JSON.stringify(arr[i]) !== '{}') {
+                    var path = _findPath(target, arr[i].children)
+                    if (path) return `${arr[i].department_code}.${path}`
+                }
+            }
+        }
+    }
+
+    let result = _findPath(target, arr)
+    if (result) {
+        return result.split('.')
+    } else {
+        return []
+    }
+}
+
+
+
+var Person = (() => {
+    const _name = Symbol()
+    class Person {
+        constructor(name) {
+            this[_name] = name
+        }
+        get name() {
+            return this[_name]
+        }
+        set name(name) {
+            this[_name] = name
+        }
+    }
+
+    return Person
+})()
+
+var Person = (() => {
+    const _name = '00' + Math.random()
+
+    function Person(name) {
+        this[_name] = name
+    }
+
+    Object.defineProperty(Person.prototype, 'name', {
+        get() {
+            return this[_name]
+        },
+        set(name) {
+            this[_name] = name
+        }
+    })
+
+    return Person
+})()
+
+
+
+
 console.log(myInstanceof("111", String)); //false
 console.log(myInstanceof(new String("111"), String)); //true
 
@@ -203,16 +405,16 @@ class Vue {
         this.$data = options.data
         this.observe(this.$data)
     }
-    observe(value) {
-        if (!value || typeof value !== 'object') {
+    observe(data) {
+        if (!data || typeof data !== 'object') {
             return 
         }
 
-        Object.keys(value).forEach(key => {
-            if (typeof value[key] === 'object') {
-                this.observe(value[key])
+        Object.keys(data).forEach(key => {
+            if (typeof data[key] === 'object') {
+                this.observe(data[key])
             }
-            this.defineReactive(value, key, value[key])
+            this.defineReactive(data, key, data[key])
         })
     }
     defineReactive(obj, key, val) {
@@ -333,14 +535,16 @@ Object.create = Object.create || function(obj) {
 }
 
 
-function thisNew(M) {
-    let o = Object.create(M.prototype);
-    let res = M.call(o)
-
-    if (typeof res === 'object') {
-        return res
+var thisNew = function(M) {
+    // Object.create()返回空对象o，并关联M的原型对象
+    var o = Object.create(M.prototype);
+    // 执行构造函数M，并绑定作用域到o上
+    var res = M.call(o);
+    // 判断res是否是广义上的对象，是则返回res，否则返回o
+    if (res instanceof Object) { // 使用typeof不行，因为需要排除null的情况
+        return res;
     } else {
-        return o
+        return o;
     }
 }
 

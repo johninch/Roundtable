@@ -102,9 +102,13 @@ function request(url, successCallback, failCallback) {
 }
 
 function cacheRequest(url, successCallback, failCallback) {
+    cacheRequest.cache = cacheRequest.cache || {};
+    cacheRequest.clear = cacheRequest.clear || () => (cacheRequest.cache = undefined);
+
     if (cacheRequest.cache[url]) {
         return cacheRequest.cache[url].then(successCallback).catch(failCallback);
     }
+
     // 缓存请求
     let success, fail;
     cacheRequest.cache[url] = new Promise((resolve, reject) => {
@@ -132,8 +136,6 @@ function cacheRequest(url, successCallback, failCallback) {
         }
     );
 }
-cacheRequest.cache = {};
-cacheRequest.clear = () => (cacheRequest.cache = {});
 
 ```
 
@@ -828,6 +830,30 @@ limitLoad(urls, loadImg, 3)
     console.error(err);
   });
 
+
+
+
+
+
+
+// 关键
+let promises = sequence.splice(0, limit).map((url, index) => {
+  return handler(url).then(() => {
+    return index
+  })
+})
+
+
+sequence.reduce(((pCollect, url) => {
+  return pCollect.then(() => {
+    return Promise.race(promises)
+  }.then(finishIndex => {
+    promises[finishIndex] = handler(url).then(() => {
+      return finishIndex
+    })
+  }))
+}, Promise.resolve()).then(() => Promise.all(promises))
+
 ```
 
 - 实现finally
@@ -1135,7 +1161,7 @@ const async1 = async () => {
   setTimeout(() => {
     console.log('timer1')
   }, 2000)
-  await new Promise(resolve => {
+  await new Promise(resolve => { // await后面的Promise是没有返回值的，也就是它的状态始终是pending状态，await之下的语句都不会执行
     console.log('promise1')
   })
   console.log('async1 end')

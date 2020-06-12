@@ -1,5 +1,334 @@
 ## 基础知识提纲
 
+- 回答项目问题
+    - 项目背景: 简要说一下项目的背景,让面试官知道这个项目是做什么的
+    - 个人角色: 让面试官知道你在这个项目中扮演的角色
+    - 难点: 让面试官知道你在项目开发过程中碰到的难点
+    - 解决方案: 针对上面的难点你有哪一些解决方案, 是如何结合业务进行取舍的
+    - 总结沉淀: 在攻克上述的难点后有没有沉淀出一套通用的解决方案, 有没有将自己的方案在大部门进行推广等等
+
+- 向面试官提问
+    - 禁忌
+        - 切忌问结果
+        - 切忌问工资
+        - 切忌问技术问题
+    - 有几个比较好的提问可供参考:
+        - 如果我入职这个岗位的话,前三个月你希望我能做到些什么?
+        - 你对这个职位理想人选的要求是什么?你觉得我在这个要求体系下欠缺的是什么？
+
+
+
+- 前端性能优化方向（缓存、发送请求、页面解析、静态资源加载、运行时(可包括框架性能优化)）
+    - **（一）缓存**
+        - 1. 有些资源和数据可以本地存储，不需要发请求（localStorage、sessionStorage、indexedDB）
+        - 2. 内存缓存（Memory）
+            - 请求页面机器子资源时，会先检查内存中是否已经有对应资源，这部分是浏览器自己完成的，对我们而言是无感的
+        - 3. 使用Service Worker和Cache API
+            - Cache API 提供的缓存可以认为是“持久性”的，关闭浏览器或离开页面之后，下次再访问仍然可以使用。通过Service Worker的生命周期控制。
+        - 4. HTTP缓存
+            - 强缓存
+                - 如果响应头部有Etag字段，那么浏览器就会将本次缓存写入硬盘中（from disk cache）
+                - 如果服务器上设置Etag未开启，则放到内存中（from memory cache）
+            - 协商缓存
+    - **（二）发送请求**
+        - 1. 避免多余重定向
+        - 2. DNS 预解析
+            - DNS解析是一个递归与迭代的过程
+                - hosts 文件中是否有映射
+                - 查找本地 DNS 缓存
+                - 向 本地DNS服务器 递归查询
+                - 本地DNS服务器 迭代向根域名服务器、顶级域名服务器、二级域名服务器、主机域名服务器查询，直到找到该域名。
+            - 开启预解析：`<link rel="dns-prefetch" href="//yourwebsite.com">`
+        - 3. 预先建立连接
+            - `<link rel="preconnect" href="//sample.com" crossorigin>` 告诉浏览器，视情况来预先建立tcp/ip链接，crossorigin是可选的设置CORS
+        - 4. 使用 CDN
+    - （三）服务端响应
+        - 1. 使用流进行响应
+        - 2. 业务聚合BFF，减少请求数和请求时间
+        - 3. 负载均衡（只针对高并发量网站）
+            - Node.js处理IO密集型请求
+            - pm2实现Node.js“多线程”，pm2是对进程实现负载均衡
+            - nginx搭建反向代理，反向代理是对服务器实现负载均衡，通过轮询机制，将用户的请求分配到压力较小的服务器上
+                - nginx中，模块被分为三大类：handler、filter和upstream。而其中的upstream模块，负责完成完成网络数据的接收、处理和转发，也是我们需要在反向代理中用到的模块。
+
+    - **（四）页面解析与处理**
+        - 1. 资源引用位置
+            - 因为JS 会阻塞 DOM 构建，而 CSSOM 的构建又回阻塞 JS 的执行。
+            - CSS 样式表放在 `<head>` 之中（即页面的头部），把 JS 脚本放在 `<body>` 的最后（即页面的尾部）
+        - 2. 使用 defer 和 async
+            - 在一些与主业务无关的非核心 JS 脚本上使用 async和defer属性
+        - 白屏体验优化
+            - 白屏时间 = firstPaint - performance.timing.navigationStart
+            - 白屏时间内发生了什么:
+                回车按下,浏览器解析网址,进行 DNS 查询,查询返回 IP,通过 IP 发出 HTTP(S) 请求
+                服务器返回HTML,浏览器开始解析 HTML,此时触发请求 js 和 css 资源
+                js 被加载,开始执行 js,调用各种函数创建 DOM 并渲染到根节点,直到第一个可见元素产生
+            - 白屏体验优化
+                1. 白屏loading提示（在js执行期间插入loading图）
+                ```
+                plugins: [
+                    new HtmlWebpackPlugin({
+                        template: './src/index.html',
+                        loading: loading
+                    })
+                ]
+                ```
+                2. SSR同构，服务端直出html
+                3. 首次有意义绘制FMP
+                    - 在不同框架上都有相应的Skeleton骨架屏实现
+                        - React: antd 内置的骨架图Skeleton方案
+                        - Vue: vue-skeleton-webpack-plugin
+    - **（五）页面静态资源**
+        - 预加载
+            - 通过设置link属性来控制预加载
+                - DNS Prefetch
+                - Preconnect
+                - prefetch
+                - prerender
+                - preload
+                - 在webpack中使用魔法注释指定
+                    - /* webpackPrefetch: true */
+                    - /* webpackPreload: true */
+            - 通过js来控制预加载
+                - 可以使用 PreloadJS 这个库，提供脚本、样式、图片、字体、SVG等各类资源的预加载器
+        - 代码拆分（code split）与按需加载
+        - 提取公共代码：splitChunks或者CommonChunkPlugin
+        - Tree Shaking
+            - 只支持ESM，因为本质是利用静态分析
+        - 只加载真正所需的 polyfill，减小代码体积。
+            - Polyfill.io 就会根据请求头中的客户端特性与所需的 API 特性来按实际情况返回必须的 polyfill 集合
+        - 打包压缩代码资源
+            - js压缩：UglifyJsPlugin
+            - html压缩：HtmlWebpackPlugin，配置minify选项
+            - 提取css并压缩：MiniCssExtractPlugin
+            - 开启Gzip压缩：配置nginx反向代理
+                - ！！！不要对图片文件进行Gzip压缩，因为会占用后台大量资源，且压缩效果并不理想，「弊大于利」，所以一定要在 gzip_types配置中把图片的相关项去掉。
+        - 图片资源优化
+            - 不要在HTML里缩放图像：比如不要在 200✖200的图片容器内使用400✖400的图片，用户并不会感到缩放后的大图更清晰，但严重增加了图片传输时间和带宽浪费。
+            - 图片懒加载
+                - js懒加载图片，监听滚动判断是否进入视口；（还可以使用更先进的 Intersection Observer API）
+                - css懒加载图片，通过切换className 的方式
+                    ```css
+                    .login {
+                        background-url: url(/static/img/login.png);
+                    }
+                    ```
+            - 使用雪碧图
+            - 使用字体图标
+            - 使用合适的图片
+                - 使用WebP：一种旨在加快图片加载速度的图片格式，压缩体积大约只有JPEG的2/3
+                - HTML5 在 `<img>` 元素上为我们提供了 srcset 和 sizes 属性，可以让浏览器根据屏幕信息选择需要展示的图片。
+                    - `<img srcset="small.jpg 480w, large.jpg 1080w" sizes="50w" src="large.jpg" >`
+        - 平滑加载字体资源
+            - 在字体加载的期间，浏览器页面是默认不展示文本内容的。即我们常说的 FOIT (Flash of Invisible Text)。在现代浏览器中，FOIT 持续至多 3 秒。
+            - 通过加载策略来降低甚至消除 FOIT
+                - 使用 font-display: swap，在加载期间使用默认字体显示
+                - 将字体文件转为 base64 的字符串，避免异步加载时的问题
+        - 使用CDN
+    - **（六）运行时**
+        - 1. 注意强制同步布局
+            - 什么是强制同步布局？
+                - 即某些 JS 操作会导致浏览器需要提前执行布局操作
+            - 使用 rAF 避免强制同步布局
+                - 将布局查询的操作放在 requestAnimationFrame 中
+            - 批量化元素的布局查询操作，等到下一次 requestAnimationFrame 触发时一起执行
+        - 2. 长列表优化
+            - 实现 Virtual List，只渲染可见区域附近的列表元素。（只有视口内和临近视口的上下区域内的元素会被渲染）
+            - 原生的 Virtual Scroller，`<virtual-scroller>` 是内置（built-in）模块提供的，还不建议在生成环境使用
+        - 3. 避免 JavaScript 运行时间过长（线程互斥导致“掉帧”）
+            - 使用rAF进行任务分解，时间分片
+            - 使用requestIdleCallback 空闲时执行注册回调。防止饿死可以指定第二个参数来设定超时时间。
+            - 并行计算，考虑将CPU密集型计算场景与主线程并行。在浏览器中启用并行线程可以使用 Web Worker，并行（concurrency）地执行 JS。
+                ```js
+                // index.js
+                const worker = new Worker('worker.js');
+
+                worker.addEventListener('message', function (e) {
+                    console.log(`result is ${e.data}`);
+                }, false);
+
+                worker.postMessage('start');
+
+
+                // worker.js
+                self.addEventListener('message', function (e) {
+                    if (e.data === 'start') {
+                        // 一些密集的计算……
+                        self.postMessage(result);
+                    }
+                }, false);
+                ```
+            - 页面渲染性能，着重减少重排的发生率：
+                - 因为，重排是由CPU处理的，而重绘是由GPU处理的，CPU的处理效率远不及GPU，并且重排一定会引发重绘，而重绘不一定会引发重排。
+                - CSS属性读写分离：先读后写，避免出现两者交叉使用，最佳实践是不用JS去操作元素样式
+                - 通过切换class或者style.csstext属性去批量操作元素样式
+                - DOM元素离线更新：
+                    - 对DOM进行相关操作时（innerHTML、appendChild），都可以使用DocumentFragment对象进行离线操作，等元素“组装”完成后再一次插入页面
+                    - 或者使用display:none 对元素隐藏，在元素“消失”后进行相关操作
+                - 图片在渲染前指定大小：因为img元素是内联元素，所以在加载图片后会改变宽高，严重的情况会导致整个页面重排，所以最好在渲染前就指定其大小，或者让其脱离文档流。
+                - 善用 Composite，开启GPU硬件加速（单独触发DOM渲染层）：
+                    - GPU会对所有的渲染层作缓存，把那些一直发生大量重排重绘的元素提取出来，单独触发一个渲染层，那样这个元素不就不会“连累”其他元素一块重绘
+                    - 给元素设置 3D transform，提升到单独的合成层（比如transform: translateZ(0)）
+                    - 合成层在性能优化上的*优点*在于：
+                        - 合成层的位图，会交由 GPU 合成，比 CPU 处理要快；
+                        - 当需要 repaint 时，只需要 repaint 本身，不会影响到其他的层；
+                        - 对于 transform 和 opacity 效果，不会触发 layout 和 paint。
+                    - 但同时，也要注意避免*层爆炸*，防止在无法进行层压缩的情况下出现过多的层，反而导致性能的下降
+            - 滚动事件的性能优化
+                - 防抖
+                - 节流
+                - Passive event listeners使滚动更顺畅（无等待立即滚动）
+                    - 原理：当你添加触摸、滚轮的事件监听后，每次触发该事件，浏览器都会先花费时间执行完你的回调，然后根据结果判断是否需要滚动页面。如果的操作花费了 200ms，那页面只能在 200ms 后再滚动或缩放，这就导致了性能问题。
+                        ```js
+                        document.addEventListener('touchstart', function (e) {
+                            // 做了一些操作……
+                            e.preventDefault();
+                        }, true);
+
+
+                        document.addEventListener('touchstart', function (e) {
+                            // 做了一些操作……
+                        }, {passive: true});
+                        ```
+                    - 比如我不会阻止默认事件，通过传入`{passive: true}`先告诉浏览器不用等（你放心，我没有阻止默认行为，你不用在这儿等了可以先“滚”了），直接滚动页面就行
+                    - 注意：addEventListener第三个参数中传入 {passive: true}有兼容性问题，因为对于低版本浏览器来说，第三个参数是用来设置是否进行事件捕获的，所以需要特性检测。
+
+
+[前端性能优化之旅](https://alienzhou.github.io/fe-performance-journey/#%E5%89%8D%E7%AB%AF%E9%9C%80%E8%A6%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%88%EF%BC%9F)
+[网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b6fa8c86fb9a0099910ac91#heading-15)
+
+
+
+
+
+
+
+- 正向代理：**正向代理隐藏了真实的请求客户端**，服务端不知道真实的客户端是谁，客户端请求的服务都被代理服务器代替来请求。
+    - 某些科学上网工具扮演的就是典型的正向代理角色。用浏览器访问 www.google.com 时，被残忍的block，于是你可以在国外搭建一台代理服务器，让代理帮我去请求google.com，代理把请求返回的相应结构再返回给我。
+- 反向代理：**反向代理隐藏了真实的服务端**，反向代理服务器会帮我们把请求转发到真实的服务器那里去。Nginx就是性能非常好的反向代理服务器，用来做负载均衡。
+    - 当我们请求 www.baidu.com 的时候，背后可能有成千上万台服务器为我们服务，www.baidu.com 就是我们的反向代理服务器
+
+
+- 前端鉴权
+    - session-cookie
+        - 利用服务器端的session（会话）和浏览器端的cookie来实现前后端的认证，由于http请求时是无状态的，服务器正常情况下是不知道当前请求之前有没有来过，这个时候我们如果要记录状态，就需要在服务器端创建一个会话(session)，将同一个客户端的请求都维护在各自的会话中，每当请求到达服务器端的时候，先去查一下该客户端有没有在服务器端创建session，如果有则已经认证成功了，否则就没有认证。
+        - 认证过程：
+            - 1. 服务器在接受客户端首次访问时在服务器端创建session会话，并保存该session到`内存中`，或保存在`redis中`（推荐后者），然后给这个session生成一个唯一的sessionId，并在响应头中setCookie种下这个sessionId。
+            - 2. 浏览器从响应中解析响应头，然后将sessionId保存在本地cookie中，浏览器在下次http请求的请求头中会带上该域名下的cookie信息。
+            - 3. 服务器在接受客户端请求时会去解析请求头cookie中的sessionId，并根据此sessionId在服务器端查找保存的该客户端的对应session会话，判断该请求是否合法。
+        - 缺点：
+            - 服务器内存消耗大: 用户每做一次应用认证，应用就会在服务端做一次记录，以方便用户下次请求时使用，通常来讲session保存在内存中，随着认证用户的增加，服务器的消耗就会很大。
+            - 易受到CSRF攻击: 基于cookie的一种跨站伪造攻击，基于cookie来进行识别用户的话，用户本身就携带了值，cookie被截获，用户就很容易被伪造。
+        - 注意：
+            - 对于跨域，前端我们设置 axios 的 withCredentials = true 来设置 axios 可以发送 cookie，后端我们需要设置响应头 Access-Control-Allow-Credentials:true，并且同时设置 Access-Control-Allow-Origin 为前端页面的服务器地址，而不能是*。
+    - Token验证
+        - 当用户第一次登录后，服务器生成一个token并将此token返回给客户端，以后客户端只需带上这个token前来请求数据即可，无需再次带上用户名和密码。
+        - Token验证可以是无状态的，也可以是有状态的
+            - 有状态Token（服务端持久化，存入数据库，考虑有效期有两种方案）：
+                - 1. 在服务器端保存 Token 状态，用户每次操作都会自动刷新（推迟）Token 的过期时间——Session 就是采用这种策略来保持用户登录状态的
+                - 2. 使用 Refresh Token，它可以避免频繁的读写操作。即登录后下发到客户端[token,refreshToken]两个一组，二者是相关联的。当token发到服务端过期时并返回过期状态时，前端会把refreshToken发到后端，后端对其进行验证并生成新的token'替换掉原来的token，前端拿到这个token'之后就可以重新发送业务请求了。。。refreshToken的有效期可以设置的长一些，当refreshToken也过期的时候，就真的应该让用户重新登录一次了
+            - 无状态Token
+                - （如果把所有状态信息都附加在 Token 上，服务器就可以不保存，服务端只需要认证 Token 有效就行了。。。只要服务端能确认是自己签发的 Token，而且其信息未被改动过，就证明是有效token。。使用对称加密算法来验证“签名”，一般是HS256）
+                - 本质是：用 解析token 的计算时间换取 创建会话session 的存储空间，从而减轻服务器的压力，减少频繁的查询数据库
+                - 认证过程：
+                    - 1. 客户端使用用户名跟密码请求登录
+                    - 2. 服务端收到请求，去验证用户名与密码
+                    - 3. 验证成功后，服务端会`签发一个 Token`，再把这个 Token 发送给客户端
+                    - 4. 客户端收到 Token 以后可以把它存储起来，比如放在 `Cookie 里`或者 `LocalStorage 里`
+                    - 前端每次路由跳转，判断 localStroage 有无 token ，没有则跳转到登录页，有则请求获取用户信息，改变登录状态；
+                    - 5. 客户端每次向服务端请求资源的时候需要带着服务端签发的 Token
+                    - 6. 服务端收到请求，然后去验证客户端请求里面带着的 Token
+                        - 如果验证成功，就向客户端返回请求的数据
+                        - 如果验证不合法，就返回401（鉴权失败）
+                - JWT，（JSON Web Token）一种跨域认证授权解决方案，无状态token解决方案
+                    - 是一个很长的字符串，中间用点（.）分隔成三个部分：Header（头部）.Payload（载荷）.Signature（签名）
+                    - token = base64UrlEncode(header) + "." + base64UrlEncode(payload) + signature
+                        - Header头部：描述 JWT 元数据的JSON 对象
+                        - Payload载荷：存放实际传递信息的JSON对象，需要用Base64URL转成字符串
+                        - Signature签名：（使用默认签名算法HS256生成，传入密钥secret， Base64URL相比于Base64算法，多了对URL里面特殊含义字符的处理，因为JWT作为一个令牌token，可以放在URL中传输）
+                            - signature = HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)
+                    - 使用方式：
+                        - 方式1：`Authorization: Bearer <token>`
+                        - 方式2：跨域的时候，可以把 JWT 放在 POST 请求的数据体里
+                        - 方式3：通过 URL 传输
+                    - 最大缺点！
+                        - JWT 的最大缺点是，由于服务器不保存会话，因此，JWT 一旦签发，在到期之前就会始终有效，因此无法在使用过程中废止某个 token，或者更改 token的权限，除非服务器部署额外的逻辑。
+                        - 如果用户修改(比如重置密码)或注销了token，那他之前未到期的token怎么废弃掉呢？
+                            - 比较常用的方式是「维护一个token黑名单，失效则加入黑名单中」，从而使后端能够主动让JWT失效
+        - 有状态Token与JWT的区别
+            - 有状态Token：token是随机生成的UUID，存在Redis内存中，服务端验证客户端发送过来的 Token 时，需要去redis内存中查找匹配获取用户信息，验证 Token 是否有效。
+            - JWT：将 Token 和 Payload 加密后存储于客户端，服务端只需要解密进行校验即可，不需要查询或者减少查询数据库，因为 JWT 自包含了用户信息和加密的数据。
+        - 前端存储和发送Token的两种方式：
+            - 1 使用 Header.Authorization + localStorage 存储和发送 token
+                - 这种方法可以避免 CSRF 攻击，因为没有使用 cookie，而 CSRF 就是基于 cookie 来攻击的。
+                - 但是这种方法容易被 XSS 攻击，因为 XSS 可以攻击 localStorage ，从中读取到 token，如果 token 中的 head 和 payload 部分没有加密，那么攻击者只要将 head 和 payload 的 base64 形式解码出来就可以看到head 和payload 的明文了。当然可以加密 payload保护敏感信息。
+            - 2 使用 cookie 存储和发送 token：
+                - 这种方法避免CSRF，需要使用 httpOnly 来使客户端脚本无法访问到 cookie，才能保证 token 安全。
+        - Token优点与缺点
+            - 优点：
+                - Cookie是不允许垮域访问的，而token可避开同源策略
+                - 因为不需要cookie了，所以token可以避免 CSRF 攻击
+                - Cookie不支持手机端访问，而 token支持手机端访问
+                - 解决session扩展性问题，Token 可以是无状态的，可以在多个服务间共享
+                    - token不需要在服务端去保留用户的认证信息或者会话信息，服务器端只需要根据定义的规则校验这个token是否合法就行，这就意味着基于token认证机制的应用不需要去考虑用户在哪一台服务器登录了
+            - 缺点：
+                - Token相比于session-cookie来说就是一个`时间换空间`的方案。token需要服务端花费更多的时间和性能来对token进行解密验证。
+
+        - :100:其实有状态token和sessionId这种方式其实是差不多的，都是针对每个用户UUID生成唯一的字符串来匹配，都需要在服务端来存储。而无论前端是用cookie传，还是用header.Authorization传，对于后端来说也是差不多的。
+            - 但sessionId有一个致命问题在于，只会在登录认证的应用服务器上创建对应的session会话，而如果有多台服务器，比如做了负载均衡或轮询，则用户登到其他服务器就不行了，因为其他服务器上没有对应的session会话，就需要重新创建一个。
+            - 而有状态token使用redis集群来存储已经签发的token列表，使用redis集群来存而不在「内存」或「应用服务器」中存的原因是：
+                - redis集群相对于「应用服务器」来说，相当于单独的服务器，不会占用应用服务器资源，且方便扩容。
+                - redis集群相对于「内存」来说，相当于一个单独的共享空间，对于多个应用服务器可以共享。
+        - 单点登录
+        - OAuth2.0
+
+[前端面试查漏补缺--(十) 前端鉴权](https://juejin.im/post/5c6e6063f265da2da53ec8f3#heading-0)
+[JWT、OAuth 2.0、session 用户授权实战](https://juejin.im/post/5cddae69f265da036207d036#heading-5)
+[傻傻分不清之 Cookie、Session、Token、JWT](https://juejin.im/post/5e055d9ef265da33997a42cc)
+[Token 认证的来龙去脉](https://juejin.im/post/5a6c60166fb9a01caf37a5e5#heading-6)
+[跨域认证解决方案-JSON WEB TOKEN讲解与实战](https://juejin.im/post/5ce272c1e51d45109b01b0f8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- XSS
+    - XSS 常见的注入方法
+        - 在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。
+        - 在内联的 JavaScript 中，拼接的数据突破了原本的限制（字符串，变量，方法名等）。
+        - 在标签属性中，恶意内容包含引号，从而突破属性值的限制，注入其他属性或者标签。
+        - 在标签的 href、src 等属性中，包含 javascript: (伪协议)等可执行代码。
+        - 在 onload、onerror、onclick 等事件中，注入不受控制代码。
+    - XSS 攻击分类
+        - XSS 攻击可分为存储型、反射型和 DOM型 三种
+        - 存储型 XSS（又被称为持久性XSS）
+            - 攻击步骤：
+                攻击者将恶意代码提交到目标网站的数据库中。
+                用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器。
+                用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。
+                恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。
+            - 任何允许用户存储数据的web程序都可能存在存储型XSS漏洞，当攻击者提交一段XSS代码后，被服务器端接收并存储，当所有浏览者访问某个页面时都会被XSS。
+        - 反射型 XSS（也被称为非持久性XSS）
+            - 反射型 XSS 跟存储型 XSS 的区别是：**存储型 XSS** 的恶意代码`存在数据库里`，**反射型 XSS** 的恶意代码`存在 URL 里`。
+            - 由于需要用户主动打开恶意的 URL 才能生效，攻击者往往会结合多种手段诱导用户点击。
+        - DOM 型 XSS
+
+
+
+
 ### 目录
 ::: details
 - 网络基础
@@ -119,12 +448,12 @@
     - type和interface区别
 
 - 列举各种排序算法 分别对应的优缺点和时间复杂度
-    - 冒泡、选择、插入 都是O(n^2)
-    - 希尔、归并、快排、堆排序 都是O(nlogn)
+    - 冒泡、选择、插入 都是**O(n^2)**
+    - 希尔、归并、快排、堆排序 都是**O(nlogn)**
     - 上面这几种中，冒泡插入归并是稳定的，其他都是不稳定的
 - 快排
     - Array.prototype.sort()底层实现
-        - V8： <=10 插入排序 O(n)； >10 快排 O(nlogn)
+        - V8： <=10 *插入排序 O(n)*； >10 *快排 O(nlogn)*
     
 
 - js原型链与对象
@@ -254,6 +583,13 @@
     - 自定义事件 new Event('test')
     - 事件代理
 
+
+- 防抖和节流
+    - 防抖是将多次执行变为最后一次执行，节流是将多次执行变为在规定时间内只执行一次。
+        - 各自的原理
+        - 各自的场景
+        - 各自的代码实现
+
 - js编译器
 - js解释器
 - js作用域
@@ -282,6 +618,13 @@
                 - 优化：【分代回收】，区分“临时”与“持久”对象，多回收临时对象，少回收持久对象。V8引擎就是用分代回收。
         - 内存泄漏的原因：
             -【循环引用】和【闭包】
+            - 1.意外的全局变量
+            - 2.遗忘的定时器
+            - 3.闭包的不当使用 - 当一个内存空间没有变量指向的时候就会被回收。所以直接 `foo = null`
+    - 变量和函数声明提升
+        - **函数整体在变量整体的下面**（即*变量提升的优先级更高，在最顶上*）。
+            - 第一阶段，`先提升函数`：对所有函数声明进行提升（忽略表达式和箭头函数）
+            - 第二阶段，`再提升变量`因此变量在更高的位置：对所有的变量进行提升，全部赋值为 undefined（如果已经存在，不赋值为undefined）
 
 - 数据结构
     - 数组
@@ -391,14 +734,24 @@
                 - 优点2：
         - 热更新原理比较难讲清，只要记住上面的两个优点就行了。
     - 优化 Webpack 的构建速度
+        - 可用于生产环境
+            - 优化babel-loader
+            - ignorePlugin
+            - noParse
+            - happyPack
+            - ParallelUgligyPlugin
+
+n
         - 1、`分包构建`
             - 1、extenals外部扩展（CDN）
-            - 2、DLLPlugin && DllReferencePlugin
+            - 2、只是用在开发环境当中：DLLPlugin && DllReferencePlugin
                 - Externals会有多次引用的问题，所以也不好，DLL则是 前置不经常更新的第三方库依赖包的构建，来提高真正的build和rebuild构建效率
                 - 只要第三方库没有变化，之后的每次build都只需要去打包自己的业务代码
                 - webpack通过webpack.DllPlugin与webpack.DllReferencePlugin两个内嵌插件实现此功能。
-                    - DllPlugin 进行分包，生成两个文件（bundlejs、bundle.mainifest.json）；
-                    - DllReferencePlugin 对 bundle.manifest.json 引用，让一些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间。
+                    - DllPlugin 打包出dll文件
+                        - 进行分包，生成两个文件（bundlejs、bundle.mainifest.json）；
+                    - DllReferencePlugin 使用dll文件
+                        - 对 bundle.manifest.json 引用，让一些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间。
         - 2、摇树优化 `Tree shaking`
             - 得益于es6的import，标记未引用模块，在压缩时去除
         - 3、作用域提升 `Scope hoisting`
@@ -432,6 +785,11 @@
         - 2、`数据预取同构`
         - 到这里，实现了双端的数据预取同构，但是数据也仅仅是服务端有，浏览器端是没有这个数据，浏览器会渲染出不同的结构替换服务端的渲染
         - 3、`渲染同构`
+
+    - SSR 之所以能够实现的本质原因
+
+    - SSR生命周期注意点
+
     - 其他要注意的问题
         - node端没有window和webstorage
         - React通过renderToString(`<App />)`方法将应用代码转换成字符串，再替换到页面中占位符的位置。
@@ -967,6 +1325,14 @@
             ```
 
 - 移动端问题
+    - JSBridge原理
+        - 实现原理
+            - JavaScript 调用 Native
+                - 注入 API（推荐）
+                - 拦截 URL SCHEME
+            - Native 调用 JavaScript
+                - 执行拼接 JavaScript 字符串
+                - JavaScript 的方法必须在全局的 window 上
     - fastClick
         - 解决的问题（在H5端）
             - 手动点击与真正触发click事件会存在300ms的延迟
@@ -1008,7 +1374,7 @@
             2. 设置蒙层mask消失的延迟
                 touch后延迟350ms再隐藏mask。先把透明度设置为0，解决视觉层面的效果，在设置定时器延迟，让蒙层元素消失
                 ```js
-                // 监听touchstart事件，让mask的透明度先设为0，并延迟350ms后再 display: node
+                // 监听touchstart事件，让mask的透明度先设为0，并延迟350ms后再 display: none
                 $('.mask').on('touchstart', function() {
                     console.log('mask-touchstart');
                     $(this).css('opacity', 0);
@@ -1036,6 +1402,7 @@
                     - 根据dpr的值来修改viewport实现1px的线
                     - 根据dpr的值来修改html的font-size，从而使用rem实现等比缩放
                     - 使用Hack手段用rem模拟vw特性
+                - 与rem相对的，`em`是相对于`父级元素font-size`来计算大小的，em会继承父级元素的字体大小，浏览器默认字体高为16px，默认1em=16px*
             2. Viewport（vw）
                 - 以前的Flexible方案是通过JS来模拟vw的特性，但目前，vw已经得到了众多浏览器的支持，因此可以直接考虑将vw单位运用于我们的适配布局中。
                     - vw：是Viewport's width的简写,1vw等于window.innerWidth的1%
@@ -1108,6 +1475,12 @@
     - 事件代理
 - 事件循环
 
+- 防抖和节流
+    - 防抖是将多次执行变为最后一次执行，节流是将多次执行变为在规定时间内只执行一次。
+        - 各自的原理
+        - 各自的场景
+        - 各自的代码实现
+
 js编译器
 js解释器
 - js作用域
@@ -1142,6 +1515,10 @@ js解释器
                 - 优化：【分代回收】，区分“临时”与“持久”对象，多回收临时对象，少回收持久对象。V8引擎就是用分代回收。
         - 内存泄漏的原因：
             -【循环引用】和【闭包】
+        - 变量和函数声明提升
+            - **函数整体在变量整体的下面**（即*变量提升的优先级更高，在最顶上*）。
+                - 第一阶段，先提升函数：对所有函数声明进行提升（忽略表达式和箭头函数）
+                - 第二阶段，再提升变量因此变量在更高的位置：对所有的变量进行提升，全部赋值为 undefined（如果已经存在，不赋值为undefined）
 
 - 数据结构
     - 数组
@@ -1229,8 +1606,15 @@ js解释器
             - CommonJS require的时候，就会全部执行。一旦出现某个模块被"循环加载"，就只输出已经执行的部分，还未执行的部分不会输出。
             - ES6Module import时成为指向被加载模块的引用，因此在"循环加载"时，也只能由开发者自己保证，真正取值的时候能够取到值。
 
-
-
+- web worker
+    - web worker是运行在后台的JavaScript，独立于其他脚本，不会影响页面的性能。用户可以继续做任何愿意做的事情：点击、选取内容等等，而此时web worker在后台运行。
+    - 分类
+        - Dedicated Worker：专用的worker，只能被创建它的 JS 访问
+        - Shared Worker：共享的worker，可以被同一域名下的JS访问
+        - Service Worker：事件驱动的worker，生命周期与页面无关。Service Worker表示离线缓存文件，其本质是*Web应用程序*与*浏览器*之间的**代理服务器**。
+            - 可以在网络可用时作为浏览器和网络间的代理，也可以在离线或者网络极差的环境下使用离线的缓存文件。
+    - Dedicated Worker 和 Shared Worker 专注于解决「耗时的JS执行 影响 UI响应」的问题。
+    - Service Worker 则是为解决「Web App 的用户体验不如 Native App」的普遍问题。
     
 - Webpack
     - 所有文件都是模块，只认识js模块，所以要通过一些loader把css、图片等文件转化成webpack认识的模块。
@@ -1392,6 +1776,7 @@ js解释器
             - 如何使用：
                 - 开发中尽可能使用ES6 Module的模块，提高tree shaking效率。
                 - 禁用 babel-loader 的模块依赖解析（会转成commonjs形式模块，就不能tree shaking了）
+                - 尽量使用 ESM版的 lodash(lodash-es)，import { dobounce } from 'lodash-es'
                 - 使用插件，去除无用 CSS 代码
 
         - 3、作用域提升 `Scope hoisting`
@@ -1455,6 +1840,37 @@ js解释器
                     - 更丑；
                     - 会导致锚点功能失效；
                     - 相同 hash 值不会触发动作将记录加入到历史栈中，而 pushState 则可以。
+    - 前端路由（重复了，需整理下）
+        - hash模式
+            - `hash的变化不会向服务器发送请求，即不会刷新页面，但会触发网页跳转，即前进后退`，而且 hash 的改变会`触发 hashchange 事件`
+        - history模式
+            - `history.pushState(state, title, url)` 和 `history.replaceState()` `可以改变 url 同时，不会刷新页面`
+            - 监听url变化需要通过监听4个方面：
+                - 监听前进、后退 `window.onpopstate`
+                    ```js
+                    window.onpopstate = function(event) {
+                        console.log('onpopstate', event.state, location.pathname)
+                    }
+                    ```
+                - 监听a标签点击
+                - js主动history.pushState
+                    ```js
+                    document.getElementById('btn1').addEventListener('click', () => {
+                        const state = { name: 'page1' }
+                        console.log('切换路由到', 'page1')
+                        history.pushState(state, '', 'page1') // 重要！！
+                    })
+                    ```
+                - js主动history.replaceState
+            - 后端支持，无论访问什么url，都返回index.html，并且前端需要添加匹配不到路由时展示404页面
+        - hash 模式相比于 history 模式的优点、缺点：
+            - 优点就是更简单
+            - 缺点
+                - 更丑；
+                - 会导致锚点功能失效；
+                - 相同 hash 值不会触发动作将记录加入到历史栈中，而 pushState 则可以。
+
+
 
 - SSR 服务端渲染和同构原理
     - 为什么要服务端渲染（SSR）
@@ -1473,6 +1889,12 @@ js解释器
             - 在服务端将预取的数据注入到浏览器，使浏览器端可以访问到。客户端进行渲染前，需要先将数据传入对应的组件，保证props的一致性。
             - 我们的方案是直接挂在html中。
 
+    - SSR 之所以能够实现，**本质上是因为虚拟 DOM 的存在**
+
+    - SSR生命周期注意点：（*mount钩子都不支持ssr端*）
+        - 在React中，componentDidMount 只在客户端才会执行，在服务器端这个生命周期函数是不会执行的。即服务端不支持componentDidMount。
+        - 在Vue中，服务端渲染只支持 beforCreate 和 created 两个钩子函数，不支持mounted这个钩子。
+
     - 其他要注意的问题
         - node端没有window和webstorage
         - React通过renderToString(`<App />`)方法将应用代码转换成字符串，再替换到页面中占位符的位置。
@@ -1482,6 +1904,9 @@ js解释器
         - SEO支持（路由页动态生成TDK）
             - 采用react-helmet库
         - 结合状态管理的SSR实现
+
+    - [React 中同构（SSR）原理脉络梳理](https://juejin.im/post/5bc7ea48e51d450e46289eab#heading-0)
+
 
 - git
     - git rebase 变基，合并多次本地commit记录，使得分支树是线性的

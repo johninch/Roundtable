@@ -131,7 +131,7 @@ var thisNew = function(M) {
     // 执行构造函数M，并绑定作用域到o上
     var res = M.call(o);
     // 判断res是否是广义上的对象，是则返回res，否则返回o
-    if (typeof res === "object") {
+    if (res instanceof Object) { // 使用typeof不行，因为需要排除null的情况
         return res;
     } else {
         return o;

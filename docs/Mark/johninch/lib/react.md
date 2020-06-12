@@ -1,38 +1,8 @@
-## 框架关键点
+# React关键
 
-为什么废弃那3个钩子，怎么替代
-
-
-css modules
-
-
-
-### 框架
-::: details
-- MVC
-    - Model、View（很厚，全是逻辑）、Controller（很薄，只起到路由的作用）
-    - backbone
-- MVVM
-    - MVVM的本质是指双向数据绑定
-    - View和Model之间并没有直接的联系，而是通过一个绑定器ViewModel对象进行交互
-    - Vue、Angular都是MVVM的框架，但React不是
-    - 双向绑定原理
-        - 「数据劫持」结合「发布订阅模式」
-        - 正向绑定M->V：通过Object.defineProperty()来为数据添加getter/setter
-        - 反向绑定V->M：通过绑定input或change事件，框架内部自动执行完成。
-    - 关系：双向绑定 = 单向绑定 + UI事件监听。
-        - 单向绑定：没有 View -> Model 这一步，需要手动绑定UI事件监听（添加onChange事件）。
-    - 观察者模式（发布订阅）
-        Data -》Observer(观察者）-》Dep(订阅者列表) -》 Watcher(订阅者) -》 View
-- 既然Vue通过数据劫持可以精准探测数据变化，为什么还需要虚拟DOM进行diff检测差异？
-    - 有两种方式进行「变化侦测」，一种是pull，一种是push。
-- Vue为什么没有像React一样引入SCU？
-:::
-
-### React
-::: details
 我们使用react16.9，也是从这个版本开始，有了hooks
 
+## 基础提纲
 - React中函数组件和类组件的区别。
     - 这里描述的是在 React 中 function 和 class 的差别，差异本身和React Hooks无关。
     - 本质区别就在于：**function components 所拥有的 捕获渲染值(Capture Value) 特性**
@@ -44,7 +14,23 @@ css modules
 
 - React事件机制
     - 什么是合成事件
+        - 1. event 是 SyntheticEvent ，模拟出来 DOM 事件所有能力
+        - 2. event.nativeEvent 是原生事件对象
+        - 3. 所有的事件，都被挂载到 document 上
+        - 4. 和 DOM 事件不一样，和 Vue 事件也不一样
+    - event参数
+        - 默认传参
+        - 自定义参数：除额外参数外，最后追加一个event参数，即可接收
+        - **「与vue对比」**
+            - 这里的`event是封装的合成事件SyntheticEvent`
+            - event.target：返回当前触发元素
+            - event.currentTarget：返回当前触发元素
+            - event.nativeEvent.target：返回当前触发元素
+            - event.nativeEvent.currentTarget：返回document，说明`事件是被注册到document上的`
     - 为什么要合成事件
+        - 减少内存消耗，提升性能，不需要注册那么多的事件了，一种事件类型只在 document 上注册一次，避免频繁解绑
+        - 统一规范，解决 ie 事件兼容问题，简化事件逻辑
+        - 方便事件的统一管理（如事务机制）
     - 合成事件与原生事件的执行顺序，能否混用
     - 合成事件的注册和分发执行（`addEventListener`、`dispatchEvent`、`listenerBank`）
     - React中为什么需要绑定this？有几种绑定方法？
@@ -72,7 +58,6 @@ css modules
     - 废弃的 componentWillMount() 可用componentDidMount()来代替，或者constructor替代；
         - 放在didMount里，是为了保证componentWillUnmount的在组件移除时执行，防止内存泄漏
     - 废弃的 componentWillReceiveProps() 可用 getDerivedStateFromProps(nextProps, prevState) 代替
-        - 
     - 废弃的 componentWillUpdate() 可用 getSnapshotBeforeUpdate() 替代
 
     - 由于Fiber在新版本中会支持`异步渲染的特性`，而16 版本 render 之前的生命周期可能会被多次执行（componentWillMount、componentWillReceiveProps、componentWillUpdate这3个生命周期钩子，在异步渲染模式下会有一些潜在的问题）因此被弃用。
@@ -82,7 +67,7 @@ css modules
         - 返回一个对象来更新state，或者返回null表示不需要更新state。
         - 要注意的是，getDerivedStateFromProps 是一个静态方法，纯函数，不能访问this，所以如果要跟上一个props值作比较，只能是把上一个props值存到state里
 
-    - [](https://juejin.im/post/5b97abcaf265da0afa3dcb2e#heading-0)
+    - [参考文章](https://juejin.im/post/5b97abcaf265da0afa3dcb2e#heading-0)
 
 - React的请求应该放在哪个生命周期中?
     - 官方推荐的异步请求是在**componentDidmount**中进行.
@@ -282,274 +267,381 @@ css modules
     - Vitrual Dom 的「缺点」只有一个：
         - 无法进行极致优化
 
-:::
-### Vue
-::: details
-- Vue
-    - Vue2 Object.defineProperty
-        - 只能对属性进行数据劫持，不能对整个对象、数组进行劫持；
-        - 通过「遍历数组」和「递归遍历对象」
-        - object.defineProperty 与 reflect.defineProperty 区别
-        - 不能检测到添加或删除的属性，解决：
-            - vm.$set(obj, propertyName, value)
-            - vm.profile = Object.assign({}, vm.profile, { age: 27 });
-            - vm.$delete(obj, key)
-        - 数组方面不能检测 根据索引改变元素，以及直接改变数组长度，解决：
-            - vm.$set(vm.items, index, newValue)
-            - vm.items.splice(newLength)
-        - 用Proxy代替Object.defineProperty的优势？
-            - Object.defineProperty 通过递归遍历 data对象；而Proxy能劫持一个完整的对象
-            - Object.defineProperty 无法监控到数组方面的某些变动，虽然vue特殊处理了8个数组方法；但Proxy提供了13种劫持方法
-            - Object.defineProperty只能遍历对象属性直接修改；而Proxy返回的是一个新对象，可以只操作新的对象达到目的
-        - Vue没有完全遵循MVVM设计规则，提供了$refs这个属性，让Model可以直接操作View，这意味着在实例之外去访问实例状态。
-    - Vue虽然是双向数据绑定，但也是 单向数据流 的，即状态只能从上向下传，不能改变props
-    - Vue2.x组件通信有哪些方式
-        - 1、父子组件通信
-            - props，$on、$emit；
-            - $refs
-            - $parent, $children
-        - 2、兄弟组件通信
-            - EventBus，一个空的 Vue 实例作为中央事件中心，Vue.prototype.$bus = new Vue
-            - Vuex
-        - 3、跨级组件通信
-            - Vuex
-            - Provide、inject
-            - 根实例$root
-            - $attrs、$listeners
-    - 非prop特性
-        - 以HTML特性形式，自动添加到组件的根元素上，将已有的同名特性进行 替换 或 与其进行智能合并
-    - nextTick 实现原理
-        - 在下次 DOM 更新循环结束后执行延迟回调，在修改数据之后立即使用 nextTick 来获取更新后的 DOM。
-            - 优先以 micro-task 方式执行，检查是否支持promise
-            - 降级的话到 macro-task：setImmediate -》 MessageChannel -》 setTimeout 0
-    - Vue的生命周期
-        - 4组8个 + keep-alive的2个
-        - 父子组件生命周期执行顺序
-            - 父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
-            - 父beforeUpdate->子beforeUpdate->子updated->父updated
-        - 接口请求一般放在哪个生命周期中？
-            - created和mouted差别不大，
-            - 不过推荐放在created，更早获取数据，且ssr没有mount钩子，使用created有助于一致
-        - 父组件如何监听子组件的生命周期？
-            - @hook:mounted="doSomething"
-    - this.$refs为什么会是undefined
-        - $refs 只会在组件渲染完成之后生效，并且它们不是响应式的。
-    - Computed 和 Watch
-        - 缓存与命令式
-    - v-if和v-show的区别
-        - v-if 是真正意义上的条件渲染，控制销毁与重建
-        - v-show 始终都会渲染的，只是通过display: none来控制显示，在Dom tree中 不在render tree中
-    - v-if和v-for能不能写在同一个标签中？
-        - （能，但会造成性能问题，v-for优先级高，循环判断，此场景可使用computed先过滤）
-    - 组件中的data为什么是一个函数？
-        - 保证组件不同的实例之间data不冲突
-    - Vue模版编译原理（compiler）
-        - 1、parse过程（生成AST树）
-        - 2、optimize过程（优化，标记静态节点diff跳过）
-        - 3、generate过程（生成render字符串）
-    - v-model的原理
-        - value + input方法的语法糖
-    - Vue双向绑定原理实现
-        - 1、实现一个监听器 Observer
-        - 2、实现一个解析器 Compile
-        - 3、实现一个订阅者 Watcher
-        - 4、实现一个订阅器 Dep
-    - Vue2.x和Vue3.x渲染器的diff算法
-        - Vue2.x的核心Diff算法采用了 双端比较 的算法，也将O(n^3)复杂度 转化为 O(n)复杂度，相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-        - Vue3.x 在创建VNode时就确定其类型，在patch过程中使用位运算判断Vnode类型，结合核心diff算法，提升性能
-    - Vue中的key到底有什么用（3点）
-        - 复用: 新旧 children 中的节点**只有顺序是不同的时候**，「最佳实践」应该是通过**移动元素**
-        - 准确: 如果不加key，那么vue会选择复用节点(Vue的**就地更新策略**)，会出bug
-        - 快速: key的唯一性，相比于遍历查找的时间复杂度O(n)，**Map**的时间复杂度仅仅为**O(1)**.
-    - keep-alive：组件缓存
-- Vuex
-    - 组成
-        - State：定义了应用状态的数据结构，可以在这里设置默认的初始状态。
-        - Getter：允许组件从 Store 中获取数据，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性。
-        - Mutation：是唯一更改 store 中状态的方法，且必须是同步函数。
-        - Action：用于提交 mutation，而不是直接变更状态，可以包含任意异步操作。
-        - Module
-    - dispatch和commit提交mutation的区别
-        - commit => mutations，用来触发同步操作的方法。
-        - dispatch => actions，用来触发异步操作的方法。actions还可以封装多个mutations提交。
-    - 为什么Vuex中mutation不能执行异步操作？
-        - 为了 devtools 实现 time-travel
+### JSX基本使用（略）
 
-:::
+- 事件
+    - bind this
+    - event参数
+    - 传递自定义参数
+- 表单
+    - 受控组件（因为react中没有vue的v-model，所以需要自己控制表单状态）
+    - 非受控组件
+    - 常见表单项
+        - 多行文本
+            - 注意不允许这样
+            ```html
+            <textarea>{{this.state.desc}}</textarea>
+            ```
+            - 要这样
+            ```html
+            <textarea value={this.state.desc} onChange={this.onTextareaChange} />
+            ```
+- 组件使用
+    - props传递数据
+    - props传递函数
+    - props类型检查
+
+- setState
+    - 不可变值（SCU对引用类型浅层比较无法得到正确判断，而深拷贝深比较耗性能，则state需要是不可变的，一般与immutable库配合使用）
+    - 可能是异步更新
+        - 合成事件和生命周期中，都是异步更新的
+        - 异步事件中是同步更新的，因为批处理已经执行了
+        - 原生事件中是同步的，因为没有批处理策略
+    - 可能会被合并
+        - 传对象是会被合并
+        - 传函数的时候不会合并
 
 
+### React高级特性
 
-<!-- *********************************************************************************************************** -->
-### details
-::: details
-- 框架
-    - MVC
-        - Model、View（很厚，全是逻辑）、Controller（很薄，只起到路由的作用）
-        - backbone
-    - MVVM
-        - MVVM的本质是指双向数据绑定
-        - View和Model之间并没有直接的联系，而是通过一个绑定器ViewModel对象进行交互
-        - Vue、Angular都是MVVM的框架，但React不是
-        - 双向绑定原理
-            - 「数据劫持」结合「发布订阅模式」
-            - 正向绑定M->V：通过Object.defineProperty()来为数据添加getter/setter
-            - 反向绑定V->M：通过绑定input或change事件，框架内部自动执行完成。
-        - 关系：双向绑定 = 单向绑定 + UI事件监听。
-            - 单向绑定：没有 View -> Model 这一步，需要手动绑定UI事件监听（添加onChange事件）。
-        - 观察者模式（发布订阅）
-            Data -》Observer(观察者）-》Dep(订阅者列表) -》 Watcher(订阅者) -》 View
+- 函数组件
+    - 函数组件与类组件的区别
+        - 函数组件具有：
+            - 本质区别在于 capture values 捕获渲染值
+            - 纯函数，输入props，输出JSX
+            - 没有实例，没有生命周期，没有state
+            - 不能扩展其他方法
+- 非受控组件
+    - 不使用value和onChange事件，而是用state作为 defaultValue defaultChecked
+    - 并且通过refs，手动操作dom，this.nameInputRef.current手动拿到值的变化
+    - 场景：必须操作DOM，setState实现不了时，只能使用非受控组件
+        - 文件上传《input type="file"》
+        - 富文本编辑器，需要传入DOM元素
 
-    - 既然Vue通过数据劫持可以精准探测数据变化，为什么还需要虚拟DOM进行diff检测差异？
-        - 有两种方式进行「变化侦测」，一种是pull，一种是push。
-        - pull
-            - 即 系统不知道数据是否已改变，需要进行 pull
-            - 以 React 为代表，setState显式更新，react知道变化了但是不知道哪里变了，所以会比较暴力的一层层对VDom进行diff，并patch到dom上
-        - push
-            - 即 在数据变动时会立刻知道哪些数据改变，这就是push，不过push模式还有个 粒度控制问题（更细的粒度意味着 付出更多相应内存开销、建立依赖追踪开销的代价）
-            - 以 Vue 为例，当 Vue 初始化时，就会对数据data进行依赖收集，每此数据绑定都要实例化一个watcher，如果粒度过细，开销就非常大
-            - 因此，Vue 采用混合式：「push + pull」：
-                - Vue在组件级别选择 push方式，每个组件都是 Watcher，一旦某个组件发生变化Vue立刻就能知道；
-                - 而在组件内部选择 pull方式，使用 VDOM Diff 进行比较。
-            - 这也回答了问题，为什么数据劫持了还需要diff，因为不是彻底的push方式
-    - Vue为什么没有像React一样引入SCU？
-        - React 提供SCU（shouldComponentUpdate）来避免对那些肯定不会变化的组件进行Diff检测。
-        - Vue 本身就是push+pull的侦测模式，在组件级别无需SCU，而在组件内部diff的工作量也不大，合理划分的话就没必要引入SCU了
-
-    - Vue
-        - Vue2 Object.defineProperty
-            - 只能对属性进行数据劫持，不能对整个对象、数组进行劫持；
-            - 通过「遍历数组」和「递归遍历对象」
-            - object.defineProperty 与 reflect.defineProperty 区别
-            - 不能检测到添加或删除的属性，解决：
-                - vm.$set(obj, propertyName, value)
-                - vm.profile = Object.assign({}, vm.profile, { age: 27 });
-                - vm.$delete(obj, key)
-            - 数组方面不能检测 根据索引改变元素，以及直接改变数组长度，解决：
-                - vm.$set(vm.items, index, newValue)
-                - vm.items.splice(newLength)
-            - 用Proxy代替Object.defineProperty的优势？
-                - Object.defineProperty 通过递归遍历 data对象；而Proxy能劫持一个完整的对象
-                - Object.defineProperty 无法监控到数组方面的某些变动，虽然vue特殊处理了8个数组方法；但Proxy提供了13种劫持方法
-                - Object.defineProperty只能遍历对象属性直接修改；而Proxy返回的是一个新对象，可以只操作新的对象达到目的
-            - Vue没有完全遵循MVVM设计规则，提供了$refs这个属性，让Model可以直接操作View，这意味着在实例之外去访问实例状态。
-        - Vue虽然是双向数据绑定，但也是 单向数据流 的，即状态只能从上向下传，不能改变props
-        - Vue2.x组件通信有哪些方式
-            - 1、父子组件通信
-                - props，$on、$emit；
-                - $refs
-                - $parent, $children
-            - 2、兄弟组件通信
-                - EventBus，一个空的 Vue 实例作为中央事件中心，Vue.prototype.$bus = new Vue
-                - Vuex
-            - 3、跨级组件通信
-                - Vuex
-                - Provide、inject
-                - 根实例$root
-                - $attrs、$listeners
-        - 非prop特性
-            - 以HTML特性形式，自动添加到组件的根元素上，将已有的同名特性进行 替换 或 与其进行智能合并
-        - nextTick 实现原理
-            - 在下次 DOM 更新循环结束后执行延迟回调，在修改数据之后立即使用 nextTick 来获取更新后的 DOM。
-                - 优先以 micro-task 方式执行，检查是否支持promise
-                - 降级的话到 macro-task：setImmediate -》 MessageChannel -》 setTimeout 0
-        - Vue的生命周期
-            - 4组8个 + keep-alive的2个
-            - 父子组件生命周期执行顺序
-                - 父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
-                - 父beforeUpdate->子beforeUpdate->子updated->父updated
-            - 接口请求一般放在哪个生命周期中？
-                - created和mouted差别不大，
-                - 不过推荐放在created，更早获取数据，且ssr没有mount钩子，使用created有助于一致
-            - 父组件如何监听子组件的生命周期？
-                - @hook:mounted="doSomething"
-        - this.$refs为什么会是undefined
-            - $refs 只会在组件渲染完成之后生效，并且它们不是响应式的。
-        - Computed 和 Watch
-            - 缓存与命令式
-        - v-if和v-show的区别
-            - v-if 是真正意义上的条件渲染，控制销毁与重建
-            - v-show 始终都会渲染的，只是通过display: none来控制显示，在Dom tree中 不在render tree中
-        - v-if和v-for能不能写在同一个标签中？
-            - （能，但会造成性能问题，v-for优先级高，循环判断，此场景可使用computed先过滤）
-        - 组件中的data为什么是一个函数？
-            - 保证组件不同的实例之间data不冲突
-        - Vue模版编译原理（compiler）
-            - 1、parse过程（生成AST树）
-            - 2、optimize过程（优化，标记静态节点diff跳过）
-            - 3、generate过程（生成render字符串）
-        - v-model的原理
-            - value + input方法的语法糖
-        - Vue双向绑定原理实现
-            - 1、实现一个监听器 Observer
-            - 2、实现一个解析器 Compile
-            - 3、实现一个订阅者 Watcher
-            - 4、实现一个订阅器 Dep
-        - Vue2.x和Vue3.x渲染器的diff算法
-            - Vue2.x的核心Diff算法采用了 双端比较 的算法，也将O(n^3)复杂度 转化为 O(n)复杂度，相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-            - Vue3.x 在创建VNode时就确定其类型，在patch过程中使用位运算判断Vnode类型，结合核心diff算法，提升性能
-        - Vue中的key到底有什么用（3点）
-            - 复用: 新旧 children 中的节点**只有顺序是不同的时候**，「最佳实践」应该是通过**移动元素**
-            - 准确: 如果不加key，那么vue会选择复用节点(Vue的**就地更新策略**)，会出bug
-            - 快速: key的唯一性，相比于遍历查找的时间复杂度O(n)，**Map**的时间复杂度仅仅为**O(1)**.
-        - keep-alive：组件缓存
-    - Vuex
-        - 组成
-            - State：定义了应用状态的数据结构，可以在这里设置默认的初始状态。
-            - Getter：允许组件从 Store 中获取数据，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性。
-            - Mutation：是唯一更改 store 中状态的方法，且必须是同步函数。
-            - Action：用于提交 mutation，而不是直接变更状态，可以包含任意异步操作。
-            - Module
-        - dispatch和commit提交mutation的区别
-            - commit => mutations，用来触发同步操作的方法。
-            - dispatch => actions，用来触发异步操作的方法。actions还可以封装多个mutations提交。
-        - 为什么Vuex中mutation不能执行异步操作？
-            - 为了 devtools 实现 time-travel
+- Portals
+    - 组件默认会按照既定层次嵌套渲染，如何让组件渲染到父组件以外呢？
+        - ReactDOM.createPortal(组件, 渲染到的目标节点(比如document.body))
+    - 场景：
+        - 父组件设了BFC，比如overflow:hidden，会影响子组件展示，可以使用portal逃离父组件
+        - 父组件z-index太小，可以使用portal逃离父组件
+        - fixed的元素需要放在body第一层级时，可以使用portal逃离父组件
 
 
+- props.children
+
+- context
+    - 公共信息传给每个子组件（用props太繁琐，用redux小题大做）
+    - React.createContext
+
+- 异步组件（懒加载）
+```jsx
+const Demo = React.lazy(() => import('./demo'))
+<React.Suspense fallback={<div>loading....</div>}>
+    <Demo />
+</React.Suspense>
+```
+
+
+- **性能优化**
+    - **优化方向1**：减少不必要的渲染（react默认父组件更新，子组件也无条件也更新）
+        - SCU(nextProps, nextState)
+            - 默认返回true，重渲。通过条件判断 `nextProps.text !== this.props.text`，来跳过不必要的子组件更新
+            - 
+        - SCU与 “不可变值”强相关，必须配合 “不可变值” 使用！！！
+            - 即对于state的操作，不能违背不可变值的特性。。
+            - 怎样不违背不可变值？在setState前不能对state做修改，比如：先对state的list，push改变，之后再setState，此时在用SCU比较前后state时，state已经变了，则比较不出来就出现bug了
+            ```js
+            // 为了演示 SCU ，故意写的错误用法
+            this.state.list.push({
+                id: `id-${Date.now()}`,
+                title
+            })
+            this.setState({
+                list: this.state.list
+            })
+            // 这也是为什么不能直接改变state，而需要再setState的时候再使用新值来赋值
+
+
+            // 不可变值（函数式编程，纯函数） - 数组
+            const list5Copy = this.state.list5.slice()
+            list5Copy.splice(2, 0, 'a') // 拷贝了一个副本后，无论怎么修改都没有改变state
+            this.setState({
+                list1: this.state.list1.concat(100), // 追加
+                list2: [...this.state.list2, 100], // 追加
+                list3: this.state.list3.slice(0, 3), // 截取
+                list4: this.state.list4.filter(item => item > 100), // 筛选
+                list5: list5Copy // 使用副本赋值，没有问题
+            })
+            // 注意，不能直接对 this.state.list 进行 push pop splice 等，这样违反不可变值
+
+            // 不可变值 - 对象
+            this.setState({
+                obj1: Object.assign({}, this.state.obj1, {a: 100}),
+                obj2: {...this.state.obj2, a: 100}
+            })
+            // 注意，不能直接对 this.state.obj 进行属性设置，这样违反不可变值
+            ```
+            - SCU对于对象或数组时，需要用_.isEqual等深度比较方法，这个是很耗费性能的，不建议这么用（如果建议的话React自己就帮我们做了）
+            - 有性能问题时再使用SCU，不是必须要用
+        - React实现了浅比较，大部分情况下够用了（尽量不要设计过深的数据结构）
+            - 类组件中使用
+                - PureComponent，会默认增加SCU，而如果用户手动定义SCU后，以自己定义的SCU为准
+            - 函数式组件使用 
+                - React.memo（包裹子组件，props不变就不重新渲染），对标PureComponent
+                - useCallback（解决props如果包含callback，函数式组件每次重渲都会重新生成callback，即callback的引用变化，即使用React.memo包裹还是会触发子组件重渲。。useCallback得到一个缓存的函数，同一个引用）
+        - immutable.js
+            - 如果要 彻底拥抱“不可变值”，则开发人员需要每次都对数据做 深拷贝和深比较，这样非常非常耗费性能
+            - 而immutable.js库就解决了这个问题，基于 共享数据（而不是深拷贝，只改变改变节点与其父节点），速度性能好
+            - 但是！！有学习成本和迁移成本，推荐按需使用
+                - 使用起来日常的js使用不是很一致，特别是和ES6的新的api是不一致的
+
+    - **优化方向2**：减少重复计算：
+        - 使用 useMemo包裹大计算量函数，缓存计算结果。类似于 Vue的computed。
+            - 默认是浅对比，注意当传入第二个参数来自定义比较时，与SCU返回的bool值刚好相反。
+
+- 公共逻辑抽离
+    - mixin已被react弃用
+    - 高阶组件HOC（类似于一个工厂模式，一个装饰器）
+        - 比如redux connect是高阶组件
+            ```js
+            import { connect } from 'react-redux';
+
+            const VisibleTodoList = connect(
+                mapStateToProps,
+                mapDispatchToProps
+            )(TodoList)
+
+            export default VisibleTodoList
+            ```
+    - Render Props：`使用一个值为函数的prop来传递需要动态渲染的nodes或组件`，属性名不一定是非叫render，其它命名依然有效
+            ```jsx
+            // 子组件依赖于父组件的某些数据时，需要将父组件的数据传到子组件，子组件拿到数据并渲染。
+            // render是一个函数组件
+            <DataProvider render={data => (
+                <Cat target={data.target} />
+            )}/>
+            // Render Props，不是说非用一个叫render的props不可
+            // 习惯上可能常写成下面这种
+            <DataProvider>
+                {data => (
+                    <Cat target={data.target} />
+                )}
+            </DataProvider>
+            ```
+    - HOC vs Render Props
+        - HOC模式简单，会增加组件层级
+        - Render Props代码简洁，但学习理解成本稍高
+
+
+Vue 如何实现高阶组件
+
+
+### Redux使用
+
+- 创建action时，需要使用不可变值，纯函数
+- 基本概念
+    - const store = createStore(reducer, applyMiddleware(thunk))
+    - reducer，纯函数，接收action返回新的state
+    - thunk中间件，可以逗号传入多个中间件
+- 单向数据流
+    - 点击button（callback）=> dispatch（action）=> reducer（newState，返回全新state，不可变值） -> view改变
+    - subscribe 触发通知
+- react-Redux
+    - Provider
+    - connect
+        - 作为高阶组件，将 dispatch 作为props注入到 被包裹组件中
+        - AddTodo = connect()(AddTodo)
+    - mapStateToProps
+    - mapDispatchToProps
+- 异步action
+    - 默认返回一个action对象
+    - 当有异步操作时，需要返回一个函数，其中有dispatch参数。此时就需要用到 中间件，比如redux-thunk
+- redux 中间件原理
+    - 中间件就是在单向数据流中，在dispatch的位置插入一些逻辑
+    - 点击button（callback）=> 【新的dispatch，增加mid1、mid2...】dispatch（action）=> reducer（newState，返回全新state，不可变值 -> view改变
+
+- mobx
+    - 事件触发action，在action中修改state => 通过computed拿到更新的state的计算值 => 自动触发对应的reactions（包含autorun，渲染视图，when，observer等）
+    - 通过observable装饰器装饰一个属性，使用Object.defineProperty来拦截对数据的访问，一旦值发生变化，将会调用react的render方法来实现重新渲染视图的功能或者触发autorun等。
+    - redux和mobx的对比：
+        - mobx中的状态是可变的，可以直接对其进行修改；redux使用不可变值，这意味着状态是只读的
+        - mobx将数据保存在分散的多个store中；redux将数据保存在单一的store中
+        - mobx使用@observable（Object.defineProperty来拦截），数据变化后自动处理响应的操作；redux使用plain object保存数据，需要手动处理变化后的操作；
+
+### React-router
+
+基本与vue-router差不多的
+
+- hash模式
+    - HashRouter
+- history模式
+    - BrowserRouter
+- 路由懒加载
+
+
+### 原理
+
+- vdom和diff，参考vue部分的要点，因为vue2、vue3、react的diff算法实现都不完全相同，所以只需要掌握基础原理
+
+- JSX本质（结合Vue模板编译来学习）
+    - JSX等同于Vue模板，Vue模板不是html，JSX也不是JS，JSX即createElement函数
+    - 类似于vue的 h函数，返回vnode：
+        - React.createElement(tag或组件, null, [child1, child2, child3, ...])
+        - React.createElement('div', {...}, child1, child2, child3, ...)
+        - React.createElement(List, 标签属性, child1, child2, '文本节点', ...)
+        - 注意：
+            - 为了区分tag和组件，需要把组件的首字母大写
+    - 使用**babel转译JSX**（注意对比vue是使用vue-template-compiler插件转译的），为render函数，返回vnode，最后执行patch
+
+- 事件机制
+
+
+- setState 和 batchUpdate
+        - 有时异步（react可以管理的“入口”，即合成事件和生命周期中），有时同步（react管不到的“入口”，即异步函数和原生自定义DOM事件中）
+        - 有时合并（对象形式），有时不合并（函数形式）
+    - setState主流程
+        - 无所谓同步还是异步，关键是看能否命中 batchUpdate机制
+        - setState（newState*存入pendding队列中*）-> **判断是否处于 batch update**（isBatchingUpdates） ->
+                                                                            - Y（处于，即批处理执行完了） 则保存组件到dirtyComponents中
+                                                                            - N（不处于，即批处理未执行完）遍历所有dirtyComponents，调用updateComponent，更新pendding state or props
+    - batchUpdate机制
+        ```jsx
+        increase = () => {
+            // 开始：处于batchUpdate
+            // isBatchingUpdates = true
+
+            // 任何其他操作
+
+            // 结束
+            // isBatchingUpdates = false
+        }
+        ```
+    - transaction（事务）机制
+        - 事务机制，即要完成某个操作，需要先定义一个开始逻辑，定义一个结束逻辑。
+            - 执行时先执行开始逻辑，再执行操作，最后要执行结束逻辑。
+        - 这个机制就服务于batchUpdate机制
+
+- 渲染/更新过程
+    - **初次渲染**
+        - 有了props state
+        - 解析JSX为render函数
+        - 执行render函数，生成vnode，由patch(elem, vnode)渲染
+            - react中的`patch被拆分为两个阶段`
+                - *reconciliation*阶段：执行diff算法，纯js计算
+                    - fiber，会将reconciliation阶段进行任务拆分（commit阶段dom渲染，无法拆分）
+                - *commit*阶段：将diff结果渲染DOM
+    - **更新渲染过程**
+        - setState(newState) --> 生成dirtyComponents（可能包含子组件）
+        - 重新执行render函数，生成newVnode，由patch(vnode, newVnode)渲染
+    - 为什么没有说vue中的patch分为两个阶段？
+        - 个人理解是vue中每个组件都是一个watcher，只针对组件内部进行diff比较，通过响应式来得知哪些组件需要diff
+        - 因此，在合理划分组件的情况下，diff比较量不会很大，更新的较快，不太会出现js线程对gui线程的阻塞，所以，也就没有引入fiber，并且也没有引入SCU
+
+
+## 真题
+
+- 组件间如何通讯
+    - 父子组件props，传数据，传函数
+    - 自定义事件
+    - context广播
+    - Redux
+
+- JSX本质是什么
+
+- Context是什么，如何使用
+
+- SCU的用途
+
+- redux单向数据流（画图）
+
+- setState场景题
+```js
+    componentDidMount() {
+        // count 初始值为 0
+        this.setState({ count: this.state.count + 1 })
+        console.log('1', this.state.count) // 0
+        this.setState({ count: this.state.count + 1 })
+        console.log('2', this.state.count) // 0
+
+        // 注意，前两步异步，并且合并了，即count等于1
+
+        setTimeout(() => {
+            this.setState({ count: this.state.count + 1 })
+            console.log('3', this.state.count) // 2
+        })
+        setTimeout(() => {
+            this.setState({ count: this.state.count + 1 })
+            console.log('4', this.state.count) // 3
+        })
+    }
+```
+
+- 什么是纯函数
+    - 不可变值
+    - 返回一个新值，没有副作用
+    - 输入与输出类型一致
+
+- React组件生命周期
+
+- React发起ajax应该在哪个生命周期
+    - 同Vue，应该放在dom渲染完的生命周期上，componentDidMount
+
+- 渲染列表，为什么要用key
+    - 同Vue，必须用key，且不能是index或random
+    - diff算法中通过tag和key来判断，是否是相同节点
+    - 通过key判断相同，移动，减少渲染次数，提升性能
+
+- 函数组件与类组件的区别
+    - 函数组件具有：
+        - 纯函数，输入props，输出JSX
+        - 没有实例，没有生命周期，没有state
+        - 不能扩展其他方法
+        - ！！！本质区别在于 capture values 捕获渲染值
+
+- 受控组件与非受控组件
+    - 受控组件，表单的值受到state控制，因为没有v-model，需要自行监听onChange事件来更新state
+    - 非受控组件，不使用value和onChange事件，表单只接收state作为默认初值，表单的值需要通过ref获取dom来得到
+
+- 何时使用异步组件，如何使用react-router配置异步路由
+    - 同Vue，加载大组件，路由懒加载
+    - React.lazy
+    - React.Suspense
+
+- redux 如何进行异步请求
+    - 使用异步action
+        - 同步action会直接返回一个action对象
+        - 异步action会在异步中dispatch一个action
+    - 使用redux-thunk
+
+- react事件和DOM事件的区别
+    - 所有事件都挂载到document上
+    - event不是原生的，是SyntheticEvent合成事件对象
+    - dispatchEvent统一分发事件对象
+    - listenerBank匹配
+
+- react性能优化
+    - 渲染列表时加key
+    - 自定义事件、DOM事件及时销毁
+    - 合理使用异步组件
+    - 减少函数bind this的次数
+    - 避免子组件重渲
+        - 合理使用SCU、PureComponent、React.memo、useCallback
+    - 避免重复计算
+        - 使用useMemo缓存计算结果
+    - 合理使用 Immutable.js
+
+
+- React 和 Vue 的区别
+    - 相同点：
+        - 都是组件化
+        - 都是数据驱动视图
+        - 都是用vdom操作DOM
+    - 区别：
+        - React使用JSX拥抱JS；Vue使用模板拥抱html
+        - React函数式编程；Vue声明式编程
+        - React需要自力更生；Vue把想要的都给你
 
 
 
-    - React
-        - 只是一个函数 UI = render(data)，没有所谓的状态管理，而只是数据到视图的驱动
-        - react diffing算法思路
-            - 传统diff通过递归，算法复杂度达到O(n^3)，而React diff算法是一种 调和 实现，通过 三大策略 进行优化，将O(n^3)复杂度 转化为 O(n)复杂度:
-                - 1、策略一（tree diff），只同层级比较
-                - 2、策略二（component diff），相同类的两个组件 生成相似的树形结构，不同类的两个组件 生成不同的树形结构
-                - 3、策略三（element diff）：对于同一层级的一组子节点，通过唯一key区分。
-        - 虚拟Dom中的$$typeof属性的作用
-            - $$typeof属性，它被赋值为 REACT_ELEMENT_TYPE。
-            - ReactElement.isValidElement用来判断一个元素是否有效，其中会判断$$typeof。
-        - setState的执行机制
-            - 是异步的吗？（setState本身并不是异步的，而是 React的批处理机制给人一种异步的假象）
-                - 1、React的生命周期和合成事件中，React仍然处于它的批处理更新机制中，这时无论调用多少次 setState，都不会立即执行更新
-                - 2、异步代码中调用 setState时，React的批处理机制已经走完，这时再调用完后就能立刻拿到更新后的结果。
-                - 3、在原生事件中调用 setState并不会触发 React的批处理机制，所以立即能拿到最新结果
-                - 最佳实践，使用回调拿到更新
-            - 连续多次setState只有一次生效？（队列合并机制）
-                - 以对象形式更新时，React会将批处理机制中存储的多个setState进行合并
-                - 以函数形式更新时，每次都立即计算
-            - 几个钩子中注意：
-                - componentDidMount直接调用 setState，会重复渲染过程
-                - 在componentWillUpdate、componentDidUpdate中setState，需要条件控制，否则会死循环
-        - react16新生命周期，有什么变化？
-            - 16 弃用了3个钩子函数： componentWillMount、componentWillUpdate、componentWillReceiveProps；
-                - 之所以移除，是因为Fiber在新版本中会支持异步渲染的特性，这几个钩子会有问题
-                - 新增了 getDerivedStateFromProps、getSnapshotBeforeUpdate来代替；
-            - 新增了错误处理阶段：componentDidCatch
 
-    
-    - 虚拟Dom比普通Dom 性能更好吗？
-        - VDOM也还是要操作 DOM，这是无法避免
-        - 如果是首次渲染的话，Vitrual Dom 甚至要进行更多的计算，消耗更多的内存。
-        - Vitrual Dom 的「优势」在于：
-            - 1、无需手动操作Dom，Diff算法 和 批处理策略Patch 会在一次更新中自动完成
-            - 2、保证性能下限
-            - 3、跨平台，本质上是JS对象，可以服务端开发，移动端开发等
-        - Vitrual Dom 的「缺点」只有一个：
-            - 无法进行极致优化
-
-
-
-
-:::
 
