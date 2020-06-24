@@ -17,7 +17,11 @@
 - add(1, 3, 4)(7)(5, 5).valueOf();
 - 实现JSONP
 - 返回promise的JSONP封装
+    - [jsonp 的原理和采用 Promise API 的实现](https://juejin.im/post/5abcec65f265da238c3ac4e6)
+    - [40行封装一个jsonp包](https://juejin.im/post/5c7e89d65188255dce5dda11)
+    - [手写一个JSONP(promise封装)](https://www.jianshu.com/p/43b48648c730)
 - 实现promisify
+    - [Callback 与 Promise 间的桥梁 —— promisify](https://juejin.im/post/59f99d916fb9a0450b65b538)
 - 手写双向绑定
 - 手写vue observe数据劫持
 - 用JS模拟DOM结构（手写vnode）

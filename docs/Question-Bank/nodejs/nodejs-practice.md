@@ -113,3 +113,77 @@ Nodejs运行在服务端，不在浏览器
 
 
 
+#### 开发接口（不用任何框架）
+
+nodejs处理http请求
+
+搭建开发环境
+
+开发接口（暂时不连接数据库，暂不考虑登录）
+
+
+#### 搭建开发环境
+
+使用nodemon监测文件变化，自动重启node
+
+拆分成4层：
+- 1. bin/wwww.js：执行server的设置，createServer，port，listen
+- 2. app.js：只是应用基本设置的聚集地，设置返回类型，获取path，解析query，处理路由，处理404，涉及不到业务代码
+- 3. src/router：只处理路由，匹配相关路由返回数据格式
+- 4. src/controller：只关心数据，筛选处理
+
+
+接口开发（假数据）
+
+
+### 数据存储（连数据库）
+
+Q：为何用mysql而不是mogondb？
+- mysql是且业内最常用的存储工具，一般都有专人运维
+- mysql也是社区内最常用的存储工具
+- web server中最流行的关系型数据库
+
+#### 操作数据库
+- 建库
+    - 创建
+    - show Databases
+- 建表
+    - 常用类型
+        - int
+        - bigint
+        - varchar
+        - longtext
+- 表操作
+    - sql实现增删改查
+    ```sql
+    select version(); -- 查询版本
+
+    use myblog; -- 使用某个库
+
+    show tables; -- 显示所有表
+
+    insert into users (username, `password`, realname) values ('zhangsan','123','张三'); -- 减减 用来注释
+    insert into users (username, `password`, realname) values ('lisi','123','李四'); -- password是sql保留字段，需要反斜杠包裹
+
+    select * from users; -- 实际使用中，要避免全量查找
+    select id, username from users;
+
+    select * from users where username='zhangsan' and password='123'; -- 取交集
+    select * from users where username='zhangsan' or password='123'; -- 取并集
+    select * from users where username like '%zhang%'; -- 模糊匹配
+    select * from users where password like '%1%';
+    select * from users where password like '%1%' order by id; -- 升序排序
+    select * from users where password like '%1%' order by id desc; -- 降序排序
+
+    SET SQL_SAFE_UPDATES=0; -- 设置是否可安全更新，否则更新和删除操作不能成功执行
+
+    update users set realname='李四2' where username='lisi';
+
+    delete from users where username='lisi'; -- 实际工作中不直接使用delete删除
+    update users set state='0' where username='lisi'; -- 软删除，通过增加一个state列，1代表可用，0代表不可用，设置为0即为删除
+
+    select * from users where state <> 0 -- <>表示不等于
+    ```
+
+#### nodejs操作mysql
+

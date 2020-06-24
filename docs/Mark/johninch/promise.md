@@ -1231,6 +1231,6 @@ arr.reduce((p, x) =>
 )
 
 ```
-[参考文章](https://juejin.im/post/5e58c618e51d4526ed66b5cf#heading-54)
-[「ES6系列」彻底弄懂Promise](https://juejin.im/post/5d06e9c76fb9a07ee4636235#heading-26)  
+[【建议星星】要就来45道Promise面试题一次爽到底(1.1w字用心整理)](https://juejin.im/post/5e58c618e51d4526ed66b5cf)
+[「ES6系列」彻底弄懂Promise](https://juejin.im/post/5d06e9c76fb9a07ee4636235)  
 
