@@ -24,6 +24,7 @@ module.exports = {
             { text: '源码探秘', link: '/Quest-SC/' },
             { text: '算法', link: '/Algorithm/' },
             { text: 'Ani-Css', link: 'https://esop-fed.github.io/ani-css/' },
+            { text: '项目复盘', link: '/Replay/' },
             {
                 text: '个人备忘',
                 items: [
@@ -483,6 +484,16 @@ module.exports = {
                         '/Algorithm/DP/uniquePaths',
                         '/Algorithm/DP/uniquePaths2',
                         '/Algorithm/DP/findCheapestPrice',
+                    ]
+                },
+            ],
+            '/Replay/': [
+                '/Replay/',
+                {
+                    title: 'H5改版复盘',
+                    children: [
+                        '/Replay/H5-revision/',
+                        '/Replay/H5-revision/wyk',
                     ]
                 },
             ],
