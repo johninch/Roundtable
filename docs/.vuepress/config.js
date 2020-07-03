@@ -499,6 +499,13 @@ module.exports = {
                         '/Replay/H5-revision/wyk',
                     ]
                 },
+                {
+                    title: '汇盛保险系统一期复盘',
+                    children: [
+                        '/Replay/Horizonus-1/',
+                        '/Replay/Horizonus-1/sjb',
+                    ]
+                },
             ],
             '/Mark/': [
                 {
