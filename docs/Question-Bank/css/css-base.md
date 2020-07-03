@@ -21,6 +21,22 @@ categories: css
 - 内联样式 > ID选择器 > 伪类 > 属性选择器 > 类选择器 > 标签选择器 > 通用选择器（*）
 - 优先级就近原则，同权重情况下样式定义最近者为准，载入样式以最后载入的定位为准。
 - !important 规则例外, 该样式声明会覆盖CSS中任何其他的声明,最高权重。
+- **样式表中定义的样式，后面的优先级更高，覆盖前面的**
+
+::: details 样式覆盖
+p标签颜色应该是 red，因为优先级是看样式定义中后面覆盖前面的:
+```css
+<style>
+	.classA{
+        color:blue;
+	}
+	.classB{
+        color:red;
+	}
+</style>
+<p class="classB classA">123</p>
+```
+:::
 
 ## CSS3新增伪类
 - p:first-of-type：选择属于其父元素的首个p元素的每个p元素。

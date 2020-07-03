@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/johninch/.nvm/versions/node/v12.8.1/bin/node /usr/local/Cellar/yarn/1.19.0/libexec/bin/yarn.js add -D @vuepress/plugin-back-to-top
+  /Users/johninch/.nvm/versions/node/v12.8.1/bin/node /usr/local/Cellar/yarn/1.19.0/libexec/bin/yarn.js add -D @vuepress/plugin-medium-zoom
 
 PATH: 
   /usr/local/bin:/Users/johninch/.nvm/versions/node/v12.8.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile '/Users/johninch/Library/Caches/Yarn/v5/npm-is-extendable-1.0.1-a7470f9e426733d81bd81e1155264e3a3507cab4/node_modules/is-extendable/index.js' -> '/Users/johninch/workspace/esop-fed/Roundtable/node_modules/micromatch/node_modules/is-extendable/index.js'
+  Error: EINVAL: invalid argument, unlink '/Users/johninch/workspace/esop-fed/Roundtable/node_modules/std-env/node_modules/ci-info'
 
 npm manifest: 
   {
@@ -39,11 +39,12 @@ npm manifest:
     },
     "homepage": "https://github.com/johninch/Roundtable#readme",
     "devDependencies": {
-      "vuepress": "^1.3.0",
-      "vuepress-plugin-flowchart": "^1.4.3",
       "@vuepress-reco/vuepress-plugin-bgm-player": "^1.1.2",
+      "@vuepress/plugin-back-to-top": "^1.4.0",
+      "vuepress": "^1.3.0",
+      "vuepress-plugin-container": "^2.1.2",
+      "vuepress-plugin-flowchart": "^1.4.3",
       "vuepress-plugin-reading-progress": "^1.0.8"
-  
     }
   }
 

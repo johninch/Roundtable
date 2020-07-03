@@ -83,3 +83,8 @@ methods: {
 ```
 input输入2，再输入3，打印结果如下：
 ![console_4](./images/watch_4.png)
+
+
+::: danger 不应该使用箭头函数来定义 watcher 函数 
+例如 searchQuery: newValue => this.updateAutocomplete(newValue)。理由是**箭头函数绑定了父级作用域的上下文**，所以 `this 将不会按照期望指向 Vue 实例`，this.updateAutocomplete 将是 undefined。
+:::

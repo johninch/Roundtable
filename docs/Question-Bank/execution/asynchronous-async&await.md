@@ -6,8 +6,6 @@ categories: execution
 
 # 异步编程（4）：async、await
 
-# async/await 用法整理
-
 它最受欢迎的地方：**能让异步代码写起来像同步代码，并且方便控制顺序。**
 
 ## 1、async/await 概念解释
@@ -18,7 +16,7 @@ categories: execution
 - await
    > await的含义为等待。意思就是代码需要等待await后面的函数运行完并且有了返回结果之后，才继续执行下面的代码。这正是同步的效果。
 
-## 2、async函数是Generator函数的语法糖，并对Generator进行了改进。
+## 2、async函数是Generator函数的语法糖，并对Generator进行了改进
 
 async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await，仅此而已。
 
@@ -95,7 +93,7 @@ testAsync().then(v => {
 });
 ```
 
-## 4、await关键字的特性
+## 5、await关键字的特性
 
 1. **await只能在async函数内部使用：**
     不能放在普通函数里面，否则会报错；

@@ -26,6 +26,13 @@ module.exports = {
             { text: '源码探秘', link: '/Quest-SC/' },
             { text: '算法', link: '/Algorithm/' },
             { text: 'Ani-Css', link: 'https://esop-fed.github.io/ani-css/' },
+            { text: '项目复盘', link: '/Replay/' },
+            {
+                text: '个人备忘',
+                items: [
+                    { text: 'johninch', link: '/Mark/johninch/' },
+                ]
+            },
             {
                 text: 'blog',
                 items: [
@@ -113,6 +120,7 @@ module.exports = {
                         '/Question-Bank/css/box-sizing&margin-collapse&BFC',
                         '/Question-Bank/css/layout-method',
                         '/Question-Bank/css/css-base',
+                        '/Question-Bank/css/circle-loading.md',
                     ]
                 },
                 {
@@ -137,6 +145,7 @@ module.exports = {
                         '/Question-Bank/communication/cors',
                         '/Question-Bank/communication/upload',
                         '/Question-Bank/communication/download',
+                        '/Question-Bank/communication/preview',
                         '/Question-Bank/communication/json',
                         '/Question-Bank/communication/axios',
                     ]
@@ -162,10 +171,7 @@ module.exports = {
                     title: '正则表达式',
                     children: [
                         '/Question-Bank/regular-expression/reg-base',
-                        '/Question-Bank/regular-expression/handle-string',
-                        '/Question-Bank/regular-expression/upper-camel-case',
-                        '/Question-Bank/regular-expression/code-to-market',
-                        '/Question-Bank/regular-expression/Chinese-ID-card',
+                        '/Question-Bank/regular-expression/reg-example',
                     ]
                 },
                 {
@@ -175,6 +181,11 @@ module.exports = {
                         '/Question-Bank/Engineering/css-naming-standard',
                         '/Question-Bank/Engineering/repo-naming-standard',
                         '/Question-Bank/Engineering/design-patterns',
+                        '/Question-Bank/Engineering/deploy',
+                        '/Question-Bank/Engineering/eslintPrettier',
+                        '/Question-Bank/Engineering/i18n',
+                        '/Question-Bank/Engineering/SSR',
+                        '/Question-Bank/Engineering/jsBridge',
                     ]
                 },
                 {
@@ -215,11 +226,13 @@ module.exports = {
                         '/Question-Bank/react/react-virtual-dom.md',
                         '/Question-Bank/react/refs.md',
                         '/Question-Bank/react/children.md',
+                        '/Question-Bank/react/mobx.md',
                         '/Question-Bank/react/fiber.md',
                         '/Question-Bank/react/react-other-points.md',
                         '/Question-Bank/react/react-router-dom',
                         '/Question-Bank/react/declare-react-router',
                         '/Question-Bank/react/react-hooks.md',
+                        '/Question-Bank/react/react-performance.md',
                         '/Question-Bank/react/function-vs-class.md',
                         '/Question-Bank/react/black-magic-of-hooks.md',
                         '/Question-Bank/react/time-console',
@@ -255,7 +268,15 @@ module.exports = {
                     title: 'Webpack',
                     children: [
                         '/Question-Bank/webpack/babel',
+                        '/Question-Bank/webpack/webpack-base',
+                        '/Question-Bank/webpack/loader-sequence',
+                        '/Question-Bank/webpack/source-map',
+                        '/Question-Bank/webpack/chunkhash',
                         '/Question-Bank/webpack/code-splitting',
+                        '/Question-Bank/webpack/watch',
+                        '/Question-Bank/webpack/HMR',
+                        '/Question-Bank/webpack/building-speed-up',
+                        '/Question-Bank/webpack/webpack-tricks',
                     ]
                 },
                 {
@@ -285,14 +306,12 @@ module.exports = {
                     title: '工作实践',
                     children: [
                         '/Question-Bank/work-practices/product-quality',
-                        '/Question-Bank/work-practices/deploy',
                         '/Question-Bank/work-practices/eleMessage',
                         '/Question-Bank/work-practices/mobx-cases',
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
                         '/Question-Bank/work-practices/css-module',
-                        '/Question-Bank/work-practices/eslintPrettier',
-                        '/Question-Bank/work-practices/i18n',
+                        '/Question-Bank/work-practices/virtual-scroll',
                     ]
                 },
                 {
@@ -300,7 +319,7 @@ module.exports = {
                     children: [
                         '/Wanted/pwa',
                     ]
-                },
+                }
             ],
             '/Wanted/': [
                 {
@@ -359,14 +378,15 @@ module.exports = {
                     title: '链表',
                     children: [
                         '/Algorithm/Linked-List/',
+                        '/Algorithm/Linked-List/sortList.md',
                         '/Algorithm/Linked-List/print-from-tail-to-head',
-                        '/Algorithm/Linked-List/delete-repeat-node',
                         '/Algorithm/Linked-List/reverse-linked-list',
                         '/Algorithm/Linked-List/merge-two-sorted-link',
-                        '/Algorithm/Linked-List/copy-complicated-linked-list',
                         '/Algorithm/Linked-List/entry-node-of-loop',
                         '/Algorithm/Linked-List/find-first-common-node',
                         '/Algorithm/Linked-List/find-Kth-to-tail',
+                        '/Algorithm/Linked-List/delete-repeat-node',
+                        '/Algorithm/Linked-List/copy-complicated-linked-list',
                     ]
                 },
                 {
@@ -376,10 +396,13 @@ module.exports = {
                         '/Algorithm/Tree-and-Binary-Tree/inorder-traversal',
                         '/Algorithm/Tree-and-Binary-Tree/preorder-traversal',
                         '/Algorithm/Tree-and-Binary-Tree/postorder-traversal',
+                        '/Algorithm/Tree-and-Binary-Tree/levelOrder-traversal',
                         '/Algorithm/Tree-and-Binary-Tree/reconstruct-binary-tree',
                         '/Algorithm/Tree-and-Binary-Tree/get-HRD',
                         '/Algorithm/Tree-and-Binary-Tree/is-symmetrical',
                         '/Algorithm/Tree-and-Binary-Tree/mirror',
+                        '/Algorithm/Tree-and-Binary-Tree/generate-BST',
+                        '/Algorithm/Tree-and-Binary-Tree/isValidBST',
                         '/Algorithm/Tree-and-Binary-Tree/kth-node',
                         '/Algorithm/Tree-and-Binary-Tree/verify-squence-of-BST',
                         '/Algorithm/Tree-and-Binary-Tree/max-depth',
@@ -391,16 +414,61 @@ module.exports = {
                     title: '排序',
                     children: [
                         '/Algorithm/Sort/',
+                        '/Algorithm/Sort/firstMissingPositive.md',
                         '/Algorithm/Sort/fast-sort.md',
                         '/Algorithm/Sort/selection-sort.md',
                         '/Algorithm/Sort/shell-sort.md',
                     ]
                 },
                 {
+                    title: '正则',
+                    children: [
+                        '/Algorithm/Reg/',
+                        '/Algorithm/Reg/repeatedSubstringPattern.md',
+                        '/Algorithm/Reg/isMatch.md',
+                    ]
+                },
+                {
+                    title: '字符串',
+                    children: [
+                        '/Algorithm/String/',
+                        '/Algorithm/String/revertByWord.md',
+                        // '/Algorithm/String/countBinarySubstrings.md)',
+                    ]
+                },
+                {
+                    title: '数组',
+                    children: [
+                        '/Algorithm/Array/',
+                        '/Algorithm/Array/letterCombinations.md',
+                        '/Algorithm/Array/canPlaceFlowers.md',
+                        '/Algorithm/Array/hasGroupsSizeX.md',
+                        '/Algorithm/Array/grayCode.md',
+                    ]
+                },
+                {
+                    title: '栈',
+                    children: [
+                        '/Algorithm/Stack/',
+                        '/Algorithm/Stack/calPoints.md',
+                        '/Algorithm/Stack/maximalRectangle.md',
+                        '/Algorithm/Stack/largestRectangleArea.md',
+                    ]
+                },
+                {
+                    title: '队列',
+                    children: [
+                        '/Algorithm/Queue/',
+                        '/Algorithm/Queue/MyCircularQueue.md',
+                        '/Algorithm/Queue/leastInterval.md',
+                    ]
+                },
+                {
                     title: '递归',
                     children: [
                         '/Algorithm/Recursion/',
-                        '/Algorithm/Recursion/hanota'
+                        '/Algorithm/Recursion/hanota.md',
+                        '/Algorithm/Recursion/restoreIpAddresses.md',
                     ]
                 },
                 {
@@ -415,13 +483,38 @@ module.exports = {
                 {
                     title: '动态规划',
                     children: [
-                        '/Algorithm/Dynamic-Programming/',
-                        '/Algorithm/Dynamic-Programming/uniquePaths',
-                        '/Algorithm/Dynamic-Programming/uniquePaths2',
-                        '/Algorithm/Dynamic-Programming/findCheapestPrice',
+                        '/Algorithm/DP/',
+                        '/Algorithm/DP/uniquePaths',
+                        '/Algorithm/DP/uniquePaths2',
+                        '/Algorithm/DP/findCheapestPrice',
                     ]
                 },
-            ]
+            ],
+            '/Replay/': [
+                '/Replay/',
+                {
+                    title: 'H5改版复盘',
+                    children: [
+                        '/Replay/H5-revision/',
+                        '/Replay/H5-revision/wyk',
+                    ]
+                },
+            ],
+            '/Mark/': [
+                {
+                    title: 'Johninch',
+                    children: [
+                        '/Mark/johninch/base',
+                        '/Mark/johninch/promise',
+                        '/Mark/johninch/coding',
+                        '/Mark/johninch/leetcode',
+                        '/Mark/johninch/project',
+                        '/Mark/johninch/lib/react',
+                        '/Mark/johninch/lib/vue',
+                        '/Mark/johninch/lib/webpack',
+                    ]
+                },
+            ],
         }
     },
     plugins: [
@@ -484,6 +577,14 @@ module.exports = {
         ['vuepress-plugin-smooth-scroll'],  // 平滑滚动
         ['@vuepress/nprogress'],  // 加载进度条
         ['reading-progress'],  // 阅读进度条
+        ['@vuepress/plugin-medium-zoom', { // Note: This is not @vuepress/medium-zoom
+            selector: '.theme-default-content img',
+            // medium-zoom options here
+            // See: https://github.com/francoischalifour/medium-zoom#options
+            options: {
+                margin: 16
+            }
+        }],
         ['@vuepress/active-header-links', {
             sidebarLinkSelector: '.sidebar-link',
             headerAnchorSelector: '.header-anchor'

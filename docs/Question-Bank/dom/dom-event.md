@@ -61,7 +61,7 @@ setTimeout(function() {
 var ulNode = document.getElementById("ul");
 
 ulNode.addEventListener('click', function(e) {
-  if (e.target && e.target.tagName.toLowrCase() === 'li') {
+  if (e.target && e.target.tagName.toLowerCase() === 'li') {
     //需要执行的代码
   }
 }, false);

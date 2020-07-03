@@ -4,7 +4,7 @@
 }
 ---
 
-### 深度查询实现
+# 深度查询实现
 
 > 实现lodash中的get方法：get(target, path, defaultValue)，深度查询一个数组或者对象中的值(数组和对象不止一层嵌套)，查询不到默认返回undefined。参照[lodash/._get](https://www.lodashjs.com/docs/latest#_getobject-path-defaultvalue)
 
@@ -19,7 +19,7 @@ _.get(object, 'a.b.c', 'default'); // => 'default'
 ```
 ----
 
-#### 推荐答案:
+## 推荐答案:
 
 ```js
 function get (source, path, defaultValue = undefined) {
@@ -74,7 +74,7 @@ get(object, 'a[3].b', undefined);
 
 ----
 
-#### febcat:
+## febcat:
 
 ```javascript
 const get = (obj, path, defaultBack= undefined) => {
@@ -100,7 +100,7 @@ const get = (obj, path, defaultBack= undefined) => {
 ```
 ----
 
-#### Caleb:
+## Caleb:
 
 ``` javascript
 var IsEmptys = value => {
@@ -130,7 +130,7 @@ function get(target, rule){
 ```
 ----
 
-#### Xmtd:
+## Xmtd:
 
 ```js
   function get(target, rule, defaultBack) {
@@ -161,7 +161,7 @@ function get(target, rule){
 ```
 ----
 
-#### niannings:
+## niannings:
 
 ```js
 const execExp = (state, exp, defaultBack = undefined) => {

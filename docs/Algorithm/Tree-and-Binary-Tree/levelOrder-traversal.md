@@ -48,7 +48,7 @@ var levelOrder = function(root) {
     return res
 };
 ```
-2. 迭代（增加层级参数）：
+2. 迭代（增加层级参数，使用队列辅助，循环迭代）：
 ```js
 const levelOrder = function(root) {
     if (!root) return []

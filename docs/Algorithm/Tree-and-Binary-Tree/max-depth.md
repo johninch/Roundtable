@@ -33,12 +33,14 @@ const maxDepth = (root) => {
     if (!root) {
         return 0
     }
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1 // 要加1
+
+    // 要加1
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right))
 }
 ```
 
 顺便提下求二叉树节点个数：
-```js
+```js 
 const sizeOfTree = (root) => {
     if (!root) {
         return 0

@@ -25,8 +25,19 @@ categories: http
         // error 处理，等价于then的第二个参数，但更直观好用
     })
     ```
+#### Ajax与fetch区别
 
-### 如何创建Ajax？
+- fetch只对网络请求报错，对400，500都当做成功的请求，需要封装去处理。
+- fetch默认在服务端不会发送或接收任何 cookies，如果想要在同域中自动发送cookie，加上`credentials`的`same-origin`选项：
+```js
+fetch(url, {
+  credentials: 'same-origin'
+})
+// same-origin值使得fetch处理Cookie与XMLHttpRequest类似。 否则，Cookie将不会被发送，导致这些请求不保留认证会话。
+```
+- fetch没有办法原生监测请求的进度，而XHR可以。
+
+#### 如何创建Ajax？
 
 考察点：XHR对象的工作流程、兼容性处理、事件的触发条件、事件的触发顺序
 
@@ -50,6 +61,44 @@ categories: http
 - 凡是拥有“src”属性的标签都拥有跨域的能力，如`<script>,<img>,<iframe>`等。
 - Jsonp只能发`get请求`。
 
+::: details 封装实现JSONP
+```js
+// 实现JSONP
+function JSONP({url, params = {}, callbackKey = 'cb', callback}) {
+    // 定义本地的唯一callbackId，若是没有的话则初始化为1
+    JSONP.callbackId = JSONP.callbackId || 1;
+    JSONP.callbacks = JSONP.callbacks || [];
+
+    // 把要执行的回调加入到JSON对象中，避免污染window
+    let callbackId = JSONP.callbackId;
+    JSONP.callbacks[callbackId] = callback;
+
+    params[callbackKey] = `JSONP.callbacks[${callbackId}]` // 把设定的函数名称放入到参数中，'cb=JSONP.callbacks[1]'
+
+    const paramString = Object.keys(params).map(key => {
+        return `${key}=${encodeURIComponent(params[key])}`
+    }).join('&')
+
+    const script = document.createElement('script')
+    script.setAttribute('src', `${url}?${paramString}`)
+    document.body.appendChild(script)
+
+    JSONP.callbackId++ // id自增，保证唯一
+}
+
+JSONP({
+    url: 'http://localhost:8080/api/jsonp',
+    params: {
+        id: 1
+    },
+    callbackKey: 'cb',
+    callback (res) {
+        console.log(res)
+    }
+})
+```
+:::
+
 ![jsonp示例](./images/jsonp.png)
 
 ### 4、Hash
@@ -60,6 +109,33 @@ categories: http
 3. 在iframeB中，就可以通过获取自己url的hash值，从而得到主页面传递的值。在iframeB中，通过监听window.onhashchange事件来获取A页面传来的字段。
 
 ![hash跨域示例](./images/hash.png)
+
+::: details 补充小知识点：怎么避免自己的页面被iframe嵌套（3种）
+1. 在head中设置meta属性 `X-Frame-Options`：
+    ```html
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN / DENY ">
+    ```
+    - `DENY`：表示该页面不允许在 frame 中展示，即便是在相同域名的页面中嵌套也不允许。
+    - `SAMEORIGIN`：表示该页面可以在相同域名页面的 frame 中展示。
+    - 另外还有一个选项，ALLOW-FROM uri：表示该页面可以在指定来源的 frame 中展示。
+2. 使用JS代码控制
+前端检测 top 窗口是否就是 self ：
+```js
+try {
+　　top.location.hostname;
+　　if (top.location.hostname != window.location.hostname) {
+　　　　top.location.href =window.location.href;
+　　}
+} catch(e) {
+　　top.location.href = window.location.href;
+}
+```
+3. 服务器中设置拦截
+配置 nginx 发送 X-Frame-Options 响应头，把下面这行添加到 'http', 'server' 或者 'location' 的配置中:
+```
+add_header X-Frame-Options SAMEORIGIN
+```
+:::
 
 ### 5、postMessage
 HTML5规范中的新方法`window.postMessage()`可以用于安全跨域通信。

@@ -1,11 +1,11 @@
 
-## EventEmitter实现
+# EventEmitter实现
 
 > 如何实现Event(Bus),这个东西太重要了,几乎所有的模块通信都是基于类似的模式,包括安卓开发中的Event Bus, Node.js中的Event模块(Node中几乎所有的模块都依赖于Event,包括不限于http、stream、buffer、fs等)。
 
 > 我们仿照Node中Event API实现一个简单的Event库,他是发布订阅模式的典型应用.
 
-### 简单版
+## 简单版
 
 主要方法有on, emit, once, off。
 - emit(eventName,...arg)方法传入的参数，第一个为事件名，其他参数事件对应的执行函数中的实参，emit方法的功能就是从事件对象中，寻找对应key为eventName的属性，执行该属性所对应的数组里面每一个执行函数。
@@ -63,7 +63,7 @@ event.emit('say','hello Jony yu')
 //输出hello Jony yu
 ```
 
-### 优化版
+## 优化版
 
 - 改进1：在仅有1个监听者时，handler（this._eventBus[type]）应该只是一个函数，多个监听者才以数组存储。
 
@@ -95,7 +95,7 @@ class EventEmitter {
              })
         } else {
             // 单个函数直接触发
-            args.length > 0 ? cb.apply(this, args) : cb.call(this)
+            args.length > 0 ? handler.apply(this, args) : handler.call(this)
         }
 
         return true
@@ -128,7 +128,7 @@ class EventEmitter {
 }
 ```
 
-### 进阶版
+## 进阶版
 
 - 改进1：选择 ***Map*** 作为储存事件的结构, 作为键值对的储存方式Map比一般对象更加适合, 操作起来也更加简洁。
 - 改进2：Node全面拥抱 ES6+ 之后,相应的 call/apply 操作用 ***Reflect*** 新关键字重写了。
@@ -193,7 +193,7 @@ class EventEmitter {
 }
 ```
 
-### 扩展
+## 扩展
 
 > node的EventEmitter还包含了很多常用的API
 
@@ -218,7 +218,7 @@ newListener | 该事件在添加新事件监听器的时候触发
 removeListener | 从指定监听器数组中删除一个监听器。需要注意的是，此操作将会改变处于被删监听器之后的那些监听器的索引
 
 
-### 相关链接
+## 相关链接
 [循序渐进教你实现一个完整的node的EventEmitter模块](https://github.com/forthealllight/blog/issues/21)
 
 [如何实现一个Event](https://www.cxymsg.com/guide/event.html#%E5%89%8D%E8%A8%80)

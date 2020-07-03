@@ -22,9 +22,44 @@ categories: css
 1. dom.style.width/height 只能取到内联样式的宽高，取不到样式表和外联样式写的宽高；
 2. dom.currentStyle.width/height 拿到最终渲染后的dom的实际宽高，但只有IE支持；
 3. `window.getComputedStyle(dom)`.width/height拿到最终渲染后的dom的实际宽高，兼容多浏览器；
-4. `dom.getBoundingClientRect()`.widh/height/top/left/bottom/right 取到dom渲染后相对于viewport边界的宽高和绝对位置。
+4. `dom.getBoundingClientRect()`.width/height/top/left/bottom/right 取到dom渲染后相对于viewport边界的宽高和绝对位置。
 
 ![](./images/layout-3-col-01.png)
+
+::: details 例题
+以下dom结构中，child的offsetWidth与clientWidth分别是多少？
+```html
+<style>
+    .parent {
+      background: red;
+      width: 100px;
+      height: 100px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .child {
+      background: green;
+      width: 50px;
+      height: 50px;
+      padding: 10%; /* 继承父级的width就是10px */
+      border: 10px solid black;
+      box-sizing: border-box;
+    }
+</style>
+<div class="parent">
+   <div class="child"></div>
+</div>
+```
+- offsetWidth 水平方向 width + 左右padding + 左右border-width
+- clientWidth 水平方向 width + 左右padding
+- margin与padding值设置为百分数时，其值的计算参照 最近父级元素width，注意，四个方向都是以父级的宽来百分比的
+
+答案：
+- child.offsetWidth = 50
+- child.clientWidth = 30
+- child的content的宽是10，左右padding共20，左右border共20，共50
+:::
 
 ## 外边距重叠 margin-collapse
 

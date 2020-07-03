@@ -1,9 +1,9 @@
 
 # Function VS Class 组件（最大区别 - Capture Value）
 
-function components 和 class components 之间有什么本质的区别吗？
+> function components 和 class components 之间有什么本质的区别吗？
 
-答案就是 function components 所拥有的 **捕获渲染值(Capture Value)**特性。
+答案就是 function components 所拥有的 **`捕获渲染值(Capture Value)`** 特性。
 
 思维上的不同：Function Component 是更彻底的状态驱动抽象，甚至没有 Class Component 生命周期的概念，只有一个状态，而 React 负责同步到 DOM。 
 

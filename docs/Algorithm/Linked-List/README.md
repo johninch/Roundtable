@@ -18,17 +18,17 @@
 ## 1、基本应用
 > 主要是对链表基本概念和特性的应用，如果基础概念掌握牢靠，此类问题即可迎刃而解
 
- - [✔️从尾到头打印链表](./print-from-tail-to-head)
+ - [:100:排序链表](./sortList.md)
+ - [:100:从尾到头打印链表](./print-from-tail-to-head)
  - [✔️删除链表中重复的节点](./delete-repeat-node)
- - [✔️反转链表](./reverse-linked-list)
- - [✔️合并两个有序链表](./merge-two-sorted-link)
- - [✔️复杂链表的复制](./copy-complicated-linked-list)
+ - [:100:反转链表](./reverse-linked-list)
+ - [:100:合并两个有序链表](./merge-two-sorted-link)
+ - [复杂链表的复制](./copy-complicated-linked-list)
 
 ## 2、环类题目
 > 环类题目即从判断一个单链表是否存在循环而扩展衍生的问题
 
- - [✔️链表中环的入口结点](./entry-node-of-loop)
- - [环形链表](./deep-clone)
+ - [:100:链表中环的入口结点](./entry-node-of-loop)
  - [约瑟夫环](./deep-clone)
 
 ## 3、双指针
@@ -39,8 +39,8 @@
 
 > 对于单链表，因为我们只能在一个方向上遍历链表，所以第一种情景可能无法工作。然而，第二种情景，也被称为慢指针和快指针技巧，是非常有用的。
 
- - [✔️两个链表的第一个公共节点](./find-first-common-node)
- - [✔️链表倒数第k个节点](./find-Kth-to-tail)
+ - [:100:两个链表的第一个公共节点](./find-first-common-node)
+ - [:100:链表倒数第k个节点](./find-Kth-to-tail)
  - [相交链表](./deep-clone)
 
 ## 4、双向链表
@@ -48,6 +48,3 @@
 
  - [扁平化多级双向链表](./deep-clone)
 
-## 5、未归类
-
- - [合并两个排序的链表](./deep-clone)

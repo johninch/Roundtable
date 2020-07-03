@@ -108,7 +108,7 @@ useEffect(callback [, deps]);
 ```
 useEffect是用来处理副作用函数的。它以一抵三（componentDidMount、componentDidUpdate、componentWillUnmount），在使用中合理的做法是，给每一个副作用一个单独的useEffect钩子。关键点如下：
 1. **频率**：react的每次渲染，都会调用传给useEffect的副作用函数。
-2. **时机**：当react要渲染时，会先记住useState中的副作用函数，等react更新DOM之后，它才会依次地执行我们所定义的副作用函数。
+2. **时机**：当react要渲染时，会先记住useEffect中的副作用函数，等react更新DOM之后，它才会依次地执行我们所定义的副作用函数。
 3. **异步**：useEffect中的副作用函数是异步执行的（不会阻碍浏览器更新视图），而之前的componentDidMount或componentDidUpdate中的代码则是同步执行的。这种安排对大多数副作用说都是合理的（*但也有特殊情形，比如我们有时候需要先根据DOM计算出某个元素的尺寸再重新渲染，这时候我们希望这次重新渲染是同步发生的，也就是说它会在浏览器真的去绘制这个页面前发生*）。
 
 ### 副作用函数callback的执行次数

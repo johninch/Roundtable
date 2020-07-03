@@ -114,36 +114,35 @@ export default {
 - 对于 `配合 v-model 工作`的组件来说，为这些监听器创建一个类似下述 customListeners 的计算属性通常是非常有用的：
     ```js
     Vue.component('my-input', {
-    inheritAttrs: false,
-    props: ['label', 'value'],
-    computed: {
-        customListeners: function () {
-        var vm = this
-        // `Object.assign` 将所有的对象合并为一个新对象
-        return Object.assign({},
-            // 我们从父级添加所有的监听器
-            this.$listeners,
-            // 然后我们添加自定义监听器，
-            // 或覆写一些监听器的行为
-            {
-            // 这里确保组件配合 `v-model` 的工作
-            input: function (event) {
-                vm.$emit('input', event.target.value)
-            }
-            }
-        )
-        }
-    },
-    template: `
-        <label>
-            {{ label }}
-            <input
-                v-bind="$attrs"
-                v-bind:value="value"
-                v-on="customListeners"
-            >
-        </label>
-    `
+        inheritAttrs: false,
+        props: ['label', 'value'],
+        computed: {
+            customListeners: function () {
+            var vm = this
+            // `Object.assign` 将所有的对象合并为一个新对象
+            return Object.assign({},
+                // 我们从父级添加所有的监听器
+                this.$listeners,
+                // 然后我们添加自定义监听器，
+                // 或覆写一些监听器的行为
+                {
+                    // 这里确保组件配合 `v-model` 的工作
+                    input: function (event) {
+                        vm.$emit('input', event.target.value)
+                    }
+                }
+            )}
+        },
+        template: `
+            <label>
+                {{ label }}
+                <input
+                    v-bind="$attrs"
+                    v-bind:value="value"
+                    v-on="customListeners"
+                >
+            </label>
+        `
     })
     ```
 **注意：**

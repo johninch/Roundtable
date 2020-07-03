@@ -1,9 +1,8 @@
-### 解决回调地狱
+# 解决回调地狱
 
 > 解决回调地狱：实现一个函数，可以将异步函数转化成promise函数。
 
-<details>
-<summary>例子</summary>
+::: details 例子
 例如：```node```中```fs```模块的读文件```API```: ```fs.readFile(path[, options], callback)```；写文件```fs.writeFile(path[, options], callback)```。
 
 当我们要对a.txt文件进行读取，写入'hello world'，再读取b.txt并将b.txt内容追加到a.txt：
@@ -73,11 +72,9 @@ const writeFile = promisify(fs.writeFile);
    }
 })()
 ```
-</details>
+:::
 
-----
-
-#### 推荐答案:
+## 推荐答案:
 
 ```js
 const promisify = fnWithCallback =>
@@ -91,8 +88,7 @@ const promisify = fnWithCallback =>
 
 ----
 
-<details>
-<summary>febcat:</summary>
+## febcat
 
 ```javascript
 const promisify = fuc => (file, dataBuffer) =>
@@ -116,10 +112,8 @@ const promisify = fuc => (file, dataBuffer) =>
     }
   )
 ```
-</details>
 
-<details>
-<summary>Xmtd:</summary>
+## Xmtd
 
 ```js
 let promisify = function (fn) {
@@ -136,10 +130,7 @@ let promisify = function (fn) {
 };
 ```
 
-</details>
-
-<details>
-<summary>niannings:</summary>
+## niannings
 
 ```js
 const promisify = fnWithCallback =>
@@ -150,4 +141,3 @@ const promisify = fnWithCallback =>
         )
     )
 ```
-</details>

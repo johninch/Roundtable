@@ -19,4 +19,4 @@
 
 ## 2、最短路径
 
-- [K 站中转内最便宜的航班](/Algorithm/Dynamic-Programming/findCheapestPrice/)
+- [K 站中转内最便宜的航班](./findCheapestPrice/)

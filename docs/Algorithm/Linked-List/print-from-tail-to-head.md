@@ -6,10 +6,10 @@
 
 # 从尾到头打印链表
 
-## 1、题目描述
+### 1、题目描述
 输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
 
-## 2、思路
+### 2、思路
 (三种方法：借助栈、递归、列表的首位插入)
 
   从头到尾打印链表比较简单，从尾到头很自然的可以想到先将链表进行反转，然后再打印。但是，通常我们不希望改变原链表的结构，这是一个只读操作。
@@ -20,7 +20,30 @@
 
   另外，当我们使用Java或者python语言时，有一种比较巧妙的方法就是使用列表的插入方法，每次插入数据，都总是插入到首位，这样得到的List就是从尾到头的链表序列。
 
-## 3、代码实现
+
+## Johninch
+```js
+let list = new List()
+list.insert('a', 0)
+list.insert('b', 1)
+list.insert('c', 2)
+list.insert('d', 3)
+list.insert('e', 4)
+
+console.log(list)
+
+// 递归法：
+function printFromTailToHead(node) {
+  node.next && printFromTailToHead(node.next)
+  node.value && console.log(node.value)
+}
+
+let result = printFromTailToHead(list.head)
+
+console.log(result)
+```
+
+
 
 ## Caleb
 ``` js

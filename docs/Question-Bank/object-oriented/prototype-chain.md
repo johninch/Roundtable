@@ -30,6 +30,17 @@ var p = { name: 'p' }
 var o3 = Object.create(p);
 ```
 
+::: details 手写实现 Object.create
+```js
+Object.create = Object.create || function(obj) {
+    var F = function(){};
+    F.prototype = obj;
+
+    return new F();
+}
+```
+:::
+
 控制台输出：
 
 ![](./images/prototype-1-01.png)
@@ -57,11 +68,44 @@ var o3 = Object.create(p);
 - 原型对象中有个constructor属性指向M
 - 实例o2中有个__proto__属性指向原型对象M.prototype
 - 注意：`对象(不管是实例对象还是原型对象)都有__proto__属性，但只有构造函数才有prototype属性`。
-- 注意：`构造函数其实也是对象，所以构造函数也有__proto__属性`：
+- 注意：`构造函数其实也是对象，是Function构造函数的实例对象，所以构造函数也有__proto__属性指向Function.prototype`：
     ```js
         M.__proto__ === Function.prototype // true
         // 构造函数M是Function这个构造函数的一个实例。
     ```
+::: details 例题
+```js
+Function.prototype.a = () => alert(1);
+Object.prototype.b = () => alert(2);
+function A() {}
+
+const a = new A();
+a.a(); // 报错
+a.b();
+```
+- a是A构造的实例对象，A.prototype === a.__proto__，而A.prototype.__proto__ === Object，所以a.b()能得到() => alert(2)；
+- 但a.a()是取不到的，会报错，并阻碍之后的输出，也就是说a根本不继承Function对象。
+- A.__proto__ === Function.prototype，因此 A.a() 能取到。
+:::
+
+::: details 类似的题
+```js
+var Person = function() {};
+
+Object.prototype.a = 'A'
+
+Function.prototype.b = 'B'
+
+var p = new Person();    
+console.log(p.a);//A
+console.log(p.b);//undefined
+```
+- Person函数才是Function对象的一个实例，所以通过Person.a可以访问到Function原型里面的属性，
+- 但是new Person()返回来的是一个对象，它是Object的一个实例,是没有继承Function的，所以无法访问Function原型里面的属性。
+- 但是,由于在js里面所有对象都是Object的实例，所以，Person函数可以访问到Object原型里面的属性，Person.b => 'b'。
+:::
+
+
 
 ## 什么是原型链
 
@@ -79,7 +123,7 @@ var o3 = Object.create(p);
 - 步骤二：执行构造函数M，并绑定M的作用域上下文到新实例对象o上；
 - 步骤三：判断步骤二中返回的res是否为(广义上)对象，如果是对象则抛弃o返回res；如果不是对象则返回o。
 
-### 代码模拟
+### 模拟实现new操作符
 ```js
 var thisNew = function(M) {
     // Object.create()返回空对象o，并关联M的原型对象
@@ -87,7 +131,7 @@ var thisNew = function(M) {
     // 执行构造函数M，并绑定作用域到o上
     var res = M.call(o);
     // 判断res是否是广义上的对象，是则返回res，否则返回o
-    if (typeof res === "object") {
+    if (res instanceof Object) { // 使用typeof不行，因为需要排除null的情况
         return res;
     } else {
         return o;

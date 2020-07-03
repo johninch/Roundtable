@@ -15,15 +15,15 @@
 ### Johninch
 ```js
 const isBalanced = function(root) {
-    const Depth = (root) => {
-        return !root ? 0 : Math.max(Depth(root.left), Depth(root.right)) + 1
+    const depth = (root) => {
+        return !root ? 0 : Math.max(depth(root.left), depth(root.right)) + 1
     }
 
     if (!root) {
         return true
     }
 
-    return (Math.abs(Depth(root.left) - Depth(root.right)) <= 1) && isBalanced(root.left) && isBalanced(root.right)
+    return (Math.abs(depth(root.left) - depth(root.right)) <= 1) && isBalanced(root.left) && isBalanced(root.right)
 };
 ```
 

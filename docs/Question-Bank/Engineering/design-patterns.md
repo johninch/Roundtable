@@ -13,6 +13,9 @@
 
 ## 参考链接
 
+- [「进击的前端工程师」修炼内功之JavaScript设计模式（一）](https://juejin.im/post/5d711041f265da03b5746c26#heading-9)
+- [「进击的前端工程师」修炼内功之JavaScript设计模式（二）](https://juejin.im/post/5d9cb0636fb9a04de04d7fb0)
+- [「进击的前端工程师」修炼内功之JavaScript设计模式（三）](https://juejin.im/post/5da6d3cc51882555704c8ff2)
 - [JavaScript 中常见设计模式整理](https://juejin.im/post/5afe6430518825428630bc4d)
 
 

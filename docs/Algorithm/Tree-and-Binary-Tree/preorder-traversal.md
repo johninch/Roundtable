@@ -5,12 +5,12 @@
 
 #### 示例
 ```js
-输入: [1,null,2,3]  
+输入: [1,null,2,3]
    1
     \
      2
     /
-   3 
+   3
 输出: [1,2,3]
 ```
 请分别以 `递归`、`非递归` 方法实现？
@@ -88,5 +88,50 @@ export function frontEach<N extends IBinaryTreeNodeBase = IBinaryTreeNodeBase>(
             stack.push(node.left as N);
         }
     }
+}
+```
+
+### febcat
+```js
+preorderTraversal(node = this.root) {
+    let preorderTraversalArr = [];
+
+    const loop = (node) => {
+        if (!node) {
+            return;
+        }
+
+        preorderTraversalArr.push(node.data);
+        loop(node.left);
+        loop(node.right);
+    }
+
+    loop(node);
+
+    console.log("前序排列:", preorderTraversalArr);
+    return preorderTraversalArr;
+}
+
+preorderTraversal2(node = this.root) {
+    if (!node) {
+      return;
+    }
+
+    let stack = [];
+    let proorderTraversalArr = [];
+
+    while (stack.length || node) {
+      if (node) {
+        stack.push(node);
+        proorderTraversalArr.push(node.data);
+        node = node.left;
+      } else {
+        node = stack.pop();
+        node = node.right;
+      }
+    }
+
+    console.log("前序遍历迭代：", proorderTraversalArr);
+    return proorderTraversalArr;
 }
 ```

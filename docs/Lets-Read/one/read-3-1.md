@@ -10,7 +10,7 @@
 4. DocumentFragment 
 
 ### 暴力渲染
-```
+```js
 // 记录任务开始时间
 let now = Date.now();
 // 插入十万条数据
@@ -41,7 +41,7 @@ setTimeout(()=>{
 **结果：页面卡顿，是由于同时渲染大量DOM所引起的，所以下面考虑将渲染过程分批进行：**
 
 ### setTimeout
-```
+```js
 //需要插入的容器
 let ul = document.getElementById('container');
 // 插入十万条数据
@@ -88,7 +88,7 @@ loop(total,index);
 ### requestAnimationFrame（不会产生丢帧现象）
 requestAnimationFrame是系统来决定回调函数的执行时机。它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次，这样就不会引起丢帧现象。
 
-```
+```js
 //需要插入的容器
 let ul = document.getElementById('container');
 // 插入十万条数据
@@ -125,7 +125,7 @@ loop(total,index);
 > - DocumentFragment，文档片段接口，它被作为一个轻量版的 Document 使用。DocumentFragments是DOM节点，但并不是	DOM树的一部分，可以认为是存在内存中的，所以将子元素插入到文档片段时不会引起页面回流。可以用于避免回流操作。
 - 可以使用document.createDocumentFragment 方法或者构造函数来创建一个空的 DocumentFragment.
 
-```
+```js
 //需要插入的容器
 let ul = document.getElementById('container');
 // 插入十万条数据

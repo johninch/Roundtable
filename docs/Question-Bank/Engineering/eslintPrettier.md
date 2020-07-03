@@ -7,69 +7,77 @@
 
 1. 待提交的代码 git add 添加到 git暂存区（staged）；
 2. 执行 git commit；
-3. husky（哈士奇）注册在 git hook 中的 commit-msg钩子函数被调用，执行commitlint，强制校验代码提交时的commit msg；
-4. husky（哈士奇）注册在 git hook 中的 pre-commit钩子函数被调用，执行lint-staged；
-5. lint-staged（顾名思义是只对暂存区文件执行lint）取得所有被提交的文件依次执行写好的任务（ESLint 和 Prettier）；
+3. **husky(哈士奇)** 注册在 **git hook** 中的 `commit-msg钩子函数`被调用，执行`commitlint`，强制校验代码提交时的commit msg；
+4. **husky(哈士奇)** 注册在 **git hook** 中的 `pre-commit钩子函数`被调用，执行`lint-staged`；
+5. lint-staged（顾名思义是只对暂存区文件执行lint）取得所有被提交的文件依次执行写好的任务（`ESLint` 和 `Prettier`）；
 6. 如果有错误（没通过ESlint检查）则停止任务，同时打印错误信息，等待修复后再执行commit；
 7. 成功commit，可push到远程。
 
 ## 二、认识流程中的工具
 
-::: tip
-husky（哈士奇）的作用：如果没有husky，代码就需要push到origin之后再进行lint扫描，反馈流程过长且本身未通过检查的代码是不应该push到origin仓库中的。最理想的时机应该是在本地执行 git commit 时，触发代码检查，那么就需要用到 git hook。husky 其实就是一个为 git 客户端增加 hook 的工具。将其安装到所在仓库的过程中它会自动在 .git/ 目录下增加相应的钩子实现在 pre-commit 阶段就执行一系列流程保证每一个 commit 的正确性。
-:::
+### husky（哈士奇）
+**husky(哈士奇)** 的作用：如果没有husky，代码就需要push到origin之后再进行lint扫描，反馈流程过长且本身未通过检查的代码是不应该push到origin仓库中的。
 
-::: tip
+**最理想的时机**：`应该是在本地执行 git commit 时，触发代码检查`，那么就需要用到 git hook。`husky 其实就是一个为 git 客户端增加 hook 的工具`。将其安装到所在仓库的过程中它会自动在 .git/ 目录下增加相应的钩子实现在 pre-commit 阶段就执行一系列流程保证每一个 commit 的正确性。
+
+
+### git hook
 git的hook 就是git add、git commit等git操作时的回调钩子（可以查看.git文件下的hooks目录，这里存放的是git相关操作的一些脚本例子）。
-:::
 
-::: tip
-lint-staged 就是在 pre-commit 钩子函数中执行的工具。在进行git commit的时候触发到git hook进而执行pre-commit，而pre-commit脚本引用了lint-staged配置表，只对git add到stage区的文件进行配置表中配置的操作（此处我们不仅仅可以利用其调用linters，还可以调用prettier对代码进行格式化，注意应先格式化后lint检查）；
-:::
 
-::: tip
-为什么只对stage区的文件检查？如果是项目中途引入代码检查，那么在有历史代码时，对其他未修改文件都进行检查，一下出现成百上千个错误，那么可能会造成冲突或者一些不可预知的问题，降低项目稳定性；
-:::
+### commitlint
+在`commit-msg`钩子函数中执行commitlint。
 
-::: tip
+使用commitLint强制校验代码提交时的commit msg格式，约束团队git提交规范，方便历史回顾、帮助他人更好review、查找、追踪代码变动历史等。也需要使用huksy，将commitlint的检查绑定到commit-msg这个hook上。
+- `<type>[optional scope]: <description>`: type如下
+  ```
+  build: 项目构建打包
+  ci: 项目构建配置的变动
+  docs: 仅仅修改了文档等（不是指文案类的改动，而是指项目文档、代码注释等）
+  fix: 修复bug
+  feat: 增加新功能
+  perf: 优化
+  refactor: 重构(非fix、非feature、非style风格格式化)
+  revert: 代码回滚
+  style: 代码风格变动，例如空格、缩进等（不是指css文件变动）
+  test: 测试用例代码
+  chore: 其他类型的更改（非即以上类型的改动）
+  ```
+
+### lint-staged
+在`pre-commit`钩子函数中执行`lint-staged`。
+
+在进行 git commit 的时候触发到git hook进而执行pre-commit，而pre-commit脚本引用了lint-staged配置表，`只对git add到stage区的文件`进行配置表中配置的操作。
+
+*（此处我们不仅仅可以利用其调用linters，还可以调用prettier对代码进行格式化，注意应先格式化后lint检查）*
+
+
+#### 为什么只对stage区的文件检查？
+如果是项目中途引入代码检查，那么在有历史代码时，对其他未修改文件都进行检查，一下出现成百上千个错误，那么可能会造成冲突或者一些不可预知的问题，降低项目稳定性。
+
+
+#### lint-staged流程
 具体lint-staged做了三件事情：
-  1. 执行prettier脚本，这是对代码进行格式化的，在下面具体来说；
-  2. 执行eslint --fix操作，进行扫描，若发现工具可修复的问题进行fix；
-  3. 上述两项任务完成后对代码重新add。
-:::
-
-::: tip
-prettier是格式化代码工具：可是eslint已经有格式化功能了，为什么还需要prettier？Prettier 确实和 ESLint 有重叠，但两者侧重点不同：
-  - ESLint 主要工作就是检查代码质量和检查代码风格，并给出提示，虽然 eslint --fix 来修复一些问题（eslint规则中前面带🔧图标的都是可以自动修复的），但它所能提供的格式化功能很有限；
-  - 而 Prettier 没有对代码的质量进行检查的能力，其只会对代码风格按照指定的规范进行统一，避免一个项目中出现多种不同的代码风格。Prettier 被设计为易于与 ESLint 集成，所以你可以轻松在项目中使两者，而无需担心冲突。
-:::
-
-::: tip
-commitlint的作用：使用commitLint强制校验代码提交时的commit msg格式，约束团队git提交规范，方便历史回顾、帮助他人更好review、查找、追踪代码变动历史等。也需要使用huksy，将commitlint的检查绑定到commit-msg这个hook上。
-  - `<type>[optional scope]: <description>`: type如下
-    ```
-    build: 项目构建打包
-    ci: 项目构建配置的变动
-    docs: 仅仅修改了文档等（不是指文案类的改动，而是指项目文档、代码注释等）
-    fix: 修复bug
-    feat: 增加新功能
-    perf: 优化
-    refactor: 重构(非fix、非feature、非style风格格式化)
-    revert: 代码回滚
-    style: 代码风格变动，例如空格、缩进等（不是指css文件变动）
-    test: 测试用例代码
-    chore: 其他类型的更改（非即以上类型的改动）
-    ```
-:::
+1. 执行`prettier`脚本，这是对代码进行格式化的，在下面具体来说；
+2. 执行`eslint --fix`操作，进行扫描，若发现工具可修复的问题进行fix；
+3. 上述两项任务完成后对代码重新add。
 
 
-## 二、具体配置
+#### 为什么还需要prettier？
+prettier是格式化代码工具：可是eslint已经有格式化功能了，为什么还需要prettier？
+
+Prettier 确实和 ESLint 有重叠，但两者侧重点不同：
+- ESLint 主要工作就是检查代码质量和检查代码风格，并给出提示，虽然 eslint --fix 来修复一些问题（eslint规则中前面带🔧图标的都是可以自动修复的），但它所能提供的格式化功能很有限；
+- 而 Prettier 没有对代码的质量进行检查的能力，其只会对代码风格按照指定的规范进行统一，避免一个项目中出现多种不同的代码风格。Prettier 被设计为易于与 ESLint 集成，所以你可以轻松在项目中使两者，而无需担心冲突。
+
+
+## 三、具体配置
 
 1. 配置eslint
 
 eslint配置文件可以有多种形式（传送门：[eslint官网]()）：
   ESLint 配置文件优先级：
-  - .eslintrc.js(输出一个配置对象)
+  - `.eslintrc.js`(输出一个配置对象)
   - .eslintrc.yaml
   - .eslintrc.yml
   - .eslintrc.json（ESLint的JSON文件允许JavaScript风格的注释）
@@ -338,7 +346,7 @@ lint-staged的路径按照glob规则配置，先prettier格式化，再eslint检
 待完成：https://segmentfault.com/a/1190000017335221
 
 
-## 三、 注意几个关键问题！！
+## 四、 注意几个关键问题！！
 
 ::: danger 关键问题
 
@@ -354,7 +362,7 @@ lint-staged的路径按照glob规则配置，先prettier格式化，再eslint检
 
 :::
 
-## 四、 完整配置
+## 五、 完整配置
 
 package.json
 ```json

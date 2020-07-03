@@ -58,7 +58,7 @@ Vue2 的响应式原理是使用Object.defineProperty追踪依赖，当属性被
 Object.defineProperty() 只能对属性进行数据劫持，不能对整个对象进行劫持，同理无法对数组进行劫持。因此，**vue要监听对象和数组，是通过「`遍历数组`」和「`递归遍历对象`」**。
 :::
 
-::: details
+::: details object.defineProperty使用
 ##### 1. object.defineProperty 描述符
 描述符必须是**数据描述符**和**存取描述符**这两种形式之一；不能同时是两者。
 - **数据描述符**和**存取描述符**均具有以下可选键值：
@@ -106,7 +106,6 @@ Object.defineProperty(obj3, "key", {
 
 obj3.key = 38;  // 对象obj3拥有了属性key，值为38
 ```
-:::
 
 ##### 3. object.defineProperty（ES5）与 reflect.defineProperty（ES6）的区别
 object上的方法都将慢慢迁移到reflect上。
@@ -114,11 +113,13 @@ object上的方法都将慢慢迁移到reflect上。
 2. 修改某些Object方法的返回结果，让其变得更合理。比如，Object.defineProperty(obj, name, desc)在无法定义属性时，会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false。
 3. 让Object操作都变成函数行为。某些Object操作是命令式，比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
 
-##### 4. :tada: Vue中数据劫持的明显缺点（两点）：
+:::
+
+#### :tada: Vue中数据劫持的明显缺点（两点）：
 1. 不能检测到**添加**或**删除**的属性。
     - `object.defineProperty`对于添加的新属性我们并没有监听，而删除属性并不被get和set拦截，所以也检测不到。
 2. 数组方面的变动，如**根据索引改变元素**，以及**直接改变数组长度**，不能被检测到。例如`vm.items[indexOfItem] = newValue`，`vm.items.length = newLength`。
-    - 其实`object.defineProperty`本身是可以监听和响应数组`arr[index] = val`的变动的，但 尤大 说，出于从 性能代价和用户体验收益权衡，并没与实现这个功能。
+    - 其实`object.defineProperty`本身是可以监听和响应数组`arr[index] = val`的变动的，但 尤大 说，出于从 性能代价和用户体验收益权衡，并没有实现这个功能。
 
 ::: details Vue提供了解决方法：
 1. 由于 性能的考量，Vue **不能检测以下两种`数组`的变动**:

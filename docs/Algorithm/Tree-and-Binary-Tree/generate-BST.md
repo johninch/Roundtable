@@ -3,6 +3,11 @@
 ## 题目
 输入一串数字的数组，数组中的数字唯一且没有空值，构造一颗二叉搜索树。
 
+二叉搜索树是特殊的二叉树：
+1. 节点的左子树只包含小于当前节点的数。
+2. 节点的右子树只包含大于当前节点的数。
+3. 所有左子树和右子树自身必须也是二叉搜索树。
+
 ## 代码
 
 ### Johninch
@@ -16,13 +21,13 @@ const generateBST = (data) => {
             if (!node.left) {
                 node.left = new Node(data)
             } else {
-                this.insert(node.left, data)
+                insert(node.left, data)
             }
         } else {
             if (!node.right) {
                 node.right = new Node(data)
             } else {
-                this.insert(node.right, data)
+                insert(node.right, data)
             }
         }
     }

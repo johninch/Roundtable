@@ -1,10 +1,10 @@
 ---
-title: 提升页面性能的方法（5点）
+title: 提升页面性能的方法（6点）
 tags: [gzip, defer, async, 强缓存, 协商缓存, prefetch, preload, DNS预解析, CDN]
 categories: performance
 ---
 
-# 提升页面性能的方法（5点）
+# 提升页面性能的方法（6点）
 
 ## 资源压缩合并
 
@@ -24,9 +24,9 @@ categories: performance
 ![](./images/cache-1-01.png)
 
 #### 一、强缓存：浏览器如果判断本地缓存未过期，就直接使用，无需发起http请求
-- Expires Expires: Thu, 21 Jan 2017 23:00:00 GMT   （http1.0）。如果发送请求的时间在expires之前，那么本地缓存始终有效。
+- Expires: Thu, 21 Jan 2017 23:00:00 GMT   （http1.0）。如果发送请求的时间在expires之前，那么本地缓存始终有效。
 - Cache-Control: max-age=600(注: 十分钟)/ no-cache/ no-store/ public/ private（http1.1）
-    - max-age用来控制强缓存，是一个相对值，相对于第一次请求的时间点的过期时间，如果当前请求时间在过期时间之前，就能命中强缓存;
+    - max-age：用来控制强缓存，是一个相对值，相对于第一次请求的时间点的过期时间，如果当前请求时间在过期时间之前，就能命中强缓存;
     - no-cache：不使用强缓存。需要使用协商缓存，先与服务器确认返回的响应是否被更改
     - no-store：直接禁止浏览器缓存数据，每次用户请求该资源，都会向服务器发送一个请求，每次都会下载完整的资源。
     - public：可以被所有的用户缓存，包括终端用户和CDN等中间代理服务器。
@@ -165,5 +165,62 @@ prefetch跟preload不同在于：`用户从A页面进入B页面，preload的内�
     ```
 
 
+## 避免JS运行时间过长而掉帧（JS持续占用主线程）
 
+- 屏幕的刷新频率一般是每秒60次（60 FPS）。这就意味着，每过 16.7ms，浏览器就会将截止上次刷新后的元素变动应用到屏幕上，也就是渲染管线中的layout过程，这个过程非常耗费性能。
+- 同时，渲染线程和JS线程是互斥的，也就是说，这16.7ms会被二者瓜分，所以屏幕的刷新频率决定了每帧之间留给 JS 执行的时间“并不多”。如果JS执行占用时间过长会就导致无法及时渲染，即出现所谓的“掉帧”。
+
+**浏览器在一帧内可能会做执行下列任务，而且它们的执行顺序基本是固定的:**
+1. 处理用户输入事件
+2. Javascript执行
+3. 调用rFA （requestAnimationFrame）
+4. 布局 Layout
+5. 绘制 Paint
+6. *如果浏览器处理完上述的任务(布局和绘制之后)，还有盈余时间，浏览器就会调用 requestIdleCallback 的回调。
+
+
+#### 方案一：利用requestAnimationFrame（rAF）
+
+- 利用requestAnimationFrame（rAF）实现时间分片，把任务拆成一个个持续时间更短的小任务，分散到各个帧中执行。
+
+- rAF最大的优势是**由系统来决定回调函数的执行时机**。
+    - 如果屏幕刷新率是60Hz,那么回调函数就每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms，换句话说就是，**rAF的步伐跟着系统的刷新步伐走**。它能`保证回调函数在屏幕每一次的刷新间隔中只被执行一次`，这样就不会引起丢帧现象。
+
+```js
+document.body.innerHTML = '';
+
+let step = 0;
+function subtask() {
+    if (step === 1e9) {
+        return;
+    }
+    window.requestAnimationFrame(function () {
+        for(var i = 0; i < 1e8; i++) {step++; 1+1}
+        subtask();
+    });
+}
+subtask();
+```
+上栗使用requestAnimationFrame来进行分批渲染：将10亿次循环分成10个1亿次循环，1亿次之后js线程让出主线程，让渲染线程得以渲染。
+
+
+#### 方案二：利用requestIdleCallback（Idle）
+- requestIdleCallback 会在**浏览器`空闲`的时候执行**注册的回调函数，避免在主线程“拥挤”的时候执行某些代码。
+    - 如果一帧中**没有盈余时间**怎么办？
+    - 它支持你通过`第二个参数，设定一个超时时间`，**保证在超时后，即使仍然没有空闲时间也必须执行回调**。回调函数会接收一个 IdleDeadline 类型的参数，你可以通过 .didTimeout 来查看是否是超时执行，还可以通过执行 .timeRemaining() 方法来查看剩余的空闲时间。
+```js
+window.requestIdleCallback(deadline => {
+    if (deadline.timeRemaining() > 100) {
+        // 一些可以等浏览器空闲了再去做的事
+        // ……
+    }
+}, {timeout: 5000})
+```
+
+*Fiber就是用了这种原理*
+
+
+## 参考链接
+- [性能优化是个很大的专题：看下这个文章专题](https://alienzhou.github.io/fe-performance-journey/#%E5%89%8D%E7%AB%AF%E9%9C%80%E8%A6%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%88%EF%BC%9F)
+- [「前端进阶」高性能渲染十万条数据(时间分片)](https://juejin.im/post/5d76f469f265da039a28aff7#heading-5)
 

@@ -143,5 +143,3 @@ div {
     transform: translate(-50%, -50%);
 }
 ````
-
-## johninch

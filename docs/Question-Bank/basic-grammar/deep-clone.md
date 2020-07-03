@@ -1,16 +1,23 @@
 ---
 {
-    "title": "完美深拷贝",
+    "title": "完美实现深拷贝",
 }
 ---
 
-### 深拷贝
+# 完美实现深拷贝
 
-> 实现深拷贝，尽可能完美实现
+深复制和浅复制只针对像 Object, Array 这样的复杂对象的。简单来说，浅复制只复制一层对象的属性，而深复制则递归复制了所有层级。
+- **浅复制**：由于浅复制只会将对象的各个属性进行依次复制，并不会进行递归复制，而 JS 存储对象都是存地址的，所以浅复制会导致 `obj.arr `和 `shallowObj.arr` 指向同一块内存地址。
+    - 导致的结果就是给shallowObj.arr[1]=5赋值，同时也改变了obj.arr[1]的值(也变为5)。
+    - 因为浅复制比深复制简单得多，ES6定义了`Object.assign(...)`方法来实现`浅复制`。它会遍历一个或多个源对象的所有可枚举的自有键并把它们复制到目标对象，最后返回目标对象。`var newObj = Object.assign( {}, obj )`
+- **深复制**：深复制不仅将源对象的各个属性逐个复制出去，而且将源对象各个属性所包含的对象也**逐一递归**复制到新对象上，这就不会导致 `obj.arr` 和 `deepObj.arr` 属性指向同一个对象的问题。
+    - `最简单的深拷贝`，利用JSON全局对象的parse和stringify方法：`var b = JSON.parse(JSON.stringify(a))`。这种简单方式的**缺点是**：
+        - 无法复制函数，只能处理如 Number，String，Boolean，Array 等那些**能够被json直接表示的**数据结构。即`JSON安全的数据结构`。
+        - 会抛弃对象的constructor，所有的构造函数会指向Object；
+        - 对象有循环引用，会报错。
 
-<details>
-<summary>推荐答案:</summary>
-
+## 推荐答案
+::: details 推荐答案-完美深拷贝
 ```js
 // 可继续遍历的数据类型
 const mapTag = '[object Map]';
@@ -175,15 +182,33 @@ module.exports = {
 - [类型转换之装箱操作 - toObject](https://juejin.im/post/5cbaf130518825325050fb0a "装箱")
 - [类型转换之拆箱操作 - ToPrimitive](https://juejin.im/post/5ccfb58f518825405a198fcd "拆箱")
 - [原来JS还可以这样拆箱转换详解](http://www.cppcns.com/wangluo/javascript/251632.html)
+:::
 
+## Johninch
+Array也属于能够被JSON直接表示的数据结构，所以可以利用JSON来完成深复制。
 
-</details>
+总的来说，现在**没有一个统一的标准解决办法**来实现深复制。上述有提供`相对完美的深复制方案`。
+```js
+function deepClone(obj) {
+    var newObj = Object.prototype.toString.call(obj) === '[object Array]' ? [] : {}
+    // 接下来都是用 typeof来判断object，因为判断的是广义上的对象类型
+    if (typeof obj !== 'object') {
+        return
+    }
 
-----
+    if (window.JSON) {
+        newObj = JSON.parse(JSON.stringify(obj))
+    } else {
+        for(var i in obj) {
+            newObj[i] = typeof obj[i] === 'object' ? deepClone(obj[i]) : obj[i]
+        }
+    }
 
-<details>
-<summary>febcat:</summary>
+    return newObj
+}
+```
 
+## febcat
 ```javascript
 const deepClone = obj => {
     if (typeof obj !== 'object') {
@@ -202,11 +227,9 @@ const deepClone = obj => {
     }, {})
   }
 ```
-</details>
 
-<details>
-<summary>Caleb:</summary>
 
+## Caleb
 ``` javascript
 function deepClone(origin){
 	let target = Array.isArray(origin) ? [] : {};
@@ -229,11 +252,8 @@ function deepClone(origin){
 }
 
 ```
-</details>
 
-<details>
-<summary>Xmtd:</summary>
-
+## Xmtd
 ```js
 function cloneDeep(target) {
     if (!target || typeof target !== 'object') {
@@ -255,11 +275,8 @@ function cloneDeep(target) {
     return result;
 }
 ```
-</details>
 
-<details>
-<summary>niannings:</summary>
-
+## niannings
 ```js
 const getType = v =>
   v === undefined ? 'undefined' : v === null ? 'null' : v.constructor.name.toLowerCase();
@@ -345,11 +362,8 @@ console.log("d === c: ", d === c);
 console.log("c[1] === d[1]: ", c[1] === d[1]);
 console.log("c[1].b === d[1].b: ", c[1].b === d[1].b);
 ```
-</details>
 
-<details>
-<summary>superwyk:</summary>
-
+## superwyk
 ```js
 // 只考虑基本数据类型、数组、plain Object的复制
 function deepCopy(o) {
@@ -372,5 +386,3 @@ function deepCopy(o) {
     }
 }
 ```
-
-</details>

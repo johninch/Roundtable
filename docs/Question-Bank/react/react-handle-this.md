@@ -8,7 +8,7 @@ categories: react
 
 ## 一、为什么需要处理react类组件的this绑定问题
 
-在 React 类组件中，由于`将事件处理函数`引用`作为回调传递`后，事件处理程序方法**会丢失其隐式绑定的上下文**，导致 this 值会回退到默认绑定，变成 undefined。示例如下：
+在 React 类组件中，由于`将事件处理函数`引用`作为回调传递`后，事件处理程序方法**会丢失其隐式绑定的上下文**，导致 this 值会回退到默认绑定，变成 undefined。更通俗的讲，就是事件处理函数被传递后，**作用域发生了改变**，丢掉了原先的this。示例如下：
 ```html
 <button type="button" onClick={this.handleClick}>
     Click Me
