@@ -5,6 +5,8 @@ module.exports = {
     head: [
         ['link', { rel: 'manifest', href: '/manifest.json' }],
         ['link', { rel: 'shortcut icon', type: "image/x-icon", href: `./favicon.ico` }],
+        ['script', { src: './js/search.js' }],
+        ['script', { src: './js/main.js' }],
         // 在移动端, 搜索框在获得焦点时会放大, 并且在失去焦点后可以左右滚动, 这可以通过设置元来优化
         ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
     ],
@@ -106,7 +108,7 @@ module.exports = {
                         '/Question-Bank/execution/asynchronous-cb',
                         '/Question-Bank/execution/asynchronous-promise',
                         '/Question-Bank/execution/asynchronous-gen',
-                        '/Question-Bank/execution/asynchronous-async&await',
+                        '/Question-Bank/execution/asynchronous-async&await'
                     ]
                 },
                 {
@@ -494,6 +496,13 @@ module.exports = {
                     children: [
                         '/Replay/H5-revision/',
                         '/Replay/H5-revision/wyk',
+                    ]
+                },
+                {
+                    title: '汇盛保险系统一期复盘',
+                    children: [
+                        '/Replay/Horizonus-1/',
+                        '/Replay/Horizonus-1/sjb',
                     ]
                 },
             ],
