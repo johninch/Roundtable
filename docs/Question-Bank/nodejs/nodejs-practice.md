@@ -144,6 +144,7 @@ Q：为何用mysql而不是mogondb？
 - web server中最流行的关系型数据库
 
 #### 操作数据库
+
 - 建库
     - 创建
     - show Databases
@@ -186,4 +187,554 @@ Q：为何用mysql而不是mogondb？
     ```
 
 #### nodejs操作mysql
+
+nodejs链接mysql，如何执行sql语句
+
+根据NODE_ENV区分配置
+
+封装exec函数，API使用exec操作数据库
+
+
+不使用框架来做nodejs操作数据库，分为好多层：
+
+
+
+### 登录：
+- 核心：登录校验 & 登录信息存储
+- 为何只讲登录，不讲注册？
+
+目录
+- cookie 和 session
+- session 写入 redis
+- 开发登录功能，和前端联调（用nginx反向代理）
+
+#### cookie
+- 什么是cookie
+    - 存储在浏览器中的一段字符串（最大5kb）
+    - 跨域不共享
+    - 格式如 k1=v1;k2=v2;k3=v3；因此可以存储结构化数据
+    - 每次发送http请求，会将请求域的cookie一起发送给server
+    - server可以修改cookie并通过http response返回给浏览器
+    - 浏览器中也可以通过js修改cookie（有限制）
+- 浏览器中查看cookie（3种方式）
+    - js查看，修改cookie（有限制）
+        - http请求头和响应头
+        - application中查看
+        - document.cookie
+- server端nodejs操作cookie，实现登录验证
+
+```js
+// 获取 cookie 的过期时间
+const getCookieExpires = () => {
+    const d = new Date()
+    d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
+
+    return d.toGMTString()
+}
+
+// 操作cookie
+// cookie生效路由要设为根路由
+// cookie 要设置httpOnly，防止客户端操作更改
+res.setHeader('Set-Cookie', `username=${data.username}; path=/; httpOnly; expires=${getCookieExpires()}`)
+```
+
+#### session
+- 上一节的问题：会暴露username，很危险
+- 如何解决：cookie中存储userId，server端对应username
+- 解决方案：session，即server端存储用户信息
+    - 设置session方式的问题
+        - 目前session直接是js变量，放在nodejs进程内存中（即放在web server中）
+        - 1、进程内存有限，访问量过大，内存暴增崩掉怎么办
+        - 2、正式线上运行是多进程的，进程之间内存无法共享
+            - （多机器，多机房与多进程是一样的，同样内存无法共享）
+        - 解决方案：redis内存数据库
+            - 什么是redis
+                - web server 最常用的缓存数据库，数据存放在内存中
+                - 相比于mysql，访问速度快（内存和硬盘不是一个数量级的）
+                - 但是成本更高，可存储的数据量更小（内存的硬伤）
+            - 解决方案：
+                - 将web server和redis拆分为两个单独的服务
+                - 双方都是独立的，都是可扩展的（例如都可以扩展成集群）
+                - （包括mysql，也是一个单独的服务，也可扩展）
+            - 为何session适用redis？
+                - session访问频繁，对性能要求极高
+                - session可不考虑断电丢失数据的问题（内存的硬伤）
+                    - 另外，redis经过特定配置后也能断电不丢失数据
+                - session数据量不会太大（相比于mysql中存储的数据）
+            - 为何网站数据需要存在mysql，而不适合用redis？
+                - 操作频率不是太高（相比于session操作）
+                - 断电不能丢失，必须保留
+                - 数据量太大，内存成本太高
+
+#### Redis使用
+```js
+brew install redis // mac使用homebrew安装
+
+redis-cli // 开启redis数据库命令行工具
+
+redis-server // 启动redis服务器
+```
+- nodejs连接redis的demo
+- 封装成工具函数，可供API使用
+
+
+#### 登录校验
+```js
+// 统一的登录验证函数
+const loginCheck = (req) => {
+    if (!req.session.username) {
+        return Promise.resolve(new ErrorModel('尚未登录'))
+    }
+}
+
+const loginCheckResult = loginCheck(req)
+if (loginCheckResult) {
+    // 未登录
+    return loginCheckResult
+}
+```
+
+#### 和前端联调
+- post请求，登录功能依赖cookie，所以不能用postman来联调，必须用浏览器
+- cookie跨域不共享，前端和server端必须同域
+    - 需要用到nginx做代理，让前后端同域
+    - 后端是localhost:8000
+    - 前端是localhost:8001（`$ http-server -p 8001`）
+    - 使用nginx配置反向代理，localhost:8080
+
+#### nginx配置
+- 高性能的web服务器，开源免费
+- 一般用于做静态服务，负载均衡
+- 反向代理
+
+```js
+brew install nginx // mac使用homebrew安装
+
+// win: c:\nginx\conf\nginx.conf
+// mac: /usr/local/etc/nginx/nginx.conf
+
+// 测试配置文件格式是否正确 nginx -t
+// 启动 nginx
+// 重启 nginx -s reload
+// 停止 nginx -s stop
+
+// location / {
+//   proxy_pass http://localhost:8001;
+// }
+// location /api/ {
+//   proxy_pass http://localhost:8000;
+//   proxy_set_header Host $host;
+// }
+```
+
+
+## 第七章 - 日志（原生实现）
+
+- 日志重要性及分类
+    - 系统没有日志，就等于人没有眼睛 —— 抓瞎
+        - qps（query per second 每秒访问量）是多少
+    - 访问日志 access log（server端最重要的日志）
+    - 自定义日志（包括自定义事件、错误记录等）
+
+- 本章目录
+    - 日志放在文件中，`nodejs文件操作`，nodejs stream
+    - 日志内容开发和使用
+    - 日志文件拆分，日志内容分析
+
+- 问题
+    - 日志要存储在文件中
+        - 为什么不存储到mysql中？
+            - mysql是存储表结构的，而日志只是文本，没有结构，且日志作为文件可以拷贝到任何系统中
+            - mysql虽然和文件都是硬盘，但mysql使用了b树，访问很快，而日志只需要异步写到文件中即可
+        - 为什么不存储到redis中？
+            - redis是内存，访问最快，但因为日志很大，成本就太大了
+            - 日志的访问对速度要求也并不高，虽然文件访问相对是最慢的，但没关系
+
+### nodejs基本文件操作
+```js
+const fs = require('fs');
+const path = require('path');
+
+// path.resolve 拼接目录
+// __dirname 当前目录
+const fileName = path.resolve(__dirname, 'data.txt')
+
+// 1. 读取文件内容
+fs.readFile(fileName, (err, data) => {
+    if (err) {
+        console.error(err)
+        return
+    }
+    // data 是二进制类型，需要转换为字符串
+    console.log(data.toString()) // 这里的data如果很大，比如有3个G怎么办
+})
+
+// 2. 写入文件
+const content = '这是新写入的内容\n'
+
+const opt = {
+    flag: 'a' // 追加写入。覆盖用 ‘w’
+}
+
+fs.writeFile(fileName, content, opt, (err) => { // 每次执行写入操作，也是很耗费内存的，而且如果content很大的话，进程的内存也会崩掉
+    if (err) {
+        console.error(err)
+    } else {
+        console.log('写入成功')
+    }
+})
+
+// 3. 判断文件是否存在
+fs.exists(fileName, (exists) => { // 判断操作也是 异步 的
+    console.log('exists ',exists)
+})
+```
+
+### Stream
+
+IO操作的性能瓶颈
+- IO包括 “网络IO” 和 “文件IO”
+- 相比于CPU计算和内存读写，IO的突出特点就是 “慢”
+- 如何在有限的硬件资源下提高IO的操作效率？
+    - 使用 stream 提高性能
+    - nodejs如何操作
+
+```js
+// 标准输入输出，pipe就是管道（符合水流管道的模型图）
+// process.stdin（即source） 获取数据，直接通过管道（即pipe），传递给 process.stdout（即dest）
+process.stdin.pipe(process.stdout)
+```
+
+如下的req.on中的data就是网络IO的数据stream，每传一点就触发on data接收一点，每传一点就触发on data接收一点：
+```js
+// 处理post请求
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+    if (req.method === 'POST') {
+        console.log('content-type :', req.headers['content-type'])
+
+        let postData = ''
+        // 像一个水管一样，监听data的流动，每次获取一部分chunk
+        req.on('data', chunk => {
+            postData += chunk.toString()
+        })
+        // 监听data流动结束
+        req.on('end', () => {
+            console.log('postData :', postData)
+            res.end('hello world')
+        })
+    }
+})
+```
+
+```js
+const http = require('http')
+const server = http.createServer((req, res) => {
+    if (req.method === 'POST') {
+        req.pipe(res) // req 和 res 都具有 stream的一些特性
+    }
+})
+server.listen(8000)
+```
+
+使用stream的方式操作文件
+```js
+// 实现拷贝功能
+const fs = require('fs')
+const path = require('path')
+
+const fileName1 = path.resolve(__dirname, 'data.txt')
+const fileName2 = path.resolve(__dirname, 'data-bak.txt')
+
+// 读取文件的 stream 对象
+const readStream = fs.createReadStream(fileName1)
+// 写入文件的 stream 对象
+const writeStream = fs.createWriteStream(fileName2)
+
+// 通过 pipe 拷贝
+readStream.pipe(writeStream)
+
+// 也可以监听每次读取的内容
+readStream.on('data', chunk => {
+    // 比如可以找个10M的文件看一下，这里读取输出在控制台就是一点点完成的
+    console.log(chunk.toString())
+})
+
+readStream.on('end', () => {
+    console.log('拷贝完成')
+})
+```
+
+```js
+// 通过网络请求读取文件内容
+const fs = require('fs')
+const path = require('path')
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+    const method = req.method
+    if (method === 'GET') {
+        const fileName = path.resolve(__dirname, 'data.txt')
+        const stream = fs.createReadStream(fileName) // 文件IO
+
+        stream.pipe(res) // 将 res 作为 stream 的dest，网络IO
+    }
+})
+
+server.listen(8000)
+```
+
+### 写日志
+```js
+const fs = require('fs');
+const path = require('path');
+
+// 写日志
+function writeLog(writeStream, log) {
+    writeStream.write(log + '\n');
+}
+
+// 生成 write stream
+function createWriteStream(fileName) {
+    const fullFileName = path.join(__dirname, '../', '../', 'logs', fileName);
+    const writeStream = fs.createWriteStream(fullFileName, {
+        flags: 'a'
+    });
+
+    return writeStream;
+}
+
+const accessWriteStream = createWriteStream('access.log')
+function access(log) {
+    writeLog(accessWriteStream, log)
+}
+
+module.exports = {
+    access
+}
+```
+
+```js
+const serverHandle = (req, res) => {
+    // 记录 access log
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
+
+    // ...
+}
+```
+
+### 拆分日志 - 使用`crontab`
+- 日志内容会慢慢积累，放在一个文件中不好处理
+- 按时间划分日志文件，如2019-02-10.access.log
+- 实现方式：linux的crontab命令，即定时任务
+
+#### `crontab`
+设置**定时任务**，格式：`*****command`，星号依次是 分钟、小时、日期、月份、星期，command是shell命令
+- 比如，21*** command 每天的第1个小时的第2分钟去执行command的命令
+- 将access.log 拷贝并重命名为2019-02-10.access.log
+- 清空access.log文件，继续积累日志
+```js
+sh copy.sh
+```
+
+```js
+// 命令行进入crontab任务编辑器
+$ crontab -e
+
+// 输入并保存，每天0点执行日志拆分
+* 0 * * * sh /Users/johninch/workspace/Imooc/nodejs/nodejs-blog/code-demo/blog-1/src/utils/copy.sh
+
+// 成功后通过如下查看所有的crontab任务
+$ crontab -l
+```
+
+### 分析日志 - 使用`readline`
+- 如针对access.log日志，分析chrome的占比
+- 日志是按行存储的，一行就是一条日志
+- 使用nodejs的readline（基于stream，效率高）
+
+```js
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline')
+
+const fileName = path.join(__dirname, '../', '../', 'logs', 'access.log');
+
+// 创建 read stream
+const readStream = fs.createReadStream(fileName)
+
+// 创建 readline 对象
+const rl = readline.createInterface({
+    input: readStream
+})
+
+let chromeNum = 0
+let sum = 0
+
+// 逐行读取
+rl.on('line', (lineData) => {
+    if (!lineData) {
+        return
+    }
+
+    sum++
+
+    const arr = lineData.split(' -- ')
+    if (arr[2] && arr[2].indexOf('Chrome') > 0) {
+        chromeNum++
+    }
+})
+
+// 监听读取完成
+rl.on('close', () => {
+    console.log('chrome 占比：' + chromeNum / sum)
+})
+```
+
+
+## 第八章 - 安全（原生实现）
+
+1. sql注入：窃取数据库内容
+2. XSS攻击：窃取前端的cookie内容
+3. 密码加密：保障用户信息安全（重要！）
+
+- server端攻击方式非常多，预防手段也非常多
+- 本课只讲解常见的、能通过web server（nodejs）层面预防的
+    - 有些攻击需要硬件和服务来支持（需要OP支持），如DDOS攻击
+
+
+### sql注入
+- 最原始、最简单的攻击，从有了web2.0就有了sql注入攻击
+- 攻击方式：输入一个sql片段，最终拼接成一段攻击代码
+- 预防措施：使用mysql的`escape函数`处理输入内容即可
+    - 所有会拼接成sql语句的用户输入变量，都需要使用 `mysql.escape(var1)` 转义
+
+
+- 比如输入用户名时，故意输入为「zhangsan';delete from users;--」，这样在执行完查询后，会删除users表，非常危险
+```sql
+select username, realname from users where username='zhangsan';delete from users;' and password=123
+```
+
+- 比如输入用户名时，故意输入为「zhangsan'--」，这样之后输入的密码就被注释掉了，则绕过了密码输入
+```sql
+select username, realname from users where username='zhangsan'-- ' and password=123
+```
+
+- escape转义：对username和password都添加escape转义，对比上面语句发现，zhangsan后的单引号前加了反斜杠，则注释不生效
+```sql
+select username, realname from users where username='zhangsan\'-- ' and password=123
+```
+
+### XSS攻击
+
+- 攻击方式：在页面展示内容中掺杂js代码，以获取网页信息
+- 预防措施：转换生成js的特殊字符
+
+比如在新建博客时，标题不输入文本而输入一段js代码：
+```js
+<script>alert(document.cookie)</script>
+```
+这样在新建成功博客后，获取博客列表时，因为要获取标题展示，而这个博客的标题是上面这段js代码，则浏览器会执行它，把cookie alert出来；并且在该显示标题文本的地方什么也不显示。
+
+
+#### 安装 xss 依赖，完成转义
+```js
+// 安装
+npm i xss -s
+
+// 使用
+const xss = require('xss')
+
+const title = xss(blogData.title)
+```
+
+特殊字符转换：特别是尖括号需要转换
+```
+& -> &amp;
+< -> &lt;
+> -> &gt;
+" -> &quot;
+' -> &#x27;
+/ -> &#x2F;
+```
+
+
+```js
+<script>alert(2)</script>
+```
+转义后返回的内容是：
+```
+&lt;script&gt;alert(2)&lt;/script&gt;
+```
+即输入的js脚本被转成字符串，也就不会执行，并且当前新建的博客标题可以显示为`<script>alert(2)</script>`
+
+
+### 密码加密
+
+- 攻击方式：获取用户名和密码，再去尝试登录其他系统
+- 预防措施：将密码加密，即便拿到密码，也不知道明文
+    - 使用nodejs提供的 crypto依赖
+    - md5加密
+
+```js
+const crypto = require('crypto');
+
+// 密钥
+const SECRET_KEY = 'WJiol_8776#' // 随便写的
+
+// md5加密
+function md5(content) {
+    let md5 = crypto.createHash('md5')
+    return md5.update(content).digest('hex')
+}
+
+// 加密函数
+function genPassword(password) {
+    const str = `password=${password}&key=${SECRET_KEY}`
+    return md5(str)
+}
+
+// 对于每个密码，都通过密钥和md5加密生成了唯一的密文字符串
+console.log(genPassword('123')) // 524ab85686df0e52ada43b11b53cce35
+console.log(genPassword('abc')) // dfcab4afe9e8b25d53c113b6deb5f429
+console.log(genPassword('lsdfsdfsd')) // e3e9956c79530da45415cf3db1216606
+
+module.exports = {
+    genPassword
+}
+```
+
+
+## 不使用框架开发 server 的最后总结
+
+- 开发了哪些功能模块，完整的流程
+    - 功能模块：6部分
+        - 处理http接口
+        - 连接数据库
+        - 实现登录
+        - 日志
+        - 安全
+        - 上线
+    - 流程
+![流程图](./nodejs-myblog/process-memory.png)
+
+- 用到了哪些核心的知识点
+    - http，nodejs处理http、处理路由，mysql
+    - cookie，session，redis，nginx反向代理
+    - sql注入，xss攻击，加密
+    - 日志，stream，crontab，readline
+    - 线上环境的知识点
+
+
+- 回顾“server和前端的区别”：5个区别
+    - 服务稳定性
+    - 内存CPU（优化 扩展）
+    - 日志记录
+    - 安全（包括登录验证）
+    - 集群和服务拆分（设计已支持）
+
+
+
+
 

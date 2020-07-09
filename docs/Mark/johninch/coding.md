@@ -325,16 +325,16 @@ function JSONP(url, params = {}, callbackKey = 'cb', callback) {
     JSONP.callbackId++ // id自增，保证唯一
 }
 
-JSONP(
-    url: 'http://localhost:8080/api/jsonp',
+JSONP({
+        url: 'http://localhost:8080/api/jsonp',
     params: {
         id: 1
     },
     callbackKey: 'cb',
-    callback (res) {
+    callback(res) {
         console.log(res)
     }
-)
+})
 // 后端会将数据传参到拿来的函数，赋值给响应体。。。前端拿到的就是一个'JSONP.callbacks[1](data)'这样的字符串，script加载完脚本后立即执行，就能拿到数据了
 this.body = `${callback}(${JSON.stringify(callbackData)})`
 
@@ -347,16 +347,16 @@ function JSONP(url, params = {}, callbackKey = 'cb') {
 
         // 把要执行的回调加入到JSON对象中，避免污染window
         let callbackId = JSONP.callbackId;
-    
+
         params[callbackKey] = `JSONP.callbacks[${callbackId}]` // 把设定的函数名称放入到参数中，'cb=JSONP.callbacks[1]'
 
         const paramString = Object.keys(params).map(key => {
             return `${key}=${encodeURIComponent(params[key])}`
         }).join('&')
-    
+
         const script = document.createElement('script')
         script.setAttribute('src', `${url}?${paramString}`)
-        
+
         // 注册全局函数，等待执行
         JSONP.callbacks[callbackId] = result => {
             // 一旦执行，就要删除js标签和注册的函数
@@ -379,12 +379,10 @@ function JSONP(url, params = {}, callbackKey = 'cb') {
 
         // 添加js节点到document上时，开始请求
         document.body.appendChild(script)
-        
+
         JSONP.callbackId++ // id自增，保证唯一
     })
 }
-
-
 
 // 实现promisify
 const promisify = (func) => (...args) =>

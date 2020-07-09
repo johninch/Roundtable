@@ -181,6 +181,18 @@ useEffect(() => {
     1. 返回的这个清理函数B，将会在组件下一次重新渲染之后，在副作用函数A之前执行；
     2. 与componentWillUnmount只会在组件销毁前执行一次不同的是，副作用函数A及其可选的清理函数B在每次组件渲染都会执行。
 
+像这样写时，解绑函数只会在组件卸载的时候调用：
+```js
+useEffect(() => {
+    init();
+
+    return () => {
+        window.removeEventListener('resize', resize);
+    };
+    // eslint-disable-next-line
+}, []);
+```
+
 
 ### 自定义的 Effect Hooks
 

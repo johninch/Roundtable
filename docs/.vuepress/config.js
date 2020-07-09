@@ -503,6 +503,7 @@ module.exports = {
                     children: [
                         '/Replay/Horizonus-1/',
                         '/Replay/Horizonus-1/sjb',
+                        '/Replay/Horizonus-1/johninch',
                     ]
                 },
             ],
