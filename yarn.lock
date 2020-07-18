@@ -956,6 +956,11 @@
     source-map "~0.6.1"
     vue-template-es2015-compiler "^1.9.0"
 
+"@vuepress-reco/vuepress-plugin-bgm-player@^1.1.2":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@vuepress-reco/vuepress-plugin-bgm-player/-/vuepress-plugin-bgm-player-1.1.3.tgz#47e1142908dfc7341c6507a8f1b71f14a357ab3e"
+  integrity sha512-rZDIOyS9GWaE1lJVXcRAZXENfuHYlkFT5IR7yNS9vWxmVj7BPet2jZXeRQqVcTiDOstQakb8v4uTkE7fELbwVg==
+
 "@vuepress/core@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@vuepress/core/-/core-1.3.1.tgz#36db30d13e917f172f931a78b5e916c923523675"
@@ -1029,12 +1034,26 @@
   dependencies:
     lodash.debounce "^4.0.8"
 
+"@vuepress/plugin-back-to-top@^1.4.0":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-back-to-top/-/plugin-back-to-top-1.5.2.tgz#d253be7f0b7c2b59ca8fabe10c2f517c96d83b0e"
+  integrity sha512-eLieTccUQ8XdIqQXWyp0bftfud9js1idHFFyxuhHWSYAco/vTp7wLz7JdFqr8GnFye9y88B1y34iLnbZLiBlmA==
+  dependencies:
+    lodash.debounce "^4.0.8"
+
 "@vuepress/plugin-last-updated@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-last-updated/-/plugin-last-updated-1.3.1.tgz#70f241181a0d485029329a7c9d0f0629d4242b5b"
   integrity sha512-n1EhhFcaWxQtbC9ICyLg8kmSULjV18wYMbHCyaKRYAvyhlPau95zbSpQfG2Nl3ZgFR6kRodK6AmZUOgho0zh/g==
   dependencies:
     cross-spawn "^6.0.5"
+
+"@vuepress/plugin-medium-zoom@^1.0.0-rc.1":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-medium-zoom/-/plugin-medium-zoom-1.5.2.tgz#d7445ed8e8ba0cec9fb9c4c91a880b4e7fd66d91"
+  integrity sha512-zH/D6AutTHktC2G/NberIRbA3msHA/4sGtemk0U+bhoB1f7CvJRjOKRxX60AiabIuWfj2+tAtR2LlCkxLq3M3g==
+  dependencies:
+    medium-zoom "^1.0.4"
 
 "@vuepress/plugin-nprogress@^1.3.1":
   version "1.3.1"
@@ -3112,6 +3131,11 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+eve-raphael@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/eve-raphael/-/eve-raphael-0.5.0.tgz#17c754b792beef3fa6684d79cf5a47c63c4cda30"
+  integrity sha1-F8dUt5K+7z+maE15z1pHxjxM2jA=
+
 eventemitter3@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.0.tgz#d65176163887ee59f386d64c82610b696a4a74eb"
@@ -3342,6 +3366,13 @@ find-up@^3.0.0:
   integrity sha512-1yD6RmLI1XBfxugvORwlck6f75tYL+iR0jqwsOrOxMZyGYqUuDhJ0l4AXdO1iX/FTs9cBAMEk1gWSEx1kSbylg==
   dependencies:
     locate-path "^3.0.0"
+
+flowchart.js@^1.11.3:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/flowchart.js/-/flowchart.js-1.13.0.tgz#fd966270bd310ddefb168d6826c792c5f345372f"
+  integrity sha512-kr+XrH9WSE40ufAec/hs8kbAvSxFx4Fgyf/mjkJwTxWea5USuQAjZt0j9cZJO4ZayWkin9OkWxH4ovLF/5KZFA==
+  dependencies:
+    raphael "2.3.0"
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -4645,9 +4676,9 @@ lodash.uniq@^4.5.0:
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
 lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.5:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loglevel@^1.6.4:
   version "1.6.4"
@@ -4796,6 +4827,11 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
+
+medium-zoom@^1.0.4, medium-zoom@^1.0.5:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/medium-zoom/-/medium-zoom-1.0.6.tgz#9247f21ca9313d8bbe9420aca153a410df08d027"
+  integrity sha512-UdiUWfvz9fZMg1pzf4dcuqA0W079o0mpqbTnOz5ip4VGYX96QjmbM+OgOU/0uOzAytxC0Ny4z+VcYQnhdifimg==
 
 mem@^4.0.0:
   version "4.3.0"
@@ -5367,6 +5403,13 @@ opencollective-postinstall@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
+
+openteam-postinstall@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/openteam-postinstall/-/openteam-postinstall-1.0.2.tgz#c31e98eda2c787caa8ce2b3572d665eb08cc9916"
+  integrity sha512-fwmwxXTJC9Cf+1+awPY6auO781smO7ka7YPHihTt9pxlLOqdoykvL2jg6CNnV7uyXujZSN6J+UhdRnHV1PywnA==
+  dependencies:
+    lodash "^4.17.15"
 
 opn@^5.5.0:
   version "5.5.0"
@@ -6186,6 +6229,13 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+raphael@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/raphael/-/raphael-2.3.0.tgz#eabeb09dba861a1d4cee077eaafb8c53f3131f89"
+  integrity sha512-w2yIenZAQnp257XUWGni4bLMVxpUpcIl7qgxEgDIXtmSypYtlNxfXWpOBxs7LBTps5sDwhRnrToJrMUrivqNTQ==
+  dependencies:
+    eve-raphael "0.5.0"
 
 raw-body@2.4.0:
   version "2.4.0"
@@ -7626,6 +7676,34 @@ vuepress-plugin-container@^2.0.2:
   integrity sha512-SrGYYT7lkie7xlIlAVhn+9sDW42MytNCoxWL/2uDr+q9wZA4h1uYlQvfc2DVjy+FsM9PPPSslkeo/zCpYVY82g==
   dependencies:
     markdown-it-container "^2.0.0"
+
+vuepress-plugin-container@^2.1.2:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-container/-/vuepress-plugin-container-2.1.4.tgz#bd586587ffb303f847e4a6a2e2568171f311493b"
+  integrity sha512-l+EkeL+rC6DJch1wAZUFIkNDaz2TNOg4NQTHa3yMAsYkC+QaSRubGdN6YwOSmfjxVmM9s9D3gwBWw0O7OBhqRg==
+  dependencies:
+    markdown-it-container "^2.0.0"
+
+vuepress-plugin-flowchart@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-flowchart/-/vuepress-plugin-flowchart-1.4.3.tgz#1692807257c9ba02f764ced0caf930c627f65bdb"
+  integrity sha512-Vyhh2xiCvMoubwBBDdre5u2tekp3B0N9vGDxAbgHUJH5L6V1venq1pWsbhKi9Wmr2Pa/yOTq3se1ji2w/kDr+A==
+  dependencies:
+    flowchart.js "^1.11.3"
+
+vuepress-plugin-helper-live2d@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-helper-live2d/-/vuepress-plugin-helper-live2d-1.0.2.tgz#6ba1c2f0a440c9263078ae5083de26fbbfac0759"
+  integrity sha512-OQFynzDJeuEpxv25oNE15otpfCV8Yf0Nxsqq2Y/RHRIdzMpgcp7B0HZRDKUjUqRUa+Sd0NxXbCdzPSxP/9TwWw==
+  dependencies:
+    chalk "^2.4.2"
+    lodash "^4.17.15"
+    openteam-postinstall "^1.0.2"
+
+vuepress-plugin-reading-progress@^1.0.8:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-reading-progress/-/vuepress-plugin-reading-progress-1.0.10.tgz#0b9d44e27d583ff20e0307993aa4cbda49f3bdca"
+  integrity sha512-7OxcjNEDf9gqFTns0YnXrqPnTRlX6wvxWFr7D8tlfyMPpsZwJkh/MkJveRrEaKcU0gk8QGmPHnXLAZ3soTThVg==
 
 vuepress-plugin-smooth-scroll@^0.0.3:
   version "0.0.3"
