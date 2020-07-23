@@ -94,6 +94,7 @@
     - 步骤一: 找到链表中点后分割其为 left 链表、right 链表两部分;
     - 步骤二: 翻转 right 链表, 翻转链表思路同 206.Reverse_Linked_List;
     - 步骤三: 接着从 left 链表的左侧, 翻转后的 right 链表的左侧各取一个值`
+- `排序链表`
 - `E 198. 打家劫舍`
     - 设f(x)为打劫前x家房子所能得到的最大的资金
     - f(n)=max(nums[n]+f(n-2),f(n-1))
@@ -375,7 +376,7 @@ var addStrings = function(num1, num2) {
     while(a || b) {
         a ? tmp += +num1[--a] : ''
         b ? tmp += +num2[--b] : ''
-        
+
         result = tmp % 10 + result
         if(tmp > 9) tmp = 1
         else tmp = 0
@@ -398,7 +399,7 @@ var addStrings = function(num1, num2) {
     while(a || b) {
         a ? tmp += +num1[--a] : ''
         b ? tmp += +num2[--b] : ''
-        
+
         result = tmp % 10 + result
         tmp = tmp > 9 ? 1 : 0
     }
@@ -649,7 +650,7 @@ var maxProfit = (prices) => {
     return profit
 }
 
-// E 122. 买卖股票的最佳时机 II
+// E 122. 买卖股票的最佳时机 II（尽可能地完成更多的交易）
 var maxProfit = (prices) => {
     let profit = 0, gap;
     for (var i = 1; i < prices.length; i++) {
@@ -706,7 +707,7 @@ var search = function(nums, target) {
 var searchMatrix = function(matrix, target) {
     for(let item of matrix) {
         if (target < item[0]) return false
-        
+
         let left = 0, right = item.length - 1, mid
         while(left <= right) {
             mid = (left + right) >> 1
@@ -930,13 +931,24 @@ var climbStairs = function(n) {
 
     return dp[n]
 };
+// 假设要跳3级台阶，只要把最后跳一阶（即前面跳2阶楼梯的方法数） 加上 最后跳2阶（即前面跳1阶楼梯的方法数）
+// dp[3] = dp[2] + dp[1]
+
+// 如果每次能跳1阶、2阶、3阶，状态转移方程又是怎样的？
+// dp[1] = 1  (1)
+// dp[2] = 2  (11 2)
+// dp[3] = 4  (3 111 12 21)
+// dp[4] = 7  (13 \ 112 22 \ 31 1111 121 211)
+// dp[4] = dp[1] + dp[2] + dp[3]
+// dp[n] = dp[n-3] + dp[n-2] + dp[n-1]
+
 
 
 // M 22. 括号生成
 // 递归，记录当前字符以及字符中左右括号的个数
 var generateParenthesis = function (n) {
     let res = [];
-    // cur :当前字符 
+    // cur :当前字符
     // left：当前字符中左括号个数
     // right:当前字符中右括号个数
     const help = (cur, left, right) => {
@@ -1005,9 +1017,9 @@ var numIslands = function (grid) {
     const helper = (grid, i, j, rows, cols) => {
         if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === "0")
             return;
-    
+
         grid[i][j] = "0";
-    
+
         helper(grid, i + 1, j, rows, cols);
         helper(grid, i, j + 1, rows, cols);
         helper(grid, i - 1, j, rows, cols);
@@ -1040,9 +1052,9 @@ var maxAreaOfIsland = function(grid) {
     const helper = (grid, i, j, rows, cols) => {
         if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === 0)
             return 0;
-    
+
         grid[i][j] = 0;
-    
+
         // 注意这里要 1 加上 4部分
         return 1 + helper(grid, i + 1, j, rows, cols)
             + helper(grid, i, j + 1, rows, cols)
@@ -1070,7 +1082,7 @@ var maxAreaOfIsland = function(grid) {
     }
     return res
 };
-  
+
 
 
 // E 9. 回文数
@@ -1176,7 +1188,7 @@ var getIntersectionNode = function(headA, headB) {
 // 这个题主要是要注意在nums1上做改动，不用返回任何值
 var merge = function(nums1, m, nums2, n) {
     nums1.splice(m, nums1.length - m)
-    nums2.splice(n, nums2.length - n)    
+    nums2.splice(n, nums2.length - n)
     Object.assign(nums1, [...nums1,...nums2].sort((a,b) => a - b))
 };
 
@@ -1286,7 +1298,7 @@ var reverseList = (head) => {
 
 
 // M 92. 反转链表 II
-var reverseBetween = function(head, m, n) { 
+var reverseBetween = function(head, m, n) {
     let dummyHead = new ListNode(0)
     dummyHead.next = head
     let tmpHead = dummyHead
@@ -1295,7 +1307,7 @@ var reverseBetween = function(head, m, n) {
     while(pos++ < m-1) {
         tmpHead = tmpHead.next
     }
-    
+
     let prev = null
     let cur = tmpHead.next
 
@@ -1305,7 +1317,7 @@ var reverseBetween = function(head, m, n) {
 
         prev = cur
         cur = next
-    } 
+    }
 
     // 将原链表与区间反转的链表拼接
     console.log(cur.val, prev.val, tmpHead.val)
@@ -1342,15 +1354,15 @@ var reorderList = function (head) {
     const reverseList = (list) => {
         let prev = null
         let cur = list
-    
+
         while (cur) {
             let next = cur.next
             cur.next = prev
-    
+
             prev = cur
             cur = next
         }
-    
+
         return prev
     }
 
@@ -1359,7 +1371,7 @@ var reorderList = function (head) {
     while (left && right) { // ————————————————————————————————————————————》好好理解下
         let lNext = left.next
         let rNext = right.next
-    
+
         right.next = left.next
         left.next = right
 
@@ -1370,7 +1382,7 @@ var reorderList = function (head) {
     return dummy.next
 }
 
-
+// 排序链表
 const sortList = function(head) {
 	// 保持链表结构不改变，只交换值
 	const swap = (p, q) => {
@@ -1433,7 +1445,7 @@ var rob = function(nums) {
 };
 
 
-// 
+// E 111. 二叉树的最小深度
 const minDepth = (root) => {
     if (!root) {
         return 0;
@@ -1469,7 +1481,7 @@ var diameterOfBinaryTree = function(root) {
         const rNum = maxDepth(root.right)
 
         max = Math.max(lNum + rNum, max)
-    
+
         return 1 + Math.max(lNum, rNum)
     }
 
@@ -1635,7 +1647,7 @@ var firstMissingPositive = function(arr) {
 };
 
 
-// M 300. 最长上升子序列 
+// M 300. 最长上升子序列
 // 由于一个子序列一定会以一个数结尾，于是将状态定义成：dp[i] 表示以 nums[i] 结尾的「上升子序列」的长度
 var lengthOfLIS = function(nums) {
     let len = nums.length
@@ -1921,7 +1933,7 @@ var findContentChildren = function (g, s) {
 
 // M 442. 数组中重复的数据
     // 这种题，其实看见不用空间、o(n)时间，通常潜台词就是，用原地哈希来做。
-    // [4,3,2,7,8,2,3,1]
+    // [4,3,2,7,8,2,3,1]，均为正整数
     // 当i = 1时，此时n=3，把nums[3-1] *= -1 变成负数，结果 [4,3,-2,7,8,2,3,1]
     // 当i = 6时，此时n=3，发现nums[3-1]这个位置已经为负数说明之前已经被改过，也就是n=3这个数字出现过，就把3数字添加到arr里
     // 这里i=1改的是nums[2], i=6改的也是nums[2]，这里nums[2]只是用来记录状态
@@ -1999,6 +2011,37 @@ var thirdMax = function(nums) {
 
     return nums[2]
 }
+
+// 不用set，空间O(1)复杂度
+var thirdMax = function(nums) {
+    if (nums.length < 3) return Math.max(...nums);
+    let max1 = -Infinity; // 存储最大 置为最小值
+    let max2 = -Infinity; // 存储第二大 置为最小值
+    let max3 = -Infinity; // 存储第三大 置为最小值
+    for (let n of nums) {
+        if (n > max1) { // 先比较最大的，成功就把值向后传递，把第三大的丢掉
+            max3 = max2;
+            max2 = max1;
+            max1 = n;
+            continue;
+        }
+        if (n !== max1 && n > max2) { // 第一个判断没中，判断是不是第二大的，注意值不能等于最大，这是为了防止重复
+            max3 = max2;
+            max2 = n;
+            continue;
+        }
+        if (n !== max1 && n !== max2 && n > max3) { // 同上，多了个判断条件
+            max3 = n;
+            continue;
+        }
+    }
+
+    if (max3 === -Infinity || max2 === -Infinity || max1 === -Infinity) {
+        return Math.max(max1, max2, max3); // 这里其实就是判断，在去重后的长度是不是小于3，不是的话三个max肯定都不是-Infinity
+    }
+
+    return max3; //直接返回正确答案
+};
 
 
 // M 1143. 最长公共子序列
@@ -2507,7 +2550,7 @@ class MyCircularQueue {
         return this.front === this.rear && !!this.list[this.front]
     }
     Front() {
-        
+
         return isEmpty() ? -1 : this.list[this.front]
     }
     Rear() {

@@ -119,6 +119,7 @@ module.exports = {
                         '/Question-Bank/css/box-sizing&margin-collapse&BFC',
                         '/Question-Bank/css/layout-method',
                         '/Question-Bank/css/css-base',
+                        '/Question-Bank/css/flex-box.md',
                         '/Question-Bank/css/circle-loading.md',
                     ]
                 },
@@ -184,6 +185,7 @@ module.exports = {
                         '/Question-Bank/Engineering/eslintPrettier',
                         '/Question-Bank/Engineering/i18n',
                         '/Question-Bank/Engineering/SSR',
+                        '/Question-Bank/Engineering/SSR-Imooc',
                         '/Question-Bank/Engineering/jsBridge',
                     ]
                 },

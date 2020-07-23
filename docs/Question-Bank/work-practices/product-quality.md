@@ -28,7 +28,7 @@ categories: work-practices
     ![](./images/error-catch-2.png)
     - 如果是false，也就是事件冒泡，只报错但获取不到该错误
     ![](./images/error-catch-3.png)
- 
+
 
 #### 延伸：跨域的js运行错误可以捕获吗，错误提示是什么，应该怎么处理?
 ![](./images/error-catch-4.png)

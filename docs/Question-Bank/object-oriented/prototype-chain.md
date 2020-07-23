@@ -83,9 +83,9 @@ const a = new A();
 a.a(); // 报错
 a.b();
 ```
-- a是A构造的实例对象，A.prototype === a.__proto__，而A.prototype.__proto__ === Object，所以a.b()能得到() => alert(2)；
+- a是A构造的实例对象，`A.prototype === a.__proto__`，而`A.prototype.__proto__ === Object`，所以a.b()能得到() => alert(2)；
 - 但a.a()是取不到的，会报错，并阻碍之后的输出，也就是说a根本不继承Function对象。
-- A.__proto__ === Function.prototype，因此 A.a() 能取到。
+- `A.__proto__ === Function.prototype`，因此 A.a() 能取到。
 :::
 
 ::: details 类似的题

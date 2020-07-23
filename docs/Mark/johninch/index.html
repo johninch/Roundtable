@@ -1,0 +1,86 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style>
+.wrap{
+    margin-top:30px;
+    text-align:center;
+}
+.jiantou{
+    display:inline-block;
+    padding:10px;
+    background:#2E963D;
+    color:#FFF;
+    border-radius:8px;
+    
+    position:relative;
+}
+
+/* 下箭头 */
+.jiantou:after{
+    display:block;
+    content:'';
+    border-width:8px 8px 8px 8px;
+    border-style:solid;
+    border-color:#ff4d4d transparent transparent transparent;
+    /* 定位 */
+    position:absolute;
+    left:40%;
+    top:100%;
+}
+/* 上箭头 */
+.jiantou:before{
+    display:block;
+    content:'';
+    border-width:8px 8px 8px 8px;
+    border-style:solid;
+    border-color:transparent transparent #ff4d4d transparent;
+    /* 定位 */
+    position:absolute;
+    left:40%;
+    top:-16px;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+    <span class="jiantou">LIUCHUAN</span>
+</div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .parent {
+            width: 500px;
+            height: 2500px;
+            margin: 100px;
+            background-color: yellow;
+        }
+        .fix {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #1B6D85;
+            margin: 50px;
+            /* top: 100px;
+            bottom: 100px;
+            left: 100px;
+            right: 100px; */
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <h3>position:fixed 默认是相对浏览器窗口定位的,怎么实现相对父级元素定位呀?</h3>
+        <div class="fix">
+            fixed定位相对父级容器定位，不添加:top,bottom,left,right样式，通过margin定位
+        </div>
+    </div>
+</body>
+</html>

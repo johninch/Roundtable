@@ -45,6 +45,7 @@
 - 如何用ES5实现promise
 - 手写文件上传
 - 手写文件预览
+- 写一个 DOM2JSON(node) 函数，node 有 tagName 和 childNodes 属性
 :::
 
 
@@ -68,7 +69,7 @@ var Person = (() => {
 })()
 // ES5
 var Person = (() => {
-    var _name = '00' + Math.random() // 用一个随机数来做 
+    var _name = '00' + Math.random() // 用一个随机数来做
     function Person(name) {
         this[_name] = name
     }
@@ -160,6 +161,17 @@ const fib4 = (function () {
 
 console.log(fib4(9)); // 34
 
+// 尾递归实现fibonacci (尾调用优化)
+// 函数最后一步操作是 return 另一个函数的调用，函数不需要保留以前的变量
+function fib3(n, n1 = 1, n2 = 1){
+    if (n <= 2) {
+        return n2;
+    } else {
+        return fib3(n-1, n2, n1 + n2);
+    }
+}
+
+console.log(fib3(9)) // 34
 
 // ### new的时候加1
 const fn = (() => {
@@ -222,7 +234,6 @@ function findMaxChar(str) {
         char: maxKey,
         count: maxCount
     }
-    
 }
 
 
@@ -243,12 +254,13 @@ const moniInterval = (fn, time) => {
 const queue = () => {
     let count = 1
     const interval = () => {
-        setTimeout(interval, 1000 * count * 100)
         console.log(count++)
+        setTimeout(interval, 1000 * count)
     }
 
-    setTimeout(interval, 1000 * count * 100)
+    setTimeout(interval, 1000 * count)
 }
+queue()
 
 
 
@@ -1080,9 +1092,122 @@ file.addEventListener('change', function(){
 
 
 
+// 写一个 DOM2JSON(node) 函数，node 有 tagName 和 childNodes 属性
+`
+<div>
+    <span>
+        <a></a>
+    </span>
+    <span>
+        <a></a>
+        <a></a>
+    </span>
+</div>
+
+{
+    tag: 'DIV',
+    children: [{
+        tag: 'SPAN',
+        children: [
+            { tag: 'A', children: [] }
+        ]
+    }, {
+    tag: 'SPAN',
+    children: [
+            { tag: 'A', children: [] },
+            { tag: 'A', children: [] }
+        ]
+    }]
+}
+`
+function DOM2JSON(node) {
+    var obj = {};
+    obj['tag'] = node.nodeName;
+    obj['children'] = [];
+
+    var child = node.children;
+    for (var i = 0; i < child.length; i++) {
+        obj['children'].push(DOM2JSON(child[i]))
+    }
+
+    return obj;
+}
 
 
 
+// JS实现一个带并发限制的异步迪欧赌气Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
+// class Scheduler {
+//     add(promiseCreator) {
+//         //...
+//     }
+// }
+
+// function timeout(time){
+//     return new Promise(resolve=>{
+//         setTimeout(resolve,time)
+//     })
+// }
+
+// var scheduler = new Scheduler()
+
+// function addTask(time,order){
+//     scheduler.add(()=>timeout(time).then(()=>console.log(order)))
+// }
+
+
+// addTask(1000,1)
+// addTask(500,2)
+// addTask(300,3)
+// addTask(400,4)
+// // 2
+// // 3
+// // 1
+// // 4
+// // 这里说明传入的limit是2，并发执行2个
+class Scheduler {
+    constructor(limit = 2) {
+        this.queue = [];
+        this.limit = limit;
+        this.currentTaskCount = 0;
+    }
+
+    add(fn) {
+        return new Promise((resolve, reject) => {
+            this.queue.push([fn, resolve]);
+            this.run();
+        })
+    }
+
+    run() {
+        if (this.currentTaskCount < this.limit && this.queue.length) {
+            const [fn, resolve] = this.queue.shift();
+            this.currentTaskCount++;
+            Promise.resolve(fn()).then((result) => {
+                resolve(result);
+                this.currentTaskCount--;
+                this.run();
+            })
+        }
+    }
+}
+
+function timeout(time){
+    return new Promise(resolve=>{
+        setTimeout(resolve,time)
+    })
+}
+
+var scheduler = new Scheduler(2)
+
+function addTask(time,order){
+    scheduler.add(()=>timeout(time).then(()=>console.log(order)))
+}
+
+
+addTask(1000,1);
+addTask(500,2);
+addTask(300,3);
+addTask(400,4);
 
 
 

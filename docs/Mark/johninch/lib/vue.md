@@ -46,8 +46,7 @@
             - 父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted
             - 父beforeUpdate->子beforeUpdate->子updated->父updated
         - 接口请求一般放在哪个生命周期中？
-            - created和mouted差别不大，
-            - 不过推荐放在created，更早获取数据，且ssr没有mount钩子，使用created有助于一致
+            - mounted
         - 父组件如何监听子组件的生命周期？
             - @hook:mounted="doSomething"
     - this.$refs为什么会是undefined
@@ -292,7 +291,7 @@ export default {
             - 切换不频繁时，用v-if，因为会有dom的重建和销毁成本
             - 通过条件频繁切换时，用v-show
 - 循环列表渲染
-    - 遍历数组 
+    - 遍历数组
         - v-for="(item, index) in listArr" :key="item.id"
     - 遍历对象
         - v-for="(val, key, index) in listObj" :key="key"
@@ -581,7 +580,7 @@ export default {
     - *得到vnode后，在基于vnode执行diff和patch*
     - 使用webapck vue-loader，会在开发环境下编译模板（如果不这样做，会在运行时编译模板，比较慢）
     - vue组件中使用render函数代替template
-        -在有些复杂情况下，不能用template，因为它毕竟是静态的，此时可以考虑用render
+        - 在有些复杂情况下，不能用template，因为它毕竟是静态的，此时可以考虑用render
         ```js
         Vue.component('heading', {
             render: function(createElement) {

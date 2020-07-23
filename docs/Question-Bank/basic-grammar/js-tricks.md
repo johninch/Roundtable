@@ -77,12 +77,22 @@ rgbToHex(str)
 ## 伪数组转换
 
 #### 什么是伪数组
-- 伪数组（类数组）：无法直接调用数组方法或期望length属性有什么特殊的行为，但仍可用真正数组的遍历方法来遍历它们。
+- 伪数组（类数组）：
+    - 拥有length属性和数值下标属性
+    - 不具有数组所具有的方法
+    - 但仍可用真正数组的遍历方法来遍历它们
+    - 伪数组是一个Object，而真实的数组是一个Array
+
 - 典型的伪数组有：函数的`arguments`参数，还有像调用getElementsByTagName、document.childNodes之类返回的`NodeList`对象都属于伪数组。
 
 #### 转换方法
 - 转换方法1：`Array.prototype.slice.call(fakeArray)`或者`[].slice.call(fakeArray)`；
 - 转换法法2：使用ES6中`Array.from`；
+- 转换法法3：`[...arguments]`;
+
+
+- 转换原理：数组的slice()截取数组中指定部分的元素, 生成一个新的数组
+
 
 
 
@@ -96,13 +106,13 @@ JS 关键字 `in` 的使用方法：
 
 #### 2、判断元素 是否为 数组的index 或 对象的key：
 ```js
-var arr = ["a","2","str"];  
+var arr = ["a","2","str"];
 var result = ("str" in arr);  // false
 var result1 = (2 in arr);   // true
 var result2 = (3 in arr);   // false
 
-var obj = { w:"wen", j:"jian", b:"bao"} 
-var result = ('jian' in obj); // false   
+var obj = { w:"wen", j:"jian", b:"bao"}
+var result = ('jian' in obj); // false
 var result1 = ("j" in obj);  // true
 ```
 

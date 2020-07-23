@@ -35,9 +35,18 @@ Promise.resolve(1)
   .then(2)
   .then(Promise.resolve(3))
   .then(console.log)
+  .then(console.log('lll'))
 
 // 1
 // resolve(1)过去，then只接受2个函数，console.log 函数传进去，接收了1，于是打印1
+
+
+// 这里有个问题，console.log('lll')为什么先于1输出
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+  .then(console.log('lll'))
 ```
 - Promise.resolve
 ```js

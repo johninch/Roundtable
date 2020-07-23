@@ -85,7 +85,7 @@ function Dialog(options) { // 导出一个方法，接受配置参数
   Object.assign(instance, options);
   // 实例化后instance就是一个对象了，所以data内的数据会
   // 挂载到this下，传入一个对象与之合并
-  
+
   return instance.show(vm => {  // 显示弹窗
     instance = null;  // 将实例对象清空
   })
@@ -104,7 +104,7 @@ Vue.prototype.$Dialog = Dialog;
 this.$Dialog({
   title: 'vue大法好!'
 }).then(confirm => {
-  console.log(confirm)  
+  console.log(confirm)
 }).catch(cancel => {
   console.log(cancel)
 })

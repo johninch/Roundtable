@@ -5,12 +5,13 @@
 ## 基础提纲
 - React中函数组件和类组件的区别。
     - 这里描述的是在 React 中 function 和 class 的差别，差异本身和React Hooks无关。
-    - 本质区别就在于：**function components 所拥有的 捕获渲染值(Capture Value) 特性**
+    - 本质区别就在于：**function components 所拥有的 `捕获渲染值(Capture Value)` 特性**
         - Function Component 是更彻底的状态驱动抽象，甚至没有生命周期的概念，只有一个状态，而 React 负责同步到 DOM。
         - 既然是状态同步，那么每次渲染的状态都会固化下来。
     - 「Capture Value」具体是啥意思？
         - 函数式组件，每次 Render 都有自己的 Props 与 State，可以认为每次 Render 的内容都会形成一个`快照`并保留下来，因此当状态变更而 Rerender 时，就形成了 N 个 Render 状态，而每个 Render 状态都拥有自己固定不变的 Props 与 State。这就是 Capture Value 特性。即函数式组件中的props是不可变的。
         - 而类组件，因为使用this.props来访问状态，且this是可变的（每次渲染都不同），所以this.props总是访问最新的props。
+    - 另外，总得来说函数式组件：`没有实例，没有生命周期，没有state`
 
 - React事件机制
     - 什么是合成事件
@@ -85,6 +86,7 @@
     - 使用 React.lazy，返回一个 thenable 对象，拥有3个enum状态，分别对应 Promise 的3种状态。
 
 - Refs 3种使用方式（字符串、回调refs、creatRef()）
+    - **你不能在函数组件上使用 ref 属性，因为他们没有实例**。
 
 - Vitrual Dom 的「优势」在于
     - 无需手动操作dom
@@ -130,7 +132,7 @@
 - useContext(MyContext)
     - 仍然需要配合 `<MyContext.Provider>` 来使用
     - 相当于 class 组件中的 `static contextType = MyContext` 或者 `<MyContext.Consumer>`
-- useReducer 
+- useReducer
     - 相较于 useState，它更适合一些逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等等的特定场景
     - const [state, dispatch] = useReducer(reducer, initialArg, init);
     - 第一个参数是 一个 reducer，就是一个函数类似 (state, action) => newState 的函数，传入 上一个 state 和本次的 action；
@@ -154,7 +156,7 @@
     - 主要两个方向：
         - 减少重新render：
             - 类组件中使用 SCU、PureComponent
-            - 函数式组件使用 
+            - 函数式组件使用
                 - React.memo（包裹子组件，props不变就不重新渲染），对标PureComponent
                 - useCallback（解决props如果包含callback，函数式组件每次重渲都会重新生成callback，即callback的引用变化，即使用React.memo包裹还是会触发子组件重渲。。useCallback得到一个缓存的函数，同一个引用）
         - 减少重复计算：
@@ -346,7 +348,6 @@ const Demo = React.lazy(() => import('./demo'))
     - **优化方向1**：减少不必要的渲染（react默认父组件更新，子组件也无条件也更新）
         - SCU(nextProps, nextState)
             - 默认返回true，重渲。通过条件判断 `nextProps.text !== this.props.text`，来跳过不必要的子组件更新
-            - 
         - SCU与 “不可变值”强相关，必须配合 “不可变值” 使用！！！
             - 即对于state的操作，不能违背不可变值的特性。。
             - 怎样不违背不可变值？在setState前不能对state做修改，比如：先对state的list，push改变，之后再setState，此时在用SCU比较前后state时，state已经变了，则比较不出来就出现bug了
@@ -386,7 +387,7 @@ const Demo = React.lazy(() => import('./demo'))
         - React实现了浅比较，大部分情况下够用了（尽量不要设计过深的数据结构）
             - 类组件中使用
                 - PureComponent，会默认增加SCU，而如果用户手动定义SCU后，以自己定义的SCU为准
-            - 函数式组件使用 
+            - 函数式组件使用
                 - React.memo（包裹子组件，props不变就不重新渲染），对标PureComponent
                 - useCallback（解决props如果包含callback，函数式组件每次重渲都会重新生成callback，即callback的引用变化，即使用React.memo包裹还是会触发子组件重渲。。useCallback得到一个缓存的函数，同一个引用）
         - immutable.js
@@ -433,7 +434,9 @@ const Demo = React.lazy(() => import('./demo'))
         - Render Props代码简洁，但学习理解成本稍高
 
 
-Vue 如何实现高阶组件
+Vue 如何实现高阶组件：https://www.jianshu.com/p/6b149189e035
+    - 为什么在 Vue 中实现高阶组件比较难?
+        - 前面说过要分析一下为什么在 Vue 中实现高阶组件比较复杂而 React 比较简单。这主要是二者的设计思想和设计目标不同，在 React 中写组件就是在写函数，函数拥有的功能组件都有。而 Vue 更像是高度封装的函数，在更高的层面 Vue 能够让你轻松的完成一些事情，但与高度的封装相对的就是损失一定的灵活，你需要按照一定规则才能使系统更好的运行。
 
 
 ### Redux使用
@@ -458,7 +461,7 @@ Vue 如何实现高阶组件
     - 当有异步操作时，需要返回一个函数，其中有dispatch参数。此时就需要用到 中间件，比如redux-thunk
 - redux 中间件原理
     - 中间件就是在单向数据流中，在dispatch的位置插入一些逻辑
-    - 点击button（callback）=> 【新的dispatch，增加mid1、mid2...】dispatch（action）=> reducer（newState，返回全新state，不可变值 -> view改变
+    - 点击button（callback）=> 【新的dispatch，增加mid1、mid2...】dispatch（action）=> reducer（newState，返回全新state，不可变值） -> view改变
 
 - mobx
     - 事件触发action，在action中修改state => 通过computed拿到更新的state的计算值 => 自动触发对应的reactions（包含autorun，渲染视图，when，observer等）

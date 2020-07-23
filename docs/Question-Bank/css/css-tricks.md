@@ -34,14 +34,16 @@
 
 
 ## 在图片高度未知时适应屏幕宽度形成一个宽高相等的容器
-- w3c规定，当给padding-top或者padding-bottom设置100%时，会依据其width设置百分比。
-- 从而保证了垂直方向padding值与width是一样的。从而形成一个宽高相等的容器。
-- *同理，padding-left与padding-right100%也会按照height设置百分比*
+- w3c规定，margin与padding值设置为百分数时，其值的计算参照 最近`父级元素width`，注意，四个方向都是以父级的`宽`来百分比的，如果父元素没有宽度，则向上查找父辈元素，直到屏幕宽度。
+- 通过这一点可以设置固定宽高比。比如图片宽高比是 2.4:1  那么padding-bottom 或padding-top 应该为 100%/2.4=41.66%。如下wrapper为2.4:1的一个容器。
 ```scss
 .wrapper {
     height: 0;
     width: 200px;
-    padding-bottom: 100%;
+    .div {
+        width: 100%;
+        padding-bottom: 41.66%;
+    }
 }
 ```
 
@@ -204,4 +206,95 @@ transform：scale | skew | rotate | translate | 某个方向属性及3d属性如
     to { background: black; }
 }
 ```
+
+
+## fixed相对于父元素定位
+
+**position:fixed**; 是对于浏览器窗口定位的，要实现相当于父元素定位，可以这样：
+- 不设置fixed元素的top、left和top、right值，他就会默认居于父级进行定位。
+- 具体相对位置偏移需要通过`margin`来设置。
+
+这种方法本质上fixed元素还是相当于窗口定位的，实现效果上是相对于父元素定位。
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .parent {
+            width: 500px;
+            height: 2500px;
+            margin: 100px;
+            background-color: yellow;
+        }
+        .fix {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #1B6D85;
+            margin: 50px;
+            /* top: 100px;
+            bottom: 100px;
+            left: 100px;
+            right: 100px; */
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <h3>position:fixed 默认是相对浏览器窗口定位的,怎么实现相对父级元素定位呀?</h3>
+        <div class="fix">
+            fixed定位相对父级容器定位，不添加:top,bottom,left,right样式，通过margin定位
+        </div>
+    </div>
+</body>
+</html>
+```
+
+## line-height
+
+[对于line-height的认识](https://blog.csdn.net/weixin_38858002/article/details/80571829)
+
+#### line-height都有哪些属性以及这些属性对应的属性值：
+
+- `数值`：如**line-heigth：1.5**，其最终的计算值是与当前的font-size相乘后的值。
+    - 例如：假设我们此时的font-size大小是14px，则此时line-height就是1.5*14px = 21px；
+- `百分比值`：如**line-height：150%**，其最终的计算值是与当前的font-size相乘后的值。
+    - 例如：假设我们此时的font-size大小是14px，则此时line-height就是150%*14px = 21px；
+- `长度值`：也就是带单位的值，**line-heigth：21px**或者**line-height：1.5em**
+    - 此处em是一个相对于font-size的相对单位，因此其最终的计算值和当前的font-size相乘后的值。
+    - 例如：假设我们此时的font-size大小是14px，则此时line-height就是1.5*14px = 21px；
+
+乍一看，似乎line-height：1.5，line-height：150%以及line-height：1.5em的最终效果都是一样的，但是实际上，line-height：1.5 和其他两个是有区别的，那就体现在继承方面上。
+
+#### line-height的继承
+- 如果使用数值作为line-hieght的属性值，那么所有的子元素继承的都是这个值，比如：
+line-height：1.5，那么子元素继承的就是1.5；
+
+- 如果使用百分比值或者长度值作为属性值，那么所有的子元素都继承的是最终的计算值。比如：line-height：1.5em或者line-height：150%，font-size：14px，那么子元素继承的是1.5*14px = 21px；
+
+
+#### 空div的高度是由line-height决定的
+
+当给一个空div里面添加文字时，这个div的高度是怎么来的。这个元素的高度是由line-height决定的。
+
+
+## 如何实现先快后慢的缓动函数（结合tween.js）
+
+[github.com/tweenjs](https://github.com/tweenjs/tween.js/blob/1f85d6e74491037653ddad2ee4193958f09928e2/src/Easing.ts)
+```js
+	Sinusoidal: {
+		In: function (amount: number): number {
+			return 1 - Math.cos((amount * Math.PI) / 2)
+		},
+		Out: function (amount: number): number {
+			return Math.sin((amount * Math.PI) / 2)
+		},
+		InOut: function (amount: number): number {
+			return 0.5 * (1 - Math.cos(Math.PI * amount))
+		},
+	},
+```
+
+
 
