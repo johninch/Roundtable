@@ -1033,12 +1033,527 @@ export const getHomeList = (isServer) => {
 
 
 
-
-
 ### 第七章 细节问题处理
+
+#### 借助context实现404页面
+```js
+// NotFound.js
+import React, { Component } from 'react'
+
+class NotFound extends Component {
+    componentWillMount() {
+        const { staticContext } = this.props
+        staticContext && (staticContext.NOT_FOUND = true)
+    }
+    render() {
+        return <div>404, sorry, page not found</div>
+    }
+}
+```
+
+```js
+// server/utils.js
+// ...
+const render = (store, routes, req, context) => {
+    // 增加context的传递
+    const content = renderToString((
+        <Provider store={getStore()}>
+            <StaticRouter location={req.path} context={context}>
+                {Routes}
+            </StaticRouter>
+        </Provider>
+    ))
+
+    return `<html>...</html>`
+}
+// ...
+```
+
+
+```js
+// server.js
+// ...
+Promise.all(promises).then(() => {
+    const context = {};
+    const html = render(store, routes, req, context);
+    // context 对象传入render函数中，如果是404组件，则会给context添加一个NOT_FOUND标志
+
+    if (context.NOT_FOUND) {
+        res.status(404) // 需要主动设置返回状态码，否则依然返回200
+        res.send(html)
+    } else {
+        res.send(html)
+    }
+})
+// ...
+```
+
+#### 实现服务器端301重定向
+
+在未登录，进入translation页面时，当前只做到客户端重定向回首页，而服务器端并没有重定向回首页，查看源代码，发现服务器端还是在translation页面。这是为什么呢？
+
+```js
+// Translation.js
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getTranslationList } from './store/actions'
+import { Redirect } from 'react-router-dom'
+
+class Translation extends Component {
+    getList() {
+        const { list } = this.props
+        return list.map(item => <div key={item.id}>{item.title}</div>)
+    }
+
+    render() {
+        return this.props.login ? (
+            <div>
+                {this.getList()}
+            </div>
+        ) : <Redirect to='/' />
+    }
+
+    componentDidMount() {
+        if (!this.props.list.length) {
+            this.props.getTranslationList()
+        }
+    }
+}
+
+Translation.loadData = (store) => {
+    return store.dispatch(getTranslationList())
+}
+
+// ...
+```
+- Translation组件中，判断为登录时，会通过`react-router-dom`导出的 `Redirect方法`做重定向。
+- 而`Redirect`**只能做客户端重定向，不能做服务端重定向**。
+
+```js
+// server/utils.js
+import { renderRoutes } from 'react-router-config'
+// ...
+const render = (store, routes, req, context) => {
+    // 增加context的传递
+    const content = renderToString((
+        <Provider store={getStore()}>
+            <StaticRouter location={req.path} context={context}>
+                {renderRoutes(routes)}
+            </StaticRouter>
+        </Provider>
+    ))
+
+    return `<html>...</html>`
+}
+// ...
+```
+
+当使用`react-router-config`来定义路由表的时候，`使用renderRoutes与StaticRouter相结合`，如果发现组件内部出现了`Redirect方法`时，它会自动操作context添加重定向信息。
+
+```json
+// context对象上会有重定向信息，
+{
+    action: 'REPLACE',
+    location: { pathname: '/', search: '', hash: '', state: undefined },
+    url: '/'
+}
+```
+有'REPLACE'操作，把当前页面替换成url: '/'。据此，我们就可以做服务端重定向了：
+```js
+// server.js
+// ...
+Promise.all(promises).then(() => {
+    const context = {};
+    const html = render(store, routes, req, context);
+    // context 对象传入render函数中，如果是404组件，则会给context添加一个NOT_FOUND标志
+    // 如果识别组件中有 Redirect方法，则给context添加重定向信息
+
+    if (context.action === 'REPLACE') {
+        res.redirect(301, context.url) // 服务端主动重定向
+    } else if (context.NOT_FOUND) {
+        res.status(404) // 需要主动设置返回状态码，否则依然返回200
+        res.send(html)
+    } else {
+        res.send(html)
+    }
+})
+// ...
+```
+
+#### 数据请求失败情况下promise的处理
+
+如果promises中某个请求出错了，Promise.all也没有catch，页面就不会有返回，而是一直转圈加载。
+
+```js
+// server.js
+// ...
+
+Promise.all(promises).then(() => {
+    const content = {};
+    const html = render(store, routes, req, context);
+    // context 对象传入render函数中，如果是404组件，则会给context添加一个NOT_FOUND标志
+    // 如果识别组件中有 Redirect方法，则给context添加重定向信息
+
+    if (context.action === 'REPLACE') {
+        res.redirect(301, context.url) // 服务端主动重定向
+    } else if (context.NOT_FOUND) {
+        res.status(404) // 需要主动设置返回状态码，否则依然返回200
+        res.send(html)
+    } else {
+        res.send(html)
+    }
+})
+// ...
+```
+
+- 假设一个页面总共要加载 A，B，C，D四个组件，这四个组件都需要服务器端加载数据（即都有loadData方法）
+- promises = [A, B, C, D]
+- 假设当A组件加载数据错误时，B，C，D组件有几种情况：
+    - 1. B，C，D组件数据已经加载完成了
+        - 在这种情况下，在Promise.all().catch()中也执行渲染，则只有A组件没有渲染，其他都能正确渲染
+    - 2. 假设网速慢，B，C，D接口慢，则B，C，D组件数据没有加载完成，而A组件已经加载报错了
+        - 在这种情况下，即使在Promise.all().catch()中也执行渲染，也是不行的
+        - 因为A, B, C, D 4个组件的store都是空的，则依然会渲染空页面
+
+
+需要对promises内的promise做进一步的处理：
+```js
+// 由于路由改造成了数组列表，下面的路由渲染需要map出来
+app.get('*', (req, res) => {
+    const store = getStore();
+
+    // 根据路由的路径，来往store里面加数据，使用 matchRoutes
+    const matchedRoutes = matchRoutes(routes, req.path);
+
+    // 让matchRoutes里面所有的组件，对应的loadData方法执行一次
+    const promises = []
+
+    matchedRoutes.forEach(item => {
+        if (item.route.loadData) {
+            // promises.push(item.route.loadData(store));
+            // 包装一层promise
+            const promise = new Promise((resolve, reject) => {
+                item.route.loadData(store).then(resolve).catch(resolve)
+            })
+            promises.push(promise);
+        }
+    })
+
+// ...
+```
+这样无论item.route.loadData是否成功，都会把能加载到的数据都注入store中，并且resolve包装层的promise，所以Promise.all(promises)肯定会走到then函数中。
+
+
 
 
 ### 第八章 处理SSR框架中的CSS样式
+
+#### 如何支持CSS样式修饰
+
+js文件中直接引入css文件肯定会直接报错，所以需要webpack配置编译：
+```js
+// webpack.client.js
+
+module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.css?$/, // 在webpack中，loader处理顺序是从下到上，从右往左的
+            use: ['style-loader', {
+                loader: 'css-loader',
+                options: {
+                    importLoaders: 1,
+                    modules: true, // 支持模块化css
+                    localIdentName: '[name]_[local]_[hash:base64:5]'
+                }
+            }]
+        }]
+    }
+}
+```
+
+- 会报*window is not defined*，因为`style-loader`需要往浏览器中window上挂载一些样式，注入style标签，而在服务器端渲染时，没有window，所以使用`style-loader`肯定会报错。
+- `isomorphic-style-loader` 是服务端渲染的时候使用的`style-loader`，使用方式基本是一样的。
+
+```js
+// webpack.server.js
+const nodeExternals = require('webpack-node-externals')
+
+module.exports = {
+    // ...
+    externals: [nodeExternals()],
+    module: {
+        rules: [{
+            test: /\.css?$/, // 在服务端使用isomorphic-style-loader替代style-loader
+            use: ['isomorphic-style-loader', {
+                loader: 'css-loader',
+                options: {
+                    importLoaders: 1,
+                    modules: true, // 支持模块化css
+                    localIdentName: '[name]_[local]_[hash:base64:5]'
+                }
+            }]
+        }]
+    }
+}
+```
+
+#### 如何实现CSS样式的服务器端渲染
+
+上节课的实现会导致页面加载后样式抖动，这说明服务端渲染样式是不生效的，为了找原因我们先比较下`isomorphic-style-loader` 和 `style-loader`：
+
+- `isomorphic-style-loader`：
+    - 关闭网页的js运行，查看源代码，可以看到标签上已经有了类名，这说明`isomorphic-style-loader`已经解析了样式，会在服务器渲染页面时把class的名字添加到html字符串里面。
+    - 即`isomorphic-style-loader`只会解析class的名字。
+    - 所以样式不能正常显示。
+- `style-loader`：
+    - `style-loader`也会做相同的事情，在浏览器渲染时把class的名字添加到对应标签上，但是，它还会去向DOM中注入style标签，引入对应样式代码。
+    - 即`style-loader`不但会解析class的名字，还会向DOM的head中注入style标签引入样式代码。
+    - 所以样式可以正常显示。
+
+在做服务端渲染时，引入的styles模块里包含`_getCss()`、`_getContent()`、`_insertCss()`方法。其中，`_getCss()`就能获得css样式代码内容。
+
+在服务端的组件逻辑中，通过**_getCss给context注入样式代码**：
+```js
+// Home
+// ...
+import styles from './styles.css'; // 支持css模块化
+
+class Home extends Component {
+    componentWillMount() {
+        // staticContext在客户端是undefined，在服务端是对象
+        // 只在服务端的`isomorphic-style-loader`才有styles._getCss()方法，因此要加条件判断
+        // 只在服务端执行
+        if (this.props.staticContext) {
+            // _getCss() 方法可以得到插入DOM的style样式代码，将其注入到context中
+            this.props.staticContext.css = styles._getCss()
+        }
+    }
+
+    getList() {
+        // ...
+    }
+
+    render() {
+        return (
+            // ...
+        )
+    }
+}
+
+// ...
+```
+
+```js
+export const render = (store, routes, req, context) => {
+    const content = renderToString((
+        <Provider store={getStore()}>
+            <StaticRouter location={req.path} context={context}>
+                {renderRoutes(routes)}
+            </StaticRouter>
+        </Provider>
+    ))
+
+    // 从context上获取css样式字符串，插入到服务端渲染的html字符串中
+    const cssStr = context.css ? context.css : ''
+
+    res.send(`
+        <html>
+            <head>
+                <title>ssr</title>
+                <style>${cssStr}</style>
+            </head>
+            <body>
+                <div id="root">${content}</div>
+                <script src='/index.js'></script>  // 引用一个js文件，如果不用express.static，则因为没有index.js文件的路由会报错
+            </body>
+        </html>
+    `)
+})
+```
+
+
+#### 多组件中的样式如何整合
+
+服务端渲染多级路由表组件时，staticContext.css被后面的组件替换为自己对应的样式，所以先渲染的组件的样式被覆盖，无法显示样式。
+
+解决方法：将context.css改为数组，每个组件都push自己对应的样式都staticContext.css之中：
+```js
+class Header extends Component {
+    componentWillMount() {
+        if (this.props.staticContext) {
+            this.props.staticContext.css.push(styles._getCss())
+        }
+    }
+
+    render() {
+        // ...
+    }
+}
+```
+
+context.css 改为数组：
+```js
+// server.js
+// ...
+
+Promise.all(promises).then(() => {
+    const context = {css: []}; // 改为数组
+    const html = render(store, routes, req, context);
+    // context 对象传入render函数中，如果是404组件，则会给context添加一个NOT_FOUND标志
+    // 如果识别组件中有 Redirect方法，则给context添加重定向信息
+
+    if (context.action === 'REPLACE') {
+        res.redirect(301, context.url) // 服务端主动重定向
+    } else if (context.NOT_FOUND) {
+        res.status(404) // 需要主动设置返回状态码，否则依然返回200
+        res.send(html)
+    } else {
+        res.send(html)
+    }
+})
+// ...
+```
+
+如果有多个样式，则拼接（注意用换行符来连接）：
+```js
+export const render = (store, routes, req, context) => {
+    const content = renderToString((
+        <Provider store={getStore()}>
+            <StaticRouter location={req.path} context={context}>
+                {renderRoutes(routes)}
+            </StaticRouter>
+        </Provider>
+    ))
+
+    // 如果有多个样式，则拼接（注意用换行符来连接）
+    const cssStr = context.css.length ? context.css.join('\n') : ''
+
+    res.send(`
+        <html>
+            <head>
+                <title>ssr</title>
+                <style>${cssStr}</style>
+            </head>
+            <body>
+                <div id="root">${content}</div>
+                <script src='/index.js'></script>  // 引用一个js文件，如果不用express.static，则因为没有index.js文件的路由会报错
+            </body>
+        </html>
+    `)
+})
+```
+
+#### loadData方法潜在问题修正
+
+之前的loadData的实现方式中，有一个潜在问题（不够直观）：
+- 在Home组件上挂载静态方法loadData
+- 导出Home组件时，并不是直接导出，而是通过connect包裹的组件（比如命名为ExportHome）
+- 而ExportHome上按理说是没有loadData方法的，之所以没报错，是因为connect检测到Home组件上有静态方法时，就帮我们自动将其挂载到ExportHome上了
+- 而为了逻辑清晰直观，我们应该在ExportHome上手动挂载loadData方法
+```js
+// Home
+import React, { Component } from 'react';
+import Header from '../../components/Header';
+import { connect } from 'react-redux';
+import { getHomeList } from './store/actions';
+
+class Home extends Component {
+    render() {
+        // ...
+    }
+
+    // componentDidMount在服务器端是不执行的
+    componentDidMount() {
+        this.props.getHomeList();
+    }
+}
+
+// 不直接给Home组件添加静态方法
+// Home.loadData = () => {
+//     // ...
+// }
+
+const mapStateToProps = state => ({
+    list: state.home.newsList,
+    name: state.home.name
+})
+
+const mapDispatchToProps = dispatch => ({
+    getHomeList() {
+        dispatch(getHomeList())
+    }
+})
+
+const ExportHome = connect(mapStateToProps, mapDispatchToProps)(Home)
+
+// 给真正导出的组件添加静态方法
+ExportHome.loadData = () => {
+    // ...
+}
+
+export default ExportHome;
+```
+
+#### 使用高阶组件精简代码
+
+现有的方式，对于每个组件都需要重复写：
+```js
+componentWillMount() {
+    if (this.props.staticContext) {
+        this.props.staticContext.css.push(styles._getCss())
+    }
+}
+```
+可以使用高阶组件来优化：
+```js
+// withStyle.js   之所以小写是因为它只是一个方法，不是一个组件
+import React, { Component } from 'react';
+
+// 这个函数，是生成高阶组件的函数
+export default (DecoratedComponent, styles) => {
+    // 返回的这个组件，叫做高阶组件
+    return class NewComponent extends Component {
+        componentWillMount() {
+            if (this.props.staticContext) {
+                this.props.staticContext.css.push(styles._getCss())
+            }
+        }
+
+        render() {
+            return <DecoratedComponent {...this.props} />
+        }
+    }
+}
+```
+
+以Header为例，使用高阶组件导出Header组件：
+```js
+// ...
+import styles from './styles.css'
+import withStyle from '../../../withStyle'
+
+class Header extends Component {
+    render() {
+        // ...
+    }
+}
+
+const mapState = (state) => ({
+    login: state.header.login
+})
+
+const mapDispatch = (dispatch) => ({
+    handleLogin() {
+        dispatch(actions.login())
+    },
+    handleLogout() {
+        dispatch(actions.logout())
+    }
+})
+
+export default connect(mapState, mapDispatch)(withStyle(Header, styles))
+```
 
 
 ### 第九章 SEO技巧的融入
