@@ -119,6 +119,7 @@ module.exports = {
                         '/Question-Bank/css/box-sizing&margin-collapse&BFC',
                         '/Question-Bank/css/layout-method',
                         '/Question-Bank/css/css-base',
+                        '/Question-Bank/css/css-tricks',
                         '/Question-Bank/css/flex-box.md',
                         '/Question-Bank/css/circle-loading.md',
                     ]

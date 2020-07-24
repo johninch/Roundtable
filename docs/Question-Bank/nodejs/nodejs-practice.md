@@ -1,4 +1,4 @@
-# Node.js 从零开发 web server博客项目 前端晋升全栈工程师必备
+# 慕课实战：Node.js 从零开发 web server博客项目 前端晋升全栈工程师必备
 
 Nodejs 一个js运行环境
 
@@ -733,6 +733,270 @@ module.exports = {
     - 日志记录
     - 安全（包括登录验证）
     - 集群和服务拆分（设计已支持）
+
+
+## 使用express重构
+
+### 目录
+
+- express下载、安装和使用，express中间件机制
+- 开发接口，连接数据库，实现登录，日志记录
+- 分析express中间件原理
+
+
+### 开始
+
+- 安装（使用脚手架 express-generator）
+    - npm install express-generator -g
+    - express express-test // 初始化项目
+        - npm i nodemon cross-env -D
+    - npm install & npm start
+- 初始化代码介绍，处理路由
+    ```js
+    tree -CI "node_modules"
+
+    .
+    ├── app.js // 应用代码
+    ├── bin
+    │   └── www // 执行app的服务，http.createServer(require('../app'))
+    ├── package-lock.json
+    ├── package.json
+    ├── public // 静态文件
+    │   ├── images
+    │   ├── javascripts
+    │   └── stylesheets
+    │       └── style.css
+    ├── routes // 路由
+    │   ├── index.js
+    │   └── users.js
+    └── views // 模板
+        ├── error.jade
+        ├── index.jade
+        └── layout.jade
+    ```
+    - 之所以有public和views目录，是因为初始化的代码并不只是一个web server的开发环境，而是一个全栈开发环境
+- 使用中间件
+
+#### 介绍express的入口代码（app.js）
+
+- 各个插件的作用，思考各个插件的实现原理（结合之前学过的知识）
+    - express：
+        - var app = express()；本次http请求的实例
+        - app.use(express.json())：处理post请求传的json数据，在路由中通过req.body拿到；
+        - app.use(express.urlencoded({ extended: false }))：处理post请求传的x-www-form-urlencoded格式数据，塞到req.body中，在路由中使用；
+    - http-error：处理404
+    - cookie-parser：app.use(cookieParser)，可以在路由中通过req.cookies直接访问
+    - morgan：app.use(logger('dev'))，自动生成日志
+    - 路由
+        ```js
+        // 拆分路由
+        // 这里设置的是根路径
+        app.use('/', indexRouter);
+        app.use('/users', usersRouter);
+        ```
+        ```js
+        var express = require('express');
+        var router = express.Router();
+
+        /* GET home page. */
+        // 这里设置的是子路径
+        router.get('/', function(req, res, next) {
+            res.render('index', { title: 'Express' });
+        });
+
+        module.exports = router;
+        ```
+        ```js
+        var express = require('express');
+        var router = express.Router();
+
+        /* GET users listing. */
+        // 这里设置的是子路径
+        router.get('/', function(req, res, next) {
+            res.send('respond with a resource');
+        });
+
+        module.exports = router;
+        ```
+
+
+#### express如何处理路由
+- 处理get请求和post请求
+```js
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/user', userRouter);
+```
+
+```js
+var express = require('express');
+var router = express.Router();
+
+// '/api/user/login'
+router.post('/login', function(req, res, next) {
+    const { username, password } = req.body
+    res.json({
+        errno: 0,
+        data: {
+            username,
+            password
+        }
+    })
+});
+
+module.exports = router;
+```
+
+#### express中间件机制
+
+- 所谓中间件，就是app.use、app.get、app.post中的一个个注册函数
+- 有很多app.use、app.get、app.post的情况下访问的流转是怎样的？
+    - 流转示例：当访问一个路由，比如get方式访问'/api/get-cookie'：
+        - 会先匹配app.use没有路由的所有路径
+            - 如果调用next()，则向下继续匹配执行
+            - 如果没有next()，则停止
+        - 之后再匹配所有app.get方法中，所有父路径匹配上的，调用next()向下继续匹配
+            - 如果调用next()，则向下继续匹配执行
+            - 如果没有next()，则停止
+        - 最后匹配所有app.get方法中完全匹配路径的
+- 代码中的next参数是什么？
+    - 中间件的注册函数有3个参数：(req, res, next)
+    - next函数的执行，会进入下一个中间件注册函数
+    - 中间件注册函数可以有多个
+        - app.get('/api/get-cookie', loginCheck, (req, res, next) => {})
+
+```js
+const express = require('express')
+
+// 本次 http 请求的实例
+const app = express()
+
+// 所谓中间件，就是app.use、app.get、app.post中的一个个注册函数
+app.use((req, res, next) => {
+    console.log('请求开始...', req.method, req.url)
+    next()
+})
+
+app.use((req, res, next) => {
+    // 假设在处理 cookie
+    req.cookie = {
+        userId: 'abc123'
+    }
+    next()
+})
+
+app.use((req, res, next) => {
+    // 假设处理 post data
+    // 异步
+    setTimeout(() => {
+        req.body = {
+            a: 100,
+            b: 200
+        }
+        next()
+    })
+})
+
+app.use('/api', (req, res, next) => {
+    console.log('处理 /api 路由')
+    next()
+})
+
+app.get('/api', (req, res, next) => {
+    console.log('get /api 路由')
+    next()
+})
+app.post('/api', (req, res, next) => {
+    console.log('post /api 路由')
+    next()
+})
+
+// 模拟登录验证
+function loginCheck(req, res, next) {
+    setTimeout(() => {
+        console.log('模拟登陆失败')
+        res.json({
+            errno: -1,
+            msg: '登录失败'
+        })
+
+        // console.log('模拟登陆成功')
+        // next()
+    })
+}
+
+// 中间件注册函数可以有多个
+app.get('/api/get-cookie', loginCheck, (req, res, next) => {
+    console.log('get /api/get-cookie')
+    res.json({
+        errno: 0,
+        data: req.cookie
+    })
+})
+
+app.post('/api/get-post-data', loginCheck, (req, res, next) => {
+    console.log('post /api/get-post-data')
+    res.json({
+        errno: 0,
+        data: req.body
+    })
+})
+
+app.use((req, res, next) => {
+    console.log('处理 404')
+    res.json({
+        errno: -1,
+        msg: '404 not fount'
+    })
+})
+
+app.listen(3000, () => {
+    console.log('server is running on port 3000')
+})
+```
+
+所以脚手架生成的app.js这里其实都是中间件：
+```js
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/user', userRouter);
+```
+
+### express开发博客项目
+
+
+#### express开发接口
+
+初始化项目，复用之前的部分代码
+
+开发路由，并实现登录
+
+记录日志
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
