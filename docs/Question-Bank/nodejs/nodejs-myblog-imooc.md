@@ -7,7 +7,7 @@ Nodejs 一个js运行环境
 运行在本地，作为打包、构建工具
 
 
-### 困惑
+## 困惑
 
 Nodejs运行在服务端，不在浏览器
 
@@ -97,7 +97,7 @@ Nodejs运行在服务端，不在浏览器
     - 解决：
 
 
-### 目标
+## 目标（不用任何框架）
 
 - 开发一个博客系统，具有博客的基本功能
 - 值开发server端，不关心前端
@@ -113,7 +113,7 @@ Nodejs运行在服务端，不在浏览器
 
 
 
-#### 开发接口（不用任何框架）
+### 开发接口（不用任何框架）
 
 nodejs处理http请求
 
@@ -122,7 +122,7 @@ nodejs处理http请求
 开发接口（暂时不连接数据库，暂不考虑登录）
 
 
-#### 搭建开发环境
+### 搭建开发环境
 
 使用nodemon监测文件变化，自动重启node
 
@@ -199,7 +199,7 @@ nodejs链接mysql，如何执行sql语句
 
 
 
-### 登录：
+### 登录
 - 核心：登录校验 & 登录信息存储
 - 为何只讲登录，不讲注册？
 
@@ -208,7 +208,7 @@ nodejs链接mysql，如何执行sql语句
 - session 写入 redis
 - 开发登录功能，和前端联调（用nginx反向代理）
 
-#### cookie
+### cookie
 - 什么是cookie
     - 存储在浏览器中的一段字符串（最大5kb）
     - 跨域不共享
@@ -238,7 +238,7 @@ const getCookieExpires = () => {
 res.setHeader('Set-Cookie', `username=${data.username}; path=/; httpOnly; expires=${getCookieExpires()}`)
 ```
 
-#### session
+### session
 - 上一节的问题：会暴露username，很危险
 - 如何解决：cookie中存储userId，server端对应username
 - 解决方案：session，即server端存储用户信息
@@ -266,7 +266,7 @@ res.setHeader('Set-Cookie', `username=${data.username}; path=/; httpOnly; expire
                 - 断电不能丢失，必须保留
                 - 数据量太大，内存成本太高
 
-#### Redis使用
+### Redis使用
 ```js
 brew install redis // mac使用homebrew安装
 
@@ -278,7 +278,7 @@ redis-server // 启动redis服务器
 - 封装成工具函数，可供API使用
 
 
-#### 登录校验
+### 登录校验
 ```js
 // 统一的登录验证函数
 const loginCheck = (req) => {
@@ -294,7 +294,7 @@ if (loginCheckResult) {
 }
 ```
 
-#### 和前端联调
+### 和前端联调
 - post请求，登录功能依赖cookie，所以不能用postman来联调，必须用浏览器
 - cookie跨域不共享，前端和server端必须同域
     - 需要用到nginx做代理，让前后端同域
@@ -302,7 +302,7 @@ if (loginCheckResult) {
     - 前端是localhost:8001（`$ http-server -p 8001`）
     - 使用nginx配置反向代理，localhost:8080
 
-#### nginx配置
+### nginx配置
 - 高性能的web服务器，开源免费
 - 一般用于做静态服务，负载均衡
 - 反向代理
@@ -706,7 +706,7 @@ module.exports = {
 ```
 
 
-## 不使用框架开发 server 的最后总结
+### 不使用框架开发 server 的最后总结
 
 - 开发了哪些功能模块，完整的流程
     - 功能模块：6部分
@@ -735,7 +735,7 @@ module.exports = {
     - 集群和服务拆分（设计已支持）
 
 
-## 使用express重构
+## 第九章 - 使用express重构
 
 ### 目录
 
@@ -982,23 +982,539 @@ app.use('/api/user', userRouter);
 记录日志
 
 
+初始化环境
+
+安装插件 mysql xss
+mysql controller resModel 相关代码可以复用
+初始化路由
+
+#### express处理session
+- 安装 express-session
+- req.session 保存登录信息，登录校验做成express中间件
+
+
+#### express处理redis（session连接redis）
+- 安装 redis
+- 安装 connect-redis
+
+```js
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+
+const blogRouter = require('./routes/blog');
+const userRouter = require('./routes/user');
+
+var app = express();
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+const redisClient = require('./db/redis');
+const sessionStore = new RedisStore({
+  client: redisClient
+})
+app.use(session({
+  secret: 'WJiol_3476#',
+  cookie: {
+    // path: '/', // 默认
+    // httpOnly: true, // 默认
+    maxAge: 24 * 60 * 60 * 1000
+  },
+  store: sessionStore
+}))
+```
+
+#### 登录中间件
+
+#### 开发路由
+
+#### 日志（morgan）
+
+```js
+const ENV = process.env.NODE_ENV
+if (ENV !== 'production') {
+  // 开发环境
+  app.use(logger('dev', {
+    stream: process.stdout // 打印在控制台，其实这是默认配置
+  }));
+} else {
+  // 线上环境
+  const logFileName = path.join(__dirname, 'logs', 'access.log')
+  const writeStream = fs.createWriteStream(logFileName, {
+    flags: 'a'
+  })
+  app.use(logger('combined', {
+    stream: writeStream
+  }));
+}
+```
+
+#### 总结
+
+- 写法上的改变，如 req.query，res.json
+- 使用 express-session，connect-redis，登录中间件
+- 使用 morgan
+
+
+#### express中间件原理
+
+- 回顾中间件使用
+    - app.use：用来注册中间件，先收集起来
+    - 遇到http请求，根据path和method判断触发哪些
+    - 实现next机制，即上一个通过next触发下一个
+    - app.listen
+- 分析如何实现
+- 代码实现
+```js
+const http = require('http');
+const slice = Array.prototype.slice;
+
+class LikeExpress {
+    constructor() {
+        // 存放中间件列表
+        this.routes = {
+            all: [], // app.use(...)
+            get: [], // app.get(...)
+            post: [], // app.post(...)
+            // put: [],
+            // patch: [],
+            // delete: [],
+        }
+    }
+
+    register(path) {
+        const info = {}
+        if (typeof path === 'string') {
+            info.path = path
+            // 从第二个参数开始，转换为数组，存入 stack
+            info.stack = slice.call(arguments, 1)
+        } else {
+            info.path = '/'
+            // 从第一个参数开始，转换为数组，存入 stack
+            info.stack = slice.call(arguments)
+        }
+
+        return info
+    }
+
+    use() {
+        const info = this.register.apply(this, arguments)
+        this.routes.all.push(info)
+    }
+
+    get() {
+        const info = this.register.apply(this, arguments)
+        this.routes.get.push(info)
+    }
+
+    post() {
+        const info = this.register.apply(this, arguments)
+        this.routes.post.push(info)
+    }
+
+    match(method, url) {
+        let stack = []
+        if (url === '/favicon.ico') {
+            return stack
+        }
+
+        // 获取 routes
+        let curRoutes = []
+        curRoutes = curRoutes.concat(this.routes.all)
+        curRoutes = curRoutes.concat(this.routes[method])
+
+        curRoutes.forEach(routeInfo => {
+            if (url.indexOf(routeInfo.path) === 0) {
+                // 以下都是匹配的情况
+                // url === '/api/get-cookie' 且 routeInfo.path === '/'
+                // url === '/api/get-cookie' 且 routeInfo.path === '/api'
+                // url === '/api/get-cookie' 且 routeInfo.path === '/api/get-cookie'
+                stack = stack.concat(routeInfo.stack)
+            }
+        })
+        return stack
+    }
+
+    // 核心的 next 机制
+    handle(req, res, stack) {
+        const next = () => {
+            // 拿到第一个匹配的中间件
+            const middleware = stack.shift()
+            if (middleware) {
+                // 执行中间件函数
+                middleware(req, res, next)
+            }
+        }
+        next()
+    }
+
+    callback() {
+        return (req, res) => {
+            // 需要定义下 res.json 函数
+            res.json = (data) => {
+                res.setHeader('Content-Type', 'application/json')
+                res.end(
+                    JSON.stringify(data)
+                )
+            }
+            // 通过url和method来匹配中间件list
+            const url = req.url
+            const method = req.method.toLowerCase()
+
+            // 中间件list
+            const resultList = this.match(method, url)
+            this.handle(req, res, resultList)
+        }
+    }
+
+    listen(...args) {
+        const server = http.createServer(this.callback())
+        server.listen(...args)
+    }
+}
+
+// 工厂函数
+module.exports = () => {
+    return new LikeExpress()
+}
+```
+
+
+## 第十章 - 使用koa2重构
+
+### koa2相比于express
+
+- 相对于express中间件是异步回调，koa2原生支持 async/await
+- 新开发框架和系统，都开始基于koa2，例如egg.js
+- express虽然未过时，但koa2肯定是未来趋势
+
+### 目录
+
+- async/await 语法介绍，安装和使用koa2
+- 开发接口，连接数据库，实现登录，日志记录
+- 分析koa2中间件原理
+
+### 介绍koa2
+
+koa2是express原班人马打造的轻量级框架，之前有一版koa，是用generator语法实现的，并不好用，koa2原生支持async/await。
+
+- npm install koa-generator -g // 安装
+- Koa2 my-program // 初始化
+
+#### 介绍koa2的入口代码（app.js）
+
+- 各个插件的作用，思考各个插件的实现原理（结合之前学过的知识）
+    - koa2：
+        - const app = new Koa()；本次http请求的实例
+        - const json = require('koa-json')；
+            - app.use(json())：处理post请求传的json数据，在路由中通过req.body拿到；
+        - const bodyparser = require('koa-bodyparser')
+        - app.use(bodyparser({
+                enableTypes:['json', 'form', 'text']
+            }))
+            - 在路由中通过ctx.request.body拿到；
+    - const onerror = require('koa-onerror')
+    - cookie-parser：app.use(cookieParser)，可以在路由中通过req.cookies直接访问
+    - const logger = require('koa-logger')；只是使控制台输出更加好看而已
+        - 生成日志还是需要使用 koa-morgan
+
+
+#### koa2如何处理路由
+- 处理get请求和post请求
+```js
+const router = require('koa-router')()
+
+router.prefix('/api/blog')
+
+router.get('/list', async function (ctx, next) {
+    const query = ctx.query
+    ctx.body = {
+        errno: 0,
+        query,
+        data: ['获取博客列表']
+    }
+})
+
+module.exports = router
+```
+```js
+const router = require('koa-router')()
+
+router.prefix('/api/user')
+
+router.post('/login', async function (ctx, next) {
+    const { username, password } = ctx.request.body
+    const query = ctx.query
+    ctx.body = {
+        errno: 0,
+        username,
+        password
+    }
+})
+
+module.exports = router
+```
+
+#### koa2中间件机制
+
+- 所谓中间件，就是app.use、app.get、app.post中的一个个注册函数（async函数）
+- 有很多app.use、app.get、app.post的情况下访问的流转是怎样的？
+    - 流转示例：当访问一个路由，比如get方式访问'/api/get-cookie'：
+        - 会先匹配app.use没有路由的所有路径
+            - 如果调用 await next()，则向下继续匹配执行
+            - 如果没有 await next()，则停止
+        - 之后再匹配所有app.get方法中，所有父路径匹配上的，调用 await next() 向下继续匹配
+            - 如果调用 await next()，则向下继续匹配执行
+            - 如果没有 await next()，则停止
+        - 最后匹配所有app.get方法中完全匹配路径的
+- 代码中的next参数是什么？
+    - 中间件的注册函数有2个参数：(ctx, next)
+    - next函数的执行，会进入下一个中间件注册函数
+    - 中间件注册函数可以有多个
+        - app.get('/api/get-cookie', loginCheck, (ctx, next) => {})
+```js
+// logger
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+```
+
+#### koa2开发接口
+
+- 实现登录
+    - 和express类似，基于 koa-generic-session 和 koa-redis
+        ```js
+        app.keys = ['WJiol_3476#']
+        app.use(session({
+            // 配置cookie
+            cookie: {
+                // path: '/', // 默认
+                // httpOnly: true, // 默认
+                maxAge: 24 * 60 * 60 * 1000
+            },
+            // 配置redis
+            store: redisStore({
+                all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+            })
+        }))
+        ```
+- 开发路由
+    - 复用之前代码，如mysql，登录中间件，controller，model
+    - 初始化路由，并开发接口
+    - 联调测试
+- 记录日志
+    - access log 记录，使用morgan
+    - 自定义日志使用console.log和console.error
+
+
+#### koa2中间件原理
+
+*koa2中间件本身没有路由功能，只有app.use*
+
+- 回顾中间件使用
+    - 洋葱圈模型：
+    ```
+    第一层洋葱 - 开始
+    第二层洋葱 - 开始
+    第三层洋葱 - 开始
+    第三层洋葱 - 结束
+    第二层洋葱 - 结束
+    GET / - 4ms
+    第一层洋葱 - 结束
+    ```
+    ```js
+    const Koa = require('koa');
+    const app = new Koa();
+
+    // logger
+    app.use(async (ctx, next) => {
+        console.log('第一层洋葱 - 开始')
+        await next();
+        const rt = ctx.response.get('X-Response-Time');
+        console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+        console.log('第一层洋葱 - 结束')
+    });
+
+    // x-response-time
+    app.use(async (ctx, next) => {
+        console.log('第二层洋葱 - 开始')
+        const start = Date.now();
+        await next();
+        const ms = Date.now() - start;
+        ctx.set('X-Response-Time', `${ms}ms`);
+        console.log('第二层洋葱 - 结束')
+    });
+
+    // response
+    app.use(async ctx => {
+        console.log('第三层洋葱 - 开始')
+        ctx.body = 'Hello World';
+        console.log('第三层洋葱 - 结束')
+    });
+
+    app.listen(8000);
+    ```
+- 分析如何实现
+    - app.use 用来注册中间件，先收集起来
+    - 实现next机制，即上一个通过next触发下一个
+    - （因为koa2中间件本身没有路由功能，所以不涉及到 method 和 path 的判断）
+- 代码实现
+    ```js
+    const http = require('http')
+
+    // 组合中间件
+    function compose(middlewareList) {
+        return function(ctx) {
+            // 中间件调用
+            function dispatch(i) {
+                const fn = middlewareList[i]
+                try {
+                    // 使用Promise.resolve包裹，是因为可能中间件函数fn传入的不是promise
+                    return Promise.resolve(
+                        fn(ctx, dispatch.bind(null, i + 1)) // next机制
+                    )
+                } catch (error) {
+                    return Promise.reject(error)
+                }
+            }
+            return dispatch(0)
+        }
+    }
+
+    class LikeKoa2 {
+        constructor() {
+            this.middlewareList = []
+        }
+
+        use(fn) {
+            this.middlewareList.push(fn)
+            return this
+        }
+
+        createContext(req, res) {
+            const ctx = {
+                req,
+                res
+            }
+            ctx.query = req.query
+            return ctx
+        }
+
+        handleRequest(ctx, fn) {
+            return fn(ctx)
+        }
+
+        callback() {
+            const fn = compose(this.middlewareList)
+
+            return (req, res) => {
+                const ctx = this.createContext(req, res)
+                return this.handleRequest(ctx, fn)
+            }
+        }
+
+        listen(...args) {
+            const server = http.createServer(this.callback())
+        }
+    }
+
+    module.exports = LikeKoa2
+    ```
 
 
 
+## 第十一章 线上环境配置
+
+- 服务器稳定性
+- 充分利用服务器硬件资源，以便提高性能
+- 线上日志记录
+
+### PM2的核心价值
+
+- `进程守护`，系统崩溃自动重启
+- `启动多进程`，充分利用CPU和内存
+- 自带`日志记录功能`
+
+### 目录
+
+#### PM2介绍
+
+- 和nodemon的区别
+    - pm2是后台运行监听服务的，可以把命令行的权限再交还给前台
+    - nodemon是前台运行监听服务的，始终占用命令行
+- 下载安装：npm i pm2 -g;
+    - `pm2 --version`
+- 常用命令：
+    - `pm2 start <AppName>/configFile`
+        - 启动之后会把控制台控制权限交还给使用者
+    - `pm2 list`
+    - `pm2 restart <AppName>/id`
+    - `pm2 stop <AppName>/id`
+    - `pm2 delete <AppName>/id`
+    - `pm2 info <AppName>/id`
+    - `pm2 log <AppName>/id`
+    - `pm2 monit <AppName>/id` // 监控内存占用信息
+
+#### PM2进程守护
+
+- node app.js 和 nodemon app.js，进程崩溃则不能访问
+- pm2 遇到进程崩溃，会自动重启
+
+#### PM2配置和日志记录
+
+- 新建 pm2配置文件（包括进程数量，日志文件目录等）
+    - name：进程名称
+    - script：配置文件所执行的应用入口文件
+    - watch：代码改动是否监听重启
+    - err_file：错误日志输出地址
+    - out_file：输出日志输出地址
+    ```json
+    {
+        "apps": {
+            "name": "pm2-test-server",
+            "script": "app.js",
+            "watch": true,
+            "ignore_watch": [
+                "node_modules",
+                "logs"
+            ],
+            "err_file": "logs/err.log",
+            "out_file": "logs/out.log",
+            "log_date_format": "YYYY-MM-DD HH:MM:ss",
+            "instances": 4,
+        }
+    }
+    ```
+- 修改 pm2启动命令，重启
+    ```json
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "cross-env NODE_ENV=dev nodemon app.js",
+        "prd": "cross-env NODE_ENV=production pm2 start pm2.conf.json"
+    },
+    ```
+- 访问 server，检查日志文件的内容（日志记录是否生效）
 
 
+#### PM2多进程
+
+为什么使用多进程？
+- 回顾之前讲session时说过，操作系统限制一个进程的内存
+- 内存：无法充分利用机器全部内存
+- CPU：无法充分利用多核CPU的优势
 
 
-
-
-
-
-
-
-
-
-
-
-
+多进程和redis
+- 多进程之间，内存无法共享
+- 多进程访问一个redis，来实现数据共享
+```json
+"instances": 4,
+```
+配置进程数量，多个进程开启后，mode为cluster集群模式，服务器会通过负载均衡规则，将当前请求派发到空闲的服务器进程上去。
 
 
