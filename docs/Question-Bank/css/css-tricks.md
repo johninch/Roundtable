@@ -251,6 +251,10 @@ transform：scale | skew | rotate | translate | 某个方向属性及3d属性如
 </html>
 ```
 
+***冷知识***
+
+- `fixed`在特殊情况下不会相对于`视口`来定位，如果当前元素的父元素`transform`不为none，那么定位的元素就不是依据视口进行定位，而是依据父元素进行定位
+
 ## line-height
 
 [对于line-height的认识](https://blog.csdn.net/weixin_38858002/article/details/80571829)

@@ -54,6 +54,18 @@ let n: null = null;
 // 这样不会报错
 let num: number = undefined;
 ```
+但当我们在 tsconfig.json 文件中设置 `strictNullChecks` 为 true 时，我们就不能将undefined和null设为自身; `strictNullChecks`开启后，**可选参数会被自动加上 | undefined**
+```typescript jsx
+// 开启 "strictNullChecks": true 情况
+
+let s: string = 'hello'
+s = null // error，不能将类型“null”分配给类型“string”。
+
+let s2: string | null = 'hi'
+s2 = null
+s2 = undefined // error，不能将类型“undefined”分配给类型“string | null”。
+```
+
 #### TS中string与String有什么区别？
 TS中用小写字母开头的类型代表字面量, 大写的是ES内置的对象，用来表示通过new实例化的数据：
 ```js
