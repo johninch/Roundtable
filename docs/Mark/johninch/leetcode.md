@@ -3,6 +3,7 @@
 
 ### 目录
 ::: details
+- `M 670. 最大交换`
 - :rocket:`E 674. 最长连续递增序列`
 - `E 面试题61. 扑克牌中的顺子`
 - :rocket:`H 42. 接雨水`
@@ -180,6 +181,32 @@
 ### details
 ::: details lc
 ```js
+// - `M 670. 最大交换`
+// 将数字从大到小排列，与原数字比较，找出第一位置不一样的数。如8217排序后变为8721，两两对比，第二个数不同，表示7和2交换，得到结果8712
+// 对于有重复数字的情况，应该要用位于最后面的去交换
+const maximumSwap = function(num) {
+    const arr = String(num).split('')
+    const temp = arr.slice().sort((a, b) => b - a)
+    let flag = -1
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < temp[i]) {
+            flag = i
+            break
+        }
+    }
+    if (flag < 0) {
+        return num
+    }
+    for (let i = arr.length - 1; i > flag; i--) {
+        if (arr[i] === temp[flag]) {
+            [arr[i], arr[flag]] = [arr[flag], arr[i]]
+            break
+        }
+    }
+    return parseInt(arr.join(''))
+}
+
+
 // - `E 674. 最长连续递增序列`
 var findLengthOfLCIS = function(nums) {
     if (!nums.length) return 0;
@@ -1243,6 +1270,7 @@ var longestCommonPrefix = function(strs) {
 
 
 // E 141. 环形链表
+// 会不会跨过去呢？如果`把慢跑者视作参考系，则意味着慢跑者站着不动，快跑者的速度为1`，而最小间隔是1，因此一定会相遇。
 var hasCycle = function(head) {
     let fast = head
     let slow = head

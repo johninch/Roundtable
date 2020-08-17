@@ -28,6 +28,10 @@ module.exports = {
             { text: 'Ani-Css', link: 'https://esop-fed.github.io/ani-css/' },
             { text: '项目复盘', link: '/Replay/' },
             {
+                text: '进阶全栈',
+                link: '/FullStackDeveloper/'
+            },
+            {
                 text: '个人备忘',
                 items: [
                     { text: 'johninch', link: '/Mark/johninch/' },
@@ -281,6 +285,7 @@ module.exports = {
                         '/Question-Bank/webpack/HMR',
                         '/Question-Bank/webpack/building-speed-up',
                         '/Question-Bank/webpack/webpack-tricks',
+                        '/Question-Bank/webpack/writing-a-plugin',
                     ]
                 },
                 {
@@ -512,6 +517,28 @@ module.exports = {
                     ]
                 },
             ],
+            '/FullStackDeveloper/': [
+                '/FullStackDeveloper/',
+                {
+                    title: 'NodeJS',
+                    children: [
+                        '/FullStackDeveloper/node/1_base',
+                        '/FullStackDeveloper/node/1_1_Cli',
+                        '/FullStackDeveloper/node/2_Koa',
+                        '/FullStackDeveloper/node/3_network_program',
+                        '/FullStackDeveloper/node/4_mysql',
+                        '/FullStackDeveloper/node/11_middle_tier',
+                        '/FullStackDeveloper/node/12_serverless',
+                        '/FullStackDeveloper/node/13_eventloop',
+                    ]
+                },
+                {
+                    title: '项目',
+                    children: [
+                        '/FullStackDeveloper/project/1',
+                    ]
+                },
+            ],
             '/Mark/': [
                 {
                     title: 'Johninch',
@@ -549,8 +576,8 @@ module.exports = {
         [
             'vuepress-plugin-container',
             {
-              type: 'right',
-              defaultTitle: '',
+                type: 'right',
+                defaultTitle: '',
             },
         ],
         [
@@ -563,26 +590,26 @@ module.exports = {
         ],
         [
             'vuepress-plugin-helper-live2d', {
-              live2d: {
-                // 是否启用(关闭请设置为false)(default: true)
-                enable: true,
-                // 模型名称(default: hibiki)>>>取值请参考：
-                // https://github.com/JoeyBling/hexo-theme-yilia-plus/wiki/live2d%E6%A8%A1%E5%9E%8B%E5%8C%85%E5%B1%95%E7%A4%BA
-                model: 'hijiki',
-                display: {
-                  position: "right", // 显示位置：left/right(default: 'right')
-                  width: 290, // 模型的长度(default: 135)
-                  height: 400, // 模型的高度(default: 300)
-                  hOffset: 10, //  水平偏移(default: 65)
-                  vOffset: -20, //  垂直偏移(default: 0)
-                },
-                mobile: {
-                  show: false // 是否在移动设备上显示(default: false)
-                },
-                react: {
-                  opacity: 0.9 // 模型透明度(default: 0.8)
+                live2d: {
+                    // 是否启用(关闭请设置为false)(default: true)
+                    enable: true,
+                    // 模型名称(default: hibiki)>>>取值请参考：
+                    // https://github.com/JoeyBling/hexo-theme-yilia-plus/wiki/live2d%E6%A8%A1%E5%9E%8B%E5%8C%85%E5%B1%95%E7%A4%BA
+                    model: 'hijiki',
+                    display: {
+                        position: "right", // 显示位置：left/right(default: 'right')
+                        width: 290, // 模型的长度(default: 135)
+                        height: 400, // 模型的高度(default: 300)
+                        hOffset: 10, //  水平偏移(default: 65)
+                        vOffset: -20, //  垂直偏移(default: 0)
+                    },
+                    mobile: {
+                        show: false // 是否在移动设备上显示(default: false)
+                    },
+                    react: {
+                        opacity: 0.9 // 模型透明度(default: 0.8)
+                    }
                 }
-              }
             }
         ],
         ['@vuepress/back-to-top'],
@@ -601,7 +628,7 @@ module.exports = {
             sidebarLinkSelector: '.sidebar-link',
             headerAnchorSelector: '.header-anchor'
         }]
-            
+
     ]
     // configureWebpack: {
     //     resolve: {
