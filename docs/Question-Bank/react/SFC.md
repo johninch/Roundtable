@@ -5,10 +5,22 @@
 ### 无状态组件
 无状态函数式组件（Stateless Functional Component, SFC），顾名思义，无状态，也就是你无法使用State、生命周期方法，这就决定了函数组件都是展示性组件，接收Props，渲染DOM，而不关注其他逻辑。
 - 写法上只需要return react元素即可，没有render()。
-- 使用上没有this，也没有ref。
+- 使用上组件内部没有this,内部可以使用ref,外部无法使用ref
 
-#### 不支持 `ref`
+#### 组件上不支持 `ref`
 无状态组件不支持 "ref"。原因很简单，因为在 React 调用到无状态组件的方法之前，是**没有一个实例化的过程的，因此也就没有所谓的 "ref"**。
+```jsx harmony
+function SquareButton(props) {
+  let nodeDom;   // 组价内部可以使用ref
+  
+  return (
+    <button className="square" onClick={props.onClick} ref={node => nodeDom = node}>
+      {props.value}
+    </button>
+  );
+}
+<SquareButton ref={node => node = node}/> // ❌❌无法使用ref获取组件实例
+```
 
 #### 声明方式
 ```js

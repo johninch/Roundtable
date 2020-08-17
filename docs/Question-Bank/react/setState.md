@@ -115,7 +115,8 @@ React会对多次连续的 setState进行合并，如果你想立即使用上次
 - 不推荐直接在 `componentDidMount`直接调用 setState。componentDidMount本身处于一次更新中，我们又调用了一次 setState，就会在未来再进行一次 render，造成不必要的性能浪费，大多数情况可以设置初始值来搞定。
     - 当然在 componentDidMount我们可以调用接口，再回调中去修改 state，这是正确的做法。
     - 当state初始值依赖dom属性时，在 componentDidMount中 setState是无法避免的。
-- 在`componentWillUpdate`、`componentDidUpdate`这两个生命周期中不能调用 setState。会造成死循环，导致程序崩溃。
+- 在`componentWillUpdate`生命周期中不能调用 setState。会造成死循环，导致程序崩溃。
+- 在`componentDidUpdate`生命周期中可以调用setState, **但请注意它必须被包裹在一个条件语句里**, 否则会导致死循环
 
 ## 参考链接
 
