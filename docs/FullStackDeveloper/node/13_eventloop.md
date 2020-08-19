@@ -20,8 +20,8 @@
 ## 浏览器与Nodejs的事件循环差异（`重点`）
 
 根据本⽂开头我们讨论的事件循环起源，很容易理解为什么浏览器与 Node.js 的事件循环会存在差异。
-- 如果说浏览端是将 JavaScript 集成到 HTML 的事件循环之中，
-- 那么 Node.js 则是将 JavaScript 集成到 libuv 的 I/O 循环之中。
+- 如果说**浏览端是将 JavaScript 集成到 HTML 的事件循环**之中，
+- 那么 **Node.js 则是将 JavaScript 集成到 libuv 的 I/O 循环**之中。
 简⽽言之，⼆者都是把 JavaScript 集成到他们各⾃的环境中，但是 HTML (浏览器端) 与 libuv (服务端) ⾯对的场景有很⼤的差异。
 
 ::: tip `直观差异`

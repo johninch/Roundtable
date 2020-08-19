@@ -527,6 +527,8 @@ module.exports = {
                         '/FullStackDeveloper/node/2_Koa',
                         '/FullStackDeveloper/node/3_network_program',
                         '/FullStackDeveloper/node/4_mysql',
+                        '/FullStackDeveloper/node/6_auth',
+                        '/FullStackDeveloper/node/6_1_auth',
                         '/FullStackDeveloper/node/11_middle_tier',
                         '/FullStackDeveloper/node/12_serverless',
                         '/FullStackDeveloper/node/13_eventloop',
