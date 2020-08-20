@@ -594,7 +594,17 @@ var maxSubArray = function(nums) {
     };
     return ans;
 };
-
+// 这个方法
+var maxSubArray = function(nums) {
+    if (nums.length == 1) return nums[0];
+    var pre = 0;
+    var res = nums[0];
+    nums.forEach(item => {
+        pre = Math.max(pre + item, item);
+        res = Math.max(res, pre);
+    });
+    return res;
+}
 
 
 

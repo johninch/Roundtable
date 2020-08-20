@@ -145,5 +145,24 @@ for (let i = 100553; i < 100563; i++) {
 
 
 
+## RESTful架构
+
+REST，互联网应用程序的API设计理论，即（Representational State Transfer，`表现层状态转化`）。如果一个架构符合REST原则，就称它为RESTful架构。
+
+- "资源"是一种信息实体，它可以有多种外在表现形式。我们把"资源"具体呈现出来的形式，叫做它的"表现层"（Representation）。
+- 每一个URI代表一种资源，但是只代表资源的位置。它的具体表现形式，应该在HTTP请求的头信息中用Accept和Content-Type字段指定，这两个字段才是对"表现层"的描述。
+- 客户端通过5个HTTP动词，对服务器端资源进行操作，实现"`表现层状态转化`"。
+```
+GET（SELECT）：从服务器取出资源（一项或多项）。
+POST（CREATE）：在服务器新建一个资源。
+PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
+PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。
+DELETE（DELETE）：从服务器删除资源。
+```
+
+[理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful.html)
+
+[RESTful API 设计指南](http://www.ruanyifeng.com/blog/2014/05/restful_api.html)
+
 
 

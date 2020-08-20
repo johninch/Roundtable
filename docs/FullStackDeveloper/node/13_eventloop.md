@@ -7,10 +7,11 @@
 
 
 ## 事件循环是什么
-- 浏览器控制的，外部队列（宏任务队列，Task Queue）
-- JavaScript内部执行的，内部队列（微任务队列，Microtask Queue）
+- 浏览器控制的，`外部队列（宏任务队列，Task Queue）`
+- JavaScript内部执行的，`内部队列（微任务队列，Microtask Queue）`
     - promise.then()与.catch()
     - MutationObserver注册监听dom改变的回调
+- **微任务是基于语言本身的，宏任务是基于宿主语言本身的。比如Nodejs中宿主是libuv，而浏览器端宿主是HTML。**
 
 顺序就是：宏任务 =》微任务 =》渲染 =》下一个宏任务...
 
@@ -123,5 +124,7 @@ setImmediate(() => {
 
 待探究的知识点：*process.nextTick()从技术上讲不是事件循环的一部分，process.nextTick() 比 setImmediate() 触发得更快。建议开发人员在所有情况下都使用 setImmediate()，因为它更容易理解。*
 
+
+nextTick队列是会优先于微任务队列清空的。
 
 

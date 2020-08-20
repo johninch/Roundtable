@@ -1211,6 +1211,36 @@ addTask(400,4);
 
 
 
+
+
+
+
+// 编写js代码，实现点击一个node节点后，在5s内以当前位置为起点，半径为100px，旋转一周。
+// 提示：
+// 1. 要求使用js实现动画和旋转，不可以使用transform:rotate()/animtion/transition等css3属性
+// 2. 提示：已知圆周为2PI； 弧度= 角度* Math.PI / 180 ；js中Math对象下有sin(弧度) cos(弧度)等常用三角函数方法。例如获取30度角的正弦值：Math.sin(30 * Math.PI / 180)
+function rotate360(node) {
+    const radius = 100; // 旋转半径
+    const duration = 5 * 1000; // 5s
+    const startTime = Date.now();
+    const run = () => {
+    const elapse = Date.now() - startTime;
+
+    if (elapse <= duration) {
+        const radian = elapse / duration * 2 * Math.PI; // 当前旋转的弧度
+
+        const x = Math.sin(radian) * radius;
+        const y = (1 - Math.cos(radian)) * radius;
+
+        node.style.transform = `translate(${x}px, ${y}px)`
+
+        requestAnimationFrame(run);
+    }
+
+    run();
+}
+
+
 ```
 :::
 
