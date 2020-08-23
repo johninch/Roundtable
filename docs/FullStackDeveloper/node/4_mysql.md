@@ -9,7 +9,7 @@
 - 掌握node.js中实现持久化的多种方法
 - 掌握mysql下载、安装和配置
 - 掌握node.js中原生mysql驱动模块的应用
-- 掌握node.js中的ORM模块Sequelize的应用
+- 掌握node.js中的ORM模块Sequelize的应用（类似中间件）
 - 掌握Sequelize的应用案例
 
 ## nodejs中数据持久化的多种方法
