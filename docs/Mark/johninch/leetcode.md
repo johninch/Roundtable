@@ -3,6 +3,7 @@
 
 ### 目录
 ::: details
+- `M 120. 三角形最小路径和`
 - `M 670. 最大交换`
 - :rocket:`E 674. 最长连续递增序列`
 - `E 面试题61. 扑克牌中的顺子`
@@ -181,6 +182,17 @@
 ### details
 ::: details lc
 ```js
+// `M 120. 三角形最小路径和`
+var minimumTotal = function(triangle) {
+    var dp = triangle
+    for(var i = dp.length-2; i >= 0; i--) {
+        for(var j = 0; j < dp[i].length; j++) {
+            dp[i][j] = Math.min(dp[i+1][j], dp[i+1][j+1]) + triangle[i][j];
+        }
+    }
+    return dp[0][0];
+};
+
 // - `M 670. 最大交换`
 // 将数字从大到小排列，与原数字比较，找出第一位置不一样的数。如8217排序后变为8721，两两对比，第二个数不同，表示7和2交换，得到结果8712
 // 对于有重复数字的情况，应该要用位于最后面的去交换

@@ -495,6 +495,7 @@ module.exports = {
                         '/Algorithm/DP/',
                         '/Algorithm/DP/uniquePaths',
                         '/Algorithm/DP/uniquePaths2',
+                        '/Algorithm/DP/minimumTriangle',
                         '/Algorithm/DP/findCheapestPrice',
                     ]
                 },
@@ -533,6 +534,7 @@ module.exports = {
                         '/FullStackDeveloper/node/7_eggjs',
                         '/FullStackDeveloper/node/8_eggjs_project',
                         '/FullStackDeveloper/node/9_ts_decorate',
+                        '/FullStackDeveloper/node/10_node_deploy_nginx_pm2_docker',
                         '/FullStackDeveloper/node/11_middle_tier',
                         '/FullStackDeveloper/node/12_serverless',
                         '/FullStackDeveloper/node/13_eventloop',
