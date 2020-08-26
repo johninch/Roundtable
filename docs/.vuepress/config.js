@@ -521,6 +521,13 @@ module.exports = {
             '/FullStackDeveloper/': [
                 '/FullStackDeveloper/',
                 {
+                    title: 'Vue',
+                    children: [
+                        '/FullStackDeveloper/vue/1_pre_vue_componential',
+                        '/FullStackDeveloper/vue/1_vue_componential',
+                    ]
+                },
+                {
                     title: 'NodeJS',
                     children: [
                         '/FullStackDeveloper/node/1_base',

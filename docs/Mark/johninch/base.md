@@ -1873,6 +1873,24 @@ js解释器
                 - history 在修改 url 后，虽然页面并不会刷新，但如果我们手动刷新，或通过 url 直接进入应用的时候，服务端是无法识别这个 url 的
                 - 单页应用，其他url服务器会404
                 - 因此，需要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回单页应用的 html 文件。
+
+                        nginx配置修改，主要增加了：
+                        ```bash
+                        location / {
+                            try_files $uri $uri/ @rewrites;
+                        }
+                        ```
+                        try_files 是指当用户请求url资源时 www.xxx.com/xxx，try_files 会到硬盘资源根目录里找 xxx。
+                        - 如果存在名为 xxx 的文件就返回；
+                        - 如果找不到再找名为 xxx 的目录；
+                        - 再找不到就会执行@rewrites。（$uri指找文件， $uri/指找目录）
+                        ```
+                        location @rewrites {
+                            rewrite ^(.+)$ /index.html last;
+                        }
+                        ```
+                        rewrite是nginx中的重定向指令。^(.+)$ 是重定向规则。/index.html重定向路径。
+
             - 如何选择模式呢？
                 - 因为history是趋势，我们直接看hash的缺点就好了：
                     - 更丑；

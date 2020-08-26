@@ -170,7 +170,28 @@ class HashRouter{
 
 因为我们是**单页应用，只有一个 html 文件，服务端在处理其他路径的 url 的时候，就会出现404的情况**。
 
-所以，如果要应用 history 模式，**需要在服务端增加一个覆盖所有情况的候选资源**：`如果 URL 匹配不到任何静态资源，则应该返回单页应用的 html 文件`。
+所以，如果要应用 history 模式，**需要在服务端增加一个覆盖所有情况的候选资源**：`如果 URL 匹配不到任何静态资源，则应该返回单页应用的入口 html 文件，浏览器拿到入口，再结合history中的路由信息，就可以顺利访问子路由`。
+
+::: tip Nginx history模式配置
+
+nginx配置修改，主要增加了：
+```bash
+location / {
+    try_files $uri $uri/ @rewrites;
+}
+```
+try_files 是指当用户请求url资源时 www.xxx.com/xxx，try_files 会到硬盘资源根目录里找 xxx。
+- 如果存在名为 xxx 的文件就返回；
+- 如果找不到再找名为 xxx 的目录；
+- 再找不到就会执行@rewrites。（$uri指找文件， $uri/指找目录）
+```
+location @rewrites {
+    rewrite ^(.+)$ /index.html last;
+}
+```
+rewrite是nginx中的重定向指令。^(.+)$ 是重定向规则。/index.html重定向路径。
+
+:::
 
 ### 基于history方式「实现简单前端路由」
 

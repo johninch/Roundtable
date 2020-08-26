@@ -94,7 +94,7 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 - $attrs、$listeners
     - $attrs：包含了父作用域中不被 prop 所识别 (且获取) 的特性绑定 ( class 和 style 除外 )。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 ( class 和 style 除外 )，并且可以通过 v-bind="$attrs" 传入内部组件。通常配合 inheritAttrs 选项一起使用。
     - $listeners：包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件。
-    
+
 #### 非prop特性
 *非prop特性: 一个非 prop 特性是指传向一个组件，但是该组件并没有相应 prop 定义的特性。*
 
@@ -169,7 +169,7 @@ prop只能向下传递，子组件不能改变prop（如果试图改变会报错
 doSomething() {
    console.log('父组件监听到 mounted 钩子函数 ...');
 },
-    
+
 //  Child.vue
 mounted(){
    console.log('子组件触发 mounted 钩子函数 ...');
@@ -177,8 +177,8 @@ mounted(){
 
 // 以上输出顺序为：
 // 子组件触发 mounted 钩子函数 ...
-// 父组件监听到 mounted 钩子函数 ...     
-```  
+// 父组件监听到 mounted 钩子函数 ...
+```
 `@hook`不仅可以监听 mounted，其它的生命周期事件，例如：created，updated 等都可以监听。
 
 
