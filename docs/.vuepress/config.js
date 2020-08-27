@@ -525,6 +525,7 @@ module.exports = {
                     children: [
                         '/FullStackDeveloper/vue/1_pre_vue_componential',
                         '/FullStackDeveloper/vue/1_vue_componential',
+                        '/FullStackDeveloper/vue/2_vue_family',
                     ]
                 },
                 {
