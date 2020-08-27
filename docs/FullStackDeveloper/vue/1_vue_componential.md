@@ -394,64 +394,120 @@ inject: {
 
 ## 弹窗组件
 
-要想得到真实的DOM，把vnode编程Node，就必须要挂载
+- 弹窗这类组件的特点是它们在当前vue实例之外独立存在，通常挂载于body；
+- 它们是通过JS动态创建的，不需要在任何组件中声明。
+- 常⻅使用方式
+    ```js
+    this.$create(Notice, {
+        title: '标题',
+        message: '提示信息',
+        duration: 1000
+    }).show();
+    ```
 
-不能直接$mount('body')，会直接把body替换掉，所以先不设置目标，依然可以完成vnode为真实节点的转换
+
+### 任务目标
+需要创建组件实例，如果没有组件实例，就无法实现挂载，也就不能转化为真实的dom元素出现在页面中：
+- 1、构建Component的实例
+    - 方法1：“借鸡生蛋”，使用Vue构造函数，先得到Vue实例vm，vm在执行挂载之后，就能得到Component组件实例
+        ```js
+        const vm = new Vue({
+            render(h) {
+                // h是createElement
+                // 它可以返回一个vnode
+                return h(Component, { props })
+            }
+        }).$mount()
+        ```
+    - 方法2：使用Vue.extend得到组件实例
+        ```js
+        const comp = { data: {}, props: {} }
+        const Ctor = Vue.extend(comp) // 得到组件构造函数
+        new Ctor({ propsData: {} }) // 得到组件实例，传参需要指定propsData参数
+        ```
+- 2、挂载到body上
+    - 注意：不能直接$mount('body')，会直接把body覆盖替换掉，所以第一步中先不设置挂载目标，依然可以转换vnode为真实节点$el
+    - $mount()会产生一个真实节点$el，可以手动追加到body上
 
 
+### 代码实现
+
+#### 使用Vue构造函数得到组件实例
 ```js
-// packages/input/src/input.vue
-watch: {
-    value(val) {
-        this.$nextTick(this.resizeTextarea);
-        if (this.validateEvent) {
-            this.dispatch('ElFormItem', 'el.form.change', [val]);
+// create.js
+import Vue from 'vue'
+
+// Component - 组件配置对象
+// props - 传递给它的属性
+function create(Component, props) {
+    // 1.构建Component的实例
+    const vm = new Vue({
+        render(h) {
+            // h是createElement，返回vnode，是虚拟dom
+            // 需要挂载才能编程真实dom
+            return h(Component, { props })
         }
-    },
+    }).$mount()
+    // 一般 $mount() 需要指定挂载点，比如弹窗组件应挂载到body上，但这里的行为是覆盖的，所以应该之后追加到body上而不是直接挂载覆盖
+    // 不设置挂载目标，依然可以转换vnode为真实节点$el
+
+    // 2.挂载到body上
+    // $mount()会产生一个真实节点$el，可以手动追加到body上
+    document.body.appendChild(vm.$el)
+
+    // 3.获取组件实例
+    const comp = vm.$children[0] // 由于new Vue的根实例vm来说，只有一个组件实例
+
+    comp.remove = () => {
+        // 移除组件实例，释放内存
+        document.body.removeChild(vm.$el)
+        vm.$destroy()
+    }
+
+    return comp
 }
+
+export default create
 ```
 
-
 ```js
-// src/mixins/emitter.js
-function broadcast(componentName, eventName, params) {
-  this.$children.forEach(child => {
-    var name = child.$options.componentName;
-
-    if (name === componentName) {
-      child.$emit.apply(child, [eventName].concat(params));
-    } else {
-      broadcast.apply(child, [componentName, eventName].concat([params]));
-    }
-  });
-}
-export default {
-  methods: {
-    dispatch(componentName, eventName, params) {
-      var parent = this.$parent || this.$root;
-      var name = parent.$options.componentName;
-
-      while (parent && (!name || name !== componentName)) {
-        parent = parent.$parent;
-
-        if (parent) {
-          name = parent.$options.componentName;
-        }
-      }
-      if (parent) {
-        parent.$emit.apply(parent, [eventName].concat(params));
-      }
-    },
-    broadcast(componentName, eventName, params) {
-      broadcast.call(this, componentName, eventName, params);
-    }
-  }
-};
+// 使用
+create(Notice, {
+    title: '这是弹窗组件呀',
+    message: valid ? '校验通过，可以登录' : '校验失败'
+}).show()
 ```
 
+#### 使用Vue.extend得到组件实例
+- Vue.extend之后得到构造函数Ctor
+- new Ctor之后就可以直接得到组件实例
+- 组件实例进行挂载，将虚拟dom转换得到真实节点$el
+- 追击到body上
+```js
+// create.js
+import Vue from 'vue'
 
+// Component - 组件配置对象
+// props - 传递给它的属性
+function create(Component, props) {
+    // 构建Component的实例
+    const Ctor = Vue.extend(Component)
+    // 获得组件实例
+    const comp = new Ctor({propsData: props})
+    // 必须挂载，得到真实dom$el
+    comp.$mount()
+    // 追加都body上
+    document.body.appendChild(comp.$el)
 
+    comp.remove = () => {
+        // 移除组件实例，释放内存
+        document.body.removeChild(comp.$el) // 注意，这里不是vm了
+        comp.$destroy()
+    }
 
+    return comp
+}
 
-
+export default create
+```
 
