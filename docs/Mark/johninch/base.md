@@ -1665,7 +1665,10 @@ js解释器
     - module、chunk、bundle3者的关系
         - `module` 在开发中的所有的资源(.js、.css、.png)都是module，是webpack打包前的概念。
         - `chunk` 是webpack在进行模块的依赖分析的时候，代码分割出来的代码块。一个 chunk 可能包含若干 module。
-        - `bundle` 最终输出到用户端的chunk，被称之为bundle；一般一个chunk对应一个bundle，只有在配置了sourcemap时，才会出现一个chunk对应多个bundle的情况。
+        - `bundle` 最终输出到用户端的chunk，被称之为bundle；
+            - 一般一个chunk对应一个bundle
+                - 只有在配置了sourcemap时，才会出现一个chunk对应多个bundle的情况。
+                - 而在entry指定数组，多个chunk会打包到一个bundle中。
 
     - 打包出的文件具体原理：
             - **manifest.js** 内部是一个 IIFE，这个函数会接受一个空数组（命名为modules）作为参数。提供3个核心方法：
@@ -1749,8 +1752,13 @@ js解释器
         - 占位符指定长度 [chunkhash:8]
         - 各类别适用文件
             - JS文件的指纹设置'[name][chunkhash:8].js'
+                - （*js文件为什么不用contenthash呢*？）
+                - 因为js引入了css模块，如果css改变，css使用的contenthash，css的指纹变了，但对于引入它的js模块来说，如果使用contenthash，则js模块指纹不变。这样就会出错了，因为js无法引入更新后的css文件。
             - CSS文件的指纹设置'[name][contenthash:8].css'
-            - Images/Fonts的指纹设置'[name][hash:8].[ext]', 注意，图片字体的hash与和css或js的hash概念不一样，是按内容生成的，不是按编译生成的
+                - （*css文件为什么不用chunkhash呢*？）
+                - 因为js引入了css模块，如果js改变，js使用的是chunkhash，则chunkhash会改变，那么其引入的css模块也会跟着改变指纹，但这是不合理的，因为css自身内容根本没变。
+                - 所以css要使用contenthash，只与自身内容有关，无视被哪个js模块引用。
+            - Images/Fonts的指纹设置'[name][hash:8].[ext]', 注意，图片字体的hash与和css或js的hash概念不一样，是按内容生成的，不是按编译生成的。
     - 持久化缓存caching（注意id问题）
         - 通过指定：output.filename: '[name].[chunkhash].js'，内容改变名字才变
         - 再配合代码分割：将vendor.js单独打包。

@@ -250,7 +250,7 @@ Vue.directive('loadmore', {
 			}
 		}
 		```
-	- 提供 `__webpack_require__(moduleId)`  
+	- 提供 `__webpack_require__(moduleId)`
 		- 作用就是加载执行对应的module，并且缓存起来。
 		- 先判断下installedModules中是否有缓存，有则直接返回其module.exports；
 		- 没有的话就执行，将module输出的内容挂载到module.exports对象上，同时缓存到installedModules中。
@@ -275,8 +275,8 @@ Vue.directive('loadmore', {
 
 
 - [webpack是如何实现动态导入的](https://juejin.im/post/5d26e7d1518825290726f67a)
-- [](https://juejin.im/post/5a23b130f265da432003101a)
-- [](https://juejin.im/post/5ad8c96ff265da0ba062b190)
+- [简单易懂的 webpack 打包后 JS 的运行过程](https://juejin.im/post/5a23b130f265da432003101a)
+- [看看webpack都打出了些什么](https://juejin.im/post/5ad8c96ff265da0ba062b190)
 
 
 :::

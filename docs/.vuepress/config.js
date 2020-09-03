@@ -285,7 +285,6 @@ module.exports = {
                         '/Question-Bank/webpack/HMR',
                         '/Question-Bank/webpack/building-speed-up',
                         '/Question-Bank/webpack/webpack-tricks',
-                        '/Question-Bank/webpack/writing-a-plugin',
                     ]
                 },
                 {
@@ -526,6 +525,7 @@ module.exports = {
                         '/FullStackDeveloper/vue/1_pre_vue_componential',
                         '/FullStackDeveloper/vue/1_vue_componential',
                         '/FullStackDeveloper/vue/2_vue_family',
+                        '/FullStackDeveloper/vue/3_make_vue',
                     ]
                 },
                 {
@@ -546,6 +546,18 @@ module.exports = {
                         '/FullStackDeveloper/node/11_middle_tier',
                         '/FullStackDeveloper/node/12_serverless',
                         '/FullStackDeveloper/node/13_eventloop',
+                    ]
+                },
+                {
+                    title: 'Webpack',
+                    children: [
+                        '/FullStackDeveloper/webpack/1_basic_conf',
+                        '/FullStackDeveloper/webpack/2_advance_usage',
+                        '/FullStackDeveloper/webpack/3_product_training',
+                        '/FullStackDeveloper/webpack/4_performance_optimization',
+                        '/FullStackDeveloper/webpack/5_webpack_principle',
+                        '/FullStackDeveloper/webpack/6_make_loader',
+                        '/FullStackDeveloper/webpack/7_writing-a-plugin',
                     ]
                 },
                 {

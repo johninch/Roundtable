@@ -99,7 +99,7 @@ import { renderToString } from 'react-dom/server' // 直接res.send(Home)是不�
 
 const app = express()
 
-// app.get('/', (req, res) => { 
+// app.get('/', (req, res) => {
 //     res.send(renderToString(<Home />))
 // })
 

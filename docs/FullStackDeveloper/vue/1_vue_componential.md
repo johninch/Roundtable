@@ -511,3 +511,7 @@ function create(Component, props) {
 export default create
 ```
 
+
+## 思考
+
+学习elementUI的源码，修正input组件中$parent的写法问题（略）

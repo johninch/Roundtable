@@ -1,4 +1,4 @@
-# 编写一个webpack插件
+# 7、编写一个webpack插件
 
 - [writing-a-plugin](https://webpack.docschina.org/contribute/writing-a-plugin/)
 - [compiler-hooks](https://webpack.docschina.org/api/compiler-hooks/)
@@ -90,6 +90,16 @@ module.exports = {
 }
 ```
 
+### nodejs调试webpack
+
+运行npm run debug，node启动webpack，`--inspect`开启调试，`--inspect-brk`在第一行打断点方便进入调试：
+```js
+"debug": "node --inspect --inspect-brk node_modules/webpack/bin/webpack.js",
+```
+打开浏览器后，控制台左侧有绿色按钮，进入后即可调试。
+
+可以在自己写的插件中，打断点debugger，调试插件。
+
 
 ## 巩固：生成骨架屏插件
 
@@ -109,7 +119,7 @@ module.exports = {
 
 监听html-webpack-plugin-before-html-processing事件，在事件的回调函数中，插件会传入当前待处理的 HTML 内容供我们进一步修改。
 
-我们知道骨架屏组件最终的渲染结果包含 HTML 和样式两部分，样式部分可以直接插入 head 标签內，而 HTML 需要插入挂载点中。插件使用者可以通过参数设置这个挂载点位置，默认将使用<div id="app">。
+我们知道骨架屏组件最终的渲染结果包含 HTML 和样式两部分，样式部分可以直接插入 head 标签內，而 HTML 需要插入挂载点中。插件使用者可以通过参数设置这个挂载点位置，默认将使用`<div id="app">`。
 
 
 

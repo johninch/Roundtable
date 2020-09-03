@@ -58,6 +58,16 @@ module: {
 }
 ```
 
+::: tip 各类别适用文件
+- JS文件的指纹设置'[name][chunkhash:8].js'
+    - （*js文件为什么不用contenthash呢*？）
+    - 因为js引入了css模块，如果css改变，css使用的contenthash，css的指纹变了，但对于引入它的js模块来说，如果使用contenthash，则js模块指纹不变。这样就会出错了，因为js无法引入更新后的css文件。
+- CSS文件的指纹设置'[name][contenthash:8].css'
+    - （*css文件为什么不用chunkhash呢*？）
+    - 因为js引入了css模块，如果js改变，js使用的是chunkhash，则chunkhash会改变，那么其引入的css模块也会跟着改变指纹，但这是不合理的，因为css自身内容根本没变。
+    - 所以css要使用contenthash，只与自身内容有关，无视被哪个js模块引用。
+- Images/Fonts的指纹设置'[name][hash:8].[ext]', 注意，图片字体的hash与和css或js的hash概念不一样，是按内容生成的，不是按编译生成的。
+:::
 ## 持久化缓存caching（注意id问题）
 
 - 本质上就是通过指定：`output.filename: '[name].[chunkhash].js'`，因为`[chunkhash]`是内容相关的，只要内容发生了改变，构建后文件名的 hash 就会发生改变。
