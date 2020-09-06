@@ -526,6 +526,7 @@ module.exports = {
                         '/FullStackDeveloper/vue/1_vue_componential',
                         '/FullStackDeveloper/vue/2_vue_family',
                         '/FullStackDeveloper/vue/3_make_vue',
+                        '/FullStackDeveloper/vue/4_vue2_source',
                     ]
                 },
                 {

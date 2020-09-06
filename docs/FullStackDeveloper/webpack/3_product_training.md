@@ -701,10 +701,7 @@ module.exports = {
 - 2、接着，在devServer配置中，增加overlay: true，这样在开发环境中，启动devServer，编译后，就可以直接在网页中提示出代码lint校验了。
 ```js
 devServer: {
-    overlay: true,
-    proxy: {
-        // ...
-    }
+    overlay: true
 }
 ```
 - 3、但实际上，使用eslint-loader还是会对打包速度造成影响，如果对打包速度影响比较大的话，更推荐的做法，其实是使用vscode插件在开发时做好lint提示，并结合 husky(哈士奇) 注册在 git hook 中的 pre-commit钩子函数，执行lint-staged；

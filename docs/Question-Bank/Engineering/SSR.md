@@ -196,6 +196,6 @@ function renderUI(initialData) {
 - [官网hydrate()](https://zh-hans.reactjs.org/docs/react-dom.html#hydrate)
 - [hydrate](https://react.jokcy.me/book/features/hydrate.html)
 
-
+hydrate:补充水分，即注水操作
 
 
