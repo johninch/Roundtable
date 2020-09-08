@@ -568,6 +568,12 @@ module.exports = {
                         '/FullStackDeveloper/project/1',
                     ]
                 },
+                {
+                    title: '安全',
+                    children: [
+                        '/FullStackDeveloper/security/1_network_attack',
+                    ]
+                },
             ],
             '/Mark/': [
                 {
