@@ -24,6 +24,10 @@
 ![](./images/entry-node-of-loop.png)
 
 ## Johninch
+
+### 快慢指针法
+- 时间复杂度O(n)
+- 空间复杂度O(1)
 ```js
 // 环形链表的入口节点
 // 方法：分两步
@@ -66,6 +70,7 @@ function detectCycle(head) {
 }
 ```
 
+#### 会不会跨过去
 ::: warning 会不会跨过去？
 
 注意到：我们在快慢指针的方法中，设定快慢指针的速度分别为2和1，如果成环，那么二者为什么一定会相遇而不是刚好快指针跨过慢指针呢？
@@ -76,4 +81,30 @@ function detectCycle(head) {
 
 二者相差是2，最小距离为1，所以真的是有可能跨过去的！
 :::
+
+
+### 使用Set缓存
+- 时间复杂度O(n)
+- 空间复杂度O(n)
+
+判断链表是否成环，设置一个缓存，将每个链表节点都存起来，如果重复出现，就是有环的，否则就没有环：
+```js
+function detectCycle(head) {
+    const cache = new Set()
+    while(head) {
+        if (cache.has(head)) {
+            return true
+        } else {
+            cache.add(head)
+        }
+        head = head.next
+    }
+
+    return false
+}
+```
+
+
+
+
 

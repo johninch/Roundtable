@@ -831,6 +831,35 @@ var permute = function(nums) {
     return res
 };
 
+// 回溯：不停的试探。放一下，尝试一个结果，再撤销，走下一步。
+var permute = function() {
+    const list = [] // 保存所有排列的结果
+
+    backtrack(list, [], nums) // 执行回溯
+
+    return list
+}
+
+function backtrack(list, tmpList, nums) {
+    // 回溯的公式：
+        // 终止条件
+        // 循环
+        //     tmpList设置值
+        //     backtrack递归，tmpList已经变了，透传参数即可
+        //     tmpList撤销上次设置
+    if (tmpList.length === nums.length) {
+        return list.push([...tmpList])
+    }
+
+    for (let i = 0; i < nums.length; i++) {
+        if (tmpList.includes(nums[i])) continue
+        tmpList.push(nums[i])
+        backtrack(list, tempList, nums)
+        tmpList.pop()
+    }
+}
+
+
 // - M 面试题38. 字符串的排列
 var permutation = function(s) {
     s = s.split('') // 转成数组
@@ -1308,6 +1337,20 @@ var hasCycle = function(head) {
 
     return Boolean(firstMeet)
 };
+
+function detectCycle(head) {
+    const cache = new Set()
+    while(head) {
+        if (cache.has(head)) {
+            return true
+        } else {
+            cache.add(head)
+        }
+        head = head.next
+    }
+
+    return false
+}
 
 
 // E 206. 反转链表
@@ -2249,6 +2292,43 @@ var invertTree = function(root) {
 
 	return root
 };
+
+// 递归的方式
+var invertTree = function(root) {
+    if (!root) {
+        return null
+	}
+
+	[root.left, root.right] = [invertTree(root.right), invertTree(root.left)]
+
+	return root
+};
+
+// 遍历的方式
+var invertTree = function(root) {
+    if (!root) {
+        return null
+    }
+
+    const stack = [root]
+    let current = null
+    while(current = stack.shift()) {
+        const left = current.left
+        const right = current.right
+        current.left = right
+        current.right = left
+
+      if (left) {
+        stack.push(left)
+      }
+
+      if (right) {
+        stack.push(right)
+      }
+    }
+
+    return root
+}
 
 
 

@@ -34,6 +34,31 @@ var invertTree = function(root) {
 
 	return root
 };
+
+var invertTree = function(root) {
+    if (!root) {
+        return null
+    }
+
+    const stack = [root]
+    let current = null
+    while(current = stack.shift()) {
+        const left = current.left
+        const right = current.right
+        current.left = right
+        current.right = left
+
+      if (left) {
+        stack.push(left)
+      }
+
+      if (right) {
+        stack.push(right)
+      }
+    }
+
+    return root
+}
 ```
 
 ### niannings

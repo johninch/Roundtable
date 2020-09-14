@@ -531,6 +531,12 @@ module.exports = {
                     ]
                 },
                 {
+                    title: 'React',
+                    children: [
+                        '/FullStackDeveloper/react/1_react_componential',
+                    ]
+                },
+                {
                     title: 'NodeJS',
                     children: [
                         '/FullStackDeveloper/node/1_base',
@@ -565,7 +571,9 @@ module.exports = {
                 {
                     title: '项目',
                     children: [
-                        '/FullStackDeveloper/project/1',
+                        '/FullStackDeveloper/project/project',
+                        '/FullStackDeveloper/project/algorithm',
+                        '/FullStackDeveloper/project/performance_monitor',
                     ]
                 },
                 {
