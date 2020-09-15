@@ -535,6 +535,7 @@ module.exports = {
                     children: [
                         '/FullStackDeveloper/react/1_react_componential',
                         '/FullStackDeveloper/react/2_redux',
+                        '/FullStackDeveloper/react/3_react-redux',
                     ]
                 },
                 {

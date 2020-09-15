@@ -2,9 +2,14 @@
 
 ## 目标
 
+- Reducer
+    - 函数组合compose
 - redux
 - 常用中间件
-
+    - thunk
+    - logger
+    - promise
+- combineReducers
 
 ## Reducer
 
@@ -130,10 +135,7 @@ function addX(y) {
 
 addX(2)(1) // 3
 ```
-
 这样调用上述函数：`(foo(3))(4)`，或直接`foo(3)(4)`。
-
-
 
 看下面的例子，这里我们定义了一个 `add` 函数，它接受一个参数并返回一个新的函数。调用 `add` 之后，返回的函数就通过闭包的方式记住了 `add` 的第一个参数。一次性地调用它实在是有点繁琐，好在我们可以使用一个特殊的 `curry` 帮助函数（helper function）使这类函数的定义和调用更加容易。
 
@@ -147,14 +149,10 @@ var add = function(x) {
 var increment = add(1);
 var addTen = add(10);
 
-increment(2);
-// 3
+increment(2); // 3
 
-addTen(2);
-// 12
+addTen(2); // 12
 ```
-
-
 
 ## Redux原理
 Redux是JavaScript应⽤的`状态容器`（它不止可以用在react中）。它保证程序`⾏为⼀致性`且易于测试。
@@ -281,8 +279,9 @@ export default function createStore(reducer) {
 
 Redux只是个纯粹的状态管理器，默认只⽀持同步action，即action必须是对象（plain object）。要实现`异步action`，比如延迟，⽹络请求，就需要中间件的支持，⽐如使⽤最简单的`redux-thunk`和`redux-logger`。另外对于promise的异步支持，需要使用`redux-promise`。
 
-中间件就是⼀个函数，对 store.dispatch ⽅法进行改造，在发出 Action 和执⾏ Reducer 这两步之间，添加其他功能。
+中间件就是⼀个函数，对 store.dispatch ⽅法进行改造，**在发出 Action 和执⾏ Reducer 这两步之间，添加其他功能**。
 
+![](./images/redux_with_middlewares.jpeg)
 
 #### 如何使用中间件
 ```js
@@ -429,50 +428,64 @@ export default function promise({ dispatch }) {
 ```
 
 
+### combineReducers
 
 
+#### combineReducers使用
+在应用中，不可能只有一个reducer，面对多个reducer，redux提供了`combineReducers`，合并多个reducer，使用方式：
+```js
+function countReducer(state = 0, action) {
+    switch (action.type) {
+        case "ADD":
+            return state + 1;
+        case "MINUS":
+            return state - action.payload || 1;
+        default:
+            return state;
+    }
+}
+function countReducer2(state = {num: 0}, {type, payload}) {
+    switch (action.type) {
+        case "ADD2":
+            return {...state, num: state.num + payload};
+        default:
+            return state;
+    }
+}
 
+const store = createStore(
+    combineReducers({
+        count: countReducer,
+        count2: countReducer2
+    }),
+    applyMiddleware(thunk, promise, logger)
+);
 
+export default store;
+```
+在访问时：
+```js
+<p>{store.getState().count}</p>
+<p>{store.getState().count2.num}</p>
+```
 
+#### 实现combineReducers
 
+```js
+export default function combineReducers(reducers) {
+    return function combination(state = {}, action) {
+        let nextState = {}
+        let hasChanged = false
+        for (let key in reducers) {
+            const reducer = reducers[key]
+            nextState[key] = reducer(state[key], action)
+            hasChanged = hasChanged || nextState[key] !== state[key]
+        }
 
+        hasChanged = hasChanged || Object.keys(nextState).length !== Object.keys(state).length
 
-
-
-
-
-
-
-
-useLayoutEffect中执行订阅subscribe
-
-
-react-redux是一个桥梁，更方便的使用redux
-
-
-
-
-
-// function compose(...funcs) {
-//     // return funcs.reduce((a, b) => (...args) => a(b(...args)))
-//     return funcs.reduce((a, b) => {
-//         console.log(a, b); // f1() f2()
-
-//         return (...args) => {
-//             console.log("args", ...args); // lala
-//             return a(b(...args));
-//         };
-//     });
-// }
-
-// const f1 = (arg) => {
-//     console.log("f1", arg);
-// };
-
-// const f2 = (arg) => {
-//     console.log("f2", arg);
-// };
-
-// compose(f1, f2)("lala");
-
+        return hasChanged ? nextState : state
+    }
+};
+```
 
