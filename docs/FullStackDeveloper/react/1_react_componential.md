@@ -111,7 +111,7 @@ const Foo2 = foo(foo(Child));
 
 在cra中使用，需要做如下配置：
 ```bash
-yarn add @babel/plugin-proposal-decorators
+yarn add customize-cra react-app-rewired @babel/plugin-proposal-decorators -S
 ```
 更新config-overrides.js
 ```js
@@ -122,6 +122,16 @@ module.exports = override(
 addDecoratorsLegacy()//配置装饰器 );
 ```
 如果vscode对装饰器有warning，vscode设置里加上：javascript.implicitProjectConfig.experimentalDecorators: true
+
+另外，可能还要将pkg下的scripts改写为：
+```bash
+"scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+},
+```
 
 ### HOC注意事项
 **注意**：

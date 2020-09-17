@@ -63,7 +63,7 @@ children 与render类似，也是一个函数，函数返回要渲染的 React �
     <Foo {...props} data={extraProps} />
   </div>
 }}>
-</Route>    
+</Route>
 ```
 
 ## Switch组件的作用（v4新增）
