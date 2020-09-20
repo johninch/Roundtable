@@ -35,7 +35,7 @@ react-router中奉行一切皆组件的思想，`路由器-Router`、`链接-Lin
         - children不管是否匹配，都会被渲染（当然，如果在有独占路由Switch包裹时，只会匹配渲染，children就不会默认渲染了）
         - component、render必须匹配才能渲染
 - **注意!!!**：**渲染component的时候会调用React.createElement**，如果使用`内联匿名函数的形式`，每次都会生成一个新的匿名函数，导致生成的组件的type总是不相同，这个时候会产生**重复的卸载和挂载**，影响性能。
-- 三者能接收到同样的[route props]，包括match, location and history（但是当不匹配的时候， children的match为null）
+- 三者能接收到同样的`[route props]`，包括`match, location and history`（但是当不匹配的时候， children的match为null）
 ```js
 <Switch>
     <Route

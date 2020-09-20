@@ -537,6 +537,8 @@ module.exports = {
                         '/FullStackDeveloper/react/2_redux',
                         '/FullStackDeveloper/react/3_react-redux',
                         '/FullStackDeveloper/react/4_react-router',
+                        '/FullStackDeveloper/react/5_project_training.md',
+                        '/FullStackDeveloper/react/6_project_training2.md',
                     ]
                 },
                 {
