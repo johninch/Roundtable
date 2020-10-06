@@ -526,7 +526,9 @@ module.exports = {
                         '/FullStackDeveloper/vue/1_vue_componential',
                         '/FullStackDeveloper/vue/2_vue_family',
                         '/FullStackDeveloper/vue/3_make_vue',
-                        '/FullStackDeveloper/vue/4_vue2_source',
+                        '/FullStackDeveloper/vue/4_5_6_vue2_source',
+                        '/FullStackDeveloper/vue/8_vue_ts',
+                        '/FullStackDeveloper/vue/9_project_training',
                         '/FullStackDeveloper/vue/10_vue3_1',
                     ]
                 },
@@ -539,6 +541,10 @@ module.exports = {
                         '/FullStackDeveloper/react/4_react-router',
                         '/FullStackDeveloper/react/5_project_training.md',
                         '/FullStackDeveloper/react/6_project_training2.md',
+                        '/FullStackDeveloper/react/7_react16_source_1.md',
+                        '/FullStackDeveloper/react/8_react16_source_2.md',
+                        '/FullStackDeveloper/react/9_react16_source_3.md',
+                        '/FullStackDeveloper/react/10_react16_source_4.md',
                     ]
                 },
                 {

@@ -113,7 +113,7 @@ interface Fiber {
 
   /**
    * ⚛️ 结构信息
-   */ 
+   */
   return: Fiber | null,
   child: Fiber | null,
   sibling: Fiber | null,
