@@ -301,6 +301,31 @@ function cloneElement(element, config, children) {
 }
 ```
 
+实现：
+```js
+function cloneElement(element, config, ...children) {
+    const props = Object.assign({}, element.props)
+
+    let defaultProps = {}
+    if (element.type && element.type.defaultProps) {
+        defaultProps = element.type.defaultProps
+    }
+
+    for (let propName in config) {
+        if (propName !== "key" && propName !== "ref") {
+            let val = config[propName] || defaultProps[propName]
+            val && (props[propName] = val)
+        }
+    }
+
+    return {
+        key: element.key || config.key || "",
+        type: element.type,
+        props
+    }
+}
+```
+
 #### isValidElement
 ```js
 export function isValidElement(object) {

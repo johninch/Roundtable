@@ -271,8 +271,11 @@ export default React.memo(MyComponent, areEqual);
 
 ## react@16.6中的lazy方法是做什么的？
 
-React.lazy：
-React.lazy 允许你定义一个动态加载的组件。这有助于缩减 bundle 的体积，并延迟加载在初次渲染时未用到的组件。
+::: danger 暂不支持服务端渲染
+React.lazy和Suspense暂不支持服务端渲染，可以借助第三方插件库来实现。
+:::
+
+React.lazy：允许你定义一个动态加载的组件。这有助于缩减 bundle 的体积，并延迟加载在初次渲染时未用到的组件。
 ```jsx
 import React, { Suspense } from 'react';
 

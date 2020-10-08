@@ -1,8 +1,8 @@
 # React 性能优化
 
-React 性能优化的]主要方向有两个：
+React 性能优化的主要方向有两个：
 
-- `减少重新 render 的次数`。因为在 React 里最重(花时间最长)的一块就是 reconction(简单的可以理解为 diff)，如果不 render，就不会 reconction。
+- `减少重新 render 的次数`。因为在 React 里最重(花时间最长)的一块就是 reconciliation(简单的可以理解为 diff)，如果不 render，就不会 reconciliation。
 - `减少重复计算`。对于函数式组件来说，每次 render 都会重新从头开始执行函数调用，对于一些计算函数每次都会重新计算。
 
 ## 减少rerender

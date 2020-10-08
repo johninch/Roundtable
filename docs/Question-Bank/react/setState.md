@@ -10,7 +10,7 @@ componentDidMount() {
     this.setState({
         index: this.state.index + 1
     })
-    
+
     console.log('state', this.state.index);
 }
 ```
@@ -33,13 +33,19 @@ componentDidMount() {
         console.log('state', this.state.index);
     }, 0);
 }
- ```
+```
+```js
+// 原生事件
+dom.addEventListener('click',()=>{
+    setState({foo: 'bar'})
+})
+```
 如上面的代码，当我们在**异步代码中**调用 setState时，根据 JS的异步机制，会将异步代码先暂存，等所有同步代码执行完毕后在执行，`这时 React的批处理机制已经走完`，批处理标志设被设置为 false，这时再调用 setState即可立即执行更新，拿到更新后的结果。
 
 在**原生事件中**调用 `setState并不会触发 React的批处理机制`，所以立即能拿到最新结果。
 
 ### 最佳实践
-setState的第二个参数接收一个函数，该函数会在 React的批处理机制完成之后调用，所以你想在调用 setState后立即获取更新后的值，请在该回调函数中获取。
+setState的第二个参数接收一个`回调函数`，该函数会在 React的批处理机制完成之后调用，所以你想在调用 setState后立即获取更新后的值，请在该回调函数中获取。
 ```tsx
 this.setState(
     {
