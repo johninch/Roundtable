@@ -53,10 +53,6 @@ diffing算法复杂度O(n)，按照`同层比较，深度优先`的顺序，遍�
         - oldVnode和newVnode相同，复用节点
         - oldVnode和newVnode不同，更新节点
 
-
-*vue是游标比较，react是链式比较*
-
-
 ## fiber
 
 ### 什么是fiber

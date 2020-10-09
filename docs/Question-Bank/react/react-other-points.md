@@ -313,3 +313,20 @@ const App = () => (
   </Router>
 );
 ```
+
+
+## 遗留问题待整理
+
+有几个关于React的小问题大家有时间可以想一想，自己是否搞清楚了
+
+1. `<Parent><Child /></Parent>`上述组件调用后，是否Child一定会被执行（即调用了Child的render）？什么情况下不会执行/会执行？
+
+2. 如果`const Parent = () => <Child />`，那么直接调用 `<Parent />` 和问题一中的写法是否有什么相同/不同点。
+
+3. `<App /> === React.createElement(App)`，那么就表示调用了App的render方法了吗？注意区别ReactElement和FiberNode，VirtualDOM和FiberTree，以及两者间的区别
+
+记住 `<Parent children={<Child />} />`  === `<Parent><Child /></Parent>`，再去理解1和2
+
+还有一定要理解React中element、node、component、class instance、fiber node的差异和联系，不少人工作中对这些一直是糊里糊涂的搞不清楚
+
+

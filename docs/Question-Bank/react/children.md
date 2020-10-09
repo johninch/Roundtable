@@ -38,6 +38,13 @@ React.js 把嵌套的 JSX 元素一个个都放到数组当中，然后通过 `p
 
 *这里的`“不透明”`，代表 this.props.children 可以是任何类型，例如数据，函数，对象，等等。因此你可以传递任何东西。*
 
+props.children类似于vue中插槽，插入的child可以是任意类型。并且，插入不同的内容可能会得到不同类型的props.children
+- 当不插入内容或内容为换行符时，props.children为**undefined**
+- 当插入多个内容时，props.children为**Array**（`多个文本视为一个内容`）
+- 当插入一个内容时，props.children为**插入值**
+
+因为 props.children并不一定为数组，所以在使用数组方法时记得要判断是否为数组，或者使用帮助方法 React.Children.map 和 React.Children.forEach，这样即使不是数组也不会报错。
+
 ### 1、遍历当前组件的children
 ```jsx
 React.Children.map(children, function(child, i) {}) // 遍历，并返回一个新数组；
@@ -50,6 +57,15 @@ React.Children.forEach(children, function(child, i) {}) // 只遍历
 - 如果传递一个字符串或者函数作为子元素，将打破`this.props.children.length`的正常使用：比如有一个后代，“Hello World.”，但是`this.props.children.length`相反却输出12!
 - 而不管子元素是什么类型，`React.Children.count(children)`都可以准确地返回 children 中的组件总数量，等同于通过 map 或 forEach 调用回调函数的次数。
 
+```js
+const ChildCount = props => Children.count(props.children);
+
+// 下面渲染结果（即props.children的长度是什么）：
+<ChildCount>1</ChildCount> // 1
+<ChildCount> 1 </ChildCount> // 1
+<ChildCount> 1  2 </ChildCount> // 1
+<ChildCount> 1  {2} </ChildCount> // 2
+```
 
 ### 3、在渲染函数中如何操作子节点的集合（数组化）
 

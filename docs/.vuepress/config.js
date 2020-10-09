@@ -530,6 +530,8 @@ module.exports = {
                         '/FullStackDeveloper/vue/8_vue_ts',
                         '/FullStackDeveloper/vue/9_project_training',
                         '/FullStackDeveloper/vue/10_vue3_1',
+                        '/FullStackDeveloper/vue/11_vue-hook_vs_react-hook.md',
+                        '/FullStackDeveloper/vue/12_vite.md',
                     ]
                 },
                 {
@@ -545,6 +547,7 @@ module.exports = {
                         '/FullStackDeveloper/react/8_react16_source_2.md',
                         '/FullStackDeveloper/react/9_react16_source_3.md',
                         '/FullStackDeveloper/react/10_react16_source_4.md',
+                        '/FullStackDeveloper/react/11_react&vue.md',
                     ]
                 },
                 {
