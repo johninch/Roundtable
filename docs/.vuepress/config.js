@@ -383,6 +383,16 @@ module.exports = {
             '/Algorithm/': [
                 '/Algorithm/',
                 {
+                    title: '排序',
+                    children: [
+                        '/Algorithm/Sort/',
+                        '/Algorithm/Sort/firstMissingPositive.md',
+                        '/Algorithm/Sort/fast-sort.md',
+                        '/Algorithm/Sort/selection-sort.md',
+                        '/Algorithm/Sort/shell-sort.md',
+                    ]
+                },
+                {
                     title: '链表',
                     children: [
                         '/Algorithm/Linked-List/',
@@ -419,13 +429,10 @@ module.exports = {
                     ]
                 },
                 {
-                    title: '排序',
+                    title: '堆',
                     children: [
-                        '/Algorithm/Sort/',
-                        '/Algorithm/Sort/firstMissingPositive.md',
-                        '/Algorithm/Sort/fast-sort.md',
-                        '/Algorithm/Sort/selection-sort.md',
-                        '/Algorithm/Sort/shell-sort.md',
+                        '/Algorithm/Heap/',
+                        '/Algorithm/Heap/topK.md',
                     ]
                 },
                 {

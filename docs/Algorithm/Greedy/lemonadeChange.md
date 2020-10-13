@@ -31,7 +31,7 @@
 var lemonadeChange = function(bills) {
     let five = 0, ten = 0;
     for (let i = 0; i < bills.length; i++) {
-        let money = bills[i], gap;
+        let money = bills[i];
         if (money === 5) {
             five++
         } else if (money === 10) {

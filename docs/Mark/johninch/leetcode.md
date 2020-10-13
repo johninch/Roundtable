@@ -331,10 +331,9 @@ var twoSum = function (nums, target) {
     let res = {}
     for (let i = 0; i < nums.length; i++) { // 每个人报出自己想要配对的人
         if (res[nums[i]] !== undefined) { // 如果有人被登记过
-            // return [nums[i], res[nums[i]]] // 就是他
-            return [i, nums.indexOf(res[nums[i]])] // 注意返回的是下标
+            return [res[nums[i]], i] // 注意返回的是下标
         } else {  // 否则
-            res[target - nums[i]] = nums[i] // 主持人记住他的需求
+            res[target - nums[i]] = i // 主持人记住他的需求
         }
     }
 }
@@ -380,8 +379,6 @@ var threeSum = function(nums) {
 
 // - M 43. 字符串相乘（大数相乘）
 var multiply = function (num1, num2) {
-    if (num1 === '0' || num2 === '0') return '0'
-
     let len1 = num1.length,
         len2 = num2.length,
         res = new Array(len1 + len2).fill(0)
@@ -399,30 +396,39 @@ var multiply = function (num1, num2) {
             res[p1] = res[p1] + Math.floor(sum / 10)
         }
     }
-    if (res[0] === 0) res.shift()
-    return res.join("")
+
+    while (res[0] === 0) {
+        res.shift()
+    }
+
+    return res.join('') || '0'
 };
 
 
 
 // - E 字符串相加（处理加法精度）
-var addStrings = function(num1, num2) {
-    let a = num1.length, 
-        b = num2.length,
-        result = '',
-        tmp = 0
+var addStrings = function (num1, num2) {
+    let a = num1.length
+    let b = num2.length
 
-    while(a || b) {
-        a ? tmp += +num1[--a] : ''
-        b ? tmp += +num2[--b] : ''
+    let sum = '' // sum是字符串，计算时是字符串拼接
+    let add = 0 // add代表进位和当前位计算临时值
 
-        result = tmp % 10 + result
-        if(tmp > 9) tmp = 1
-        else tmp = 0
+    while (a || b) {
+        a ? add += +num1[--a] : ''
+        b ? add += +num2[--b] : ''
+
+        sum = add % 10 + sum
+
+        if (add > 9) add = 1
+        else add = 0
     }
-    if (tmp) result = 1 + result
 
-    return result
+    if (add) {
+        sum = 1 + sum
+    }
+
+    return sum
 };
 
 // 处理加法精度
@@ -434,17 +440,17 @@ var addStrings = function(num1, num2) {
     num1 = num1.toString()
     num2 = num2.toString()
 
-    let a = num1.length, b = num2.length, result = '', tmp = 0
+    let a = num1.length, b = num2.length, sum = '', add = 0
     while(a || b) {
-        a ? tmp += +num1[--a] : ''
-        b ? tmp += +num2[--b] : ''
+        a ? add += +num1[--a] : ''
+        b ? add += +num2[--b] : ''
 
-        result = tmp % 10 + result
-        tmp = tmp > 9 ? 1 : 0
+        sum = add % 10 + sum
+        add = add > 9 ? 1 : 0
     }
-    if (tmp) result = 1 + result
+    if (add) sum = 1 + sum
 
-    return result / mult
+    return sum / mult
 };
 addStrings('110.3', '2000.45')
 
@@ -555,6 +561,30 @@ var longestPalindrome = function(s) {
 
     return res
 }
+var longestPalindrome = function (s) {
+    let n = s.length
+    let res = ''
+    // dp[i,j]：字符串s从索引i到j的子串是否是回文串
+    let dp = Array.from(new Array(n), () => new Array(n).fill(0))
+
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = i; j < n; j++) {
+            if (s[i] == s[j]) {
+                if (j - i < 2) { // 子串是一个长度为0或1的回文串，则肯定是回文子串
+                    dp[i][j] = 1
+                } else {
+                    dp[i][j] = dp[i + 1][j - 1]
+                }
+            }
+
+            if (dp[i][j] && j - i + 1 > res.length) {
+                res = s.substring(i, j + 1)
+            }
+        }
+    }
+
+    return res
+};
 
 
 // E 21. 合并两个有序链表
@@ -804,6 +834,35 @@ var merge = function (intervals) {
 
 
 // M 46. 全排列
+// 回溯：不停的试探。放一下，尝试一个结果，再撤销，走下一步。
+// 回溯的公式：
+    // 终止条件
+    // 循环
+    //     tmpList设置值
+    //     backtrack递归，tmpList已经变了，透传参数即可
+    //     tmpList撤销上次设置
+var permute = function (nums) {
+    const res = [] // // 保存所有排列的结果
+
+    const backtrack = (res, tmpList, nums) => {
+        if (tmpList.length === nums.length) {
+            // 终止条件
+            return res.push([...tmpList])
+        } else {
+            for (let i = 0; i < nums.length; i++) {
+                if (tmpList.includes(nums[i])) continue
+                tmpList.push(nums[i])
+                backtrack(res, tmpList, nums)
+                tmpList.pop()
+            }
+        }
+    }
+
+    backtrack(res, [], nums) // 执行回溯
+
+    return res
+};
+
 var permute = function(nums) {
     const res = []
     const swap = (arr, i, j) => {
@@ -830,34 +889,6 @@ var permute = function(nums) {
 
     return res
 };
-
-// 回溯：不停的试探。放一下，尝试一个结果，再撤销，走下一步。
-var permute = function() {
-    const list = [] // 保存所有排列的结果
-
-    backtrack(list, [], nums) // 执行回溯
-
-    return list
-}
-
-function backtrack(list, tmpList, nums) {
-    // 回溯的公式：
-        // 终止条件
-        // 循环
-        //     tmpList设置值
-        //     backtrack递归，tmpList已经变了，透传参数即可
-        //     tmpList撤销上次设置
-    if (tmpList.length === nums.length) {
-        return list.push([...tmpList])
-    }
-
-    for (let i = 0; i < nums.length; i++) {
-        if (tmpList.includes(nums[i])) continue
-        tmpList.push(nums[i])
-        backtrack(list, tempList, nums)
-        tmpList.pop()
-    }
-}
 
 
 // - M 面试题38. 字符串的排列
@@ -933,6 +964,18 @@ var reverse = function(x) {
         return now > Math.pow(2, 31) ? 0 : now
     } else {
         return now > Math.pow(2, 31) ? 0 : -now
+    }
+};
+var reverse = function (x) {
+    let fuhao = 1
+    if (x < 0) {
+        fuhao = 0
+    }
+    x = Math.abs(x).toString().split('').reverse().join('').valueOf()
+    if (x < -Math.pow(2, 31) || x > Math.pow(2, 31) - 1) {
+        return 0
+    } else {
+        return fuhao ? x : -x
     }
 };
 
@@ -1030,7 +1073,8 @@ var generateParenthesis = function (n) {
     // left：当前字符中左括号个数
     // right:当前字符中右括号个数
     const help = (cur, left, right) => {
-        if (cur.length === 2 * n) { // 终止条件
+        if (cur.length === 2 * n) {
+            // 终止条件
             res.push(cur);
         } else {
             if (left < n) {
@@ -1056,7 +1100,8 @@ const restoreIpAddresses = function(str) {
             return
         }
 
-        if (cur.length === 4 && cur.join('') === str) { // 终止条件
+        if (cur.length === 4 && cur.join('') === str) {
+            // 终止条件
             result.push(cur.join('.'))
         } else {
             for(let i = 0, len = Math.min(3, sub.length), temp; i < len; i++) {
@@ -1226,6 +1271,47 @@ var coinChange = function(coins, amount) {
 
     return dp[amount] === Infinity ? -1 : dp[amount]
 };
+// ----------------开始解题，拿实例来说话----------------------
+
+// - 假设给出的不同面额的硬币是[1, 2, 5]，目标是 120，问最少需要的硬币个数？
+
+// - 我们要分解子问题，分层级找最优子结构，看到这又要晕了哈，憋急~~ 下面马上举例。
+
+// - 这里我们使用「自顶向下」思想来考虑这个题目，然后用「自底向上」的方法来解题，
+//   体验算法的冰火两重天。
+
+// - dp[i]: 表示总金额为 i 的时候最优解法的硬币数
+
+// - 我们想一下：求总金额 120 有几种方法？下面这个思路关键了 !!!
+//   一共有 3 种方式，因为我们有 3 种不同面值的硬币。
+//   1.拿一枚面值为 1 的硬币 + 总金额为 119 的最优解法的硬币数量
+//     这里我们只需要假设总金额为 119 的最优解法的硬币数有人已经帮我们算好了，
+//     不需要纠结于此。(虽然一会也是我们自己算，哈哈)
+//     即：dp[119] + 1
+//   2.拿一枚面值为 2 的硬币 + 总金额为 118 的最优解法的硬币数
+//     这里我们只需要假设总金额为 118 的最优解法的硬币数有人已经帮我们算好了
+//     即：dp[118] + 1
+//   3.拿一枚面值为 5 的硬币 + 总金额为 115 的最优解法的硬币数
+//     这里我们只需要假设总金额为 115 的最优解法的硬币数有人已经帮我们算好了
+//     即：dp[115] + 1
+
+//   - 所以，总金额为 120 的最优解法就是上面这三种解法中最优的一种，也就是硬币数最少
+//     的一种，我们下面试着用代码来表示一下：
+
+//   - dp[120] = Math.min(dp[119] + 1, dp[118] + 1, dp[115] + 1);
+
+//   - 推导出「状态转移方程」：
+//     dp[i] = Math.min(dp[i - coin] + 1, dp[i - coin] + 1, ...)
+//     其中 coin 有多少种可能，我们就需要比较多少次，那么我们到底需要比较多少次呢？
+//     当然是 coins 数组中有几种不同面值的硬币，就是多少次了~ 遍历 coins 数组，
+//     分别去对比即可
+
+//   - 上面方程中的 dp[119]，dp[118]，dp[115] 我们继续用这种思想去分解，
+//     这就是动态规划了，把这种思想，思考问题的方式理解了，这一类型的题目
+//     问题都不会太大。
+
+// 作者：ignore_express
+// 链接：https://leetcode-cn.com/problems/coin-change/solution/js-xiang-jie-dong-tai-gui-hua-de-si-xiang-yi-bu-da/
 
 
 // E 160. 相交链表
@@ -1413,9 +1499,13 @@ var reverseBetween = function(head, m, n) {
     }
 
     // 将原链表与区间反转的链表拼接
-    console.log(cur.val, prev.val, tmpHead.val)
-    tmpHead.next.next = cur //  ————————————————————————————————————————————》好好理解下
-    tmpHead.next = prev
+    // console.log(cur.val, prev.val, tmpHead.val, tmpHead.next.val)
+    // cur指向后半截的头
+    // prev指向反转后区间头
+    // tmpHead指向前半截尾
+    // tmpHead.next指向反转后区间尾
+    tmpHead.next.next = cur // 反转后区间尾.next = 后半截的头
+    tmpHead.next = prev // 前半截尾.next = 反转后区间头
 
     return dummyHead.next
 };
@@ -1520,21 +1610,17 @@ const sortList = function(head) {
 // E 198. 打家劫舍
 // 设f(x)为打劫前x家房子所能得到的最大的资金
 // f(n)=max(nums[n]+f(n-2),f(n-1))
-var rob = function(nums) {
-    let len = nums.length
-    if (len === 0) {
-        return 0
-    }
-
-    const dp = new Array(len + 1)
-
+var rob = function (nums) {
+    const dp = Array.from(nums.length + 1)
     dp[0] = 0
     dp[1] = nums[0]
-    for(let i = 2; i <= len; i++) {
-        dp[i] = Math.max(dp[i - 2] + nums[i-1], dp[i - 1])
+    // dp[2] = Math.max(dp[1], dp[0] + nums[1])
+    // dp[3] = Math.max(dp[2], dp[1] + nums[2])
+    for (let i = 2; i <= nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1])
     }
 
-    return dp[len]
+    return dp[nums.length]
 };
 
 
@@ -1629,39 +1715,44 @@ var isSymmetric = (root) => {
 // 递归查找当前root中的左右子树是否有p节点或者q节点，有则返回p或q，没有返回null
 var lowestCommonAncestor = function(root, p, q) {
     // 递归终止条件，查找的临界条件
-    if(root === null || root === p || root === q) { //  ————————————————————————————————————————————》好好理解下
+    if(root === null || root === p || root === q) { //  没找到 或 找到 p 或 找到 q ，则终止递归
         return root
     }
     // 没到临界条件时，递归查找左右子树
     // 从左右子树分别递归查找，看是否找到
-    let left = lowestCommonAncestor(root.left, p, q)
+    let left = lowestCommonAncestor(root.left, p, q) // 所有节点的值都是唯一的
     let right = lowestCommonAncestor(root.right, p, q)
 
     if(left && right){
-        // 左右子树都找到了，说明就是当前root，返回root
+        // p 和 q 分别在 root 的 左子节点 和 右子节点，root是最近根节点
         return root
     } else {
-        // 否则返回找到的子树结果
+        // p 和 q 在同一侧子树中，或 p 和 q 都不在这两个子树中，返回调用结果即可
         return left || right
     }
 };
+// 如果当前遍历的节点 root，不是 p 或 q 或 null，则我们要递归搜寻左右子树：
+// - 如果左右子树递归调用，都有结果，说明 p 和 q 分居 root 的左右子树，返回 root。
+// - 如果只是其中一个子树递归调用有结果，说明 p 和 q 都在这个子树，则返回该子树递归调用的结果。
+// - 如果两个子树递归调用的结果都为 null，说明 p 和 q 都不在这俩子树中，返回 null。
+
 
 // E 112. 路径总和
 // 此题必须从根节点到叶子节点，判断是否存在和
 var hasPathSum = function (root, sum) {
     if (!root) return false
 
-    // 递归终止条件
     if (!root.left && !root.right && root.val === sum) {
+        // 终止条件
         return true
+    } else {
+        // 递归，递归查找左右子树
+        let left = hasPathSum(root.left, sum - root.val)
+        let right = hasPathSum(root.right, sum - root.val)
+
+        // 返回能够把sum最终减完的子树结果
+        return left || right
     }
-
-    // 没到终止条件时，递归查找左右子树
-    let left = hasPathSum(root.left, sum - root.val)
-    let right = hasPathSum(root.right, sum - root.val)
-
-    // 返回能够把sum最终减完的子树结果
-    return left || right
 };
 
 // E 437. 路径总和 III
@@ -1731,6 +1822,7 @@ var firstMissingPositive = function(arr) {
     }
 
     for(let i = 0, len = newArr.length; i < len; i++) {
+        // if (newArr[i] === undefined) 也可以
         if (newArr[i] !== i + 1) {
             return i + 1
         }
@@ -1742,16 +1834,17 @@ var firstMissingPositive = function(arr) {
 
 // M 300. 最长上升子序列
 // 由于一个子序列一定会以一个数结尾，于是将状态定义成：dp[i] 表示以 nums[i] 结尾的「上升子序列」的长度
-var lengthOfLIS = function(nums) {
-    let len = nums.length
-    if (len === 0) return 0
-    if (len === 1) return 1
-    const dp = new Array(len + 1).fill(1)
+var lengthOfLIS = function (nums) {
+    if (!nums.length) return 0
 
-    for(let i = 1; i < len; i++) {
-        for(let j = 0; j < i; j++) {
+    const len = nums.length
+    const dp = new Array(len + 1).fill(1) // 初始化为1，因为子序列最少包含自己，即1
+
+    for (let i = 1; i < len; i++) {
+        for (let j = 0; j < i; j++) {
             if (nums[j] < nums[i]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1) // ————————————————————————————————————————————》好好理解下
+                // 加1为在nums[j]的最长递增子序列dp[j]基础上加上当前元素nums[i]所得的最长递增子序列
+                dp[i] = Math.max(dp[i], dp[j] + 1)
             }
         }
     }
@@ -1844,8 +1937,7 @@ var maximalSquare = function(matrix) {
 
 
 // E 26. 删除排序数组中的重复项
-// 需要再原数组上操作
-// 双指针法 i，j
+// 需要在原数组上操作
 // 当且仅当遇到下一个不相同即不重复的元素时，更新指针位置为下一个元素
 var removeDuplicates = function(nums) {
     const n = nums.length
@@ -2070,6 +2162,23 @@ const countBinarySubstrings = (s) => {
 
     return result.length
 }
+var countBinarySubstrings = function(s) {
+    // pre 前一个数字连续出现的次数，cur 当前数字连续出现的次数，result 结果子串个数
+    let pre = 0, cur = 1, res = 0
+    for (let i = 0, len = s.length - 1; i < len; i++) {
+        // 判断当前数字是否与后一个数字相同
+        if (s[i] === s[i+1]) { // 相同，则当前数字出现的次数cur加1
+            cur++
+        } else { // 不同，则当前数字的次数，事实上变成了前一个数字的次数，当前数字的次数重置为1
+            pre = cur
+            cur = 1
+        }
+        if (pre >= cur) { // 前一个数字出现的次数 >= 后一个数字出现的次数，则一定包含满足条件的子串
+            res++
+        }
+    }
+    return res
+};
 
 
 // E 557. 反转字符串中的单词 III
@@ -2628,7 +2737,6 @@ function detectCycle(head) {
       firstMeet = firstMeet.next
       head = head.next
   }
-  return null
 }
 
 
@@ -2680,7 +2788,6 @@ class MyCircularQueue {
         return this.front === this.rear && !!this.list[this.front]
     }
     Front() {
-
         return isEmpty() ? -1 : this.list[this.front]
     }
     Rear() {
