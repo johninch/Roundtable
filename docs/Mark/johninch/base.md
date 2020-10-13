@@ -230,11 +230,43 @@ alert(b.x);// --> {n:2}
                         ```
                     - 比如我不会阻止默认事件，通过传入`{passive: true}`先告诉浏览器不用等（你放心，我没有阻止默认行为，你不用在这儿等了可以先“滚”了），直接滚动页面就行
                     - 注意：addEventListener第三个参数中传入 {passive: true}有兼容性问题，因为对于低版本浏览器来说，第三个参数是用来设置是否进行事件捕获的，所以需要特性检测。
+                - 使用 pointer-events: none 禁止鼠标事件
+                    - 在用户开始滚动页面的时候, 给body添加 .disable-hover。这个操作可以让鼠标经过元素的时候**禁用hover效果**。
+                    ```css
+                    .disable-hover {
+                        pointer-events: none;
+                    }
+                    ```
+                    ```js
+                    var body = document.body,
+                        timer;
 
+                    window.addEventListener('scroll', function() {
+                        clearTimeout(timer);
+                        if(!body.classList.contains('disable-hover')) {
+                            body.classList.add('disable-hover')
+                        }
+
+                        // 在用户停止滚动操作的时候移除这个class
+                        timer = setTimeout(function(){
+                            body.classList.remove('disable-hover')
+                        },500);
+                    }, false);
+                    ```
+                    - 当前, 给body添加pointer-events属性能够满足绝大多数场景下工作正常, 但是如果子元素设置了pointer-eventes: auto, 这会覆盖父元素的属性, 然后导致滚动的时候页面闪动.
+                    ```css
+                    .disable-hover,
+                    .disable-hover * {
+                        pointer-events: none !important;
+                    }
+                    ```
+                    - 一个简单的解决方案是使用星号选择器, 并且添加 !important 属性. 从而保证子元素的pointer-events属性是设置成’none’的.
+                    - 不过，张鑫旭有一篇专门的文章，用来探讨 pointer-events: none 是否真的能够加速滚动性能，并提出了自己的质疑。
 
 [前端性能优化之旅](https://alienzhou.github.io/fe-performance-journey/#%E5%89%8D%E7%AB%AF%E9%9C%80%E8%A6%81%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%88%EF%BC%9F)
 [网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b6fa8c86fb9a0099910ac91#heading-15)
-
+[[译]使用pointer-events:none实现60fps滚动 (2014.1.4更新)](http://www.html-js.com/article/1598)
+[pointer-events:none提高页面滚动时候的绘制性能？](https://www.zhangxinxu.com/wordpress/2014/01/pointer-events-none-avoiding-unnecessary-paints/)
 
 
 

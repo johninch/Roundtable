@@ -1,10 +1,15 @@
 // - 如何用await和async写一个睡眠函数？
 function sleep(ms) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('sleep for ' + ms + ' ms');
+        }, ms)
+    })
 }
 
 async function run(time) {
-
+    let result = await sleep(time)
+    console.log(result)
 }
 
 run(3000);
@@ -26,7 +31,41 @@ function request(url, successCallback, failCallback) {
 }
 
 function cacheRequest(url, successCallback, failCallback) {
+    cacheRequest.cache = cacheRequest.cache || {};
+    cacheRequest.clear = cacheRequest.clear || function () {
+        cacheRequest.cache = undefined
+    }
 
+    if (cacheRequest.cache[url]) {
+        return cacheRequest.cache[url].then(successCallback).catch(failCallback)
+    }
+
+    let success, fail
+    cacheRequest.cache[url] = new Promise((resolve, reject) => {
+        success = resolve
+        fail = reject
+    })
+
+    // return fetch(url)
+    //     .then(response => {
+    //         success(response.clone())
+    //         successCallback()
+    //     })
+    //     .catch(error => {
+    //         failCallback(error)
+    //         fail(error)
+    //     })
+    return request(
+        url,
+        response => {
+            success(response.clone())
+            successCallback(response)
+        },
+        error => {
+            failCallback(error)
+            fail(error)
+        }
+    )
 }
 
 // - 三次重试：假设有一个函数名为job,调用job后会执行一些异步任务，并返回一个Promise,但job执行的异步任务有可能会失败
@@ -49,7 +88,28 @@ function job() {
     })
 }
 function retry(job, times, delay) {
-
+    let flag = 0
+    const attempt = () => {
+        new Promise((resolve, reject) => {
+            job().then(response => {
+                console.log(`第某次成功`)
+                resolve(response)
+            }).catch(err => {
+                console.log('重试第某次')
+                if (flag === times) {
+                    reject(err)
+                } else {
+                    flag++
+                    setTimeout(() => {
+                        resolve(attempt())
+                    }, delay)
+                }
+            })
+        }).catch(err => {
+            console.log('重试times次失败', err)
+        })
+    }
+    attempt()
 }
 
 retry(job, 3, 1000)
@@ -72,7 +132,28 @@ function job() {
 }
 
 function retry(job, times, delay) {
-
+    let flag = 0
+    new Promise((resolve, reject) => {
+        const attempt = () => {
+            job().then(response => {
+                console.log('地某次成功')
+                resolve(response)
+            }).catch(err => {
+                console.log('第几次重试')
+                if (flag === times) {
+                    reject(err)
+                } else {
+                    flag++
+                    setTimeout(() => {
+                        attempt()
+                    }, delay)
+                }
+            })
+        }
+        attempt()
+    }).catch(err => {
+        console.log('重试times次失败了', err)
+    })
 };
 
 retry(job, 3, 1000)
@@ -82,7 +163,14 @@ retry(job, 3, 1000)
 //     虽然map方法的参数是async函数，但它是并发执行的，因为只有async函数内部是继发执行，外部不受影响。后面的for..of循环内部使用了await，因此实现了按顺序输出。
 
 async function asyncInOrder(urls) {
+    const promises = urls.map(async (url) => {
+        const res = await fetch(url)
+        return res.status
+    })
 
+    for (let p of promises) {
+        console.log(await p)
+    }
 }
 asyncInOrder(['xxx', 'yyyy'])
 
@@ -91,12 +179,28 @@ asyncInOrder(['xxx', 'yyyy'])
 // - 串行Promise控制，一个请求执行完再执行下一个
 // （1）通过在 then 方法里面递归传递下一次异步方法（递归的方法catch后就不会再递归调用迭代了，即p3报错后p4不再执行）
 function iteratorPromise1(pArr) {
-
+    const iter = () => {
+        if (pArr.length) {
+            let p = pArr.shift();
+            p().then(res => {
+                console.log(res)
+                iter()
+            }).catch(e => {
+                console.log(e)
+            })
+        }
+    }
 }
 
 // （2）利用 Promise.resolve()，循环赋值（循环调用的方法会执行每一个p，当p3报错后，p4也会执行不过是直接拿到穿透的p3报错）
 function iteratorPromise2(pArr) {
-
+    let resolve = Promise.resolve()
+    pArr.forEach(p => {
+        resolve = resolve.then(() => p())
+            .catch(e => {
+                console.log(e)
+            })
+    })
 }
 
 iteratorPromise1([p1, p2, p3, p3])
@@ -107,12 +211,17 @@ iteratorPromise2([p1, p2, p3, p3])
 // - Promise每隔一秒打印数字，arr = [1, 3, 4, 5]
 //     - 也是串行输出，只是需要结合setTimeout
 function delayPromise(arr) {
-
+    let resolve = Promise.resolve()
+    arr.forEach(x => {
+        resolve = resolve.then(() => new Promise(resolve => setTimeout(() => resolve(console.log(x)), 1000)))
+    })
 }
 
 // 同理可以用Promise配合着reduce不停的在promise后面叠加.then
 function delayPromise(arr) {
-
+    arr.reduce((p, x) => {
+        return p.then(() => new Promise(resolve => setTimeout(() => { resolve(console.log(x)) }, 1000)))
+    }, Promise.resolve())
 }
 
 
@@ -128,11 +237,24 @@ function yellow() {
 }
 
 function light(timer, cb) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            cb()
+            resolve()
+        }, timer)
+    })
 }
 
 function run() {
-
+    Promise.resolve().then(() => {
+        return light(3000, red)
+    }).then(() => {
+        return light(1000, green)
+    }).then(() => {
+        return light(1000, yellow)
+    }).then(() => {
+        return run()
+    })
 }
 
 run()
@@ -177,7 +299,19 @@ mergePromise([ajax1, ajax2, ajax3]).then(data => {
 
 // 完成mergePromise函数
 async function mergePromise(arr) {
+    const promises = arr.map(async req => {
+        const res = await req()
+        return res
+    })
 
+    const data = []
+
+    for (let p of promises) {
+        let res = await p
+        data.push(res)
+    }
+
+    return data
 }
 
 // 2
@@ -192,7 +326,17 @@ async function mergePromise(arr) {
 // 第一次的then为了用来调用ajax
 // 第二次的then是为了获取ajax的结果
 function mergePromise(arr) {
+    const data = []
+    let resolve = Promise.resolve()
+    arr.forEach(req => {
+        resolve = resolve.then(req).then(res => {
+            data.push(res)
 
+            return data
+        })
+    })
+
+    return resolve
 }
 
 // - 根据promiseA+实现promise
@@ -206,23 +350,45 @@ function mergePromise(arr) {
 class Promise {
     constructor(executor) {
         // 三个状态
-        this.state = 'pending'
+        this.state = 'pendding'
         this.value = undefined
         this.reason = undefined
 
-        let resolve
-        let reject
+        const resolve = value => {
+            if (this.state === 'pendding') {
+                this.state = 'fulfilled'
+                this.value = value
+            }
+        }
+
+        const reject = reason => {
+            if (this.state === 'pendding') {
+                this.state = 'rejected'
+                this.reason = reason
+            }
+        }
 
         // 自动执行函数
         try {
-
+            executor(resolve, reject)
         } catch (e) {
-
+            reject(e)
         }
     }
     // then
     then(onFulfilled, onRejected) {
-
+        // let promise2 = new Promise((resolve, reject) => {
+        switch (this.state) {
+            case 'fulfilled':
+                onFulfilled(this.value)
+                break
+            case 'rejected':
+                onRejected(this.reason)
+                break
+            default:
+        }
+        // }
+        // return promise2
     }
 }
 
@@ -230,7 +396,14 @@ class Promise {
 // - 封装一个异步加载图片的方法
 function loadImg(url) {
     return new Promise((resolve, reject) => {
-
+        const img = new Image()
+        img.onload = function () {
+            resolve(img)
+        }
+        img.onerror = function () {
+            reject(new Error('!!!' + url))
+        }
+        img.src = url
     })
 };
 
@@ -242,9 +415,29 @@ function limitLoad(urls, handler, limit) {
     let sequence = [].concat(urls); // 复制urls
 
     // 这一步是为了初始化 promises 这个"容器"
-    let promises
+    let promises = sequence.splice(0, limit).map((url, index) => {
+        return handler(url).then(() => {
+            return index
+        })
+    })
 
     // 注意这里要将整个变量过程返回，这样得到的就是一个Promise，可以在外面链式调用
+    return sequence
+        .reduce((resolve, url) => {
+            return resolve.then(() => {
+                return Promise.race(promises)
+            }).then(fastestIndex => {
+                promises[fastestIndex] = handler(url).then(() => {
+                    return fastestIndex
+                })
+            }).catch(err => {
+                console.log(err)
+            })
+        }, Promise.resolve())
+        .then(() => {
+            // sequence中n-limit的url，reduce迭代完后，还剩最后limit个请求在容器promises中
+            return Promise.all(promises)
+        })
 
 }
 limitLoad(urls, loadImg, 3)
@@ -260,17 +453,30 @@ limitLoad(urls, loadImg, 3)
 
 // - 实现finally
 Promise.prototype.finally = function (onFinally) {
-
-};
+    return this.then(
+        res => Promise.resolve(onFinally()).then(() => res),
+        err => Promise.resolve(onFinally()).then(() => { throw err })
+    )
+}
 
 
 // - 实现Promise.all
 Promise.all = function (promises) {
-    return new Promise(function (resolve, reject) {
-        var resolvedCounter
-        var promiseNum
-        var resolvedValues
-
+    return Promise((resolve, reject) => {
+        let resolvedCounter = 0
+        let promiseNum = promises.length
+        let resolvedValues = new Array(promiseNum)
+        for (let i = 0; i < promiseNum; i++) {
+            ; (function (i) {
+                Promise.resolve(promises[i]).then(value => {
+                    resolvedCounter++
+                    resolvedValues[i] = value
+                    if (resolvedCounter === promiseNum) {
+                        return resolve(resolvedValues)
+                    }
+                }, reason => reject(reason))
+            })(i)
+        }
     })
 }
 
@@ -306,6 +512,7 @@ console.log(4);
 
 // 3 7 4 1 2 5
 
+// 这道题很典型，可口述过程
 Promise.resolve().then(() => {
     console.log('promise1');
     const timer2 = setTimeout(() => {

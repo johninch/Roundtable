@@ -158,7 +158,7 @@ let count = 0
 function job() {
     return new Promise((resolve, reject) => {
         count++
-        setTimeout(() => {        
+        setTimeout(() => {
             if (count === 6) {
                 resolve('成功')
             } else {
@@ -201,7 +201,7 @@ let count = 0
 function job() {
     return new Promise((resolve, reject) => {
         count++
-        setTimeout(() => {        
+        setTimeout(() => {
             if (count === 6) {
                 resolve('成功')
             } else {
@@ -811,8 +811,8 @@ function limitLoad(urls, handler, limit) {
   });
   // 注意这里要将整个变量过程返回，这样得到的就是一个Promise，可以在外面链式调用
   return sequence
-    .reduce((pCollect, url) => {
-      return pCollect.then(() => {
+    .reduce((resolve, url) => {
+      return resolve.then(() => {
           return Promise.race(promises); // 返回已经完成的下标
         })
         .then(fastestIndex => { // 获取到已经完成的下标
@@ -853,8 +853,8 @@ let promises = sequence.splice(0, limit).map((url, index) => {
 })
 
 
-sequence.reduce(((pCollect, url) => {
-  return pCollect.then(() => {
+sequence.reduce(((resolve, url) => {
+  return resolve.then(() => {
     return Promise.race(promises)
   }.then(finishIndex => {
     promises[finishIndex] = handler(url).then(() => {
@@ -923,7 +923,7 @@ new Promise((resolve,reject)=>{
         console.log(7);
         setTimeout(()=>{
            console.log(5);
-           resolve(6); 
+           resolve(6);
         },0)
         resolve(1);
     });
@@ -1175,7 +1175,7 @@ const async1 = async () => {
   })
   console.log('async1 end')
   return 'async1 success'
-} 
+}
 console.log('script start');
 async1().then(res => console.log(res));
 console.log('script end');
@@ -1230,8 +1230,8 @@ Promise{<resolved>: resolve1}
 
 ```js
 const arr = [1, 2, 3]
-arr.reduce((p, x) => 
-    p.then(() => 
+arr.reduce((p, x) =>
+    p.then(() =>
         new Promise(resolve => {
             setTimeout(() => resolve(console.log(x), 1000))
         })
@@ -1241,5 +1241,5 @@ arr.reduce((p, x) =>
 
 ```
 [【建议星星】要就来45道Promise面试题一次爽到底(1.1w字用心整理)](https://juejin.im/post/5e58c618e51d4526ed66b5cf)
-[「ES6系列」彻底弄懂Promise](https://juejin.im/post/5d06e9c76fb9a07ee4636235)  
+[「ES6系列」彻底弄懂Promise](https://juejin.im/post/5d06e9c76fb9a07ee4636235)
 
