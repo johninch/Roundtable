@@ -90,13 +90,16 @@ else if (method === "POST" && url === "/api/save") {
 application/json
 
 await axios.post("/api/save", {
-            a: 1,
-b: 2 })
+    a: 1,
+    b: 2
+})
 
-// 模拟application/x-www-form-urlencoded await axios.post("/api/save", 'a=1&b=3', {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-}, })
+// 模拟application/x-www-form-urlencoded
+await axios.post("/api/save", 'a=1&b=3', {
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+})
 ```
 
 

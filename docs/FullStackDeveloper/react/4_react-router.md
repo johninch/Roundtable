@@ -392,7 +392,7 @@ export default class Switch extends Component {
 
                     // todo 遍历children，给匹配赋值
                     // 找到第一个匹配的Route或者Redirect
-                    // 这里时候用React.Children提供的遍历，可以避免判断children的类型
+                    // 这里用React.Children提供的遍历，可以避免判断children的类型
                     React.Children.forEach(this.props.children, child => {
                         // child 是Route或者Redirect
                         if (match == null && React.isValidElement(child)) {

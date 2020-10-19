@@ -507,10 +507,10 @@ class Vue {
             if (typeof value[key] === 'object') {
                 this.observe(value[key]);
             }
-            this.definReactive(value, key, value[key]);
+            this.defineReactive(value, key, value[key]);
         })
     }
-    definReactive(obj, key, val) {
+    defineReactive(obj, key, val) {
         Object.defineProperty(obj, key, {
             get() {
                 return val;
@@ -531,7 +531,7 @@ class Vue {
 <template>
    <div id="div1" class="container">
         <p>vdom</p>
-   </div> 
+   </div>
 </template>
 
 {
@@ -1135,35 +1135,35 @@ function DOM2JSON(node) {
 
 
 
-// JS实现一个带并发限制的异步迪欧赌气Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
-// class Scheduler {
-//     add(promiseCreator) {
-//         //...
-//     }
-// }
+// JS实现一个带并发限制的异步调度器Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
+class Scheduler {
+    add(promiseCreator) {
+        //...
+    }
+}
 
-// function timeout(time){
-//     return new Promise(resolve=>{
-//         setTimeout(resolve,time)
-//     })
-// }
+function timeout(time){
+    return new Promise(resolve=>{
+        setTimeout(resolve,time)
+    })
+}
 
-// var scheduler = new Scheduler()
+var scheduler = new Scheduler()
 
-// function addTask(time,order){
-//     scheduler.add(()=>timeout(time).then(()=>console.log(order)))
-// }
+function addTask(time,order){
+    scheduler.add(()=>timeout(time).then(()=>console.log(order)))
+}
 
 
-// addTask(1000,1)
-// addTask(500,2)
-// addTask(300,3)
-// addTask(400,4)
-// // 2
-// // 3
-// // 1
-// // 4
-// // 这里说明传入的limit是2，并发执行2个
+addTask(1000,1)
+addTask(500,2)
+addTask(300,3)
+addTask(400,4)
+// 2
+// 3
+// 1
+// 4
+// 这里说明传入的limit是2，并发执行2个
 class Scheduler {
     constructor(limit = 2) {
         this.queue = [];
@@ -1199,7 +1199,7 @@ function timeout(time){
 
 var scheduler = new Scheduler(2)
 
-function addTask(time,order){
+function addTask(time, order){
     scheduler.add(()=>timeout(time).then(()=>console.log(order)))
 }
 

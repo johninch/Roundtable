@@ -340,12 +340,12 @@ export default function MyRCFieldForm(props) {
     const [form] = useForm();
 
     const onFinish = (val) => {
-        console.log("onFinish", val); //sy-log
+        console.log("onFinish", val);
     };
 
     // 表单校验失败执行
     const onFinishFailed = (val) => {
-        console.log("onFinishFailed", val); //sy-log
+        console.log("onFinishFailed", val);
     };
 
     useEffect(() => {
@@ -773,9 +773,9 @@ export default function useForm(form) {
 
 ## 弹窗组件实现
 
-dialog组件如果像普通组件一样，创建子父组件内部，那么其样式处理，即层级都会很怪。通常我们将弹窗组件渲染在body下的div中。
+dialog组件如果像普通组件一样，创建在父组件内部，那么其样式处理，即层级都会很怪。通常我们将弹窗组件渲染在body下的div中。
 
-弹窗类组件的要求弹窗内容在A处声明，却在B处展示。react中相当于弹窗内容看起来被render到一个 组件里面去，实际改变的是网页上另一处的DOM结构，这个显然不符合正常逻辑。但是通过使用框架提供的特定API「`传送门Porta`l」创建组件实例并指定挂载目标仍可完成任务。
+弹窗类组件的要求弹窗内容在A处声明，却在B处展示。react中相当于弹窗内容看起来被render到一个 组件里面去，实际改变的是网页上另一处的DOM结构，这个显然不符合正常逻辑。但是通过使用框架提供的特定API「`传送门Portal`」创建组件实例并指定挂载目标仍可完成任务。
 
 使用传送门`createPortal(MyCmp, 挂载点node)`，从react-dom中导入
 - 注意：**挂载点this.node**需要在渲染时就用到，因此要放在**constructor中创建**。

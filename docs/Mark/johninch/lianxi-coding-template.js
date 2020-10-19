@@ -259,14 +259,14 @@ limitLoad(urls, loadImg, 3)
 
 
 // - 实现finally
-Promise.prototype.finally = function (onFinally) {
+Promise.prototype.finally = function(onFinally) {
 
 };
 
 
 // - 实现Promise.all
-Promise.all = function (promises) {
-    return new Promise(function (resolve, reject) {
+Promise.all = function(promises) {
+    return new Promise(function(resolve, reject) {
         var resolvedCounter
         var promiseNum
         var resolvedValues
@@ -443,16 +443,16 @@ async function async2() {
 
 console.log("script start");
 
-setTimeout(function () {
+setTimeout(function() {
     console.log("setTimeout");
 }, 0);
 
 async1();
 
-new Promise(function (resolve) {
+new Promise(function(resolve) {
     console.log("promise1");
     resolve();
-}).then(function () {
+}).then(function() {
     console.log("promise2");
 });
 console.log('script end')
@@ -549,6 +549,9 @@ setTimeout(() => {
 
 
 // 注意这道题最后p1的返回值！！！！！！！！！！！！
+// .finally()方法不管Promise对象最后的状态如何都会执行
+// .finally()方法的回调函数不接受任何的参数，也就是说你在.finally()函数中是没法知道Promise最终的状态是resolved还是rejected的
+// 它最终返回的默认会是一个上一次的Promise对象值，不过如果抛出的是一个异常则返回异常的Promise对象。
 const p1 = new Promise((resolve) => {
     setTimeout(() => {
         resolve('resolve3');
@@ -576,21 +579,21 @@ const p1 = new Promise((resolve) => {
 // 变量提升部分：
 
 function Foo() {
-    getName = function () {
+    getName = function() {
         console.log(1)
     }
     return this
 }
 
-Foo.getName = function () {
+Foo.getName = function() {
     console.log(2)
 }
 
-Foo.prototype.getName = function () {
+Foo.prototype.getName = function() {
     console.log(3)
 }
 
-var getName = function () {
+var getName = function() {
     console.log(4)
 }
 
@@ -645,7 +648,7 @@ new new Foo().getName()     // (7)
 
 // Foo.getName()               // (1)：输出2，直接调用Foo的静态方法
 // getName()                   // (2)：输出4，由于赋值为4的函数体在最后执行，给getName最终赋值为4
-// Foo().getName()             // (3)：输出1，调用函数Foo，返回this，其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
+// Foo().getName()             // (3)：输出1，普通调用函数 Foo()返回的 this 指向的是全局对象 window（谁调用指向谁），所以调用的是全局对象的 getName()。其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
 // getName()                   // (4)：输出1，由于前一步中对全局getName变量重新赋值为1，因此这里还是打印1
 
 // 再考虑第二个关键知识点，运算符优先级：**`()` > `.` > `带参数New` > `无参数New`**，因此(5)到(7)输出如下：
@@ -781,13 +784,19 @@ function two(cb) {
 
 // - 斐波那契数列，使用memo做缓存，减少运算量
 // 动态规划的题也能使用这种方法做优化
-const fib4 = (function () {
+const fib4 = (function() {
     var memo = [0, 1];
 
 })();
 
 console.log(fib4(9)); // 34
 
+
+// 尾递归实现fibonacci (尾调用优化)
+// 函数最后一步操作是 return 另一个函数的调用，函数不需要保留以前的变量
+function fib3(n, n1 = 1, n2 = 1) {
+
+}
 
 // ### new的时候加1
 const fn = (() => {
@@ -804,7 +813,7 @@ arr1.reduce((prev, cur, index, sourceArr) => {
 
 }, initial)
 
-Array.prototype._map = function (fn, callbackThis) {
+Array.prototype._map = function(fn, callbackThis) {
 
 }
 
@@ -872,16 +881,43 @@ function JSONP(url, params = {}, callbackKey = 'cb') {
 
 }
 
+// - 1、回调函数在主函数中的参数位置必须是最后一个；
+// - 2、回调函数参数中的第一个参数必须是 error。
+// var func = function(a, b, c, callback) {
+//     callback(null, a+b+c);
+// }
+
 // 实现promisify
-const promisify = (func) => { }
+const promisify = (func) => (...args) => {
+    new Promise((resolve, reject) => {
+        func(...args, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
 
 // 或者 写成函数表达式形式
-const promisify = function (func) {
-
+const promisify = function(func) {
+    return function(...args) {
+        var ctx = this
+        return new Promise((resolve, reject) => {
+            func.call(ctx, ...args, (err, result) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    }
 }
 
 // nodeCallback方法func1
-var func1 = function (a, b, c, callback) {
+var func1 = function(a, b, c, callback) {
     callback(null, a + b + c);
 }
 // promise化后的func2
@@ -896,7 +932,7 @@ func2(1, 2, 3).then(console.log); //输出6
 
 
 // 原有的callback调用方式
-fs.readFile('test.js', function (err, data) {
+fs.readFile('test.js', function(err, data) {
     if (!err) {
         console.log(data);
     } else {
@@ -939,6 +975,7 @@ readFileAsync('test.js').then(data => {
 {
 
 }
+
 
 
 
@@ -1017,7 +1054,7 @@ var Ajax = {
     get(url, fn) {
         var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
         xhr.open('GET', url, true)
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304 || xhr.status === 206)) {
                 fn.call(this, xhr.responseText)
             }
@@ -1028,7 +1065,7 @@ var Ajax = {
         var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
         xhr.open('POST', url, true)
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304 || xhr.status === 206)) {
                 fn.call(this, xhr.responseText)
             }
@@ -1039,7 +1076,7 @@ var Ajax = {
 
 
 // 实现字符串模板
-const template = "I am {{name }}, {{ age}} years old";
+const template = "I am {{ name }}, {{ age }} years old";
 var context = { name: "xiaoming", age: 2 };
 
 
@@ -1057,12 +1094,12 @@ var context = { name: "xiaoming", age: 2 };
 // 深拷贝
 // 浅拷贝与深拷贝的区别
 // 深拷贝
-    // - 最简单版本：只对JSON安全的数据结构有效；且会抛弃对象的constructor，所有的构造函数会指向Object；遇到对象有循环引用，会报错。
-    // - 只能写出简单版本，即只实现到区分array与Object的引用类型
-    //     - 如果考虑全面类型的话，对Date、RegExp、甚至function都是要考虑的（当然这里的function其实考虑了也没意义，两个对象使用在内存中处于同一个地址的函数也是没有任何问题的，而比如lodash在碰到函数深拷贝时就直接返回了）
-    //     - 另外还应考虑循环引用的问题
-    //         - 解决循环引用问题，需额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
-    //     这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构。
+// - 最简单版本：只对JSON安全的数据结构有效；且会抛弃对象的constructor，所有的构造函数会指向Object；遇到对象有循环引用，会报错。
+// - 只能写出简单版本，即只实现到区分array与Object的引用类型
+//     - 如果考虑全面类型的话，对Date、RegExp、甚至function都是要考虑的（当然这里的function其实考虑了也没意义，两个对象使用在内存中处于同一个地址的函数也是没有任何问题的，而比如lodash在碰到函数深拷贝时就直接返回了）
+//     - 另外还应考虑循环引用的问题
+//         - 解决循环引用问题，需额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
+//     这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构。
 
 
 
@@ -1108,5 +1145,60 @@ var context = { name: "xiaoming", age: 2 };
 
 
 // 写一个 DOM2JSON(node) 函数，node 有 tagName 和 childNodes 属性
+`
+<div>
+    <span>
+        <a></a>
+    </span>
+    <span>
+        <a></a>
+        <a></a>
+    </span>
+</div>
 
+{
+    tag: 'DIV',
+    children: [{
+        tag: 'SPAN',
+        children: [
+            { tag: 'A', children: [] }
+        ]
+    }, {
+    tag: 'SPAN',
+    children: [
+            { tag: 'A', children: [] },
+            { tag: 'A', children: [] }
+        ]
+    }]
+}
+`
+
+// JS实现一个带并发限制的异步调度器Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
+class Scheduler {
+    add(promiseCreator) {
+        //...
+    }
+}
+
+function timeout(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+}
+
+var scheduler = new Scheduler()
+
+function addTask(time, order) {
+    scheduler.add(() => timeout(time).then(() => console.log(order)))
+}
+
+
+addTask(1000, 1)
+addTask(500, 2)
+addTask(300, 3)
+addTask(400, 4)
+// 2
+// 3
+// 1
+// 4
 

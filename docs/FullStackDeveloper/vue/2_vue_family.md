@@ -1,5 +1,15 @@
 # 2、vue全家桶
 
+## 目录
+
+vue全家桶原理剖析
+- vue-router需求分析
+- vue-router源码实战
+- vuex设计思想
+- vuex源码实战
+
+
+## 安装
 ```bash
 npm install -g @vue/cli
 vue create [projName]
@@ -10,7 +20,7 @@ vue add vuex
 ## vue插件
 
 - Q：什么是vue插件？
-- A：插件通常用来为 Vue 添加全局功能。插件的功能范围没有严格的限制——一般有下面几种：
+- A：插件通常用来为 Vue 添加全局功能。插件的功能范围没有严格的限制，一般有下面几种：
     - 添加全局方法或者 property。如：vue-custom-element
     - 添加全局资源：指令/过滤器/过渡等。如 vue-touch
     - 通过全局混入来添加一些组件选项。如 vue-router
@@ -21,31 +31,31 @@ vue add vuex
 - A：Vue插件应该暴露一个 install 方法。这个方法的第一个参数是 Vue 构造器，第二个参数是一个可选的选项对象：
     ```js
     MyPlugin.install = function (Vue, options) {
-    // 1. 添加全局方法或 property
-    Vue.myGlobalMethod = function () {
-        // 逻辑...
-    }
-
-    // 2. 添加全局资源
-    Vue.directive('my-directive', {
-        bind (el, binding, vnode, oldVnode) {
-        // 逻辑...
+        // 1. 添加全局方法或 property
+        Vue.myGlobalMethod = function () {
+            // 逻辑...
         }
-        ...
-    })
 
-    // 3. 注入组件选项
-    Vue.mixin({
-        created: function () {
-        // 逻辑...
+        // 2. 添加全局资源
+        Vue.directive('my-directive', {
+            bind (el, binding, vnode, oldVnode) {
+            // 逻辑...
+            }
+            ...
+        })
+
+        // 3. 注入组件选项
+        Vue.mixin({
+            created: function () {
+            // 逻辑...
+            }
+            ...
+        })
+
+        // 4. 添加实例方法
+        Vue.prototype.$myMethod = function (methodOptions) {
+            // 逻辑...
         }
-        ...
-    })
-
-    // 4. 添加实例方法
-    Vue.prototype.$myMethod = function (methodOptions) {
-        // 逻辑...
-    }
     }
     ```
 
@@ -57,6 +67,8 @@ vue add vuex
 
 
 ## vue-router
+
+[inch-router](https://github.com/johninch/inch-vue-components/tree/master/src/router)
 
 本节要仿造vue-router原理，实现一个自己的路由插件（实现一个插件：返回一个函数或返回一个对象，它提供一个install方法）。
 
@@ -491,7 +503,7 @@ class Store {
         this._vm = new _Vue({
             data() {
                 return {
-                    // 这里不希望被代理，就在前面加上一个$，或者前面加上一个_，这样次变量就不会被代理到实例上了（这是源码里约定的）
+                    // 这里不希望被代理，就在前面加上一个$，或者前面加上一个_，这样此变量就不会被代理到实例上了（这是源码里约定的）
                     // 为什么不希望被代理呢？因为你不希望用户通过$store.counter直接取到值，而是希望通过$store.state.counter取值
                     $$state: options.state
                 }

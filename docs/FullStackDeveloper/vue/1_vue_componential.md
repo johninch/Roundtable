@@ -9,73 +9,6 @@
 - 组件开发实践：递归组件、树形菜单
 - Element-UI源码学习思路
 
-vue全家桶原理剖析
-- vue-router需求分析
-- vue-router源码实战
-- vuex设计思想
-- vuex源码实战
-
-
-手写vue
-- MVVM框架三要素
-- 响应式原来剖析
-- 数据响应式实现
-- 模板语法及其编译
-- 依赖收集及视图更新
-
-
-vue源码剖析1
-- 开发调试环境准备
-- 入口文件查找
-- vue初始化流程
-- 响应式原理
-
-vue源码剖析2
-- 异步更新策略
-- 虚拟DOM和diff算法
-
-vue源码剖析3
-- 编译器原理
-- 常见指令工作原理
-- 组件化机制
-- 事件机制
-- 双向绑定原理
-
-
-服务端渲染SSR
-- 服务端选人原理
-- Vue SSR实战
-- Nuxt.js实战
-
-
-Typescript+Vue最佳实践
-- 开发准备
-- 组件编写的3种方式
-- ts核心语法
-- 路由声明的变化
-- 高逼格的全局状态管理
-- 装饰器应用及其原理
-- vue-property-decorator源码分析
-
-
-Vue项目最佳实践
-- 配置策略
-- 权限控制
-- 动态路由
-- 动态导航菜单
-- 服务封装
-- 数据Mock
-- 请求代理
-- 测试
-
-
-vue3初探+响应式原理剖析
-- 环境搭建
-- vue3初体验
-- Composition API
-- 响应式原理剖析
-- 展望
-
 ## 学习目标
 
 - 深入理解Vue的组件化机制
@@ -255,9 +188,9 @@ inject: {
     - this.$emit('validate') 这样是没办法写的，因为外层的InchFormItem中是插槽，插槽还没有被替换成最外层的InchForm，所以无法绑定事件，也就无法监听。因此需要另辟蹊径。
     - 参考事件总线eventBus的实现：`事件的派发者和监听者，必须是同一个角色`，
         - 如果是当前实例InchInput派发事件，则在外层使用InchInput时也必须是它自己监听
-        - 同理，考虑让父组件，即 InchFormInput来派发和监听：`this.$parent.$emit('validate')`
+        - 同理，考虑让父组件，即 InchFormItem 来派发和监听：`this.$parent.$emit('validate')`
 - 监听校验
-    - InchFormInput可以在挂载后的mounted钩子中监听
+    - InchFormItem 可以在挂载后的mounted钩子中监听
         ```js
         // InchFormItem.vue
         mounted() {
@@ -482,7 +415,7 @@ create(Notice, {
 - Vue.extend之后得到构造函数Ctor
 - new Ctor之后就可以直接得到组件实例
 - 组件实例进行挂载，将虚拟dom转换得到真实节点$el
-- 追击到body上
+- 追加到body上
 ```js
 // create.js
 import Vue from 'vue'
@@ -513,5 +446,7 @@ export default create
 
 
 ## 思考
+
+树形组件、递归组件（待续）
 
 学习elementUI的源码，修正input组件中$parent的写法问题（略）

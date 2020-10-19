@@ -435,7 +435,7 @@ export function createUpdate(
 
 ### setState与forceUpdate
 
-setState调用updater的enqueueSetState，这里的payload就是setState的第一个参数partialState，是个对象或者function。 相应的forceUpdate调用updater.enqueueForceUpdate，并没有payload，而有一个标记为
+setState调用updater的enqueueSetState，这里的payload就是setState的第一个参数partialState，是个对象或者function。相应的forceUpdate调用updater.enqueueForceUpdate，并没有payload，而有一个标记为
 ForceUpdate(2)的tag，对比上面createUpdate的tag是UpdateState(0)。
 ```js
 const classComponentUpdater = {

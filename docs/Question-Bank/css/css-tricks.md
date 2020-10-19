@@ -211,7 +211,7 @@ transform：scale | skew | rotate | translate | 某个方向属性及3d属性如
 ## fixed相对于父元素定位
 
 **position:fixed**; 是对于浏览器窗口定位的，要实现相当于父元素定位，可以这样：
-- 不设置fixed元素的top、left和top、right值，他就会默认居于父级进行定位。
+- 不设置fixed元素的top、left和bottom、right值，他就会默认居于父级进行定位。
 - 具体相对位置偏移需要通过`margin`来设置。
 
 这种方法本质上fixed元素还是相当于窗口定位的，实现效果上是相对于父元素定位。

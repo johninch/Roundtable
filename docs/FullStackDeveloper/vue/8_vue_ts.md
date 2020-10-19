@@ -1,5 +1,16 @@
 # 8、vue + ts
 
+## 目录
+
+Typescript+Vue最佳实践
+- 开发准备
+- 组件编写的3种方式
+- ts核心语法
+- 路由声明的变化
+- 高逼格的全局状态管理
+- 装饰器应用及其原理
+- vue-property-decorator源码分析
+
 ## 目标
 
 - 本节目标重点是ts与vue2.x的结合，了解vue2.x使用ts书写时的方式；
@@ -104,7 +115,7 @@ export default class HelloWorld extends Vue {
   }
 
   // 生命周期
-  async created() {   
+  async created() {
     // Promise<AxiosResponse<T>>
     // const result = await Axios.get<FeatureSelect[]>('/api/list')
     const result = await this.$axios.get<FeatureSelect[]>('/api/list')

@@ -1,23 +1,33 @@
 ## 基础知识提纲
 
-- 面试注意点
-    - 回答项目问题
-        - 项目背景: 简要说一下项目的背景,让面试官知道这个项目是做什么的
-        - 个人角色: 让面试官知道你在这个项目中扮演的角色
-        - 难点: 让面试官知道你在项目开发过程中碰到的难点
-        - 解决方案: 针对上面的难点你有哪一些解决方案, 是如何结合业务进行取舍的
-        - 总结沉淀: 在攻克上述的难点后有没有沉淀出一套通用的解决方案, 有没有将自己的方案在大部门进行推广等等
+### 面试注意点
+- 回答项目问题
+    - 项目背景: 简要说一下项目的背景,让面试官知道这个项目是做什么的
+    - 个人角色: 让面试官知道你在这个项目中扮演的角色
+    - 难点: 让面试官知道你在项目开发过程中碰到的难点
+    - 解决方案: 针对上面的难点你有哪一些解决方案, 是如何结合业务进行取舍的
+    - 总结沉淀: 在攻克上述的难点后有没有沉淀出一套通用的解决方案, 有没有将自己的方案在大部门进行推广等等
 
-    - 向面试官提问
-        - 禁忌
-            - 切忌问结果
-            - 切忌问工资
-            - 切忌问技术问题
-        - 有几个比较好的提问可供参考:
-            - 如果我入职这个岗位的话,前三个月你希望我能做到些什么?
-            - 你对这个职位理想人选的要求是什么?你觉得我在这个要求体系下欠缺的是什么？
-            - 请不要问一些技术无关 的问题，比如:几点下班，团队现在多少人等;这些问题可以留给 hr 来解答 。 最好是根据面试情况，问一下技术方向的话题，比如性能优化你回答的不好，问面试 官，如何提高这方面的技术，尽量表现出对技术的追求，面试官会喜欢的
+- 向面试官提问
+    - 禁忌
+        - 切忌问结果
+        - 切忌问工资
+        - 切忌问技术问题
+    - 有几个比较好的提问可供参考:
+        - 如果我入职这个岗位的话,前三个月你希望我能做到些什么?
+        - 你对这个职位理想人选的要求是什么?你觉得我在这个要求体系下欠缺的是什么？
+        - 请不要问一些技术无关 的问题，比如:几点下班，团队现在多少人等;这些问题可以留给 hr 来解答 。 最好是根据面试情况，问一下技术方向的话题，比如性能优化你回答的不好，问面试 官，如何提高这方面的技术，尽量表现出对技术的追求，面试官会喜欢的
 
+
+
+
+
+### 知识点列表
+
+
+
+### details
+::: details 列表带解释
 
 - js连等赋值问题
 ```js
@@ -87,7 +97,7 @@ alert(b.x);// --> {n:2}
             - Node.js处理IO密集型请求
             - pm2实现Node.js“多线程”，pm2是对进程实现负载均衡
             - nginx搭建反向代理，反向代理是对服务器实现负载均衡，通过轮询机制，将用户的请求分配到压力较小的服务器上
-                - nginx中，模块被分为三大类：handler、filter和upstream。而其中的upstream模块，负责完成完成网络数据的接收、处理和转发，也是我们需要在反向代理中用到的模块。
+                - nginx中，模块被分为三大类：handler、filter和upstream。而其中的upstream模块，负责完成网络数据的接收、处理和转发，也是我们需要在反向代理中用到的模块。
 
     - **（四）页面解析与处理**
         - 1. 资源引用位置
@@ -134,7 +144,7 @@ alert(b.x);// --> {n:2}
         - Tree Shaking
             - 只支持ESM，因为本质是利用静态分析
         - 只加载真正所需的 polyfill，减小代码体积。
-            - Polyfill.io 就会根据请求头中的客户端特性与所需的 API 特性来按实际情况返回必须的 polyfill 集合
+            - useBuiltIns: entry/usage/false
         - 打包压缩代码资源
             - js压缩：UglifyJsPlugin
             - html压缩：HtmlWebpackPlugin，配置minify选项
@@ -359,19 +369,6 @@ alert(b.x);// --> {n:2}
 [跨域认证解决方案-JSON WEB TOKEN讲解与实战](https://juejin.im/post/5ce272c1e51d45109b01b0f8)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 - 前端安全
     - XSS
         - 分类 - XSS 攻击可分为存储型、反射型和 DOM型 三种
@@ -398,505 +395,15 @@ alert(b.x);// --> {n:2}
                         DOM 中的内联事件监听器，如 location、onclick、onerror、onload、onmouseover 等，< a> 标签的 href 属性，JavaScript 的 eval()、setTimeout()、setInterval() 等，都能把字符串作为代码运行。
 
     - 中间人劫持，怎么防止。x-frame-option?白屏的喔，怎么办？也不一定嵌入iframe啊，可以嵌入脚本、图片，怎么阻止【描述】
-        - https也不是绝对安全的，中间人劫持攻击，中间人可以获取到客户端与服务器之间所有的通信内容。 
-            中间人截取客户端发送给服务器的请求，然后伪装成客户端与服务器进行通信；将服务器返回给客户端的内容发送给客户端，伪装成服务器与客户端进行通信。 
-            通过这样的手段，便可以获取客户端和服务器之间通信的所有内容。 
+        - https也不是绝对安全的，中间人劫持攻击，中间人可以获取到客户端与服务器之间所有的通信内容。
+            中间人截取客户端发送给服务器的请求，然后伪装成客户端与服务器进行通信；将服务器返回给客户端的内容发送给客户端，伪装成服务器与客户端进行通信。
+            通过这样的手段，便可以获取客户端和服务器之间通信的所有内容。
         - 使用中间人攻击手段，必须要让客户端信任中间人的证书，如果客户端不信任，则这种攻击手段也无法发挥作用。
         - 造成中间人劫持的原因是 没有对服务端证书及域名做校验或者校验不完整，
     - [前端面试查漏补缺--(七) XSS攻击与CSRF攻击](https://juejin.im/post/5c6d142151882503b3271f4b)
     - [前端安全面试题](https://www.cxymsg.com/guide/security.html#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8F%AF%E8%83%BD%E5%BC%95%E8%B5%B7%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%9A%84%E7%9A%84%E9%97%AE%E9%A2%98)
 
 
-
-
-
-### 目录
-::: details
-- 网络基础
-    - http报文组成
-    - http方法
-        - 无连接，无状态
-        - get与post区别（6点）
-        - 状态码
-            - 1xx 指示信息
-            - 2xx
-            - 3xx
-            - 4xx
-            - 5xx
-        - 常用端口
-        - http工作模式：
-            - 普通模式
-            - 持久连接
-        - http2.0与http1.1的显著不同点：
-        - http2.0特性
-        - https
-            - 为什么安全
-            - 采用什么加密方式
-            - 为什么一开始使用非对称加密，传输数据使用对称加密
-            - https通信过程
-            - 中间人劫持，怎么防止
-    - TCP、UDP
-        - 工作原理
-        - 区别:
-        - 基于TCP的应用层协议
-        - 基于UDP的应用层协议
-        - TCP如何保证可靠性
-        - 什么是三次握手与四次挥手
-    - 5层网络协议栈
-    - DNS域名解析
-        - 流程
-        - dns-prefetch优化
-    - 简述输入URL到页面显示全过程
-
-
-- 浏览器渲染
-    - 浏览器渲染过程
-    - reflow与repaint
-        - 触发reflow的情况：
-        - js如何设置获取盒模型对应的宽和高（4种）
-        - 重排一定伴随着重绘，重绘却可以单独出现。
-        - 减少重排重绘：
-- 浏览器多进程
-    - 主进程：只有一个，负责协调、主控
-    - 插件进程
-    - GPU进程：3D绘制，最多一个
-    - 浏览器内核（渲染进程）
-        - 每个tab页都是一个渲染进程
-        - 渲染进程又分为5大类线程
-        - 什么是Event Loop（事件循环）
-        - JS引擎线程的执行栈中，包括宏任务、微任务
-            - 分类：
-            - 顺序（由于互斥）
-
-- 浏览器工作原理
-    - 线程和进程的区别
-    - 进程间通信 6种：
-    - 线程间通信 3种：
-        - 线程死锁的原因：线程竞争与进程推进顺序不对，具体需要同时满足4个必要条件
-        - 解决死锁的方法：加锁顺序、加锁时限、死锁检测
-- 浏览器存储
-    - Cookie、Session、Token（Authorization） 区别
-    - Cookie属性设置
-    - Cookie 与 WebStorage 区别
-
-- 跨域问题
-    - 同源策略：协议、域名、端口
-    - 常用跨域策略（8种）
-        - 1、CORS（跨域资源共享）：原理是浏览器在识别ajax发送了跨域请求的时候，会将其拦截并在http头中加一个origin字段，允许跨域通信。
-            - CORS请求分成两类，浏览器对这两种请求的处理是不一样的：简单请求、非简单请求。
-                - 判断条件
-                - 简单请求流程：
-                - 注意：默认情况下，Cookie不包括在CORS请求之中。如果要传cookie，
-                    - 需要指定Access-Control-Allow-Credentials: true，
-                    - 且Access-Control-Allow-Origin不能用通配符*号，必须指定具体域名，
-                    - 另外，开发者还需要再客户端对XHR对象中开启 withCredentials: true。
-                - 非简单请求：除那3种方法，或者header中有常用的 Content-Type：application/json，以及常用在模块鉴权的Authorization字段，都是非简单请求
-                - 非简单请求可以控制预检请求的发送频率，通过  Access-Control-Max-Age: 600 指定预检有效期
-        - 2、服务端代理
-        - 3、JSONP
-            - 利用拥有“src”属性的标签的异步加载来实现（如`<script>,<img>,<iframe>`）
-            - 允许客户端传一个callback参数给服务器，然后服务器返回数据时会用这个callback参数作为函数名，包裹住JSON数据，返回客户端，客户端执行返回函数
-            - Jsonp只能发get请求
-        - 4、Hash
-            - 利用的原理是“hash的变动不会触发页面刷新”。
-            - 在iframeB页面通过监听window.onhashchange来拿到A页面传来的数据。
-        - 5、postMessage
-            - HTML5规范中的新方法window.postMessage()可以用于安全跨域通信。
-        - 6、WebSocket
-            - WebSocket是一种服务器推送技术，支持双向通信，没有同源限制，即允许跨域。协议标识符是ws（如果加密，则为wss）。
-                var ws = new WebSocket('wss://xxx.xxxx.org')
-                ws.onopen = function() { ws.send() }
-                ws.onmessage = function() { ws.close() }
-                ws.onclose = function() {}
-        - 7、document.domain
-            - 适用于：主域相同子域不同的页面
-        - 8、window.name
-            - 在一个窗口的生命周期内，窗口载入的所有的页面都是共享一个window.name的
-
-
-- ES6
-    - let 和 const
-        - ES6中声明变量方式6种
-        - 块级作用域
-        - 暂时性死区（没有变量提升）
-        - 重复声明和赋值
-    - 普通函数和箭头函数
-        - 函数有变量提升吗？声明式会提升，表达式不会提升
-        - 箭头函数就是匿名函数，声明会提升，表达式不提升
-        - 箭头函数特点
-
-- ts
-    - type和interface区别
-
-- 列举各种排序算法 分别对应的优缺点和时间复杂度
-    - 冒泡、选择、插入 都是**O(n^2)**
-    - 希尔、归并、快排、堆排序 都是**O(nlogn)**
-    - 上面这几种中，冒泡插入归并是稳定的，其他都是不稳定的
-- 快排
-    - Array.prototype.sort()底层实现
-        - V8： <=10 *插入排序 O(n)*； >10 *快排 O(nlogn)*
-        - V8引擎 7.0 版本之后，舍弃快排，因为其不稳定，使用TimSort混合排序算法，插入加归并
-    - topK问题
-        - 大顶堆，小顶堆：O(nlogk)
-
-- js原型链与对象
-    - 创建对象的3种方法
-    - 构造函数、实例、原型对象 间的关系
-    - 原型链的工作原理
-    - 实现new操作符
-
-- js基本数据类型
-    - 6基本+1引用(5个)
-    - 原始类型的特性——不可变性
-    - 栈内存与堆内存
-    - 基本类型与引用类型的 复制、比较、值传递与引用传递
-
-- 网络安全
-    - XSS，跨站脚本攻击，Cross-site scripting
-    - CSRF，跨站请求伪造，Cross-site request forgery
-        - 防止CSRF攻击
-    - XSS 与 CSRF 区别
-    - CSP
-- 登录验证
-    - 基于cookie/session的身份验证
-    - 基于token的身份验证
-    - token相对cookie的优势
-        - 无状态！！！
-        - 防止CSRF
-        - 性能
-        - 多站点使用
-        - 支持移动平台
-
-- 盒模型
-    - box-sizing
-    - JS如何设置获取盒模型对应的宽和高（4种）
-    - 外边距重叠：垂直方向
-    - BFC(块级格式化上下文)
-        - 特性
-        - 创建BFC
-- CSS3种定位机制：普通流、浮动和绝对定位。
-    - display
-        - 行内元素：
-            - 元素的高度、宽度、行高及顶部和底部边距不可设置，宽高由包含的元素撑开
-            - margin 在垂直方向上不生效；设置 padding 本身生效，但是没有把父级元素撑开
-        - 块级元素：**典型块级元素**：div、p、h1、form、ul、li
-            - 元素的高度、宽度、行高以及顶和底边距都可设置，如果不主动设置，则与其父元素一致
-    - position
-        - 相对定位
-            - relative：
-        - 绝对定位
-            - fixed
-            - absolute
-    - 居中
-        - 垂直居中
-            - 1. 对单行文本居中
-            - 2. 模拟div表格居中
-            - 3. 绝对定位元素居中 无论知不知道宽高
-            - 4. flex居中
-        - 水平居中
-            - 1. 居中行内元素
-            - 2. 居中一个块级元素
-            - 3. 绝对定位元素居中 无论知不知道宽高
-            - 4. flex居中
-
-- 提升页面性能的方法（6点）
-    - 资源压缩合并
-    - 善用浏览器缓存
-        - 缓存命中流程
-            - 强缓存
-            - 协商缓存
-        - 缓存具体原理
-            - 强缓存如何重新加载浏览器缓存里面已经缓存过的资源
-    - 非核心代码异步加载（防止js阻塞解析）
-        - 3种情况的加载执行图示
-        - defer在DOMContentLoaded事件流触发前执行
-    - 静态资源异步加载
-        - rel="preload"
-        - rel="prefetch"
-    - CDN
-        - CDN，内容分发网络。通过在 Internet 中增加一层新的网络架构，将网站的内容发布到最接近用户的网络“边缘”，使用户可以就近取得所需的内容，提高用户访问网站的响应速度。
-    - DNS预解析
-        - rel="dns-prefetch"
-        - 标签 《meta http-equiv="x-dns-prefetch-control" content="on">在https下开启a标签的dns预解析
-    - 避免JS运行时间过长而掉帧（JS持续占用主线程）
-        - 利用requestAnimationFrame（rAF）
-        - 利用requestIdleCallback（Idle）
-
-- PNG，JPG，GIF，WEBP的区别
-
-- CSS样式
-    - 选择器优先级
-    - CSS3新增伪类
-    - flex布局
-        - flex：1 （1 1 0）
-        - flex：auto (1 1 auto) 和 none (0 0 auto)。
-        - 两列布局
-        - flex-basis 属性定义了在分配多余空间之前，item占据的主轴空间（main size）。*浏览器根据这个属性，计算主轴是否有多余空间*。它的默认值为auto，即项目的本来大小。
-    - 多种方式实现三栏布局
-        - 只有 flex弹性布局 与 table表格布局 是在高度超出后其他块的高度也跟随变高
-
-- 移动端
-    - fastClick
-        - 解决的问题（在H5端）
-            - 手动点击与真正触发click事件会存在300ms的延迟
-            - 点击穿透问题
-        - fastclick原理: 
-
-    - 移动端适配
-            - 基本概念：
-                - `设备像素比`(device pixel ratio，简称为`dpr`)：设备像素比 ＝ 物理像素 / 设备独立像素；
-                    - 在JS中获取dpr：window.devicePixelRatio。
-                    - 在CSS中，通过-webkit-device-pixel-ratio，-webkit-min-device-pixel-ratio和 -webkit-max-device-pixel-ratio进行媒体查询。
-            - 适配方案
-                1. lib-flexible 手淘H5
-                    - rem就是相对于根元素`<html>`的font-size来做计算。
-                    - 通过Hack手段来根据设备的dpr值相应改变`<meta>`标签中viewport的值
-                        - 根据dpr的值来修改viewport实现1px的线
-                        - 根据dpr的值来修改html的font-size，从而使用rem实现等比缩放
-                        - 使用Hack手段用rem模拟vw特性
-                2. Viewport（vw）
-                    - 以前的Flexible方案是通过JS来模拟vw的特性，但目前，vw已经得到了众多浏览器的支持，因此可以直接考虑将vw单位运用于我们的适配布局中。
-                    - PostCSS的插件`postcss-px-to-viewport`把px转换成vw
-    - 1px border问题
-        - 产生原因：由于不同的手机有不同的CSS像素密度，所以设备独立像素（css像素）中的1px 并不等于设备的物理像素的1px。所以当你写1px样式时，当dpr为2时，显示的就是2px。
-        - 解决办法：
-
-- 事件流
-    - DOM2级 事件规定的事件流包括 3个阶段：`事件捕获阶段`，`处于目标阶段`，`事件冒泡阶段`。
-    - 自定义事件 new Event('test')
-    - 事件代理
-
-
-- 防抖和节流
-    - 防抖是将多次执行变为最后一次执行，节流是将多次执行变为在规定时间内只执行一次。
-        - 各自的原理
-        - 各自的场景
-        - 各自的代码实现
-
-- js编译器
-- js解释器
-- js作用域
-    - 作用域的作用
-    - 作用域链的作用
-    - 作用域的工作流程
-    - this绑定规则（4条）
-        - 默认绑定
-        - 隐式绑定
-            - 回退到默认绑定规则
-        - 主动绑定
-        - 由new调用
-            - 构造函数忘记使用new，则相当于使用实函数，创建全局变量
-    - 什么是闭包
-        - 创建闭包（2种）
-        - 闭包的缺点
-            - 内存的大量消耗
-            - 取到外层函数变量的最终值
-        - 清除闭包常驻内存
-            - 当一个内存空间没有变量指向的时候就会被回收。所以直接 `foo = null`
-        - 垃圾回收机制
-            - 分类
-                - 引用计数
-                - 【标记清除】，js引擎使用
-            - 存在问题：垃圾回收时停止响应其他操作
-                - 优化：【分代回收】，区分“临时”与“持久”对象，多回收临时对象，少回收持久对象。V8引擎就是用分代回收。
-        - 内存泄漏的原因：
-            -【循环引用】和【闭包】
-            - 1.意外的全局变量
-            - 2.遗忘的定时器
-            - 3.闭包的不当使用 - 当一个内存空间没有变量指向的时候就会被回收。所以直接 `foo = null`
-    - 变量和函数声明提升
-        - **函数整体在变量整体的下面**（即*变量提升的优先级更高，在最顶上*）。
-            - 第一阶段，`先提升函数`：对所有函数声明进行提升（忽略表达式和箭头函数）
-            - 第二阶段，`再提升变量`因此变量在更高的位置：对所有的变量进行提升，全部赋值为 undefined（如果已经存在，不赋值为undefined）
-
-- 数据结构
-    - 数组
-        - 广义上数组和链表的区别：
-        - js中数组的特点
-            - js中数组是由Array构造函数创建的对象，与java不同，有3个自己的特性
-    - Set 和 Map
-        - Set
-            1. 成员不能重复
-            2. 只有健值，没有健名，有点类似数组。
-            3. 可以遍历，方法有add, delete,has
-        - weakSet
-            1. 成员都是对象
-            2. 成员都是弱引用，随时可以消失。 可以用来保存DOM节点，不容易造成内存泄漏
-            3. 不能遍历，方法有add, delete,has
-        - Map
-            1. 本质上是健值对的集合，类似集合
-            2. 可以遍历，方法很多，可以跟各种数据格式转换
-        - weakMap
-            1. 只接受对象作为健名（null除外），不接受其他类型的值作为健名
-            2. 健名所指向的对象，不计入垃圾回收机制
-            3. 不能遍历，方法同get,set,has,delete
-
-- JS遍历对象的方法
-
-- 继承
-    - ES5
-        - 原型链继承
-            - 缺点：原型上任何类型的属性值都不会通过实例被重写，但是引用类型的属性值会受到实例的影响而修改
-        - 借用构造函数继承
-            - 缺点：只实现了部分继承，父类的原型对象上的属性无法被子类继承。
-        - 组合继承（原型链+借用构造函数）
-            - 特点：借用构造函数拷贝属性副本，与原型链继承共有属性
-            - 优化：
-                - 解决Parent执行两次
-                - 解决s.constructor指向问题
-    - ES6
-        - extends
-        - super的两种使用方式：函数、对象
-        - ES6继承与ES5继承机制比较
-
-
-- JS模块化规范
-    - 1、CommonJS
-        - 同步加载、require/module.exports、以node.js为代表
-    - 2、AMD
-        - 异步加载、依赖前置
-    - 3、CMD
-        - 异步加载、依赖就近
-    - 4、UMD
-        - commonjs+AMD
-    - 5、ES6Module
-        - 成为浏览器和服务器通用的模块解决方案
-        - 静态化、使得编译时就能确定模块的依赖关系、输入、输出
-        - import，因为是在编译阶段执行，import会 提升
-        - export
-        - 目前 import/export 最终都是编译为 require/exports 来执行的
-    - ESM 与 CommonJS 两种模块化规范的比较
-        - 输出类型不同
-        - 执行时机不同
-        - 执行位置不同
-        - 性能差异
-        - 循环加载时处理不同
-
-- Webpack
-    - 所有文件都是模块，只认识js模块，所以要通过一些loader把css、图片等文件转化成webpack认识的模块。
-    - 打包结果
-    - module、chunk、bundle3者的关系
-    - 打包出的文件具体原理：
-    - webpack构建流程：
-    - 关键词
-        - entry：建立依赖图的起点，3种方式配置
-        - output：
-            - path
-            - publicPath
-        - Loader 在 module.rules 中配置，对象数组，作为模块的解析规则
-        - Plugin 在 plugins 中单独配置，类型为数组，每一项是一个 Plugin 的实例
-            - Plugin 可以监听 Webpack 运行的生命周期中广播出的事件
-    - 常用loader和plugin：
-    - 提高webpack开发效率
-    - 对bundle体积进行监控和分析
-    - loader执行顺序
-    - 生产环境使用source map
-    - 文件指纹chunkhash
-        - 指纹类别（3种）
-        - [chunkhash]不能和 HMR 一起使用
-        - 占位符指定长度 [chunkhash:8]
-        - 各类别适用文件
-            - JS文件的指纹设置
-            - CSS文件的指纹设置
-            - Images/Fonts的指纹设置
-    - 持久化缓存caching（注意id问题）
-        - 注意模块id变化问题：
-    - 如何将文件名发送到浏览器
-    - webpack 动态加载就两种方式
-    - code splitting
-        - 将项目代码中无需立即调用的代码，在代码构建时转变为异步加载的过程。
-        - 代码分割入手点（如何分割）（3种）
-        - import()代码分割类型（两种）
-        - 魔法注释
-        - Webpack 4 引入了 mode 这个选项（提供development、production两种模式，如果 mode 是 production，那 Webpack 4 就会开启 Code Splitting。）
-    - webpack文件监听原理
-        - 开启监听模式(两种方式)
-            - 1. 启动 webpack 命令时，带上 --watch 参数，浏览器需刷新
-            - 2. 热更新: 
-                - 优点1：
-                - 优点2：
-        - 热更新原理比较难讲清，只要记住上面的两个优点就行了。
-    - 优化 Webpack 的构建速度
-        - 可用于生产环境
-            - 优化babel-loader
-            - ignorePlugin
-            - noParse
-            - happyPack
-            - ParallelUgligyPlugin
-
-n
-        - 1、`分包构建`
-            - 1、extenals外部扩展（CDN）
-            - 2、只是用在开发环境当中：DLLPlugin && DllReferencePlugin
-                - Externals会有多次引用的问题，所以也不好，DLL则是 前置不经常更新的第三方库依赖包的构建，来提高真正的build和rebuild构建效率
-                - 只要第三方库没有变化，之后的每次build都只需要去打包自己的业务代码
-                - webpack通过webpack.DllPlugin与webpack.DllReferencePlugin两个内嵌插件实现此功能。
-                    - DllPlugin 打包出dll文件
-                        - 进行分包，生成两个文件（bundlejs、bundle.mainifest.json）；
-                    - DllReferencePlugin 使用dll文件
-                        - 对 bundle.manifest.json 引用，让一些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间。
-        - 2、摇树优化 `Tree shaking`
-            - 得益于es6的import，标记未引用模块，在压缩时去除
-        - 3、作用域提升 `Scope hoisting`
-            - scope hoisting 会把需要导入的文件直接移入导入者顶部 打包在一起，这就是所谓的 hoisting。es6支持
-        - 4、`压缩代码`
-        - 5、利用`缓存提升二次构建速度`
-    - webpack常用配置技巧
-        - 省略文件后缀及配置别名
-        - 模块注入全局变量
-- 前端路由模式
-    - SPA是什么
-        - 优点
-        - 缺点
-    - 前端路由是什么
-        - 前端路由需要实现 2点：
-        - hash、history模式都可以实现上述两点：
-            - hash模式 原理
-            - history模式 原理
-                - h5提供了
-                - 如何监听呢？
-            - history模式为什么需要后端支持？
-            - 如何选择模式呢？
-                - 因为history是趋势，我们直接看hash的缺点就好了（3点）
-- SSR 服务端渲染和同构原理
-    - 为什么要服务端渲染（SSR）
-    - 传统SSR 与 CSR客户端渲染（SPA）
-    - 前端同构应用（SSR + SPA）：
-        - 第一次访问页面是服务端渲染，基于第一次访问，后续的交互就是 SPA 的效果和体验，还不影响SEO。简单说就是一个前端项目里的组件，部分服务端渲染后输出，部分由客户端异步渲染，既保障网页渲染速度，也有利于搜索引擎 SEO。
-    - 同构应用需要解决的3个问题
-        - 1、`路由同构`
-        - 2、`数据预取同构`
-        - 到这里，实现了双端的数据预取同构，但是数据也仅仅是服务端有，浏览器端是没有这个数据，浏览器会渲染出不同的结构替换服务端的渲染
-        - 3、`渲染同构`
-
-    - SSR 之所以能够实现的本质原因
-
-    - SSR生命周期注意点
-
-    - 其他要注意的问题
-        - node端没有window和webstorage
-        - React通过renderToString(`<App />)`方法将应用代码转换成字符串，再替换到页面中占位符的位置。
-        - ReactDOM.hydrate会去复用原本已经存在的 DOM 节点，尝试在已有标记上绑定事件监听器。
-        - SSR是不支持异步组件的
-            - 我们的方案没有解决这个问题
-        - SEO支持（路由页动态生成TDK）
-            - 采用react-helmet库
-        - 结合状态管理的SSR实现
-
-- git
-    - git rebase 变基，合并多次本地commit记录，使得分支树是线性的
-- base64
-    - 作用：传输、存储和表示二进制。基于64个可打印的字符来表示二进制的数据的一种方法。可以用来加密但很简单。
-    - 编码原理
-
-- offsetWidth 水平方向 width + 左右padding + 左右border-width
-- clientWidth 水平方向 width + 左右padding
-
-:::
-
-
-### details
-::: details
 - 网络基础
     - http报文组成
         - 请求行（方法，url，协议版本）、请求头（常用的...）、空行、请求体
@@ -1068,7 +575,7 @@ n
             - 分类：
                 - 宏任务，可以理解成每次执行栈中执行的代码
                     - setTimeout
-                    - setInterval 
+                    - setInterval
                     - setImmediate
                     - UI rendering（比如一些改变页面css的js代码任务）
                     - script
@@ -1157,7 +664,11 @@ n
             - 在一个窗口的生命周期内，窗口载入的所有的页面都是共享一个window.name的
 
 
-
+- ES
+    - JS = ES + Web API
+        - Web API：DOM操作，BOM操作，事件绑定，Ajax等。。
+    - nodejs = ES + nodejs API
+        - nodejs API：处理http，处理文件等。。
 
 - ES6
     - let 和 const
@@ -1191,13 +702,13 @@ n
 
 
 - 列举各种排序算法 分别对应的优缺点和时间复杂度
-    - 冒泡、选择、插入 都是O(n^2)
-    - 希尔、归并、快排、堆排序 都是O(nlogn)
+    - 冒泡、选择、插入 都是**O(n^2)**
+    - 希尔、归并、快排、堆排序 都是**O(nlogn)**
     - 上面这几种中，冒泡插入归并是稳定的，其他都是不稳定的
 - 快排
     - 手写
     - Array.prototype.sort()底层实现
-        - V8： <=10 插入排序 O(n)； >10 快排 O(nlogn)
+        - V8： <=10 *插入排序 O(n)*； >10 *快排 O(nlogn)*
         - V8引擎 7.0 版本之后，舍弃快排，因为其不稳定，使用TimSort混合排序算法，插入加归并
     - topK问题
         - 大顶堆，小顶堆：O(nlogk)
@@ -1218,27 +729,13 @@ n
     - 基本类型与引用类型的 复制、比较、值传递与引用传递：
         - ECMAScript中所有的函数的参数都是按值传递的。
 
-- 网络安全
-    - XSS，跨站脚本攻击，Cross-site scripting
-        - 防止XSS攻击：对提交的所有内容进行过滤，对url中的参数进行过滤，过滤掉会导致脚本执行的相关内容；然后对动态输出到页面的内容进行html编码，使脚本无法在浏览器中执行。
-    - CSRF，跨站请求伪造，Cross-site request forgery
-        - 防止CSRF攻击
-    - XSS 与 CSRF 区别
-    - CSP 内容安全策略，是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (XSS) 和数据注入攻击等。无论是数据盗取、网站内容污染还是散发恶意软件，这些攻击都是主要的手段。
-- 登录验证
-    - 基于cookie/session的身份验证
-    - 基于token的身份验证
-    - token相对cookie的优势
-        - 无状态
-        - 防止CSRF（攻击链接只能携带cookie但不能携带token）
-        - 性能
-        - 多站点使用
-        - 支持移动平台
-
 - 盒模型
     - box-sizing:
         - `content-box`（`默认值`，`标准盒模型`）：width 与 height 只包括内容的宽和高
         - `border-box` （`IE盒模型`，也叫Quirks`怪异模型`）：
+        - offsetWidth 水平方向 width + 左右padding + 左右border-width
+        - clientWidth 水平方向 width + 左右padding
+        - margin与padding值设置为百分数时，其值的计算参照 最近父级元素width，注意，四个方向都是以父级的宽来百分比的
     - JS如何设置获取盒模型对应的宽和高（4种）
     - 外边距重叠：垂直方向
     - BFC(块级格式化上下文)
@@ -1259,6 +756,7 @@ n
         - 块级元素：**典型块级元素**：div、p、h1、form、ul、li
             - 独占一行
             - 元素的高度、宽度、行高以及顶和底边距都可设置，如果不主动设置，则与其父元素一致
+        - line-height：1.5，line-height：150%以及line-height：1.5em的区别
     - position
         - 相对定位
             - relative：
@@ -1269,6 +767,8 @@ n
             - absolute：
                 - 在无已定位祖先元素时，以根节点`<html>`为基准偏移；
                 - 在有已定位祖先元素时，`相对于最近一级的、不是static定位的父元素`来定位。
+        - 奇技淫巧：fixed相对于父元素定位
+            - fixed在特殊情况下不会相对于视口来定位，如果当前元素的父元素transform不为none，不添加:top,bottom,left,right样式，那么定位的元素就不是依据视口进行定位，而是依据父元素进行定位
     - 居中
         - 垂直居中
             - 1. 对单行文本居中 height line-Height
@@ -1277,7 +777,7 @@ n
                     position: absolute;
                     left: 50%;
                     top: 50%;
-                    transform: translate(-50%, -50%); 
+                    transform: translate(-50%, -50%);
             - 4. flex居中 align-items: center;
 
         - 水平居中
@@ -1287,7 +787,7 @@ n
                     position: absolute;
                     left: 50%;
                     top: 50%;
-                    transform: translate(-50%, -50%); 
+                    transform: translate(-50%, -50%);
             - 4. flex居中 justify-content: center;
 
 - 提升页面性能的方法（5点）
@@ -1360,15 +860,49 @@ n
             .right {
                 flex: 1; // 等价于 1 1 0
             }
+        - flex-basis 属性定义了在分配多余空间之前，item占据的主轴空间（main size）。*浏览器根据这个属性，计算主轴是否有多余空间*。它的默认值为auto，即项目的本来大小。
     - 多种方式实现三栏布局
         - （1）浮动：
         - （2）绝对定位
         - （3）flex弹性
         - （4）table表格
         - （5）grid网格：
-            - grid-template-rows: 
+            - grid-template-rows:
             - grid-template-column:
         - 只有 flex弹性布局 与 table表格布局 是在高度超出后其他块的高度也跟随变高
+    - 最后一行左对齐问题
+        - flex
+            - 案例：每一行列数是固定的
+                - 根据个数最后一个元素动态margin
+                ```css
+                /* 如果最后一行是3个元素 */
+                .list:last-child:nth-child(4n - 1) {
+                    margin-right: calc(24% + 4% / 3);
+                }
+                /* 如果最后一行是2个元素 */
+                .list:last-child:nth-child(4n - 2) {
+                    margin-right: calc(48% + 8% / 3);
+                }
+                ```
+            - 案例：子元素宽度不固定，最后一行左对齐
+                - 方法1：最后一项margin-right: auto
+                - 方法2：::after伪元素flex:auto 或 flex:1
+                ```css
+                /* 方法1 */
+                .container:nth-of-type(1) > :last-child {
+                    margin-right: auto;
+                }
+                /* 方法2 */
+                .container:nth-of-type(2)::after {
+                    content: '';
+                    flex: auto;    /* 或者flex: 1 */
+                }
+                ```
+            - 案例：每一行列数不固定
+                - 使用足够的空白标签进行填充占位
+        - Grid布局
+            - 天然有gap间隙，且天然格子对齐排布，因此，实现最后一行左对齐可以认为是天生的效果。
+            - 但是repeat()函数兼容性不好，IE不支持
     - 经典布局 Sticky Footer
             ```html
             <div class="wrapper">
@@ -1410,10 +944,12 @@ n
 
 - 移动端问题
     - JSBridge原理
-        - 实现原理
+        - 实现原理（异步双向）
             - JavaScript 调用 Native
                 - 1. 注入 API（推荐）
+                    - webView.window[funcName] = NativeSomeFunc
                 - 2. 拦截 URL SCHEME
+                    - 例如iframe.src，Native拦截后根据URL参数去做操作
             - Native 调用 JavaScript
                 - 执行拼接 JavaScript 字符串，JavaScript 的方法必须在全局的 window 上
     - fastClick
@@ -1430,7 +966,7 @@ n
                                     手指离开屏幕时，触发 touchend
                                     等待 300ms 后，看用户在此时间内是否再次触摸屏幕，如果没有
                                     300ms 后，此时弹窗已消失，浏览器在用户手指离开的位置触发 click 事件，所以点到了页面上的元素
-        - fastclick原理: 
+        - fastclick原理:
             - 在检测到touchend事件的时候，会通过DOM自定义事件立即触发模拟一个click事件，并把浏览器在300ms之后真正的click事件阻止掉
                 - 移动端，当用户点击屏幕时，会依次触发 touchstart，touchmove(0 次或多次)，touchend，mousemove，mousedown，mouseup，click。即【touch事件】【mouse事件】【click事件】
                 - touchmove 只有当手指在屏幕发生移动的时候才会触发 touchmove 事件。**在 touchstart ，touchmove 或者 touchend 事件中的任意一个调用 event.preventDefault，mouse 事件 以及 click 事件将不会触发。**
@@ -1514,29 +1050,29 @@ n
                 - 原理是：把原先元素相对定位，border 去掉，然后利用 :before 或者 :after 重做 border，设为绝对定位，并 transform 的 scale 缩小为对应dpr比例
                 ```css
                 .border-1px{
-                position: relative;
-                &::before{
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    width: 200%;
-                    border:1px solid red;
-                    color: red;
-                    height: 200%;
-                    -webkit-transform-origin: left top;
-                    transform-origin: left top;
-                    -webkit-transform: scale(0.5);
-                    transform: scale(0.5);
-                    pointer-events: none; /* 防止点击触发 */
-                    box-sizing: border-box;
-                    @media screen and (min-device-pixel-ratio:3),(-webkit-min-device-pixel-ratio:3){
-                    width: 300%;
-                    height: 300%;
-                    -webkit-transform: scale(0.33);
-                    transform: scale(0.33);
+                    position: relative;
+                    &::before{
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 200%;
+                        border:1px solid red;
+                        color: red;
+                        height: 200%;
+                        -webkit-transform-origin: left top;
+                        transform-origin: left top;
+                        -webkit-transform: scale(0.5);
+                        transform: scale(0.5);
+                        pointer-events: none; /* 防止点击触发 */
+                        box-sizing: border-box;
+                        @media screen and (min-device-pixel-ratio:3),(-webkit-min-device-pixel-ratio:3){
+                        width: 300%;
+                        height: 300%;
+                        -webkit-transform: scale(0.33);
+                        transform: scale(0.33);
+                        }
                     }
-                }
                 }
                 ```
             - 使用border-image实现
@@ -1632,8 +1168,6 @@ js解释器
             2. 健名所指向的对象，不计入垃圾回收机制
             3. 不能遍历，方法同get,set,has,delete
 
-
-- JS遍历对象的方法
     - for in
     - Object.keys
     - Object.getOwnProperty
@@ -1822,8 +1356,8 @@ js解释器
             - 2、`动态引入/懒加载`（Dynamic Imports/Lazy-Loading）
             - 3、`避免重复`（Prevent Duplication）
                 - webpack3：CommonsChunkPlugin提取公共代码块被（Webpack4 废弃了 CommonsChunkPlugin）
-                    new webpack.optimize.CommonsChunkPlugin() 
-                        - name: 'vendor', minChunks: module => module.context 
+                    new webpack.optimize.CommonsChunkPlugin()
+                        - name: 'vendor', minChunks: module => module.context
                         - name: 'manifest', minChunks: Infinity,
                 - webpack4：SplitChunksPlugin自动分割
                     module.exports = {
@@ -1918,7 +1452,7 @@ js解释器
                 - h5提供了 history.pushState() 和 history.replaceState()，因此可以实现：改变 url 同时，不会刷新页面
                 - 如何监听呢？因为history 的改变并不会触发任何事件，所以需要”曲线救国“，拦截所有可能触发 history 改变的情况，变相监听 history 的改变，
                     - 只有4种history改变途径
-                        - 点击浏览器的前进或后退按钮；
+                        - 点击浏览器的前进或后退按钮；window.onpopstate
                         - 点击 a 标签；
                         - 在 JS 代码中触发 history.pushState 函数；
                         - 在 JS 代码中触发 history.replaceState 函数；
@@ -1992,7 +1526,7 @@ js解释器
     - 前端同构应用（SSR + SPA）：
         - 第一次访问页面是服务端渲染，基于第一次访问，后续的交互就是 SPA 的效果和体验，还不影响SEO。简单说就是一个前端项目里的组件，部分服务端渲染后输出，部分由客户端异步渲染，既保障网页渲染速度，也有利于搜索引擎 SEO。
     - 同构应用需要解决的3个问题
-        - 1、`路由同构`：双端路由如何维护 
+        - 1、`路由同构`：双端路由如何维护
             - 路由配置抽取出来 react-router-config
         - 2、`数据预取同构`：获取数据的方法和逻辑写在哪里
             - 可选方案：使用高阶组件给路由页面组件绑定数据获取方法，比如withSSR(WrappedCompoennt, getInitialProps)
@@ -2019,6 +1553,9 @@ js解释器
 
     - [React 中同构（SSR）原理脉络梳理](https://juejin.im/post/5bc7ea48e51d450e46289eab#heading-0)
 
+- base64
+    - 作用：传输、存储和表示二进制。基于64个可打印的字符来表示二进制的数据的一种方法。可以用来加密但很简单。
+    - 编码原理
 
 - git
     - git rebase 变基，合并多次本地commit记录，使得分支树是线性的
@@ -2028,9 +1565,4 @@ js解释器
         另外值得一提的是，当我们开发一个功能时，可能会在本地有无数次commit，而你实际上在你的master分支上只想显示每一个功能测试完成后的一次完整提交记录就好了，其他的提交记录并不想将来全部保留在你的master分支上，那么rebase将会是一个好的选择，他可以在rebase时将本地多次的commit合并成一个commit，还可以修改commit的描述等
 
         git merge 操作合并分支会让两个分支的每一次提交都按照提交时间（并不是push时间）排序，并且会将两个分支的最新一次commit点进行合并成一个新的commit，最终的分支树呈现非整条线性直线的形式
-
-- offsetWidth 水平方向 width + 左右padding + 左右border-width
-- clientWidth 水平方向 width + 左右padding
-- margin与padding值设置为百分数时，其值的计算参照 最近父级元素width，注意，四个方向都是以父级的宽来百分比的
 :::
-

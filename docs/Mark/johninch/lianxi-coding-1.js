@@ -352,13 +352,13 @@ class Promise {
         this.value = undefined
         this.reason = undefined
 
-        let resolve = function (value) {
+        let resolve = function(value) {
             if (this.state === 'pending') {
                 this.value = value
                 this.state = 'fulfilled'
             }
         }
-        let reject = function (value) {
+        let reject = function(value) {
             if (this.state === 'pending') {
                 this.reason = value
                 this.state = 'rejected'
@@ -438,14 +438,14 @@ limitLoad(urls, loadImg, 3)
 
 
 // - 实现finally
-Promise.prototype.finally = function (onFinally) {
+Promise.prototype.finally = function(onFinally) {
     res => Promise.resolve(onFinally()).then(() => res),
-    err => Promise.resolve(onFinally()).then(() => { throw err })
+        err => Promise.resolve(onFinally()).then(() => { throw err })
 };
 
 
 // - 实现Promise.all
-Promise.all = function (promises) {
+Promise.all = function(promises) {
     return new Promise((resolve, reject) => {
         let promiseNum = promises.length;
         let resolvedCounter = 0;
@@ -631,16 +631,16 @@ async function async2() {
 
 console.log("script start");
 
-setTimeout(function () {
+setTimeout(function() {
     console.log("setTimeout");
 }, 0);
 
 async1();
 
-new Promise(function (resolve) {
+new Promise(function(resolve) {
     console.log("promise1");
     resolve();
-}).then(function () {
+}).then(function() {
     console.log("promise2");
 });
 console.log('script end')
@@ -764,21 +764,21 @@ const p1 = new Promise((resolve) => {
 // 变量提升部分：
 
 function Foo() {
-    getName = function () {
+    getName = function() {
         console.log(1)
     }
     return this
 }
 
-Foo.getName = function () {
+Foo.getName = function() {
     console.log(2)
 }
 
-Foo.prototype.getName = function () {
+Foo.prototype.getName = function() {
     console.log(3)
 }
 
-var getName = function () {
+var getName = function() {
     console.log(4)
 }
 
@@ -972,7 +972,7 @@ function myInstanceof(left, right) {
     }
     //getPrototypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
     let proto = Object.getPrototypeOf(left)
-    while(true) {
+    while (true) {
         if (proto === null) {
             return false
         }
@@ -1015,7 +1015,7 @@ function two(cb) {
 
 // - 斐波那契数列，使用memo做缓存，减少运算量
 // 动态规划的题也能使用这种方法做优化
-const fib4 = (function () {
+const fib4 = (function() {
     var memo = [0, 1];
     return function _fib(n) {
         let result = memo[n]
@@ -1031,11 +1031,11 @@ console.log(fib4(9)); // 34
 
 // 尾递归实现fibonacci (尾调用优化)
 // 函数最后一步操作是 return 另一个函数的调用，函数不需要保留以前的变量
-function fib3(n, n1 = 1, n2 = 1){
+function fib3(n, n1 = 1, n2 = 1) {
     if (n <= 2) {
         return n2;
     } else {
-        return fib3(n-1, n2, n1 + n2);
+        return fib3(n - 1, n2, n1 + n2);
     }
 }
 
@@ -1064,7 +1064,7 @@ arr1.reduce((prev, cur, index, sourceArr) => {
 
 }, initial)
 
-Array.prototype._map = function (fn, callbackThis) {
+Array.prototype._map = function(fn, callbackThis) {
     const res = []
     const CBThis = callbackThis || null
     this.reduce((prev, cur, index, sourceArr) => {
@@ -1253,7 +1253,7 @@ const promisify = (func) => {
 }
 
 // 或者 写成函数表达式形式
-const promisify = function (func) {
+const promisify = function(func) {
     return function(...args) {
         let ctx = this
         return new Promise((resolve, reject) => {
@@ -1269,7 +1269,7 @@ const promisify = function (func) {
 }
 
 // nodeCallback方法func1
-var func1 = function (a, b, c, callback) {
+var func1 = function(a, b, c, callback) {
     callback(null, a + b + c);
 }
 // promise化后的func2
@@ -1284,7 +1284,7 @@ func2(1, 2, 3).then(console.log); //输出6
 
 
 // 原有的callback调用方式
-fs.readFile('test.js', function (err, data) {
+fs.readFile('test.js', function(err, data) {
     if (!err) {
         console.log(data);
     } else {
@@ -1328,15 +1328,15 @@ input.addEventListener('input', function(ev) {
 })
 
 
-// 手写vue observe数据劫持
+    // 手写vue observe数据劫持
 
 
-// 用JS模拟DOM结构（手写vnode）
-<template>
+    // 用JS模拟DOM结构（手写vnode）
+    < template >
     <div id="div1" class="container">
         <p>vdom</p>
     </div>
-</template>
+</ >
 
 {
     tag: 'div',
@@ -1366,7 +1366,7 @@ const debounce = (fn, time) => {
 }
 
 // 防抖的场景：按钮点击，输入联想
-// 节流的场景：滚动，上拉刷新，下拉加载
+// 节流的场景：滚动，上拉加载、下拉刷新
 
 const throttle = (fn, time) => {
     let flag = false
@@ -1400,7 +1400,7 @@ const loadImg = (url) => {
 
 // ### 二分查找
 function binarySearch(target, arr, start, end) {
-    if (start > end) {return -1}
+    if (start > end) { return -1 }
 
     let mid = Math.floor(start + (end - start) / 2)
 
@@ -1416,7 +1416,7 @@ function binarySearch(target, arr, start, end) {
 
 // ### 封装类型判断函数
 function matchType(o) {
-    let type = typeof(o)
+    let type = typeof (o)
     if (type !== 'object') {
         return type
     }
@@ -1453,7 +1453,7 @@ const quickSort = (arr) => {
 
 // ### 实现Object.create
 object.create = object.create || function(obj) {
-    function F() {}
+    function F() { }
     F.prototype = obj
 
     return new F()
@@ -1492,7 +1492,7 @@ function flatten(arr) {
 [1, [2, [3, 4]]].toString().split(',').map(i => Number(i))
 
 function flatten(arr) {
-    while(arr.some(item => Array.isArray(item))) {
+    while (arr.some(item => Array.isArray(item))) {
         arr = [].concat(...arr)
     }
     return arr
@@ -1615,7 +1615,7 @@ var Ajax = {
     get(url, fn) {
         var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
         xhr.open('GET', url, true)
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304 || xhr.status === 206)) {
                 fn.call(this, xhr.responseText)
             }
@@ -1626,7 +1626,7 @@ var Ajax = {
         var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
         xhr.open('POST', url, true)
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304 || xhr.status === 206)) {
                 fn.call(this, xhr.responseText)
             }
@@ -1665,12 +1665,12 @@ function foo(str) {
 // 深拷贝
 // 浅拷贝与深拷贝的区别
 // 深拷贝
-    // - 最简单版本：只对JSON安全的数据结构有效；且会抛弃对象的constructor，所有的构造函数会指向Object；遇到对象有循环引用，会报错。
-    // - 只能写出简单版本，即只实现到区分array与Object的引用类型
-    //     - 如果考虑全面类型的话，对Date、RegExp、甚至function都是要考虑的（当然这里的function其实考虑了也没意义，两个对象使用在内存中处于同一个地址的函数也是没有任何问题的，而比如lodash在碰到函数深拷贝时就直接返回了）
-    //     - 另外还应考虑循环引用的问题
-    //         - 解决循环引用问题，需额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
-    //     这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构。
+// - 最简单版本：只对JSON安全的数据结构有效；且会抛弃对象的constructor，所有的构造函数会指向Object；遇到对象有循环引用，会报错。
+// - 只能写出简单版本，即只实现到区分array与Object的引用类型
+//     - 如果考虑全面类型的话，对Date、RegExp、甚至function都是要考虑的（当然这里的function其实考虑了也没意义，两个对象使用在内存中处于同一个地址的函数也是没有任何问题的，而比如lodash在碰到函数深拷贝时就直接返回了）
+//     - 另外还应考虑循环引用的问题
+//         - 解决循环引用问题，需额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
+//     这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构。
 function deepClone(obj) {
     if (typeof obj !== 'object' || obj === null) {
         return obj
@@ -1893,7 +1893,7 @@ const reverseList = (head) => {
     let prev = null
     let cur = head
 
-    while(cur) {
+    while (cur) {
         let next = cur.next
         cur.next = prev
 
@@ -1915,7 +1915,7 @@ const merge = (l1, l2) => {
 
     let dummy = new listNode()
     let node = dummy
-    while(l1.next ||l2.next) {
+    while (l1.next || l2.next) {
         if (l1.val < l2.val) {
             dummy.next = l1
             l1 = l1.next
@@ -1938,29 +1938,29 @@ const merge = (l1, l2) => {
 }
 
 
-arr.map((item, index, sourceArr) => {}, callbackthis)
+arr.map((item, index, sourceArr) => { }, callbackthis)
 
-arr.reduce((prev, item, index, sourceArr) => {}, initial)
+arr.reduce((prev, item, index, sourceArr) => { }, initial)
 
 
 Array.prototype._map = (fn, callbackThis) => {
     let CBThis = callbackThis || null
     let res = []
     this.reduce((prev, item, index, sourceArr) => {
-        res.push(fn.call(CBThis，item, index, sourceArr))  
+        res.push(fn.call(CBThis，item, index, sourceArr))
     }, null)
-    
+
     return res
 }
 var a
 var b
-a = { k1: 'v1' };  
-b = a; 
-a.k3 = a = { k2: 'v2' }; 
+a = { k1: 'v1' };
+b = a;
+a.k3 = a = { k2: 'v2' };
 
 
-console.log(a); 
-{k2: 'v2', k3: {k2: 'v2'}}
+console.log(a);
+{ k2: 'v2', k3: { k2: 'v2' } }
 
 console.log(b);
 { k1: 'v1' };
@@ -1976,7 +1976,7 @@ const detectCircle = (head) => {
     let fast = head
     let slow = head
     let firstMeet = null
-    while(fast && fast.next) {
+    while (fast && fast.next) {
         fast = fast.next.next
         slow = slow.next
         if (slow === fast) {
@@ -1984,16 +1984,16 @@ const detectCircle = (head) => {
             break
         }
     }
-    
+
     return Boolean(firstMeet)
 }
 
-f: 
+f:
 
 
-var a = {n:1};  
+var a = { n: 1 };
 var b = a; // 持有a，以回查  
-a.x = a = {n:2};  
+a.x = a = { n: 2 };
 alert(a.x);// --> undefined  
 alert(b.x);// --> {n:2}
 

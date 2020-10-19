@@ -4,7 +4,7 @@
 4 + '5'; // '45'
 4 + true; // 5
 1 + 2 + '3' + 4; // '334'
- 
+
 0 == false; // true
 0 == '0'; // true
 0 == ''; // true
@@ -17,7 +17,7 @@ NaN == NaN; // false
 0 == NaN; // false
 1 === new Number(1); // false
 1 instanceof Number; // false
- 
+
 typeof []; // object
 typeof null; // object
 typeof /1/; // object

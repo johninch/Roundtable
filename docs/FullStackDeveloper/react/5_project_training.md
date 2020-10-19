@@ -8,7 +8,7 @@
 
 ## Generator
 
-惰性求值
+**惰性求值**：
 Generator 函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同，参考文档 [ES6 - generator](https://es6.ruanyifeng.com/#docs/generator)
 
 1. function关键字与函数名之间有一个`*`;

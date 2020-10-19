@@ -174,7 +174,7 @@ getName = function() {
 ```js
 Foo.getName()               // (1)：输出2，直接调用Foo的静态方法
 getName()                   // (2)：输出4，由于赋值为4的函数体在最后执行，给getName最终赋值为4
-Foo().getName()             // (3)：输出1，调用函数Foo，返回this，其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
+Foo().getName()             // (3)：输出1，普通调用函数 Foo()返回的 this 指向的是全局对象 window（谁调用指向谁），所以调用的是全局对象的 getName()。其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
 getName()                   // (4)：输出1，由于前一步中对全局getName变量重新赋值为1，因此这里还是打印1
 ```
 再考虑第二个关键知识点，运算符优先级：**`()` > `.` > `带参数New` > `无参数New`**，因此(5)到(7)输出如下：
@@ -244,13 +244,13 @@ display() 方法中的 this 在非严格模式下指向 window 或 global 对象
 2. 隐式绑定
 ```js
 var obj = {
- name: 'Saurabh',
+ name: 'inch',
  display: function(){
    console.log(this.name); // 'this' 指向 obj
   }
 };
 
-obj.display(); // Saurabh 
+obj.display(); // inch
 ```
 以上就是常规调用规则：谁调用，指向谁。
 
@@ -268,7 +268,7 @@ outerDisplay(); // uh oh! global
 var name = "uh oh! global";
 
 var obj = {
- name: 'Saurabh',
+ name: 'inch',
  display: function(){
    console.log(this.name); // 'this' 指向 obj
   }
@@ -286,10 +286,10 @@ var obj = {
     ...
 };
 
-obj.display = obj.display.bind(obj); 
+obj.display = obj.display.bind(obj);
 var outerDisplay = obj.display;
 
-outerDisplay(); // Saurabh
+outerDisplay(); // inch
 ```
 分析：将 this 的值通过 bind() 方法绑定到对象上。即使我们将 obj.display 直接作为 callback 参数传递给函数，display() 内部的 this 也会正确地指向 obj。
 
