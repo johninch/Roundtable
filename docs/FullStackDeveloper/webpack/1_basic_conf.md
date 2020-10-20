@@ -3,7 +3,7 @@
 ## webpack是什么
 
 前端的工程化涉及：
-- 如何使用模块化来阻止代码？ esm cmd
+- 如何使用模块化来组织代码？ esm cmd
 - 转义预处理器 less sass postcss 转成 css
 - es6+ => es5
 - 开启开发服务环境，便于调试；
@@ -294,7 +294,9 @@ css-loader分析css模块之间的关系，并合成⼀个css，将其转成js�
 ### plugin
 
 plugin 可以在webpack运行到某个阶段的时候，帮你做⼀些事情，类似于⽣命周期的概念
+
 扩展插件，在 Webpack 构建流程中的特定时机注⼊入扩展逻辑，来改变构建结果或做你想要的事情。
+
 作⽤于整个构建过程
 
 - HtmlWebpackPlugin：会在打包结束后，⾃动⽣成⼀个html⽂件，并把打包⽣成的js模块引⼊到该html中。

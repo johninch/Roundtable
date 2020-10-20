@@ -3,7 +3,7 @@
 本节我们来自己实现一个bundler.js，理解webpack打包原理。
 
 node bundler.js之后，发生了什么：
-- 1. 分析入口模块，parser.parse后那大AST，并得到模块内的依赖
+- 1. 分析入口模块，parser.parse后得到AST，并得到模块内的依赖
 - 2. 转换代码，将AST转换成目标code
 - 3. 生成依赖图谱，从入口递归得到所有依赖关系
 - 4. 提供生成函数generate，将依赖图谱graph转换成字符串，并提供启动器函数webpackBootstrap，内含自执行闭包函数，使用eval来执行工程代码

@@ -538,7 +538,7 @@ Vue 如何实现高阶组件：https://www.jianshu.com/p/6b149189e035
         - 重新执行render函数，生成newVnode，由patch(vnode, newVnode)渲染
     - 为什么没有说vue中的patch分为两个阶段？
         - 个人理解是vue中每个组件都是一个watcher，只针对组件内部进行diff比较，通过响应式来得知哪些组件需要diff
-        - 因此，在合理划分组件的情况下，diff比较量不会很大，更新的较快，不太会出现js线程对gui线程的阻塞，所以，也就没有引入fiber，并且也没有引入SCU
+        - 因此，在合理划分组件的情况下，diff比较量不会很大，所以`边比较边更新dom`；
 
 
 ## 真题

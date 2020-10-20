@@ -1518,3 +1518,4 @@ app.use(async (ctx, next) => {
 配置进程数量，多个进程开启后，mode为cluster集群模式，服务器会通过负载均衡规则，将当前请求派发到空闲的服务器进程上去。
 
 
+[使用pm2+nginx部署koa2(https)](https://www.zhaofinger.com/detail/5)

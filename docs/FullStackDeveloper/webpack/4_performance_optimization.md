@@ -395,7 +395,7 @@ module.exports = {
 "build:dll": "webpack --config ./build/webpack.dll.js"
 ```
 - 4、在基础打包配置 **webpack.base.js** 中，使用 `AddAssetHtmlWebpackPlugin` 插件，为打包出的html文件，添加对 **vendors.dll.js** 这一单独bundle的引用，配合之前暴露的library声明，则html会使用script加载执行这个单独的bundle.js，给浏览器添加一个全局变量vendors。
-- 5、至此还没完，还需要再使用 `webpack.DllReferencePlugin` **指定dll的bundle.js的manifest所在位**置，否则，webpack找不到指引文件，就还是会从node_modules中去引用这些依赖。找到manifest文件后，当发现 'react'、'react-dom'、'lodash'时，就不再对其打包，从而提升打包速度。
+- 5、至此还没完，还需要再使用 `webpack.DllReferencePlugin` **指定dll的bundle.js的manifest所在位置**，否则，webpack找不到指引文件，就还是会从node_modules中去引用这些依赖。找到manifest文件后，当发现 'react'、'react-dom'、'lodash'时，就不再对其打包，从而提升打包速度。
 ```js
 // webpack.base.js
 module.exports = {

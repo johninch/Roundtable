@@ -488,7 +488,6 @@
     - 对标webpack
     - 现代浏览器都支持 type="module"，原生支持es6的import写法
     - vite解决的是开发体验，对于线上生产环境打包，还是需要使用rollup或者webpack
-- Vue3 composition API vs React Hooks！！！！！！！！！！！！！！！
 
 
 - React组件化
@@ -882,19 +881,236 @@
         - 那么 **Node.js 则是将 JavaScript 集成到 libuv 的 I/O 循环**之中。
     - Node.js (libuv)在最初设计的时候，是允许执行多次外部事件再切换到内部队列的，而浏览器端一次事件循环只允许执行⼀次外部事件。*nodev12就修复了这个问题*
     - setImmediate这个外部队列宏任务，目前是 Node.js 独有的，浏览器端没有。
-        - 当大于1ms时，setTimeout肯定是先于setImmediate执行的。
+        - 当大于1ms时，setTimeout（timers阶段）肯定是先于setImmediate（check阶段）执行的。
         - 但是当小于1ms时，也就是 setTimeout 0 时，是有一定的概率，setImmediate会先执行的。
 
 
 - Webpack
+    - module、chunk、bundle3者的关系
+    - loader：
+        - 在Webpack里，一切皆模块，一个模块对应着一个⽂件。Webpack 会从配置的 Entry 开始递归找出所有依赖的模块。
+        - loader执行顺序是：自后往前，自下向上
+    - 处理css
+        - `sass-loader`：把sass编译成css。
+        - `postcss-loader`：自动添加css前缀。
+        - `css-loader`：让webpack能识别处理css，转化成 CommonJS 模块。
+        - `style-loader`：把css识别处理后转成的js字符串，生成为 style节点，插入到 html中。
+    - 处理图片
+        - `file-loader`专门处理加载静态文件，比如 .txt .md .png .jpg .word .pdf等等等等。。。。不需要对文件进行加工，只需要将其挪到dist目录中。
+        - `url-loader`是file-loader的加强版，有配置项`limit`，遇到图片格式的模块，会把该图⽚转换成base64格式字符串，并打包到js⾥，从而减少http请求。对于`⼩体积的图片⽐较合适`
+    - 处理第三方字体
+        - file-loader
+    - 增加插件
+        - html-webpack-plugin
+        - clean-webpack-plugin
+        - mini-css-extract-plugin
+    - 多页面应用配置
+        - 动态生成entry，以及HtmlWebpackPlugin
+    - sourceMap
+        - 字段含义
+            - eval: 速度最快，使⽤eval包裹模块代码。
+            - source-map: 会产⽣ .map ⽂件。
+            - cheap: 较快，会告知出错行信息，但是不显示列信息。因此一般都会加上`cheap-`。
+            - Module: 第三⽅模块，包含loader的sourcemap(⽐如jsx to js ，babel的sourcemap)。
+            - inline: 将 .map 作为DataURI嵌⼊打包后的bundle中，不单独生成 .map 文件。
+        - 开发环境使用
+            - cheap-module-eval-source-map
+        - 生产环境使用source map（线上其实不推荐开启）
+            - map文件只要不打开开发者工具，浏览器是不会加载的。
+            - 3种处理方案：
+                - hidden-source-map：借助第三方错误监控平台 Sentry 使用。
+                - nosources-source-map：只会显示具体行数以及查看源代码的错误栈。安全性比 sourcemap 高。
+                - sourcemap：通过 nginx 设置将 .map 文件只对白名单开放(公司内网)。
+            - 注意：避免在生产中使用 inline- 和 eval-，因为它们会增加 bundle 体积，并降低整体性能。
+    - ES6+如何使用：babel
+        - **`@babel/core` 这个库负责「`Parser解析`」，具体的「`Transformer转换`」和「`Generator生成`」步骤则交给各种插件（`plugin`）和预设（`preset`）来完成，即 `@babel/preset-env`，它里面包含了 es，6，7，8 转 es5 的转换规则**
+        - `babel-loader` 是 webpack 与 `@babel/core` 的通信桥梁，它不会做把es6转成es5的⼯作，这部分⼯作是需要 @babel/preset-env 来做的。
+        - @babel/polyfill
+            `useBuiltIns` 选项是 babel7 的新功能，这个选项告诉 babel 如何配置 @babel/polyfill。它有3个参数可以使⽤:
+            - 1、`entry`: 需要在 webpack 的⼊口⽂件里 import "@babel/polyfill" 一次。`按需注⼊`，即 babel 会根据你的使⽤情况导⼊垫片，**没有使用的功能不会被导⼊相应的垫片**。（推荐）
+            - 2、`usage`: **不需要import，全⾃动检测**，但是要安装 @babel/polyfill 。也是`按需注⼊`。(试验阶段，推荐)
+            - 3、false: 默认值，即如果你 import "@babel/polyfill" ，它不会排除掉没有使⽤的垫⽚，导致程序（bundle）体积会庞大。(不推荐)
+    - sideEffects来配合tree shaking
+        - 因为，对于比如 `import "@babel/poly-fill"`，其实没有导出任何东西，它实际上是在window全局对象上绑定了很多垫片方法。如果开启了 `tree shaking`，则会将其当成未导出任何内容的模块，将其忽略，不打包进bundle中。`"sideEffects": ["@babel/poly-fill"]`就是为了避免这种情况，在打包的时候，就不会处理@babel/poly-fill。
+        - 同理，对于 import "./style.css" 
+    - 代码分割
+        - splitChunks.chunks: "all", // 'all'会对同步、异步代码都做分割，并会根据cacheGroups选项分组；'async'只对异步代码做分割；'initial'只对同步代码做分割
+    - 打包后文件
+        - **manifest.js** 内部是一个 IIFE，称为`webpackBootstrap启动器函数`，这个函数会接受一个空数组（命名为modules）作为参数。
+            - 除**manifest.js**外的所有其他bundle，都往window["webpackJsonp"]数组里面 push chunkId 和 含有的modules。
+            - 而**manifest.js**提供3个核心方法：
+                - 1、提供全局函数 `webpackJsonpCallback(data)` 来处理全局的 window["webpackJsonp"] 数组。
+
+                - 2、提供 `__webpack_require__(moduleId)`：作用就是加载执行对应的module，并且缓存起来。
+                    - 先判断下installedModules中是否有缓存，有则直接返回其module.exports；
+                    - 没有的话就执行，将module输出的内容挂载到module.exports对象上，同时缓存到installedModules中。
+                    - 注意：每个module只会在最开始依赖到的时候加载一次，如果有继续依赖的module，则递归执行，且加载过的依赖值也只执行一次。
+
+                - 3、提供 `__webpack_require__.e(chunkId)`，也就是 `requireEnsure(chunkId)` 异步加载模块，返回promise。
+                    - 简单地说，是用来 懒加载某个chunk的
+                    - 传入一个chunkId，先判断该 chunk 是否已被加载，是的话直接返回一个成功的 promise，并让 then 执行函数的 `__webpack_require__` 对应的 module 即可；
+                    - 否则，会动态创建一个 script 标签去加载对应chunk，加载成功后会将该chunk中所有module注入到 webpackJsonp 中
+    - 打包分析
+        - webpack-bundle-analyzer
+        - **为什么webpack默认代码拆分是async**
+            - 对于同步代码分割，其实只能增加个缓存，对于浏览器性能的提升是非常有限的。真正可以提升性能的，是提高浏览器代码利用率，多写异步加载代码，将异步代码分割出去，只有真正用到时才加载。
+        - **看代码的使用率** => chrome控制台的`coverage选项`
+    - Preloading，Prefetching
+        - 异步分包，并结合prefetch，避免点击时再请求js包可能会比较慢
+        - webpackPrefetch
+    - TypeScript打包配置
+    - ESLint webpack配置
+- webpack性能优化
+    - 缩⼩搜索Loader的文件范围
+    - 定位第三方依赖位置：resolve.modules配置
+    - 配置别名：resolve.alias配置
+        - 「加波浪线」：**html、css**中使用时，路径`@前要加波浪形~`:（*"~@dir"*）
+    - 后缀列表：resolve.extensions配置
+    - 使用静态资源路径publicPath(CDN)
+    - 持久化：文件指纹
+    - 抽离runtime（manifest）
+        - optimization.runtimeChunk.name: 'runtime'
+    - 抽离css：MiniCssExtractPlugin
+        - css 是直接打包进 bundle.js 里⾯的，这就是常说的Css in JS。我们希望能单独⽣成 css ⽂件，将Css单独打包进dist目录中
+        - 不支持HMR，因此**只推荐在生产环境打包使用**。
+        - 不再需要style-loader，⽤`MiniCssExtractPlugin.loader`代替
+    - 压缩CSS
+        - 借助`optimize-css-assets-webpack-plugin`，借助cssnano。
+    - 压缩HTML
+        - html-webpack-plugin
+    - 压缩图片
+        - `img-webpack-loader`
+    - 环境区分：development vs production
+    - library打包
+        - 使自定义库可以被开发者以script标签的形式引入，通过 全局变量library 来访问
+    - externals
+        - 打包时，忽略某些第三方库依赖，不将其打包进我们生成的bundle.js中
+    - 使用DllPlugin，提高打包速度
+        - webpack.dll.js
+            - 输出到dll目录下：vendors.dll.js
+            - `webpack.DllPlugin` 插件，分析生成映射文件：vendors.manifest.json
+            - 使用 `webpack.DllReferencePlugin` **指定dll的bundle.js的manifest所在位置**
+- webpack打包原理（bundler实现）
+    - parse
+        - 模块分析，得到AST
+        - 使用 `@babel/parser` 对入口模块进行分析，拿到模块内的依赖
+    - transform
+        - 代码转换（AST => 浏览器可运行code）
+        - 使用`@babel/core`里的`transformFromAst`
+        - 递归，生成依赖图谱（dependencies graph）
+    - generate
+        - 提供生成代码函数（generate），生成打包函数
+        - node bundler.js => 得到 bundle.js
+- 自定义loader
+    - loader，必须是`声明式函数`，不能是箭头函数，因为loader会对this做些变更，如果使用箭头函数，this指向就有问题，就没法调用本来this的方法了。
+    - 接收一个参数，即源代码source
+    - 变更之后，再把源代码`return`出去
+        - this.callback(null, result)，返回额外的内容
+        - this.async，处理异步操作
+    - 自定义loader场景距离
+        - 比如 异常捕获
+        - 比如 国际化
+- 编写webpack plugin
+    - 生成版权信息文件 CopyrightWebpackPlugin
+        - apply(compiler) {}
+            - compiler.hooks.compile.tap('CopyrightWebpackPlugin', compilation => {})
+            - compiler.hooks.emit.tapAsync('CopyrightWebpackPlugin', (compilation, cb) => {})
+                // compiler 存放了所有配置和打包的内容
+                // compilation 只存放当前这次打包相关的内容
+                // compilation.assets 存放了所有打包生成的内容
+    - 生成骨架屏插件
+
+- 常见web攻击
+    - 掌握XSS (实施 + 防御)
+        - 分类
+            - 反射型：url参数直接注入
+                - 短域名伪造
+            - 存储型：存储到DB后读取时注入
+                - 在页面上通过表单输入的攻击脚本，存储注入在数据库中，等到页面刷新获取到该数据时，攻击脚本就被执行
+        - 危害
+            - 脚本Scripting能干啥，XSS攻击就能干啥
+        - 防御手段
+            - CSP内容安全策略，一个附加的安全层，就是建立白名单
+            - 转义字符
+                - 黑名单转义（定义哪些符号不行）
+                - 白名单转义（定义哪些符号可以）
+                    - 富文本
+                - Cookie设置httpOnly
+                    - 预防XSS攻击窃取用户cookie
+                    - （使用cookie登录鉴权过程中，实际根本不需要客户端js参与，因此后端添加httpOnly只在网络传输中使用，是完全合理的）
+    - 掌握CSRF (实施 + 防御)
+        - 1、`Referer Check`：（理论上是可以防御的，但实际上并不那么有效）
+        - 2、`人机识别（使用验证码）`
+        - 3、`使用token验证`
+    - 掌握点击劫持 (实施 + 防御)
+        - 一种`视觉欺骗`的攻击手段
+        - iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明
+        - 防御
+            - 方法1：`X-FRAME-OPTIONS`
+                - DENY：表示页面不允许通过 iframe 的方式展示
+                - SAMEORIGIN：表示页面可以在相同域名下通过 iframe 的方式展示
+                - ALLOW-FROM：表示页面可以在指定来源的 iframe 中展示
+            - 方法2：使用js来实现
+                - 判断 self == top
+                // self是对当前窗口自身的引用，window属性是等价的
+                // top返回顶层窗口，即浏览器窗口
+    - 掌握SQL注入 (实施 + 防御)
+        - `参数化查询接口`，即不要直接拼接 SQL 语句
+    - 掌握OS注入 (实施 + 防御)
+        - OS命令注入和SQL注入差不多，只不过SQL注入是针对数据库的，而OS命令注入是针对操作系统的。
+    - 了解请求劫持
+        - `运营商劫持`：运营商通过某些方式篡改了用户正常访问的网页，插入广告或者其他一些杂七杂八的东西。一般分为`DNS劫持`和`HTTP劫持`：
+    - 了解DDOS
+        - `分布式停止服务`攻击，只要把一个环节攻破，使得整个流程跑不起来，就达到了瘫痪服务的目的。
+- 密码安全-数据库密码强化
+    - 哈希摘要加密算法
+        - 无法反推，密文长度固定，雪崩效应，明文与密文一一对应
+        - 因此，有的反查网站通过维护字典，虽然从数学角度无法反推，但可以查
+        - 加盐salt
+            - 帮助用户提升了其密码强度，这样就不容易被反查出来了
 
 
-
-
-
-
-
-
-
-
+- 项目先导课
+    - 网站性能监控
+        - 谷歌出品的lighthouse，得到网站评测
+- 项目挖掘
+    - （1）文件上传
+        - 分片上传
+            - 上传成功，后端要存起来切片，知道上传了哪些，所以需要`SparkMD5计算一个指纹`
+                - 计算md5，文件太大时计算量太大，阻塞主线程
+                    - 1. `web-worker`开一个影分身去做
+                    - 2. 时间切片time-slice，`requestIdleCallback`
+                    - 3. `抽样hash`(牺牲一点可靠性，换取效率，布隆过滤器)
+        - `断点续传`：后端需要通过上一步的唯一hash标识，来判定文件是不是上传过
+            - 如果该文件已经上传成功了，即`文件秒传`
+            - 如果该文件不存在，则获取已经上传过的切片列表
+            - 当本次上传和已经上传的分片，等于文件全部大小时，需要通知后端进行`分片合并`
+            - 提供`暂停上传`和`继续上传`功能
+        - 如果用Promise.all 会让浏览器卡顿，所以要`控制并发数`
+            - `sendReuqest(task,4)`
+        - 对于弱网，`自动重试`比如说3次，每个切片3次机会
+        - 类型判断
+            - 最合理的方式：二进制文件头信息来判断，甚至能从二进制信息里直接读取文件宽高
+        - 切片大小如何确定？`慢启动上传`
+    - （2）api切换配置优化
+        - 后端同学希望能够将最新的前端代码连接到自己本机数据库，更方便的做回测（postman效率太低了）
+        - （HostSwitch组件）
+            - 增加 axios.interceptors.request.use(proxyInterceptor) 请求拦截，将config替换成切换后的baseUrl地址
+            - 对于集团公共BOS系统，为了不影响到其他业务线，采用高阶组件 withHostSwitch(creatModule)，在里面添加 HostSwitch 的渲染挂载，这样当退出ESOP模块时，HostSwitch会随着整个ESOP模块的卸载而卸载，拦截器也执行eject
+    - （3）自定义指令 v-loadmore 实现分部分获取数据
+    - （4）elementUI v-infinite-scroll 无限滚动
+        - 给el-table添加无限滚动标签时，需要给el-table下添加一个标签并通过slot="append"插入列表内容，注意，如果直接插入如下标签并v-infinite-scroll="load"时，整个html body都是滚动的。。。
+        - 查看v-infinite-scroll的elementUI源码，发现：
+            - v-infinite-scroll有一个寻找 scrollContainer （可滚动容器）的过程（getScrollContainer函数），如果当前元素可滚动（isScroll函数），则取当前元素，否则一直向上找直到最顶端。 上面的现象就是没找到table列表的可滚动wrapper，而找到了外部的body
+            - 因此，需要控制插入的span标签的插入时机，需要在列表有内容撑开后，再插入标签。
+            - 即通过v-if判断，在获取到数据后，并在nextTick中拿到更新的dom时，再使span标签显示、插入到table下，此时span标签中的无限滚动指令就能拿到最近的可滚动列表wrapper了。
+        - 注意，v-infinite-scroll会加载渲染所有的item，对于复杂的列表会造成页面卡顿
+            - 使用虚拟列表，虚拟滚动
+            - `vue-virtual-listview`
+                - 只对可见区域进行渲染，对非可见区域中的数据，部分渲染（buffer缓冲区渲染）
+                - 对于item项高度不定，以预估高度先行渲染，然后获取item真实高度，使用钩子函数updated 缓存，之后的渲染通过数组索引从缓存中取。
+        - （5）权限系统
+        - （6）eslint+husky+prettier+lint-staged
+        - （7）多语言实现 vue-i18n + i18next-scanner
+        - （8）同构SSR
 

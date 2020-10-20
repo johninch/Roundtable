@@ -199,24 +199,18 @@ module.exports = {
 
 ## 自定义loader场景距离
 
-异常捕获
+比如 异常捕获
 ```js
 try { function() {} } catch (err) {}
 
 ```
 
-
-国际化
+比如 国际化
 ```js
 if () {
     source.replace('{{title}}', "中文标题")
 } else {
-    // 
+    //
 }
-
 ```
-
-
-
-
 

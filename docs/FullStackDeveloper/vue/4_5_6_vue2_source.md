@@ -600,7 +600,7 @@ Vue高效的**秘诀**，是一套`批量、异步`的更新策略。
 > watcher.run() => componentUpdate() => render() => update() => patch()
 
 
-::: tip nextTick中，定时器函数`timerFunc`的`回退规则`
+::: tip nextTick中，定时器函数`timerFunc`的`降级规则`
 首选`微任务promise` > 微任务MutationObserver > 宏任务setImmediate > `宏任务setTimeout`兜底
 
 异步策略：Vue 在内部对异步队列尝试使用原生的 Promise.then 、 MutationObserver 或 setImmediate ，如果执行环境都不支持，则会采用 setTimeout 代替。
