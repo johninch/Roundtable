@@ -65,8 +65,8 @@ var max = Math.max.apply(null, array)
 ```
 ```js
 // 以下等价：
-var max = Math.max(10, 20,30);   
-var max = Math.max.call(null,10, 20,30); 
+var max = Math.max(10, 20,30);
+var max = Math.max.call(null,10, 20,30);
 var max = Math.max.apply(null,[10, 20,30]);
 var max = Math.max(...[10, 20,30]);
 ```
@@ -115,8 +115,8 @@ rgbToHex(str)
 
 #### 转换方法
 - 转换方法1：`Array.prototype.slice.call(fakeArray)`或者`[].slice.call(fakeArray)`；
-- 转换法法2：使用ES6中`Array.from`；
-- 转换法法3：`[...arguments]`;
+- 转换方法2：使用ES6中`Array.from`；
+- 转换方法3：`[...arguments]`;
 
 
 - 转换原理：数组的slice()截取数组中指定部分的元素, 生成一个新的数组

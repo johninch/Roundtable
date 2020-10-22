@@ -767,7 +767,7 @@ app.get('*', (req, res) => {
 现在已经实现了SSR端数据获取和渲染，流程总结：
 - 1、当用户请求一个网页，此时创建一个空的store；
 - 2、然后使用matchRoutes匹配当前路由项，并执行匹配到的路由的loadData方法
-- 3、使用Promise.all控制，所有的loadData数据获取到之后，再凭借html的内容
+- 3、使用Promise.all控制，所有的loadData数据获取到之后，再拼接html的内容
 - 4、res.send(content)返回给用户；
 
 

@@ -328,13 +328,15 @@ async function mergePromise(arr) {
 // 第二次的then是为了获取ajax的结果
 function mergePromise(arr) {
     let data = []
-    arr.reduce((r, p) => {
+    let res = arr.reduce((r, p) => {
         return r.then(p).then(res => {
             data.push(res)
+
+            return data
         })
     }, Promise.resolve())
 
-    return Promise.resolve(data)
+    return res
 }
 
 // - 根据promiseA+实现promise

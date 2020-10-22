@@ -1,10 +1,15 @@
 // - 如何用await和async写一个睡眠函数？
 function sleep(ms) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, ms)
+    })
 }
 
 async function run(time) {
-
+    await sleep(time)
+    console.log('sleep for time')
 }
 
 run(3000);
@@ -26,7 +31,42 @@ function request(url, successCallback, failCallback) {
 }
 
 function cacheRequest(url, successCallback, failCallback) {
+    cacheRequest.cache = cacheRequest.cache || {}
+    cacheRequest.clear = cacheRequest.clear || function() {
+        cacheRequest.cache = []
+    }
 
+    if (cacheRequest.cache[url]) {
+        return cacheRequest.cache[url].then(successCallback).catch(failCallback)
+    }
+
+    let success, fail
+    cacheRequest[url] = new Promise((resolve, reject) => {
+        success = resolve
+        fail = reject
+    })
+
+    return fetch(url)
+        .then((response) => {
+            success(response)
+            successCallback(response)
+        })
+        .catch((err) => {
+            fail(err)
+            failCallback(err)
+        })
+
+    return request(
+        url,
+        (response) => {
+            success(response)
+            successCallback(response)
+        },
+        (err) => {
+            fail(err)
+            failCallback(err)
+        }
+    )
 }
 
 // - 三次重试：假设有一个函数名为job,调用job后会执行一些异步任务，并返回一个Promise,但job执行的异步任务有可能会失败
@@ -49,7 +89,28 @@ function job() {
     })
 }
 function retry(job, times, delay) {
+    let flag = 0
+    const attempt = () => {
+        new Promise((resolve, reject) => {
+            job().then(res => {
+                resolve(res)
+                console.log('chenggong')
+            }).catch((err) => {
+                if (flag === times) {
+                    reject(err)
+                } else {
+                    flag++
+                    setTimeout(() => {
+                        resolve(attempt)
+                    }, delay)
+                }
+            })
+        }).catch(err => {
+            console.log('chongshi times ci shibai')
+        })
+    }
 
+    attempt()
 }
 
 retry(job, 3, 1000)
@@ -72,6 +133,28 @@ function job() {
 }
 
 function retry(job, times, delay) {
+    let flag = 0
+    new Promise((resolve, reject) => {
+        const attempt = () => {
+            job().then(res => {
+                resolve(res)
+                console.log('chenggong')
+            }).catch(err => {
+                if (flag === times) {
+                    reject(err)
+                } else {
+                    flag++
+                    setTimeout(() => {
+                        attempt()
+                    }, delay)
+                }
+            })
+        }
+
+        attempt()
+    }).catch(err => {
+        console.log(err)
+    })
 
 };
 
@@ -82,7 +165,14 @@ retry(job, 3, 1000)
 //     虽然map方法的参数是async函数，但它是并发执行的，因为只有async函数内部是继发执行，外部不受影响。后面的for..of循环内部使用了await，因此实现了按顺序输出。
 
 async function asyncInOrder(urls) {
+    const promises = urls.map(async url => {
+        let res = await fetch(url)
+        return res.data
+    })
 
+    for (let p of promises) {
+        console.log(await p)
+    }
 }
 asyncInOrder(['xxx', 'yyyy'])
 
@@ -91,12 +181,32 @@ asyncInOrder(['xxx', 'yyyy'])
 // - 串行Promise控制，一个请求执行完再执行下一个
 // （1）通过在 then 方法里面递归传递下一次异步方法（递归的方法catch后就不会再递归调用迭代了，即p3报错后p4不再执行）
 function iteratorPromise1(pArr) {
+    const iter = (pArr) => {
+        if (pArr.length) {
+            const p = pArr.shift();
+            p.then(() => {
+                iter(pArr)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
 
+    iter(pArr)
 }
 
 // （2）利用 Promise.resolve()，循环赋值（循环调用的方法会执行每一个p，当p3报错后，p4也会执行不过是直接拿到穿透的p3报错）
 function iteratorPromise2(pArr) {
+    let resolve = Promise.resolve()
+    pArr.forEach(p => {
+        resolve = resolve.then(() => p()).catch(err => console.log(err))
+    })
+}
 
+function iteratorPromise2(pArr) {
+    pArr.reduce((resolve, p) => {
+        resolve.then(() => p()).catch(err => console.log(err))
+    }, Promise.resolve())
 }
 
 iteratorPromise1([p1, p2, p3, p3])
@@ -107,12 +217,21 @@ iteratorPromise2([p1, p2, p3, p3])
 // - Promise每隔一秒打印数字，arr = [1, 3, 4, 5]
 //     - 也是串行输出，只是需要结合setTimeout
 function delayPromise(arr) {
-
+    let resolve = Promise.resolve()
+    arr.forEach(num => {
+        resolve = resolve.then(() => new Promise((resolve, reject) => {
+            setTimeout(() => resolve(console.log(num)), 1000)
+        }))
+    })
 }
 
 // 同理可以用Promise配合着reduce不停的在promise后面叠加.then
 function delayPromise(arr) {
-
+    arr.reduce((resolve, num) => {
+        resolve.then(() => new Promise((resolve, reject) => {
+            setTimeout(() => resolve(console.log(num)), 1000)
+        }))
+    }, Promise.resolve())
 }
 
 
@@ -128,11 +247,24 @@ function yellow() {
 }
 
 function light(timer, cb) {
-
+    return new Promsie((resolve, reject) => {
+        setTimeout(() => {
+            cb()
+            resolve()
+        }, timer)
+    })
 }
 
 function run() {
-
+    Promise.resolve().then(() => {
+        return light(1000, red)
+    }).then(() => {
+        return light(2000, green)
+    }).then(() => {
+        return light(3000, yellow)
+    }).then(() => {
+        return run()
+    })
 }
 
 run()
@@ -177,7 +309,19 @@ mergePromise([ajax1, ajax2, ajax3]).then(data => {
 
 // 完成mergePromise函数
 async function mergePromise(arr) {
+    let promises = arr.map(async ajax => {
+        let data = await ajax();
 
+        return data
+    })
+
+    let res = []
+
+    for (let p of promises) {
+        res.push(await p)
+    }
+
+    return Promise.resolve(res)
 }
 
 // 2
@@ -192,7 +336,17 @@ async function mergePromise(arr) {
 // 第一次的then为了用来调用ajax
 // 第二次的then是为了获取ajax的结果
 function mergePromise(arr) {
+    let resolve = Promise.resolve()
+    let res = []
+    arr.forEach(ajax => {
+        resolve = resolve.then(ajax).then(data => {
+            res.push(data)
 
+            return res
+        })
+    })
+
+    return resolve
 }
 
 // - 根据promiseA+实现promise
@@ -210,19 +364,39 @@ class Promise {
         this.value = undefined
         this.reason = undefined
 
-        let resolve
-        let reject
+        let resolve = (value) => {
+            if (this.state === 'pending') {
+                this.state = 'fulfiled'
+                this.value = value
+            }
+        }
+
+        let reject = (reason) => {
+            if (this.state === 'pending') {
+                this.state = 'rejected'
+                this.reason = reason
+            }
+        }
 
         // 自动执行函数
         try {
-
+            executor(resolve, reject)
         } catch (e) {
-
+            reject(e)
         }
     }
     // then
     then(onFulfilled, onRejected) {
-
+        switch (this.state) {
+            case 'fulfiled':
+                onFulfilled(this.value)
+                break
+            case 'rejected':
+                onRejected(this.reason)
+                break
+            default:
+            //
+        }
     }
 }
 
@@ -230,7 +404,14 @@ class Promise {
 // - 封装一个异步加载图片的方法
 function loadImg(url) {
     return new Promise((resolve, reject) => {
-
+        let img = new Image()
+        img.onload = () => {
+            resolve(img)
+        }
+        img.onerror = () => {
+            reject(new Error('error!!!'))
+        }
+        img.src = url
     })
 };
 
@@ -239,12 +420,22 @@ function loadImg(url) {
 //     - 以每次并发请求的数量为3为例：先请求urls中的前面三个(下标为0,1,2)，并且请求的时候使用Promise.race()来同时请求，三个中有一个先完成了(例如下标为1的图片)，我们就把这个当前数组中已经完成的那一项(第1项)换成还没有请求的那一项(urls中下标为3)。
 //     - 直到urls已经遍历完了，然后将最后三个没有完成的请求(也就是状态没有改变的Promise)用Promise.all()来加载它们。
 function limitLoad(urls, handler, limit) {
-    let sequence = [].concat(urls); // 复制urls
+    let sequence = [].concat(urls)
 
-    // 这一步是为了初始化 promises 这个"容器"
-    let promises
+    let promises = sequence.splice(0, limit).map((url, index) => {
+        return handler(url).then(() => {
+            return index
+        })
+    })
 
-    // 注意这里要将整个变量过程返回，这样得到的就是一个Promise，可以在外面链式调用
+    return sequence.reduce((resolve, url) => {
+        return resolve.then(() => {
+            return Promise.race(promises)
+        }).then(fastIndex => {
+            promises[fastIndex] = handler(url).then(() => fastIndex)
+        }).catch(err => console.log(err))
+    }, Promise.resolve())
+        .then(() => Promise.all(promises))
 
 }
 limitLoad(urls, loadImg, 3)
@@ -260,17 +451,32 @@ limitLoad(urls, loadImg, 3)
 
 // - 实现finally
 Promise.prototype.finally = function(onFinally) {
-
+    return this.then(
+        res => Promise.resolve(onFinally()).then(() => res),
+        err => Promise.reject(onFinally()).then(() => { throw err })
+    )
 };
 
 
 // - 实现Promise.all
 Promise.all = function(promises) {
     return new Promise(function(resolve, reject) {
-        var resolvedCounter
-        var promiseNum
-        var resolvedValues
-
+        var promisesNum = promises.length;
+        var resolvedCounter = 0;
+        var resolvedValues = [];
+        for (var i = 0; i < promisesNum; i++) {
+            ; (function(i) {
+                Promise.resolve(promises[i]).then(res => {
+                    resolvedCounter++
+                    resolvedValues[i] = res
+                    if (resolvedCounter === promisesNum) {
+                        resolve(resolvedValues)
+                    }
+                }).catch(err => {
+                    reject(err)
+                })
+            })(i)
+        }
     })
 }
 
@@ -737,17 +943,43 @@ b() // 输出1，b里的console输出的是全局作用域的a
 // - 私有属性实现
 // ES6
 var Person = (() => {
+    let _name = Symbol()
+    class Person {
+        constructor(name) {
+            this[_name] = name
+        }
+        get name() {
+            return this[_name]
+        }
+    }
 
+    return Person
 })()
 // ES5
 var Person = (() => {
+    let _name = 'siyou_' + Math.random()
+    function Person(name) {
+        this[_name] = name
+    }
 
+    Object.defineProperty(Person.prototype, 'name', {
+        get: function() {
+            return this[_name]
+        }
+    })
+
+    return Person
 })()
 
 
 // - 实现 fill(3, 4) 为 [4,4,4]
 function fill(n, m) {
-
+    n--
+    if (n) {
+        return [m].concat(fill(n, m))
+    } else {
+        return [m]
+    }
 }
 
 
@@ -757,9 +989,20 @@ function fill(n, m) {
 // left是对象，right是原型对象
 function myInstanceof(left, right) {
     //基本数据类型直接返回false
-
+    if (typeof left !== "object" || left === null) {
+        return false
+    }
     //getPrototypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
-
+    let proto = Object.getPrototypeOf(left)
+    while (true) {
+        if (proto === null) {
+            return false
+        }
+        if (proto === right.prototype) {
+            return true
+        }
+        proto = Object.getPrototypeOf(proto)
+    }
 }
 
 console.log(myInstanceof("111", String)); //false
@@ -771,22 +1014,40 @@ console.log(one(add(two()))); // 3
 console.log(two(add(one()))); // 3
 
 function add(val) {
-
+    return x => {
+        return x + val
+    }
 }
 
 function one(cb) {
-
+    if (cb) {
+        return cb(1)
+    } else {
+        return 1
+    }
 }
 
 function two(cb) {
-
+    if (cb) {
+        return cb(2)
+    } else {
+        return 2
+    }
 }
 
 // - 斐波那契数列，使用memo做缓存，减少运算量
 // 动态规划的题也能使用这种方法做优化
 const fib4 = (function() {
     var memo = [0, 1];
+    return function _fib4(n) {
+        if (typeof memo[n] === 'number') {
+            return memo[n];
+        }
 
+        memo[n] = _fib4(n - 1) + _fib4(n - 2)
+
+        return memo[n]
+    }
 })();
 
 console.log(fib4(9)); // 34
@@ -795,12 +1056,27 @@ console.log(fib4(9)); // 34
 // 尾递归实现fibonacci (尾调用优化)
 // 函数最后一步操作是 return 另一个函数的调用，函数不需要保留以前的变量
 function fib3(n, n1 = 1, n2 = 1) {
-
+    if (n < 2) {
+        return n1
+    } else {
+        return fib3(n - 1, n2, n1 + n2)
+    }
 }
+
+console.log(fib3(9)); // 34
 
 // ### new的时候加1
 const fn = (() => {
-
+    let count = 0
+    return function _fn() {
+        // if (this.constructor === _fn)
+        if (new.target) {
+            count++
+            console.log('new ++', count)
+        } else {
+            console.log('普通调用')
+        }
+    }
 })()
 
 // ### 数组中map和reduce，如何用reduce实现map
@@ -814,7 +1090,14 @@ arr1.reduce((prev, cur, index, sourceArr) => {
 }, initial)
 
 Array.prototype._map = function(fn, callbackThis) {
+    let CBThis = callbackThis || null
+    let res = []
 
+    this.reduce((prev, cur, index, sourceArr) => {
+        res.push(fn.call(CBThis, cur, index, sourceArr))
+    }, null)
+
+    return res
 }
 
 
@@ -831,28 +1114,72 @@ function findMaxChar(str) {
 //   - 可能多个定时器会连续执行
 //   这是因为每个 setTimeout 产生的任务会直接 push 到任务队列中，而 setInterval 在每次把任务 push 到任务队列时，都要进行一次判断（判断 上次的任务是否仍在队列中，是则跳过）。所以通过用 setTimeout 模拟 setInterval 可以规避上面的缺点。
 const moniInterval = (fn, time) => {
+    const interval = () => {
+        setTimeout(interval, time)
+        fn()
+    }
 
+    setTimeout(interval, time)
 }
 
 const queue = () => {
+    let count = 1
+    const interval = () => {
+        console.log(count++)
+        setTimeout(interval, count * 1000)
+    }
 
+    setTimeout(interval, count * 1000)
 }
 
 
 
 // ### 实现一个wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)
 const wait = (time, callback) => {
+    let timeout = 0
+    const createChain = (time, callback) => {
+        timeout += time
 
+        setTimeout(callback, timeout)
+
+        return {
+            wait: createChain
+        }
+    }
+
+    return createChain(time, callback)
 }
 
 // ### 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣').valueOf() 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
 const wordschain = (...args) => {
+    let total = []
+    const createChain = (...args) => {
+        total = [...total, ...args]
 
+        return createChain
+    }
+
+    createChain.valueOf = () => {
+        return total.join(' -> ')
+    }
+
+    return createChain(...args)
 }
 
 // ### add(1, 3, 4)(7)(5, 5).valueOf();
 const add = (...args) => {
+    let total = []
+    const createChain = (...args) => {
+        total = [...total, ...args]
 
+        return createChain
+    }
+
+    createChain.valueOf = () => {
+        return total.reduce((a, b) => a + b, null)
+    }
+
+    return createChain(...args)
 }
 
 
@@ -860,7 +1187,23 @@ const add = (...args) => {
 
 // 实现JSONP
 function JSONP(url, params = {}, callbackKey = 'cb', callback) {
+    JSONP.callbacks = JSONP.callbacks || []
+    JSONP.callbackId = JSONP.callbackId || 0
 
+    let callbackId = JSONP.callbackId
+    JSONP.callbacks[callbackId] = callback
+
+    params[callbackKey] = `JSONP.callbacks[${callbackId}]`
+
+    const paramsString = Object.keys(params).map(key => {
+        return `${key}=${encodeURIComponent(params[key])}`
+    }).join('&')
+
+    const script = document.createElement('script')
+    document.body.appendChild(script)
+    script.setAttribute('src', `${url}?${paramsString}`)
+
+    JSONP.callbackId++
 }
 
 JSONP({
@@ -878,7 +1221,43 @@ this.body = `${callback}(${JSON.stringify(callbackData)})`
 
 // 返回promise的JSONP封装
 function JSONP(url, params = {}, callbackKey = 'cb') {
+    return new Promise((resolve, reject) => {
+        JSONP.callbackId = JSONP.callbackId || 0
+        JSONP.callbacks = JSONP.callbacks || []
 
+        let callbackId = JSONP.callbackId
+
+        params[callbackKey] = `JSONP.callbacks[${callbackId}]`
+
+        const paramsString = Object.keys(params).map(key => {
+            return `${key}=${encodeURIComponent(params[key])}`
+        }).join('&')
+
+        const script = document.createElement('script')
+        script.setAttribute('src', `${url}?${paramsString})`)
+
+        JSONP.callbacks[callbackId] = function(result) {
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+
+            if (result) {
+                resolve(result)
+            } else {
+                reject(new Error('meiyou qudao zhi'))
+            }
+        }
+
+        script.addEventListener('error', () => {
+            delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
+
+            reject(new Error('加载失败'))
+        }, false)
+
+        document.body.appendChild(script)
+
+        JSONP.callbackId++
+    })
 }
 
 // - 1、回调函数在主函数中的参数位置必须是最后一个；
@@ -940,22 +1319,84 @@ readFileAsync('test.js').then(data => {
 
 
 // ### 手写双向绑定
+const input = document.getElementById('input')
+let obj = { val: '' }
 
+Object.defineProperty(obj, 'val', {
+    enumerable: false,
+    configurable: false,
+    get: function() {
+        return this.input
+    },
+    set: function(value) {
+        this.input = value
+    }
+})
+
+input.addEventListener('input', (e) => {
+    obj.val = e.target.value
+}, false)
 
 
 // 手写vue observe数据劫持
+class Vue {
+    constructor(options) {
+        this.$options = options
+        this.$data = options.data
+        this.observe(this.$data)
+    }
+    observe(value) {
+        if (!value || typeof value === 'object') {
+            return
+        }
+
+        Object.keys(value).forEach(key => {
+            if (typeof value[key] === 'object') {
+                this.observe(value[key])
+            }
+            this.defineReactive(value, key, value[key])
+        })
+    }
+    defineReactive(obj, key, val) {
+        Object.defineProperty(obj, key, {
+            get() {
+                return val
+            },
+            set(newVal) {
+                if (newVal == val) {
+                    return
+                }
+
+                val = newVal
+                console.log('更新属性')
+            }
+        })
+    }
+}
+
+
+
+
 
 
 // 用JS模拟DOM结构（手写vnode）
-<template>
-    <div id="div1" class="container">
+{/* <template>
+    <div id= "div1" class="container">
         <p>vdom</p>
-    </div>
-</template>
+    </div >
+</template > */}
 
-{
-
-}
+// {
+//     tag: 'div',
+//     props: {
+//         id: 'div1',
+//         className: 'container'
+//     },
+//     children: [{
+//         tag: 'p',
+//         children: 'vdom'
+//     }]
+// }
 
 
 
@@ -963,22 +1404,69 @@ readFileAsync('test.js').then(data => {
 
 // ### 防抖节流
 const debounce = (fn, time) => {
+    let timer
+    return function(...args) {
+        if (timer) {
+            clearTimeout(timer)
+        }
 
+        let self = this
+
+        timer = setTimeout(() => {
+            fn.call(self, ...args)
+            timer = null
+        }, time)
+    }
 }
 
 const throttle = (fn, time) => {
+    let canRun = true
+    return function(...args) {
+        if (!canRun) {
+            return
+        }
 
+        canRun = false
+
+        let self = this
+        setTimeout(() => {
+            fn.call(self, ...args)
+            canRun = true
+        }, time)
+    }
 }
 
 
-// ### promise实现图片懒加载
-
-
 // ### 二分查找
+function binarySearch(target, start, end, arr) {
+    if (start > end) {
+        return -1
+    }
 
+    let mid = (start + end) >> 1
+    if (arr[mid] === target) {
+        return mid
+    }
+
+    if (arr[mid] < target) {
+        return binarySearch(target, mid + 1, end, arr)
+    }
+
+    if (arr[mid] > target) {
+        return binarySearch(target, mid, mid - 1, arr)
+    }
+}
 
 
 // ### 封装类型判断函数
+function getType(value) {
+    let type = typeof value
+    if (type !== 'object' || type === null) {
+        return type
+    }
+
+    return Object.prototype.toString.call(value).replace(/^\[object (\w+)\]$/g, '$1').toLowerCase()
+}
 
 
 
@@ -991,25 +1479,77 @@ const throttle = (fn, time) => {
 
 
 // ### 快速排序
+function quickSort(arr) {
+    if (arr.length < 2) return arr
+
+    let left = []
+    let right = []
+    let mid = []
+    let pivot = arr.length >> 1
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > arr[pivot]) {
+            right.push(arr[i])
+        } else if (arr[i] < arr[pivot]) {
+            left.push(arr[i])
+        } else {
+            mid.push(arr[pivot])
+        }
+    }
+
+    return quickSort(left).concat(mid, quickSort(right))
+}
+
+function quickSort(arr) {
+    return arr.length < 2 ? arr : quickSort(arr.slice(1).filter(i => i < arr[0])).concat(arr[0], quickSort(arr.slice(1).filter(i => i > arr[0])))
+}
 
 
 // ### 实现Object.create
+Object.create = Object.create || function(obj) {
+    var F = function() { }
+    F.prototype = obj
 
+    return new F()
+}
 
 
 // ### 模拟实现new操作符
+function thisNew(obj) {
 
+}
 
 
 
 
 // ### 数组扁平化
+function flatten(arr) {
+    let res = []
+    for (let item of arr) {
+        if (Arry.isArray(item)) {
+            res = res.concat(flatten(item))
+        } else {
+            res.push(item)
+        }
+    }
 
+    return res
+}
 
+[1, 2, [3, 4]].toString().split(',').map(item => item - '')
+
+function flatten(arr) {
+    while (arr.some(item => Array.isArray(item))) {
+        arr = [].concat(...arr)
+    }
+
+    return arr
+}
 
 
 // ### 数组去重
-
+// [...new Set(arr)]
+// Array.from(new Set(arr))
 
 
 
@@ -1017,7 +1557,52 @@ const throttle = (fn, time) => {
 
 
 // 优化版
-
+class EventEmitter {
+    constructor() {
+        this._eventBus = {}
+    }
+    on(type, cb) {
+        let handler = this._eventBus[type]
+        if (!hanlder) {
+            this._eventBus[type] = cb
+        } else if (typeof handler === 'function') {
+            this._eventBus[type] = [handler, cb]
+        } else {
+            this._eventBus[type].push(cb)
+        }
+    }
+    emit(type, ...args) {
+        let handler = this._eventbus[type]
+        if (handler && Array.isArray(handler)) {
+            handler.forEach(_cb => {
+                args.length > 0 ? cb.apply(this, args) : cb.call(this)
+            })
+        }
+        if (handler && typeof handler === 'function') {
+            args.length > 0 ? handler.apply(this, args) : handler.call(this)
+        }
+    }
+    off(type, cb) {
+        let handler = this._eventbus[type]
+        if (handler && Array.isArray(handler)) {
+            let index = handler.findIndex(_cb => _cb === cb)
+            if (index > -1) {
+                this._eventBus[type].splice(index, 1)
+                if (handler.length === 1) {
+                    this._eventBus[type] = handler[0]
+                }
+            }
+        } else if (handler && typeof handler === 'function') {
+            delete this._eventbus[type]
+        }
+    }
+    once(type, cb) {
+        this.on(type, (...args) => {
+            args.length > 0 ? cb.apply(this, args) : cb.call(this)
+            this.off(type)
+        })
+    }
+}
 
 // 进阶版
 
@@ -1025,7 +1610,22 @@ const throttle = (fn, time) => {
 
 
 // ### 优化版组合继承
+function Parent() {
+    this.type = 'Parent'
+    this.habit = [1, 2, 3]
+}
 
+Parent.prototype.say = function() {
+    console.log('chichihehe');
+}
+
+function Child() {
+    Parent.call(this)
+    this.type = 'Child'
+}
+
+Child.prototype = Object.create(Parent.prototype)
+Child.prototype.constructor = Child
 
 
 
@@ -1060,14 +1660,33 @@ var Ajax = {
 const template = "I am {{ name }}, {{ age }} years old";
 var context = { name: "xiaoming", age: 2 };
 
+// function formatStr(str) {
+//     return str.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+//         console.log(match, key);
+//         // {{ name }}  name
+//         // {{ age }}  age
+//         return context[key.trim()]
+//     })
+// }
+// formatStr(template)
 
 // 千分位题
+// function toThousands(num) {
+//     num = num + ''
+//     return num.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+// }
 
+// toThousands(1001001000)
 
+// ! 注意 +$ 是在先行断言的括号内
 
 
 // 写一个方法,实现字符串从后往前每三个插入|,得到"ad|abc|def|ghi"
+// function chazhi(str) {
+//     return str.replace(/(\w)(?=(?:\w{3})+$)/g, '$1|')
+// }
 
+// chazhi('sfsfefwefwefs')
 
 
 
@@ -1081,7 +1700,27 @@ var context = { name: "xiaoming", age: 2 };
 //     - 另外还应考虑循环引用的问题
 //         - 解决循环引用问题，需额外开辟一个存储空间，来存储当前对象和拷贝对象的对应关系，当需要拷贝当前对象时，先去存储空间中找，有没有拷贝过这个对象，如果有的话直接返回，如果没有的话继续拷贝，这样就巧妙化解的循环引用的问题。
 //     这个存储空间，需要可以存储key-value形式的数据，且key可以是一个引用类型，我们可以选择Map这种数据结构。
+function clone(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        return
+    }
 
+    let newObj = Object.prototype.toString.call(obj) === '[object Object]' ? {} : []
+
+    if (window.JSON) {
+        newObj = JSON.parse(JSON.stringify(obj))
+    } else {
+        for (let key in obj) {
+            if (typeof obj[key] === 'object') {
+                newObj[key] = clone(obj[key])
+            } else {
+                newObj[key] = obj[key]
+            }
+        }
+    }
+
+    return newObj
+}
 
 
 
@@ -1096,17 +1735,22 @@ var context = { name: "xiaoming", age: 2 };
 
 // 手写bind函数
 // 只实现返回函数 与 分开传参数
-
+// Function.prototype._bind = Function.prototype.bind || function(ctx) {
+//     let args = Array.prototype.slice.call(arguments, 1)
+//     let self = this
+//     return function() {
+//         let bindArgs = Array.prototype.slice.call(arguments)
+//         self.apply(ctx, args.concat(bindArgs))
+//     }
+// }
 
 // 还要模拟 当做构造函数使用
 
 
 // Q：实现一个函数trim(str) 字符串前后去空格
-
-
-
-
-// - 如何用ES5实现promise
+// String.prototype.trim = String.prototype.trim || function(str) {
+//     return str.replace(/(^\s*)|(\s*$)/g, '')
+// }
 
 
 
@@ -1115,13 +1759,58 @@ var context = { name: "xiaoming", age: 2 };
 
 
 // - 手写文件上传
+// const input = document.getElementById('input')
+// document.body.appendChild(input)
+// input.click()
+// setTimeout(() => {
+//     document.body.removeChild(input)
+// }, 300)
 
+
+// input.onchange = function() {
+//     const file = input.files[0]
+//     let fd = new FormData()
+//     fd.append('file', file)
+//     fd.append('filename', file.name)
+
+//     let xhr = new XMLHttpRequest()
+//     let action = 'urlxxxx'
+//     xhr.open('POST', action, true)
+//     xhr.open(fd)
+//     xhr.onreadystatechange = function() {
+//     }
+// }
 
 
 
 
 
 // - 手写文件预览
+// const input = document.getElementById('input')
+// document.body.appendChild(input)
+// input.click()
+// setTimeout(() => {
+//     document.body.removeChild(input)
+// }, 300)
+
+// const img = document.getElementById('img')
+
+// input.onchange = function() {
+//     const file = input.files[0]
+
+//     img.src = window.URL.createObjectURL(file)
+// }
+
+// input.onchange = function() {
+//     const file = input.files[0]
+//     const reader = new FileReader()
+
+//     reader.readAsDataURL(file)
+
+//     reader.onloadend = function() {
+//         img.src = reader.result
+//     }
+// }
 
 
 
@@ -1153,11 +1842,47 @@ var context = { name: "xiaoming", age: 2 };
     }]
 }
 `
+function DOM2JSON(node) {
+    let obj = {}
+    obj['tag'] = node.tag
+    obj['children'] = []
+
+    let child = node.children
+    for (let i = 0; i < child.length; i++) {
+        obj['children'].push(DOM2JSON(child[i]))
+    }
+
+    return obj
+}
+
+
+
+
+
 
 // JS实现一个带并发限制的异步调度器Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
 class Scheduler {
-    add(promiseCreator) {
-        //...
+    constructor(limit) {
+        this.limit = limit
+        this.queue = []
+        this.curTaskCount = 0
+    }
+    add() {
+        new Promise((resolve, reject) => {
+            this.queue.push([cb, resolve])
+            this.run()
+        })
+    }
+    run() {
+        if (this.curTaskCount < this.limit && this.queue.length) {
+            let [cb, resolve] = this.queue.shift()
+            this.curTaskCount++
+            Promise.resolve(cb()).then(result => {
+                resolve(result)
+                this.curTaskCount--
+                this.run()
+            })
+        }
     }
 }
 

@@ -626,7 +626,21 @@ function mergePromise(arr) {
         })
     })
 
-    return resolve // promise 需要返回resolve
+    return resolve // resolve就拿到了所有data
+}
+
+// 或用reduce，注意每次迭代返回data给resolve，最后返回res
+function mergePromise(arr) {
+    let data = []
+    let res = arr.reduce((resolve, ajax) => {
+        return resolve.then(ajax).then(res => {
+            data.push(res)
+
+            return data
+        })
+    }, Promise.resolve())
+
+    return res
 }
 ```
 

@@ -1114,3 +1114,158 @@
         - （7）多语言实现 vue-i18n + i18next-scanner
         - （8）同构SSR
 
+
+**SSR**
+
+*同构SSR解决的问题，及劣势*
+- 优势：首屏等待、SEO支持
+- 劣势：在服务端渲染耗费的是公司的服务器资源，而客户端渲染只消耗用户的浏览器资源
+
+*什么是同构*
+- 同构：一套React代码，在服务器端执行一次，在客户端再执行一次。
+- renderToString方法，对于组件中的事件，是不会渲染出来的，所以就要用到「同构」技术。即服务器端先把组件渲染出来，然后在浏览器端，相同的代码再执行一遍，复用已有的html DOM结构，并添加上事件（CSR端在这里是使用**ReactDOM.hydrate**渲染的，它会复用html结构，只添加事件）
+
+*路由同构*：
+- 路由表统一在store/routes中
+- 路由要在双端各跑一遍，以保证双端路由统一。
+- StaticRouter是服务器端路由，不像客户端路由BrowserRouter可以感知到浏览器当前路径url变化，因此需要拿到用户请求的req（location={req.path}），传递给它当前请求的路径是什么。
+- 服务器端渲染，只发生在第一次进入页面的时候，之后的路由跳转，不再加载任何东西。
+    - 即之后点击link标签跳转路由，不是服务器端的跳转，而是浏览器端的路由跳转。浏览器加载bundle.js文件后，JS中的React代码接管页面操作，与服务端渲染就没有关系了。
+    - 即只有第一次访问的页面是服务端渲染，之后的页面都是react的路由机制。
+
+
+*数据预取*：
+- componentDidMount在服务器端是不执行的
+- 给Home组件添加获取异步数据的静态方法，Home.loadData。并添加到routes路由表中Home组件的loadData字段。这个函数，负责在服务器端渲染之前，把这个路由需要的数据提前加载好。
+- 使用matchRoutes方法，匹配多级路由，让匹配的matchRoutes里面所有的组件，对应的loadData方法都装入promises数组，Promise.all(promises).then(() => {console.log(store.getState())}，此时store中就填充了异步数据，再拼接html的内容，最后res.send(content)返回给用户
+
+
+*渲染同构*：
+- 「页面闪烁：双端渲染不一致」
+    - 上面的实现有个问题在于：SSR端渲染完成后，CSR端又重新渲染了一遍，而CSR端的store一开始是空的，需要在didMount中调用接口拿到，所以CSR端一开始渲染的数据是空的，与SSR端不一致，所以「双端渲染不一致」。 等到CSR端的didMount中loadData成功后，再次渲染，所以会有页面闪烁一次的现象。
+    - 解决方法是：「注水」「脱水」
+        - 需要在SSR端获取到数据后，将数据挂在HTML中（或者window.context下），而在CSR端就不要再去请求数据了（即componentDidMount中无须调用loadData了），而是从HTML中的变量中直接去取。
+        ```
+        <!-- 注水 -->
+        <script>
+            window.context = {
+                state: ${JSON.stringify(store.getState())}
+            }
+        </script>
+        ```
+        ```jsx
+        <!-- 脱水 -->
+        const getClientStore = () => {
+            const defaultState = window.context.state; // 将 defaultState 作为 reducer的默认值
+            return createStore(reducer, defaultState, applyMiddleware(thunk));
+        }
+
+        // client/index.js
+        const App = () => {
+            return (
+                <Provider store={getClientStore()}>
+                    <BrowserRouter>
+                        {Routes}
+                    </BrowserRouter>
+                </Provider>
+            )
+        }
+        ```
+- 注意！！！：didMount中的loadData还不能直接注释掉！
+    - 如果直接「脱水」而把componentDidMount中的loadData注释掉，那么如果用户先访问的是非SSR页面，比如login页面（login页面没有loadData方法，所以window.context中的state是空的），之后再切到首页时，因为window.context中的state是空的，而componentDidMount中的loadData注释掉了，所以首页的数据也就拿不到了。因此didMount中的loadData还不能直接注释掉！
+    - （因为我们的服务端渲染，指的只是访问的第一个页面是SSR的，其他页面是CSR的）
+    - 解决方法就是，条件执行didMount中异步数据获取
+
+
+
+**SSR同构中，CSS处理**
+
+*如何支持CSS样式修饰*
+- 首先，js文件引入css需要配置webpack来编译
+- 但style-loader不能用：会报window is not defined，因为style-loader需要往浏览器中window上挂载一些样式，注入style标签，而在服务器端渲染时，没有window，所以使用style-loader肯定会报错。
+
+- 使用`isomorphic-style-loader`替代，它是服务端渲染的时候使用的style-loader，使用方式基本是一样的
+- 但style-loader不仅会解析class的名字（即给html中字符串上添加class类名），还会向DOM的head中注入style标签引入样式代码。可是，isomorphic-style-loader只能机械class名字，并无法引入样式代码。所以还需要如下步骤：
+
+*如何实现CSS样式的服务器端渲染*
+- 在做服务端渲染时，引入的styles模块里包含_getCss()，能获得css样式代码内容
+- 给context添加一个css数组
+- 每个组件都push自己对应的样式到staticContext.css之中
+- 将css数组拼接（注意用换行符来连接）cssStr = context.css.join('\n')
+- 最后，服务端返回的html模板中添加<style>${cssStr}</style>
+
+- *另外，可以利用高阶组件withStyle(Header, styles)来简化css处理，避免重复didMount中push(styles._getCss())
+
+
+**SEO技巧**
+
+*Title和Description的真正作用*
+其实搜索引擎在匹配网站时，不会仅仅根据TDK来匹配，而是通过全文匹配来分析是否和所搜索的关键词契合。
+而，TDK真正有价值的地方在于，搜索出来的词条展示形式，标题、缩略图、简介等等是否更有吸引力，提升转化率。
+
+*如何做好SEO*
+一个网站，基本是由3部分组成的：文字、链接、多媒体。
+
+- 文字优化：提升原创性；
+- 链接优化：
+    - 提升内部链接相关性；
+    - 提升本站在外部链接的分布；
+- 多媒体优化：提升多媒体内容的丰富度，还有比如图片清晰度等。
+
+
+*预渲染，解决SEO问题的新思路*
+Q：什么是预渲染prerender？
+A：即由预渲染服务器判断访问者是用户还是爬虫，如果是用户则直接使用普通的react网站即可，如果是爬虫则将当前react网站渲染完的全部内容，保存并返回给爬虫去访问。
+
+
+
+**难点1：实现服务器端301重定向**
+实现服务器端301重定向，而`<Redirect />`只能做客户端重定向，不能做服务端重定向。所以需要，使用renderRoutes（react-router-config导出）与StaticRouter相结合，如果发现组件内部出现了Redirect方法时，它会自动操作context添加重定向信息。
+```json
+// context对象上会有重定向信息，
+{
+    action: 'REPLACE',
+    location: { pathname: '/', search: '', hash: '', state: undefined },
+    url: '/'
+}
+
+```
+有 action: 'REPLACE' 操作，把当前页面替换成url: '/'。
+据此，我们就主动做服务端重定向 res.redirect(301, context.url)：
+```js
+// server.js
+// ...
+Promise.all(promises).then(() => {
+    const context = {};
+    const html = render(store, routes, req, context);
+    // context 对象传入render函数中，如果是404组件，则会给context添加一个NOT_FOUND标志
+    // 如果识别组件中有 Redirect方法，则给context添加重定向信息
+
+    if (context.action === 'REPLACE') {
+        res.redirect(301, context.url) // 服务端主动重定向
+    } else if (context.NOT_FOUND) {
+        res.status(404) // 需要主动设置返回状态码，否则依然返回200
+        res.send(html)
+    } else {
+        res.send(html)
+    }
+})
+// ...
+```
+
+
+**难点2：数据请求失败情况下promise的处理**
+如果Promise.all([A, B, C])，其中有某个异步请求出错，因为没有catch，所以没有返回，store都是空的，所以页面会一直loading。
+
+解决方法就是将A，B，C这些请求再用promise包一层，然后无论成功与否，都resolve包装层的promise，这样，就能把加载到的数据都注入store中，都能走到then中。
+```js
+// promises.push(item.route.loadData(store));
+// 包装一层promise
+const promise = new Promise((resolve, reject) => {
+    item.route.loadData(store).then(resolve).catch(resolve)
+})
+promises.push(promise);
+```
+
+
+
