@@ -1,3 +1,31 @@
+function usePrevious(val) {
+    const ref = useRef()
+
+    useEffect(() => {
+        ref.current = val
+    }, [val])
+
+    return ref.current
+}
+
+
+function get(source, path, defaultValue = undefined) {
+    const paths = path.replace(/\[(\S+)\]/g, '.$1').split('.').filter(key => key)
+
+    let result = source
+    for (const key of paths) {
+        result = result[key]
+
+        if (result === undefined) {
+            return defaultValue
+        }
+    }
+
+    return result
+}
+
+
+
 // - 如何用await和async写一个睡眠函数？
 function sleep(ms) {
     return new Promise((resolve, reject) => {

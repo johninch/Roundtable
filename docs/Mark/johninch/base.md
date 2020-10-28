@@ -503,7 +503,7 @@ alert(b.x);// --> {n:2}
             - 网络层(IP,ARP)：IP寻址；
             - 数据链路层(PPP)：封装成帧；
             - 物理层(利用物理介质传输比特流)：物理传输（然后传输的时候通过双绞线，电磁波等各种介质）。
-        - 完整的OSI七层框架，与5层相比，在传输层与应用层之间，多了会话层、表示层。 
+        - 完整的OSI七层框架，与5层相比，在传输层与应用层之间，多了会话层、表示层。
     - DNS域名解析
         - 流程
             - 本机先找缓存
@@ -1249,36 +1249,21 @@ js解释器
                 - 只有在配置了sourcemap时，才会出现一个chunk对应多个bundle的情况。
                 - 而在entry指定数组，多个chunk会打包到一个bundle中。
 
-    - 打包出的文件具体原理：
-            - **manifest.js** 内部是一个 IIFE，这个函数会接受一个空数组（命名为modules）作为参数。提供3个核心方法：
-                - 提供全局函数 `webpackJsonp(chunkIds, moreModules, executeModules)` 供其他chunk使用
-                    - chunkIds传入的数组是[chunkId]，首先包含自身这个chunk的id，以及如果有这个chunk所用到的module打包到其他chunk需要预加载的话，也会在这个数组中。
-                    - moreModules传入的是一个大对象，对象[key-value]就是[moduleId-每个module被以函数的形式包裹(实现作用域上的隔离)]，这些module都是这个chunk加载后带来的。
-                    - executeModules传入的数组是[moduleId]，指的是需要被执行的module，加载的过程就执行，使用下面提到的`__webpack_require__`函数，返回最后的执行结果
-                    ```js
-                    if (executeModules) {
-                        for (i = 0; i < executeModules.length; i++) {
-                            result = __webpack_require__(executeModules[i]);
-                        }
-                    }
-                    ```
-                - 提供 `__webpack_require__(moduleId)`  
-                    - 作用就是加载执行对应的module，并且缓存起来。
+    - 打包后文件
+        - **manifest.js** 内部是一个 IIFE，称为`webpackBootstrap启动器函数`，这个函数会接受一个空数组（命名为modules）作为参数。
+            - 除**manifest.js**外的所有其他bundle，都往window["webpackJsonp"]数组里面 push chunkId 和 含有的modules。
+            - 而**manifest.js**提供3个核心方法：
+                - 1、提供全局函数 `webpackJsonpCallback(data)` 来处理全局的 window["webpackJsonp"] 数组。
+
+                - 2、提供 `__webpack_require__(moduleId)`：作用就是加载执行对应的module，并且缓存起来。
                     - 先判断下installedModules中是否有缓存，有则直接返回其module.exports；
                     - 没有的话就执行，将module输出的内容挂载到module.exports对象上，同时缓存到installedModules中。
                     - 注意：每个module只会在最开始依赖到的时候加载一次，如果有继续依赖的module，则递归执行，且加载过的依赖值也只执行一次。
-                - 提供 `__webpack_require__.e(chunkId)`，也就是 `requireEnsure(chunkId)`
+
+                - 3、提供 `__webpack_require__.e(chunkId)`，也就是 `requireEnsure(chunkId)` 异步加载模块，返回promise。
                     - 简单地说，是用来 懒加载某个chunk的
                     - 传入一个chunkId，先判断该 chunk 是否已被加载，是的话直接返回一个成功的 promise，并让 then 执行函数的 `__webpack_require__` 对应的 module 即可；
                     - 否则，会动态创建一个 script 标签去加载对应chunk，加载成功后会将该chunk中所有module注入到 webpackJsonp 中
-                    ```js
-                        btn.addEventListener('click', function() {
-                            __webpack_require__.e(0).then((function() {
-                                const data = __webpack_require__("zFrx");
-                                p.innerHTML = data;
-                            }).bind(null, __webpack_require__)).catch(__webpack_require__.oe)
-                        })
-                    ```
             - **bundle.js**，app.js或n.js都属于此类。
                 - 每个chunk都是一个 IIFE 的 webpackJsonp方法
                 - webpackJsonp的具体3个参数见上文，

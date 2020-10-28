@@ -2,6 +2,8 @@
 
 ### 目录
 ::: details
+- 实现usePrevious
+- 深度查询
 - 私有属性实现，ES5、ES6
 - 实现 fill(3, 4) 为 [4,4,4]
 - 模拟实现instanceof
@@ -52,6 +54,58 @@
 ### details
 ::: details 业务小代码
 ```js
+// 实现usePrevious
+function usePrevious(val) {
+    const ref = useRef();
+
+    useEffect(() => {
+        ref.current = val;
+    }, [val]);
+
+    return ref.current;
+}
+// useEffect很重要的一点是：它是在每次渲染之后才会触发的，是延迟执行的。而return语句是同步的，所以return的时候，ref.current还是旧值。
+
+// eg.
+function Component() {
+    const [count, setCount] = useState(0);
+    const previousCount = usePrevious(count);
+
+    return (
+        <div>
+            <button onClick={() => setCount(p => p +1)}>add</button>
+            { count } | { previousCount }
+        </div>
+    )
+}
+
+
+
+
+
+// 深度查询
+function get (source, path, defaultValue = undefined) {
+  // a[3].b -> a.3.b
+  const paths = path.replace(/\[(\S+)\]/g, '.$1').split('.').filter(key => key)
+  // const paths = path.split(/[[\].]/g).filter(key => key); // 这里可以直接用正则 [[\].] 或匹配
+
+  let result = source
+  for (const p of paths) {
+    // null 与 undefined 取属性会报错，所以使用 Object 包装一下
+    result = Object(result)[p]
+
+    if (result === undefined) {
+      return defaultValue
+    }
+  }
+  return result
+}
+
+get(object, 'a[3].b', undefined);
+
+
+
+
 // - 私有属性实现
 // ES6
 var Person = (() => {
@@ -603,9 +657,9 @@ function binarySearch(target, arr, start, end) {
     if (target === arr[mid]) {
         return mid
     } else if (target >= arr[mid]) {
-        binarySearch(target, arr, mid + 1, end)
+        return binarySearch(target, arr, mid + 1, end)
     } else {
-        binarySearch(target, arr, start, mid - 1)
+        return binarySearch(target, arr, start, mid - 1)
     }
 }
 

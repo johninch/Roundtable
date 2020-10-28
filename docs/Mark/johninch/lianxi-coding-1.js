@@ -2,13 +2,13 @@
 function sleep(ms) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve('yanchi ms haomiao')
+            resolve()
         }, ms)
     })
 }
 
 async function run(time) {
-    let res = await sleep(time)
+    const res = await sleep(time)
     console.log(res)
 }
 
@@ -32,9 +32,10 @@ function request(url, successCallback, failCallback) {
 
 function cacheRequest(url, successCallback, failCallback) {
     cacheRequest.cache = cacheRequest.cache || {}
-    cacheRequest.clear = () => {
-        cacheRequest.cache = []
+    cacheRequest.clear = cacheRequest.clear || function() {
+        cacheRequest.cache = undefined
     }
+
 
     if (cacheRequest.cache[url]) {
         return cacheRequest.cache[url].then(successCallback).catch(failCallback)
@@ -49,12 +50,12 @@ function cacheRequest(url, successCallback, failCallback) {
     return request(
         url,
         (res) => {
-            success(res);
-            successCallback(res);
+            successCallback()
+            success(res)
         },
         (err) => {
-            fail(err);
-            failCallback(err);
+            failCallback()
+            fail(err)
         }
     )
 }
@@ -79,25 +80,24 @@ function job() {
     })
 }
 function retry(job, times, delay) {
-    let flag = 0
+    let count = 0
     const attempt = () => {
-        new Promise((resolve, reject) => {
+        count++
+        return new Promise((resolve, reject) => {
             job().then(res => {
-                console.log('请求成功')
                 resolve(res)
             }).catch(err => {
-                if (flag === times) {
-                    console.log('重试count次失败')
-                    reject(err)
+                if (count === times) {
+                    return reject(new Error('chong shi times shi bai'))
                 } else {
-                    flag++
                     setTimeout(() => {
-                        resolve(attempt)
+                        resolve(attempt())
                     }, delay)
                 }
             })
         })
     }
+
     attempt()
 }
 
@@ -105,6 +105,7 @@ retry(job, 3, 1000)
 
 
 // 也可以将attempt放在一个Promise之中
+
 let count = 0
 function job() {
     return new Promise((resolve, reject) => {
@@ -120,22 +121,23 @@ function job() {
 }
 
 function retry(job, times, delay) {
-    new Promise((resolve, reject) => {
+    let count = 0
+    return new Promise((resolve, reject) => {
         const attempt = () => {
+            count++
             job().then(res => {
-                console.log('成功')
                 resolve(res)
             }).catch(err => {
-                if (!times--) {
-                    console.log('重试多次失败')
-                    reject(err)
+                if (count === times) {
+                    return reject('chongshi shibai:', err)
                 } else {
                     setTimeout(() => {
                         attempt()
-                    }, delay);
+                    }, delay)
                 }
             })
         }
+
         attempt()
     })
 };
@@ -147,10 +149,9 @@ retry(job, 3, 1000)
 //     虽然map方法的参数是async函数，但它是并发执行的，因为只有async函数内部是继发执行，外部不受影响。后面的for..of循环内部使用了await，因此实现了按顺序输出。
 
 async function asyncInOrder(urls) {
-    let promises = urls.map(async url => {
-        let res = await fetch(url)
-
-        return res.data
+    const promises = urls.map(async url => {
+        const res = await fetch(url)
+        return res
     })
 
     for (let p of promises) {
@@ -158,13 +159,6 @@ async function asyncInOrder(urls) {
     }
 }
 asyncInOrder(['xxx', 'yyyy'])
-// - `for in`：遍历对象的可枚举属性，包括自有属性、继承自原型的属性
-// - `Object.keys`：返回一个数组，元素均为可枚举属性，且必须是自有属性
-// - `Object.getOwnProperty`：返回一个数组，元素包括可枚举和不可枚举的属性，必须是自有属性
-
-// JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
-
-
 
 
 
@@ -173,10 +167,13 @@ asyncInOrder(['xxx', 'yyyy'])
 function iteratorPromise1(pArr) {
     const iter = () => {
         if (pArr.length) {
-            let p = pArr.shift();
-            p.then(() => {
+            p = pArr.shift()
+            p().then(res => {
                 iter()
-            }).catch(err => console.log(err))
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }
 
@@ -190,12 +187,13 @@ function iteratorPromise2(pArr) {
         resolve = resolve.then(() => p()).catch(err => console.log(err))
     })
 }
-
-function iteratorPromise3(pArr) {
-    pArr.reduce((r, p) => {
-        return r.then(() => p()).catch(err => console.log(err))
+function iteratorPromise2(pArr) {
+    pArr.reduce((resolve, p) => {
+        resolve.then(() => p()).catch(err => console.log(err))
     }, Promise.resolve())
 }
+
+
 
 
 iteratorPromise1([p1, p2, p3, p3])
@@ -206,25 +204,12 @@ iteratorPromise2([p1, p2, p3, p3])
 // - Promise每隔一秒打印数字，arr = [1, 3, 4, 5]
 //     - 也是串行输出，只是需要结合setTimeout
 function delayPromise(arr) {
-    let resolve = Promise.resolve();
-    arr.forEach(x => {
-        resolve = resolve.then(() => new Promise(resolve => {
-            setTimeout(() => {
-                resolve(console.log(x))
-            }, 1000)
-        }))
-    })
+
 }
 
 // 同理可以用Promise配合着reduce不停的在promise后面叠加.then
 function delayPromise(arr) {
-    arr.reduce((r, x) => {
-        return r.then(() => new Promise(resolve => {
-            setTimeout(() => {
-                resolve(console.log(x))
-            }, 1000)
-        }))
-    }, Promise.resolve())
+
 }
 
 
@@ -240,10 +225,10 @@ function yellow() {
 }
 
 function light(timer, cb) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
-            cb();
-            resolve();
+            cb()
+            resolve()
         }, timer)
     })
 }
@@ -252,9 +237,9 @@ function run() {
     Promise.resolve().then(() => {
         return light(1000, red)
     }).then(() => {
-        return light(1000, green)
+        return light(2000, green)
     }).then(() => {
-        return light(1000, yellow)
+        return light(3000, yellow)
     }).then(() => {
         return run()
     })
@@ -302,17 +287,7 @@ mergePromise([ajax1, ajax2, ajax3]).then(data => {
 
 // 完成mergePromise函数
 async function mergePromise(arr) {
-    const promises = arr.map(async p => {
-        let res = await p()
-        return res
-    })
 
-    let data = []
-    for (let p of promises) {
-        data.push(await p)
-    }
-
-    return Promise.resolve(data)
 }
 
 // 2
@@ -327,13 +302,12 @@ async function mergePromise(arr) {
 // 第一次的then为了用来调用ajax
 // 第二次的then是为了获取ajax的结果
 function mergePromise(arr) {
-    let data = []
-    let res = arr.reduce((r, p) => {
-        return r.then(p).then(res => {
+    const data
+    const res = arr.reduce((resolve, ajax) => {
+        resolve.then(ajax).then(res => {
             data.push(res)
-
             return data
-        })
+        }).catch(err => console.log(err))
     }, Promise.resolve())
 
     return res
@@ -356,14 +330,14 @@ class Promise {
 
         let resolve = function(value) {
             if (this.state === 'pending') {
+                this.state = 'resolved'
                 this.value = value
-                this.state = 'fulfilled'
             }
         }
-        let reject = function(value) {
+        let reject = function(reason) {
             if (this.state === 'pending') {
-                this.reason = value
                 this.state = 'rejected'
+                this.reason = reason
             }
         }
 
@@ -377,13 +351,14 @@ class Promise {
     // then
     then(onFulfilled, onRejected) {
         switch (this.state) {
-            case 'fulfilled':
-                onFulfilled(this.value);
-                break;
+            case 'resolved':
+                onFulfilled(this.value)
+                break
             case 'rejected':
-                onRejected(this.reason);
-                break;
+                onRejected(this.reason)
+                break
             default:
+            //
         }
     }
 }
@@ -392,14 +367,7 @@ class Promise {
 // - 封装一个异步加载图片的方法
 function loadImg(url) {
     return new Promise((resolve, reject) => {
-        let img = new Image();
-        img.onload = () => {
-            resolve()
-        }
-        img.onerror = () => {
-            reject()
-        }
-        img.src = url
+
     })
 };
 
@@ -423,11 +391,12 @@ function limitLoad(urls, handler, limit) {
             return Promise.race(promises)
         }).then(fastIndex => {
             promises[fastIndex] = handler(url).then(() => fastIndex)
-        })
+        }).catch(err => { throw new Error(err) })
     }, Promise.resolve())
-        .then(() => Promise.all(promises))
+        .then(() => {
+            return Promise.all(promises)
+        })
 }
-
 limitLoad(urls, loadImg, 3)
     .then(res => {
         console.log("图片全部加载完毕");
@@ -441,25 +410,32 @@ limitLoad(urls, loadImg, 3)
 
 // - 实现finally
 Promise.prototype.finally = function(onFinally) {
-    res => Promise.resolve(onFinally()).then(() => res),
-        err => Promise.resolve(onFinally()).then(() => { throw err })
+    this.then(
+        (res) => Promise.resolve(onFinally()).then(() => res),
+        (err) => Promise.resolve(onFinally()).then(() => { throw err })
+    )
 };
 
 
 // - 实现Promise.all
 Promise.all = function(promises) {
     return new Promise((resolve, reject) => {
-        let promiseNum = promises.length;
-        let resolvedCounter = 0;
-        let resolvedValues = new Array(promiseNum);
-        for (let i = 0; i < promises.length; i++) {
-            promises[i].then(value => {
-                resolvedCounter++
-                resolvedValues[i] = value
-                if (resolvedCounter === promiseNum) {
-                    resolve(resolvedValues)
-                }
-            }).catch(reason => reject(reason))
+        var promisesNum = promises.length;
+        var resolvedValues = new Array(promisesNum)
+        var resolveCount = 0
+
+        for (var i = 0; i < promisesNum; i++) {
+            ; (function(i) {
+                Promise.resolve(promises[i]).then(value => {
+                    resolvedValues[i] = value
+                    resolveCount++
+                    if (resolveCount === promisesNum) {
+                        return resolve(resolvedValues)
+                    }
+                }, (reason) => {
+                    reject(reason)
+                })
+            })(i)
         }
     })
 }
@@ -739,6 +715,9 @@ setTimeout(() => {
 
 
 // 注意这道题最后p1的返回值！！！！！！！！！！！！
+// .finally()方法不管Promise对象最后的状态如何都会执行
+// .finally()方法的回调函数不接受任何的参数，也就是说你在.finally()函数中是没法知道Promise最终的状态是resolved还是rejected的
+// 它最终返回的默认会是一个上一次的Promise对象值，不过如果抛出的是一个异常则返回异常的Promise对象。
 const p1 = new Promise((resolve) => {
     setTimeout(() => {
         resolve('resolve3');
@@ -835,7 +814,7 @@ new new Foo().getName()     // (7)
 
 // Foo.getName()               // (1)：输出2，直接调用Foo的静态方法
 // getName()                   // (2)：输出4，由于赋值为4的函数体在最后执行，给getName最终赋值为4
-// Foo().getName()             // (3)：输出1，调用函数Foo，返回this，其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
+// Foo().getName()             // (3)：输出1，普通调用函数 Foo()返回的 this 指向的是全局对象 window（谁调用指向谁），所以调用的是全局对象的 getName()。其中打印1的getName前面无var，这不是局部函数，而是对全局函数变量getName的重写赋值，所以这里输出的是全局的this。getName，输出1
 // getName()                   // (4)：输出1，由于前一步中对全局getName变量重新赋值为1，因此这里还是打印1
 
 // 再考虑第二个关键知识点，运算符优先级：**`()` > `.` > `带参数New` > `无参数New`**，因此(5)到(7)输出如下：
@@ -921,6 +900,60 @@ b() // 输出1，b里的console输出的是全局作用域的a
 
 
 
+
+// 实现usePrevious
+function usePrevious(val) {
+    const ref = useRef()
+
+    useEffect(() => {
+        ref.current = val
+    }, [val])
+
+    return ref.current
+}
+// useEffect很重要的一点是：它是在每次渲染之后才会触发的，是延迟执行的。而return语句是同步的，所以return的时候，ref.current还是旧值。
+
+// eg.
+function Component() {
+    const [count, setCount] = useState(0);
+    const previousCount = usePrevious(count);
+
+    return (
+        <div>
+            <button onClick={() => setCount(p => p + 1)}>add</button>
+            {count} | { previousCount}
+        </div>
+    )
+}
+
+
+
+
+
+// 深度查询
+function get(source, path, defaultValue = undefined) {
+    // a[3].b -> a.3.b
+    let paths = path.replace(/\[(\S+)\]/g, '.$1').split('.').filter(item => item)
+
+    let result = source
+    for (let p of paths) {
+        result = Object(result)[p]
+        if (result === undefined) {
+            return defaultValue
+        }
+    }
+
+    return result
+}
+
+get(object, 'a[3].b', undefined);
+
+
+
+
+
+
+
 // - 私有属性实现
 // ES6
 var Person = (() => {
@@ -938,10 +971,11 @@ var Person = (() => {
 })()
 // ES5
 var Person = (() => {
-    const _name = '_name' + Date.now()
+    const _name = '_siyou' + Math.random()
     function Person(name) {
-        this._name = name
+        this[_name] = name
     }
+
     Object.defineProperty(Person.prototype, 'name', {
         get() {
             return this[_name]
@@ -954,13 +988,14 @@ var Person = (() => {
 
 // - 实现 fill(3, 4) 为 [4,4,4]
 function fill(n, m) {
-    n--
     if (n) {
-        return [m].concat(fill(n, m))
+        return [m].concat(fill(n - 1, m))
     } else {
-        return m
+        return []
     }
 }
+
+fill(3, 4)
 
 
 
@@ -969,19 +1004,25 @@ function fill(n, m) {
 // left是对象，right是原型对象
 function myInstanceof(left, right) {
     //基本数据类型直接返回false
+
+    //getPrototypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
+
     if (typeof left !== 'object' || left === null) {
         return false
     }
-    //getPrototypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
+
     let proto = Object.getPrototypeOf(left)
+
     while (true) {
         if (proto === null) {
             return false
         }
+
         if (proto === right.prototype) {
             return true
         }
-        proto = Object.getPrototypeOf(proto)
+
+        proto = Object.getPrototypeOf(left)
     }
 }
 
@@ -995,59 +1036,60 @@ console.log(two(add(one()))); // 3
 
 function add(val) {
     return x => {
-        return val + x
+        return x + val
     }
 }
 
 function one(cb) {
-    const num = 1
     if (cb) {
-        return cb(num)
+        return cb(1)
     }
-    return num
+
+    return 1
 }
 
 function two(cb) {
-    const num = 2
     if (cb) {
-        return cb(num)
+        return cb(2)
     }
-    return num
+
+    return 2
 }
 
 // - 斐波那契数列，使用memo做缓存，减少运算量
 // 动态规划的题也能使用这种方法做优化
 const fib4 = (function() {
-    var memo = [0, 1];
-    return function _fib(n) {
-        let result = memo[n]
-        if (typeof result !== "number") {
-            result = _fib(n - 1) + _fib(n - 2)
-            memo[n] = result
+    var memo = [1, 1];
+    return function _fib4(n) {
+        if (memo[n] !== undefined) {
+            return memo[n];
         }
-        return result
+        memo[n] = _fib4(n - 1) + _fib4(n - 2)
+
+        return memo[n]
     }
 })();
 
 console.log(fib4(9)); // 34
 
+
 // 尾递归实现fibonacci (尾调用优化)
 // 函数最后一步操作是 return 另一个函数的调用，函数不需要保留以前的变量
 function fib3(n, n1 = 1, n2 = 1) {
-    if (n <= 2) {
-        return n2;
+    if (n < 2) {
+        return n2
     } else {
-        return fib3(n - 1, n2, n1 + n2);
+        return fib3(n - 1, n2, n1 + n2)
     }
 }
 
-console.log(fib3(9)) // 34
+console.log(fib3(9));
 
 // ### new的时候加1
-const fn = (() => {
+; (function fn() {
     let count = 0
     return function _fn() {
-        // if (this.constructor === _fn) {
+        // if (this.constructor === _fn)
         if (new.target) {
             console.log(++count)
         } else {
@@ -1067,8 +1109,8 @@ arr1.reduce((prev, cur, index, sourceArr) => {
 }, initial)
 
 Array.prototype._map = function(fn, callbackThis) {
-    const res = []
     const CBThis = callbackThis || null
+    const res = []
     this.reduce((prev, cur, index, sourceArr) => {
         res.push(fn.call(CBThis, cur, index, sourceArr))
     }, null)
@@ -1091,35 +1133,35 @@ function findMaxChar(str) {
 //   这是因为每个 setTimeout 产生的任务会直接 push 到任务队列中，而 setInterval 在每次把任务 push 到任务队列时，都要进行一次判断（判断 上次的任务是否仍在队列中，是则跳过）。所以通过用 setTimeout 模拟 setInterval 可以规避上面的缺点。
 const moniInterval = (fn, time) => {
     const interval = () => {
+        setTimeout(interval, time)
         fn()
-        setTimeout(() => {
-            interval()
-        }, time)
     }
 
-    setTimeout(() => {
-        interval()
-    }, time)
+    setTimeout(interval, time)
 }
 
 const queue = () => {
-    let count = 1;
+    let count = 0
     const interval = () => {
-        console.log(count++)
-        setTimeout(interval, 1000 * count)
+        setTimeout(interval, ++count * 1000)
+        console.log(count)
     }
 
-    setTimeout(interval, 1000 * count)
+    setTimeout(interval, count * 1000)
 }
+
+queue()
 
 
 
 // ### 实现一个wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)
 const wait = (time, callback) => {
-    let tm = 0
+    let timeout = 0
     const createChain = (t, cb) => {
-        tm += t
-        setTimeout(cb, tm)
+        timeout += t
+        setTimeout(() => {
+            callback()
+        }, timeout)
         return {
             wait: createChain
         }
@@ -1130,59 +1172,46 @@ const wait = (time, callback) => {
 
 // ### 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣').valueOf() 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
 const wordschain = (...args) => {
-    let arr = []
+    let total = []
     const createChain = (...args) => {
-        arr = [...arr, ...args]
+        total = [...total, ...args]
 
         return createChain
     }
 
     createChain.valueOf = () => {
-        let result = arr.join(' -> ')
-        console.log(result)
+        return total.join(' -> ')
     }
 
     return createChain(...args)
 }
+
+wordschain('胸有成竹')('竹报平安')('安富尊荣', 'lallalal').valueOf()
 
 // ### add(1, 3, 4)(7)(5, 5).valueOf();
 const add = (...args) => {
-    let totalArr = []
+    let total = []
     const createChain = (...args) => {
-        totalArr = [...totalArr, ...args]
+        total = [...total, ...args]
 
         return createChain
     }
 
     createChain.valueOf = () => {
-        let result = totalArr.reduce((a, b) => a + b, 0)
-        console.log(result)
+        return total.reduce((a, b) => a + b, 0)
     }
 
     return createChain(...args)
 }
+
+add(1, 3, 4)(7)(5, 5).valueOf()
 
 
 
 
 // 实现JSONP
 function JSONP(url, params = {}, callbackKey = 'cb', callback) {
-    JSONP.callbacks = JSONP.callbacks || []
-    JSONP.callbackId = JSONP.callbackId || 1
 
-    JSONP.callbacks[JSONP.callbackId] = callback
-
-    params[callbackKey] = `JSONP.callbacks[${JSONP.callbackId}]`
-
-    let paramString = Object.keys(params).map(key => {
-        return `${key}=${encodeURIComponent(params[key])}`
-    }).join('&')
-
-    const script = document.createElement('script')
-    script.setAttribute('src', `${url}?${paramString}`)
-    document.body.appendChild(script)
-
-    JSONP.callbackId++
 }
 
 JSONP({
@@ -1200,11 +1229,12 @@ this.body = `${callback}(${JSON.stringify(callbackData)})`
 
 // 返回promise的JSONP封装
 function JSONP(url, params = {}, callbackKey = 'cb') {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         JSONP.callbacks = JSONP.callbacks || []
         JSONP.callbackId = JSONP.callbackId || 1
 
         let callbackId = JSONP.callbackId
+        // JSONP.callbacks[callbackId] = callback
 
         params[callbackKey] = `JSONP.callbacks[${callbackId}]`
 
@@ -1215,51 +1245,60 @@ function JSONP(url, params = {}, callbackKey = 'cb') {
         const script = document.createElement('script')
         script.setAttribute('src', `${url}?${paramString}`)
 
-        JSONP.callbacks[callbackId] = function(res) {
-            document.body.removeChild(script)
+        JSONP.callbacks[callbackId] = function(result) {
             delete JSONP.callbacks[callbackId]
-            if (res) {
-                resolve(res)
+            document.body.removeChild(script)
+
+            if (result) {
+                resolve(result)
             } else {
-                reject(new Error('meiyoufanhuishuju'))
+                reject(new Error('没有返回数据'))
             }
         }
 
-        script.onerror = function() {
-            document.body.removeChild(script)
+        script.addEventListener('error', (err) => {
             delete JSONP.callbacks[callbackId]
+            document.body.removeChild(script)
 
-            reject(new Error('error!!!'))
-        }
+            reject('资源加载错误：' + err)
+        }, false)
+
 
         document.body.appendChild(script)
 
         JSONP.callbackId++
-
     })
 }
 
+// - 1、回调函数在主函数中的参数位置必须是最后一个；
+// - 2、回调函数参数中的第一个参数必须是 error。
+// var func = function(a, b, c, callback) {
+//     callback(null, a+b+c);
+// }
+
 // 实现promisify
-const promisify = (func) => {
-    return (...args) => {
-        return new Promise((resolve, reject) => {
-            func(args, (err, result) => {
-                if (!err) {
-                    resolve(result)
-                } else {
-                    reject(err)
-                }
-            })
+const promisify = (func) => (...args) => {
+    return new Promise((resolve, reject) => {
+        func(...args, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
         })
-    }
+    })
 }
+
+// function func(a, b, c, callback) {
+//     callback(err, a + b + c)
+// }
 
 // 或者 写成函数表达式形式
 const promisify = function(func) {
     return function(...args) {
-        let ctx = this
+        let that = this
         return new Promise((resolve, reject) => {
-            func.apply(ctx, args, (err, result) => {
+            func.call(that, ...args, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -1313,44 +1352,89 @@ readFileAsync('test.js').then(data => {
 
 
 // ### 手写双向绑定
-let input = document.getElementById('input')
-let obj = { value: '' }
+const input = document.createElement('input')
+const obj = {}
 
 Object.defineProperty(obj, 'value', {
+    configurable: false,
+    enumerable: false,
     get() {
         return input.value
     },
-    set(value) {
-        input.value = value
+    set(newVal) {
+        if (newVal === input.value) {
+            return
+        }
+
+        input.value = newVal
     }
 })
 
-input.addEventListener('input', function(ev) {
+input.addEventListener('input', ev => {
     obj.value = ev.target.value
-})
+}, false)
 
 
-    // 手写vue observe数据劫持
 
+// 手写vue observe数据劫持
+class Vue {
+    constructor(options) {
+        this.$options = options
+        this.$data = this.$options.data
+        this.observe(this.$data)
+    }
+    observe(data) {
+        if (!data || typeof data !== 'object') {
+            return
+        }
 
-    // 用JS模拟DOM结构（手写vnode）
-    < template >
-    <div id="div1" class="container">
-        <p>vdom</p>
-    </div>
-</ >
+        for (let key in data) {
+            if (typeof data[key] === 'object') {
+                this.observe(data[key])
+            } else {
+                this.defineReactive(data, key, data[key])
+            }
+        }
+    }
+    defineReactive(data, key, val) {
+        Object.defineProperty(data, key, {
+            configurable: false,
+            enumerable: false,
+            writable: false,
+            get() {
+                return val
+            },
+            set(newVal) {
+                if (newVal == val) {
+                    return
+                }
 
-{
-    tag: 'div',
-    props: {
-        id: 'div1',
-        className: 'container'
-    },
-    children: [{
-        tag: 'p',
-        children: 'vdom'
-    }]
+                val = newVal
+            }
+        })
+    }
 }
+
+
+// 用JS模拟DOM结构（手写vnode）
+// <template >
+// <div id="div1" class="container">
+//     <p>vdom</p>
+// </div>
+// </template >
+
+// {
+//     tag: 'div',
+//     props: {
+//         className: 'container',
+//         id: 'div1'
+//     },
+//     children: [{
+//         tag: 'p',
+//         children: 'vdom'
+//     }]
+// }
+
 
 
 
@@ -1358,116 +1442,109 @@ input.addEventListener('input', function(ev) {
 // ### 防抖节流
 const debounce = (fn, time) => {
     let timer
-    return function(...args) {
+
+    return (...args) => {
         clearTimeout(timer)
-        let that = this
+        let self = this
         timer = setTimeout(() => {
-            fn.call(that, ...args)
+            fn.call(self, ...args)
         }, time)
     }
 }
 
-// 防抖的场景：按钮点击，输入联想
-// 节流的场景：滚动，上拉加载、下拉刷新
-
 const throttle = (fn, time) => {
-    let flag = false
-    return function(...args) {
-        let that = this
-        if (!flag) {
-            flag = true
-            setTimeout(() => {
-                fn.call(that, ...args)
-                flag = false
-            }, time)
+    let canRun = true
+
+    return (...args) => {
+        if (!canRun) {
+            return
         }
+        canRun = false
+        let self = this
+        setTimeout(() => {
+            fn.call(self, ...args)
+            canRun = true
+        }, time)
     }
 }
 
 
 // ### promise实现图片懒加载
-const loadImg = (url) => {
+function loadImg(url) {
     return new Promise((resolve, reject) => {
         let img = new Image()
         img.onload = () => {
-            resolve()
+            resolve(img)
+        }
+        img.onerror = () => {
+            reject('xxxx')
         }
 
-        img.onerror = () => {
-            reject()
-        }
         img.src = url
     })
 }
 
+
 // ### 二分查找
 function binarySearch(target, arr, start, end) {
-    if (start > end) { return -1 }
+    if (start >= end) return -1
 
-    let mid = Math.floor(start + (end - start) / 2)
-
-    if (target === arr[mid]) {
+    let mid = (start + end) >> 1
+    if (arr[mid] === target) {
         return mid
-    } else if (arr[mid] > target) {
-        binarySearch(target, arr, start, mid - 1)
-    } else if (arr[mid] < target) {
-        binarySearch(target, arr, mid + 1, end)
+    }
+
+    if (arr[mid] < target) {
+        return binarySearch(target, arr, mid + 1, end)
+    } else {
+        return binarySearch(target, arr, start, mid - 1)
     }
 }
 
 
+
 // ### 封装类型判断函数
-function matchType(o) {
-    let type = typeof (o)
+function getType(arg) {
+    const type = typeof (arg)
     if (type !== 'object') {
         return type
     }
 
-    return Object.prototype.toString.call(o).replace(/^\[object (\w+)\]$/, "$1").tolowerCase()
+    return Object.prototype.toString.call(arg).replace(/^\[object (\w+)\]$/, '$1').toLowerCase()
 }
 
 
 // ### 如何效率的向一个ul里面添加10000个li
 // 方法1：使用fragment
-let ul = document.getElementsByTagName('ul')
-let fragment = document.createDocumentFragment()
-for (let i = 0; i < 100000; i++) {
-    let li = document.createElement('li')
-    li.innerHTML = `di${i}ge li`
-    fragment.appendChild(li)
-}
-document.body.appendChild(fragment)
+
 
 // 方法2：使用字符串拼接
-let ul = document.getElementsByTagName('ul')
-let str = ''
-for (let i = 0; i < 100000; i++) {
-    str += '<li>lalalla</li>'
-}
-ul.innerHTML = str
+
 
 
 // ### 快速排序
-const quickSort = (arr) => {
-    return arr.length <= 1 ? arr : quickSort(arr.slice(1).filter(item => item <= arr[0])).concat(arr[0], quickSort(arr.slice(1).filter(item => item > arr[0])))
+function quickSort(arr) {
+    return arr.length < 2 ? arr : quickSort(arr.slice(1).filter(i => i < arr[0])).concat(arr[0], quickSort(arr.slice(1).filter(i => i >= arr[0])))
 }
 
 
 // ### 实现Object.create
-object.create = object.create || function(obj) {
-    function F() { }
+Object._create = Object.create || function(obj) {
+    var F = function() { }
+
     F.prototype = obj
 
     return new F()
 }
 
 
+
 // ### 模拟实现new操作符
 function thisNew(M) {
-    let o = Object.create(M.prototype)
-    let res = M.call(o)
+    const o = Object.create(M.prototype);
+    const res = M.call(o)
 
-    if (res instanceof Object) { // 不能用typeof，需要排除null的情况
+    if (res instanceof Object) {
         return res
     } else {
         return o
@@ -1478,136 +1555,92 @@ function thisNew(M) {
 
 
 // ### 数组扁平化
-function flatten(arr) {
-    let newArr = []
-    for (let i = 0; i < arr.length; i++) {
-        if (Array.isArray(arr[i])) {
-            newArr = newArr.concat(flatten(arr[i]))
-        } else {
-            newArr.push(arr[i])
-        }
-    }
 
-    return newArr
-}
 
-[1, [2, [3, 4]]].toString().split(',').map(i => Number(i))
-
-function flatten(arr) {
-    while (arr.some(item => Array.isArray(item))) {
-        arr = [].concat(...arr)
-    }
-    return arr
-}
 
 
 // ### 数组去重
-[...new Set(arr)]
-Array.from(new Set(arr))
+
 
 
 
 // ### 简单版EventEmitter实现
+
+
+// 优化版
+
+
+// 进阶版
 class EventEmitter {
     constructor() {
-        this._eventbus = {}
+        this._eventBus = {}
     }
     on(type, cb) {
-        if (!this._eventbus[type]) {
-            this._eventbus[type] = []
+        let handler = this._eventBus[type]
+        if (!handler) {
+            this._eventBus[type] = cb
+        } else if (typeof handler === 'function') {
+            this._eventBus[type] = [handler, cb]
+        } else {
+            this._eventBus[type].push(cb)
         }
-        this._eventbus[type].push(cb)
     }
     emit(type, ...args) {
-        if (this._eventbus[type]) {
-            this._eventbus[type].forEach(() => {
-                cb(...args)
-            })
+        let handler = this._eventBus[type]
+        if (handler) {
+            if (typeof handler === 'function') {
+                args.length > 0 ? handler.apply(this, args) : handler.call(this)
+            } else {
+                handler.forEach(_cb => {
+                    args.length > 0 ? cb.apply(this, args) : cb.call(this)
+                })
+            }
         }
     }
     off(type, cb) {
-        if (this._eventbus[type]) {
-            let index = this._eventbus[type].indexOf(_cb => cb === _cb)
-            index > -1 && this._eventbus[type].splice(index, 1)
+        let handler = this._eventBus[type]
+        if (handler && Array.isArray(handler)) {
+            let index = handler.findIndex(_cb => _cb === cb)
+            if (index > -1) {
+                this._eventBus[type].splice(index, 1)
+
+                if (this._eventBus[type].length === 1) {
+                    this._eventBus[type] = this._eventBus[type][0]
+                }
+            }
+        } else if (handler && typeof handler === 'function') {
+            delete this._eventBus[type]
         }
     }
-    only(type, cb) {
+    once(type, cb) {
         this.on(type, (...args) => {
-            cb(...args)
+            args.length > 0 ? cb.apply(this, args) : cb.call(this)
             this.off(type)
         })
     }
 }
 
-// 优化版
-class EventEmitter {
-    constructor() {
-        this._eventbus = {}
-    }
-    on(type, cb) {
-        let handler = this._eventbus[type]
-        if (!handler) {
-            this._eventbus[type] = cb
-        } else if (handler && typeof handler === 'function') {
-            this._eventbus[type] = [handler, cb]
-        } else {
-            this._eventbus[type].push(cb)
-        }
-    }
-    emit(type, ...args) {
-        let handler = this._eventbus[type]
-        if (handler && Array.isArray(handler)) {
-            handler.forEach(cb => {
-                args.length > 0 ? cb.apply(this, args) : cb.call(this)
-            })
-        } else {
-            args.length > 0 ? handler.apply(this, args) : handler.call(this)
-        }
-    }
-    off(type, cb) {
-        let handler = this._eventbus[type]
-        if (handler && typeof handler === 'function') {
-            delete this._eventbus[type]
-        } else {
-            let index = this._eventbus[type].findIndex(_cb => _cb === cb)
-            if (index > -1) {
-                this._eventbus[type].splice(index, 1)
-                if (this._eventbus[type].length === 1) {
-                    this._eventbus[type] = handler[0]
-                }
-            }
-        }
-    }
-    only(type, cb) {
-        this.on(type, (...args) => {
-            args.length > 0 ? cb.apply(this, args) : cb.call(this)
-            this.off(type, cb)
-        })
-    }
-}
-
-// 进阶版
-
-
 
 
 // ### 优化版组合继承
 function Parent() {
-    this.type = "parent"
-    this.habit = [1, 2, 4]
+    this.type = 'parent'
+    this.hanbit = [1, 2, 3]
 }
 
-Parent.prototype.say() = function() {
-    console.log('chichihehe')
+Parent.prototype.say = function() {
+    console.log('chichicheheh')
 }
 
 function Child() {
     Parent.call(this)
-    this.type = "child"
+    this.type = 'child'
 }
 
 Child.prototype = Object.create(Parent.prototype)
 Child.prototype.constructor = Child
+
+
 
 
 
@@ -1639,20 +1672,30 @@ var Ajax = {
 
 
 // 实现字符串模板
-const template = "I am {{name }}, {{ age}} years old";
+const template = "I am {{ name }}, {{ age }} years old";
 var context = { name: "xiaoming", age: 2 };
 
-function formatString(template, context) {
-    return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+function formatStr(str) {
+    return str.replace(/\{\{(.*?)\}\}/g, (match, key) => {
         return context[key.trim()]
     })
 }
 
+formatStr(template)
+
+
 // 千分位题
 function toThousands(num) {
-    let str = num.toString()
-    return str.replace(/(\d)(?=(?:\d{3})+$)/g, "$1,")
+    let str = (num || 0).toString()
+    if (str.indexOf('.') > -1) {
+        strs = str.split('.')
+
+    }
+    return strs[0].replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + '.' + strs[1]
 }
+
+toThousands(12334344532.2334)
+
 
 
 
@@ -1660,6 +1703,8 @@ function toThousands(num) {
 function foo(str) {
     return str.replace(/(\w)(?=(?:\w{3})+$)/g, '$1|')
 }
+
+foo('adabcdefghi')
 
 
 
@@ -1699,77 +1744,34 @@ function deepClone(obj) {
 // ### 事件代理
 // - 事件代理利用两个js事件特性：事件冒泡、目标元素。
 // - 使用事件代理的话我们可以把事件处理器添加到一个祖先元素上，等待事件从它的子级元素里冒泡上来，并且可以很方便地判断出这个事件是从哪个元素开始的。
-var ul = document.getElementById("ul");
 
-ul.addEventListener('click', function(e) {
-    if (e.target && e.target.tagName.toLowrCase() === 'li') {
-        //需要执行的代码
-    }
-}, false);
 
 
 // 手写bind函数
 // 只实现返回函数 与 分开传参数
-Function.prototype._bind = function(ctx) {
-    let args = Array.prototype.slice.call(arguments, 1)
-    let that = this
+Function.prototype._bind = Function.prototype.bind || function(ctx) {
+    const args = Array.prototype.slice.call(arguments, 1)
+    let self = this
+
     return function() {
         let bindArgs = Array.prototype.slice.call(arguments)
-        that.apply(ctx, args.concat(bindArgs))
+        self.apply(ctx, args.concat(bindArgs))
     }
 }
+
 
 // 还要模拟 当做构造函数使用
 
 
 // Q：实现一个函数trim(str) 字符串前后去空格
-String.prototype._trim = function(str) {
-    return str.replace(/(^\s*)|(\s*$)/g, '')
-}
+// String._trim() = function(str) {
+//     return str.replace(/(^\s+)|(\s+$)/g, '')
+// }
 
 
 
 // - 如何用ES5实现promise
-class Promise {
-    constructor(executor) {
-        this.status = 'pendding'
-        this.value = undefined
-        this.reason = undefined
 
-        const resolve = (val) => {
-            if (this.status === 'pendding') {
-                this.status = 'fullfiled'
-                this.value = val
-            }
-        }
-
-        const reject = (val) => {
-            if (this.status === 'pendding') {
-                this.status = 'rejected'
-                this.reason = val
-            }
-        }
-
-        try {
-            executor(resolve, reject)
-        } catch (error) {
-            reject(error)
-        }
-    }
-
-    then(onFulfilled, onRejected) {
-        switch (this.status) {
-            case 'fullfiled':
-                onFulfilled(this.value)
-                break;
-            case 'rejected':
-                onRejected(this.reason)
-                break;
-            default:
-                break;
-        }
-    }
-}
 
 
 
@@ -1781,225 +1783,145 @@ const input = document.createElement('input')
 document.body.appendChild(input)
 input.click()
 setTimeout(() => {
-    document.body.removeChild(input)
-}, 1000)
+    input.remove()
+}, 300)
 
-input.onchange = () => {
+input.onchange = function() {
     const fd = new FormData()
     const file = input.files[0]
+
     fd.append('file', file)
     fd.append('filename', file.name)
 
-    let xhr = new XMLHttpRequest()
-    // ...
+    const xhr = new XMLHttpRequest()
+    action = 'https: .......'
+    xhr.open('post', action, true)
+    xhr.send(fd)
+    xhr.onreadystatechange = function() {
+
+    }
 }
 
 
 
+
+
 // - 手写文件预览
-const input = document.getElementById('input')
+const file = document.getElementById('file')
 const img = document.getElementById('img')
 
-file.addEventListener('change', () => {
-    const obj = input.files[0]
-    let src = window.URL.createObjectURL(obj)
-    img.setAttribute('src', src)
-})
+file.addEventListener('change', function() {
+    let obj = file.files[0]
+    let url = window.URL.createObjectURL(obj)
+    img.src = url
+}, false)
 
-// 或者
-const input = document.getElementById('input')
+const file = document.getElementById('file')
 const img = document.getElementById('img')
 
-file.addEventListener('change', () => {
-    const obj = input.files[0]
+file.addEventListener('change', function() {
+    let obj = file.files[0]
     let reader = new FileReader()
     reader.readAsDataURL(obj)
-    reader.onloadend = () => {
-        let result = reader.result
-        img.setAttribute('src', result)
+
+    reader.onloadend = function() {
+        img.src = reader.result
     }
-})
+}, false)
+
 
 // 写一个 DOM2JSON(node) 函数，node 有 tagName 和 childNodes 属性
-function DOM2JSON(node) {
-    let obj = {}
-    obj['tag'] = node.nodeName;
-    obj['children'] = [];
+//     `
+// <div>
+//     <span>
+//         <a></a>
+//     </span>
+//     <span>
+//         <a></a>
+//         <a></a>
+//     </span>
+// </div>
 
-    let child = node.children;
-    for (let i = 0; i < child.length; i++) {
-        obj['children'].push(DOM2JSON(child[i]))
+// {
+//     tag: 'DIV',
+//     children: [{
+//         tag: 'SPAN',
+//         children: [
+//             { tag: 'A', children: [] }
+//         ]
+//     }, {
+//     tag: 'SPAN',
+//     children: [
+//             { tag: 'A', children: [] },
+//             { tag: 'A', children: [] }
+//         ]
+//     }]
+// }
+// `
+
+function DOM2JSON(node) {
+    const obj = {}
+    obj['tag'] = node.tagName
+    obj['children'] = []
+
+    let child = node.children
+    for (let item of child) {
+        obj['children'].push(DOM2JSON(item))
     }
 
     return obj
 }
 
 
+
+
+
+
+// JS实现一个带并发限制的异步调度器Scheduler，保证同时运行的任务最多有limit个。完善下面代码的Scheduler类，使得一下程序能正确输出
 class Scheduler {
     constructor(limit = 2) {
-        this.limit = limit
-        this.curentNum = 0
+        this.limit = 2
         this.queue = []
+        this.curTaskCount = 0
     }
-
     add(fn) {
-        return new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
             this.queue.push([fn, resolve])
             this.run()
         })
     }
-
     run() {
-        if (this.curentNum < this.limit && this.queue.length) {
-            let [fn, resolve] = this.queue.shift()
-            this.curentNum++
-            Promise.resolve(fn()).then(res => {
-                resolve(res)
-                this.curentNum--
+        if (this.curTaskCount < this.limit && this.queue.length) {
+            const [fn, resolve] = this.queue.shift()
+            this.curTaskCount++
+            Promise.resolve(fn()).then(result => {
+                resolve(result)
+                this.curTaskCount--
                 this.run()
             })
         }
     }
 }
 
-const hasPathSum = (root, sum) => {
-    if (!root) return false
-
-    if (!root.left && !root.right && root.val === sum) {
-        return true
-    }
-
-    let leftRoot = hasPathSum(root.left, sum - root.val)
-    let rightRoot = hasPathSum(root.right, sum - root.val)
-
-    return leftRoot && rightRoot
+function timeout(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
 }
 
-const reverseList = (head) => {
-    if (!head) return null
+var scheduler = new Scheduler()
 
-    if (head && !head.next) {
-        return head
-    }
-
-    let acc = head.next
-    let newHead = reverseList(acc)
-
-    acc.next = head
-    head.next = null
-
-    return newHead
-}
-
-const reverseList = (head) => {
-    let prev = null
-    let cur = head
-
-    while (cur) {
-        let next = cur.next
-        cur.next = prev
-
-        prev = cur
-        cur = next
-    }
-
-    return prev
-}
-
-const merge = (l1, l2) => {
-    if (!l1 && !l2) {
-        return null
-    }
-
-    if (!l1 || !l2) {
-        return l1 || l2
-    }
-
-    let dummy = new listNode()
-    let node = dummy
-    while (l1.next || l2.next) {
-        if (l1.val < l2.val) {
-            dummy.next = l1
-            l1 = l1.next
-        } else {
-            dummy.next = l2
-            l2 = l2.next
-        }
-        dummy = dummy.next
-    }
-
-    if (l1) {
-        dummy.next = l1
-    }
-
-    if (l2) {
-        dummy.next = l2
-    }
-
-    return node.next
+function addTask(time, order) {
+    scheduler.add(() => timeout(time).then(() => console.log(order)))
 }
 
 
-arr.map((item, index, sourceArr) => { }, callbackthis)
-
-arr.reduce((prev, item, index, sourceArr) => { }, initial)
-
-
-Array.prototype._map = (fn, callbackThis) => {
-    let CBThis = callbackThis || null
-    let res = []
-    this.reduce((prev, item, index, sourceArr) => {
-        res.push(fn.call(CBThis，item, index, sourceArr))
-    }, null)
-
-    return res
-}
-var a
-var b
-a = { k1: 'v1' };
-b = a;
-a.k3 = a = { k2: 'v2' };
-
-
-console.log(a);
-{ k2: 'v2', k3: { k2: 'v2' } }
-
-console.log(b);
-{ k1: 'v1' };
-
-
-const findXNode(l1, l2) {
-    let stack1 = []
-    let stack2 = []
-}
-
-
-const detectCircle = (head) => {
-    let fast = head
-    let slow = head
-    let firstMeet = null
-    while (fast && fast.next) {
-        fast = fast.next.next
-        slow = slow.next
-        if (slow === fast) {
-            firstMeet = fast
-            break
-        }
-    }
-
-    return Boolean(firstMeet)
-}
-
-f:
-
-
-var a = { n: 1 };
-var b = a; // 持有a，以回查  
-a.x = a = { n: 2 };
-alert(a.x);// --> undefined  
-alert(b.x);// --> {n:2}
-
-
-
-
+addTask(1000, 1)
+addTask(500, 2)
+addTask(300, 3)
+addTask(400, 4)
+// 2
+// 3
+// 1
+// 4
 

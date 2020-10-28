@@ -734,6 +734,44 @@ b() // 输出1，b里的console输出的是全局作用域的a
 
 
 
+
+// 实现usePrevious
+function usePrevious(val) {
+
+}
+// useEffect很重要的一点是：它是在每次渲染之后才会触发的，是延迟执行的。而return语句是同步的，所以return的时候，ref.current还是旧值。
+
+// eg.
+function Component() {
+    const [count, setCount] = useState(0);
+    const previousCount = usePrevious(count);
+
+    return (
+        <div>
+            <button onClick={() => setCount(p => p + 1)}>add</button>
+            {count} | { previousCount}
+        </div>
+    )
+}
+
+
+
+
+
+// 深度查询
+function get(source, path, defaultValue = undefined) {
+    // a[3].b -> a.3.b
+
+}
+
+get(object, 'a[3].b', undefined);
+
+
+
+
+
+
+
 // - 私有属性实现
 // ES6
 var Person = (() => {

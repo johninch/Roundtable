@@ -3,178 +3,173 @@
 
 ### 目录
 ::: details
-- `M 120. 三角形最小路径和`
-- `M 670. 最大交换`
-- :rocket:`E 674. 最长连续递增序列`
-- `E 面试题61. 扑克牌中的顺子`
-- :rocket:`H 42. 接雨水`
+<!-- - @`M 120. 三角形最小路径和` -->
+- @`M 670. 最大交换`
+- @`E 674. 最长连续递增序列`
+- @`E 扑克牌中的顺子`
+<!-- - @`H 42. 接雨水`
     - for(let i = 0; i < height.length; i++) {
         area += (h[i] - height[i]) * 1; // h为下雨之后的水位
     }
-    - h[i] = Math.min(左边柱子最大值, 右边柱子最大值)
-- `H 25. K 个一组翻转链表`*（没掌握）*
-**- `E 1. 两数之和`**
-    - 用一个对象注册，类似哈希表
-**- :rocket:`M 15. 三数之和`**
-    - 双指针法
-- :rocket:`M 43. 字符串相乘（大数相乘）`
-- `E 字符串相加（处理加法精度）`
-**- :rocket:`M 2. 两数相加`**
+    - h[i] = Math.min(左边柱子最大值, 右边柱子最大值) -->
+<!-- - @`E 1. 两数之和`
+    - 用一个对象注册，类似哈希表 -->
+<!-- - @`M 15. 三数之和`
+    - 双指针法 -->
+<!-- - @`M 43. 字符串相乘（大数相乘）` -->
+<!-- - @`E 415. 字符串相加（处理加法精度）` -->
+<!-- - @`M 2. 两数相加`
     - 这个题，链表head是个位：(2 -> 4 -> 3) 342
-- `M 445. 两数相加 II`
+- @`M 445. 两数相加 II`
     - 链表尾部是个位：(2 -> 4 -> 3) 243
-    - 如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
-- :rocket:`M 3. 无重复字符的最长子串`
+    - 如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。 -->
+<!-- - @`M 3. 无重复字符的最长子串`
     - 维护一个数组作为滑动窗口，
-    - 如果数组中已经有了字符a，则删除a包括自己在内及之前的所有元素
-**- `M 5. 最长回文子串`**
-- :rocket:`E 21. 合并两个有序链表`
-- `E 53. 最大子序和`
+    - 如果数组中已经有了字符a，则删除a包括自己在内及之前的所有元素 -->
+<!-- - @`M 5. 最长回文子串` -->
+- @`E 21. 合并两个有序链表`
+- @`E 53. 最大子序和`
     - 这道题用动态规划的思路并不难解决，比较难的是后文提出的用分治法求解，但由于其不是最优解法，所以先不列出来
     - 动态规划的是首先对数组进行遍历，当前最大连续子序列和为 sum，结果为 ans
     - 如果 sum > 0，则说明 sum 对结果有增益效果，则 sum 保留并加上当前遍历数字
     - 如果 sum <= 0，则说明 sum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
     - 每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果
-**- `M 11. 盛最多水的容器`**
-    - 左右双指针，每次都 向内移动短板，直到相撞
-- :rocket:`M 146. LRU缓存机制`
+<!-- - @`M 11. 盛最多水的容器`
+    - 左右双指针，每次都 向内移动短板，直到相撞 -->
+- @`M 146. LRU缓存机制`
     - Map 中的键值是有序的，而添加到对象中的键则不是。因此，当对它进行遍历时，Map 对象是按插入的顺序返回键值
     - Map.prototype.keys() 返回一个新的 Iterator 对象。它包含按照顺序插入 Map 对象中每个元素的key值。
     - 因此，需要拿到第一个key也就是最少使用的项时，需要使用 next().value 即 Map.keys().next().value
-- :rocket:`E 121. 买卖股票的最佳时机`
+<!-- - @`E 121. 买卖股票的最佳时机（一笔交易）`
     - 只需要找到最低价格，每次找出最大利润
-- `E 122. 买卖股票的最佳时机 II`
-- :rocket:`M 33. 搜索旋转排序数组`
+- @`E 122. 买卖股票的最佳时机 II（多笔交易）` -->
+<!-- - @`M 33. 搜索旋转排序数组`
     - 直接用nums.indexOf来做，复杂度是O(n)，而题目要求复杂度为O(nlogn)，则需要用二分法
     - ( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )
     - 将数组一分为二，其中一定有一个是有序的，另一个可能是有序，也能是部分有序。此时有序部分用二分法查找。无序部分再一分为二，其中一个一定有序，另一个可能有序，可能无序。就这样循环.
     - 先找出mid，然后根据mid来判断，mid是在有序的部分还是无序的部分
         - 假如mid小于start，则mid一定在右边有序部分。
-        - 假如mid大于等于start， 则mid一定在左边有序部分。
-- `M 240. 搜索二维矩阵 II`
-- :rocket:`M 56. 合并区间`
-- `M 46. 全排列`
-- :rocket:`M 面试题38. 字符串的排列`
-**- `E 20. 有效的括号`**
+        - 假如mid大于等于start， 则mid一定在左边有序部分。 -->
+<!-- - @`M 240. 搜索二维矩阵 II` -->
+- @`M 56. 合并区间`
+<!-- - @`M 46. 全排列` -->
+- @`E 20. 有效的括号`
     - 利用栈。
     - 遇到左括号，一律推入栈中，
     - 遇到右括号，将栈顶部元素拿出，如果不匹配则返回 false，如果匹配则继续循环。
-**- `E 7. 整数反转`**
-    - 取余数，最后判断正负号及是否越界
-- `M 102. 二叉树的层序遍历`
-- `M 199. 二叉树的右视图`
+- @`M 102. 二叉树的层序遍历`
+- @`M 199. 二叉树的右视图`
     - 层序遍历改用对象保存各层的最后一项
-- :rocket:`M 103. 二叉树的锯齿形层次遍历`
+- @`M 103. 二叉树的锯齿形层次遍历`
     - 偶数时，push进队列；奇数时，unshift进队列
-- `M 70. 爬楼梯`
-**- `M 22. 括号生成`**
-    - 递归，记录当前字符以及字符中左右括号的个数
-- :rocket:`M 93. 复原IP地址`
-    - 递归分成四部分
-- `M 200. 岛屿数量`
+<!-- - @`M 70. 爬楼梯` -->
+<!-- - @`M 22. 括号生成`
+    - 递归，记录当前字符以及字符中左右括号的个数 -->
+<!-- - @`M 93. 复原IP地址`
+    - 递归分成四部分 -->
+- @`M 200. 岛屿数量`
     - 对于一个为 1 且未被访问过的位置，我们递归进入其上下左右位置上为 1 的数，将其 visited 变成 true（即设置为0）
     - 重复上述过程，找完相邻区域后，我们将结果 res 自增1，然后我们在继续找下一个为 1 且未被访问过的位置，直至遍历完.
-- :rocket:`M 695. 岛屿的最大面积`
-**- `E 9. 回文数`**
-**- `M 19. 删除链表的倒数第N个节点`**
+- @`M 695. 岛屿的最大面积`
+<!-- - @`E 9. 回文数` -->
+- @`M 19. 删除链表的倒数第N个节点`
     - 注意使用哑结点解决head问题
-- `M 322. 零钱兑换`
-    - dp[n] 为组成n的最少硬币数
-- `E 160. 相交链表`
+<!-- - @`M 322. 零钱兑换`
+    - dp[n] 为组成n的最少硬币数 -->
+- @`E 160. 相交链表`
     - 与找到两条链表的第一个公共子节点一样
-- `E 88. 合并两个有序数组`
-    - 这个题主要是要注意在nums1上做改动，不用返回任何值
-- `M 8. 字符串转换整数 (atoi)`
-- :rocket:`E 14. 最长公共前缀`
-- `E 141. 环形链表`
-- :rocket:`E 206. 反转链表`
+- @`E 14. 最长公共前缀`
+- @`E 141. 环形链表`
+- @`E 206. 反转链表`
     - 每一层干的事情：得到一个指针，判断是否是最后一个，如果是则把指向最后一个数的指针当做新头指针发回去；
     - 如果不是，则把从上层得到的新头指针传递下去，并且把当前指针和后一个指针调换指向。
-- `M 92. 反转链表 II`
-- `M 143. 重排链表`
+- @`M 92. 反转链表 II`
+- @`M 143. 重排链表`
     - 给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
     - 步骤一: 找到链表中点后分割其为 left 链表、right 链表两部分;
     - 步骤二: 翻转 right 链表, 翻转链表思路同 206.Reverse_Linked_List;
     - 步骤三: 接着从 left 链表的左侧, 翻转后的 right 链表的左侧各取一个值`
-- `排序链表`
-- `E 198. 打家劫舍`
+<!-- - @`E 198. 打家劫舍`
     - 设f(x)为打劫前x家房子所能得到的最大的资金
-    - f(n)=max(nums[n]+f(n-2),f(n-1))
-- `E 111. 二叉树的最小深度`
-- `E 104. 二叉树的最大深度`
-- `E 543. 二叉树的直径`
+    - f(n)=max(nums[n]+f(n-2),f(n-1)) -->
+- @`E 111. 二叉树的最小深度`
+- @`E 104. 二叉树的最大深度`
+- @`E 543. 二叉树的直径（利用最大深度）`
     - 二叉树的直径不一定过根节点，因此需要去搜一遍所有子树(例如以root，root.left, root.right...为根节点的树)对应的直径，取最大值。
     - root的直径 = root左子树高度 + root右子树高度
     - root的高度 = max {root左子树高度, root右子树高度} + 1
     - 这里的maxDepth比起上面来说，只是需要用lNum与rNum来更新全局max
-- `判断树相同`
-- `E 101. 对称二叉树`
-- :rocket:`M 236. 二叉树的最近公共祖先`
+- @`判断树相同`
+- @`E 101. 对称二叉树`
+- @`M 236. 二叉树的最近公共祖先`
     - 递归查找当前root中的左右子树是否有p节点或者q节点，有则返回p或q，没有返回null
-- `E 112. 路径总和`
+- @`E 112. 路径总和`
     - 此题必须从根节点到叶子节点，判断是否存在和
-- `E 437. 路径总和 III`
-    - 此题不需要从根节点到叶子节点，但必须是向下遍历求和，返回路径数
-**- `M 24. 两两交换链表中的节点`**
+- @`M 24. 两两交换链表中的节点（四指针）`
     - 使用四指针
-- H 41. 缺失的第一个正数
-- `M 300. 最长上升子序列`
+- @`H 41. 缺失的第一个正数`
+- @`M 300. 最长上升子序列`
     - 由于一个子序列一定会以一个数结尾，于是将状态定义成：dp[i] 表示以 nums[i] 结尾的「上升子序列」的长度
-- `M 98. 验证二叉搜索树`
-    - 传递上下界
-- `M 105. 从前序与中序遍历序列构造二叉树`
-    - 注意一开始的边界判断
-- `M 221. 最大正方形`
-    - 若某格子值为 1，则以此为右下角的正方形的、最大边长为：上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
-    - 状态定义：dp[i][j] 以 matrix[i][j] 为右下角的正方形的最大边长
-    - dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
-**- `E 26. 删除排序数组中的重复项`**
+- @`E 26. 删除排序数组中的重复项（返回移除后数组的新长度）`
     - 需要再原数组上操作
     - 双指针法 i，j
     - 当且仅当遇到下一个不相同即不重复的元素时，更新指针位置为下一个元素
-**- `M 17. 电话号码的字母组合`**
-**- `求组合：从n个数组中各选一个元素，有多少种组合`**
-- :rocket:`M 71. 简化路径`
+<!-- - @`M 17. 电话号码的字母组合`
+- @`求组合：从n个数组中各选一个元素，有多少种组合` -->
+<!-- - @`E 455. 分发饼干`
+    - 使用双指针 -->
+- @`M 442. 数组中重复的数据（不用空间，原地哈希）`
+    - 这种题，其实看见不用空间、o(n)时间，通常潜台词就是，用原地哈希来做。
+- @`E 696. 计数二进制子串`
+- @`E 557. 反转字符串中的单词 III`
+- @`E 459. 重复的子字符串`
+- @`E 414. 第三大的数`
+- @`M 1143. 最长公共子序列`
+<!-- - @`E 62. 不同路径`
+- @`M 63. 不同路径 II` -->
+<!-- - @`E 汉诺塔问题` -->
+- @`M 958. 二叉树的完全性检验`
+- @`E 110. 平衡二叉树`
+- @`求二叉树的镜像`
+- @`二叉树的中序遍历`
+- @`二叉树的前序遍历`
+- @`二叉树的后序遍历`
+- @`二叉搜索树的第k个节点（BST的中序遍历是升序）`
+- @`E 605. 种花问题`
+- @`链表中环的入口结点`
+- @`M 105. 从前序与中序遍历序列构造二叉树`
+    - 注意一开始的边界判断
+- @`求二叉树的后序遍历`
+- @`E 169. 多数元素`
+    - 因为大于一半, 所以排序后的 中间那个数必是所求
+- @`E 统计节点个数`
+<!-- - @`M 221. 最大正方形`
+    - 若某格子值为 1，则以此为右下角的正方形的、最大边长为：上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
+    - 状态定义：dp[i][j] 以 matrix[i][j] 为右下角的正方形的最大边长
+    - dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1; -->
+
+
+- `生成二叉搜索树`
+- `二叉搜索树的后序遍历`
+- `从尾到头打印链表`
+- `设计循环队列`
+- `M 71. 简化路径`
     - 遇到正常的字母时，推入 stack 中
     - 遇到 .. 时，stack 弹出最近一个路径
     - 遇到 . 或者为空时，不修改当前 stack。
     - 最后返回 '/' + stack.join('/') 为新的路径
-- `E 169. 多数元素`
-    - 因为大于一半, 所以排序后的 中间那个数必是所求
-**- `M 6. Z 字形变换`**
-- `E 455. 分发饼干`
-    - 使用双指针
-- `M 442. 数组中重复的数据`
-    - 这种题，其实看见不用空间、o(n)时间，通常潜台词就是，用原地哈希来做。
-- `E 696. 计数二进制子串`
-- :rocket:`E 557. 反转字符串中的单词 III`
-- `E 459. 重复的子字符串`
-- `E 414. 第三大的数`
-- `M 1143. 最长公共子序列`
-- `E 62. 不同路径`
-- `M 63. 不同路径 II`
-- `E 面试题 08.06. 汉诺塔问题`
-- `M 958. 二叉树的完全性检验`
-- `E 110. 平衡二叉树`
-- `E 统计节点个数`
-- `二叉树的镜像`
-- `二叉树的层序遍历`
-- `二叉树的中序遍历`
-- `二叉树的前序遍历`
-- `二叉树的后序遍历`
-- `重建二叉树`
-- `求二叉树的后序遍历`
-- `生成二叉搜索树`
-- `验证二叉搜索树`
-- `二叉搜索树的第k个节点`
-- `二叉搜索树的后序遍历`
-- `电话号码的字母组合（组合运算）`
-- `种花问题（筛选运算-贪心）`
-- `链表倒数第k个节点`
-- `链表中环的入口结点`
-- `从尾到头打印`
-- `创建链表`
-- `设计循环队列`
+- `M 6. Z 字形变换`
+- `E 437. 路径总和 III`
+    - 此题不需要从根节点到叶子节点，但必须是向下遍历求和，返回路径数
+- `H 25. K 个一组翻转链表`*（没掌握）*
+- `E 7. 整数反转`
+    - 取余数，最后判断正负号及是否越界
+- `排序链表`
+- `M 98. 验证二叉搜索树`
+    - 传递上下界
+- `E 88. 合并两个有序数组`
+    - 这个题主要是要注意在nums1上做改动，不用返回任何值
+- `M 8. 字符串转换整数 (atoi)`
 
 :::
 
@@ -236,7 +231,7 @@ var findLengthOfLCIS = function(nums) {
 }
 
 
-// - `E 面试题61. 扑克牌中的顺子`
+// - `E 扑克牌中的顺子`
 var isStraight = function(nums) {
     if (nums.length <= 1) return true
 
@@ -406,29 +401,25 @@ var multiply = function (num1, num2) {
 
 
 
-// - E 字符串相加（处理加法精度）
-var addStrings = function (num1, num2) {
-    let a = num1.length
-    let b = num2.length
+// - E 415. 字符串相加（处理加法精度）
+var addStrings = function(num1, num2) {
+    let l1 = num1.length
+    let l2 = num2.length
 
-    let sum = '' // sum是字符串，计算时是字符串拼接
-    let add = 0 // add代表进位和当前位计算临时值
-
-    while (a || b) {
-        a ? add += +num1[--a] : ''
-        b ? add += +num2[--b] : ''
-
-        sum = add % 10 + sum
-
-        if (add > 9) add = 1
-        else add = 0
+    let str = '' // str是字符串，计算时是字符串拼接
+    let add = 0 // add代表进位
+    let tmp // 计算临时值
+    while (l1 || l2) {
+        tmp = (l1 ? +num1[--l1] : 0) + (l2 ? +num2[--l2] : 0) + add
+        str = tmp % 10 + str // 拼接，当前计算值拼在前面，想想列竖式
+        add = tmp > 9 ? 1 : 0
     }
 
     if (add) {
-        sum = 1 + sum
+        str = 1 + str
     }
 
-    return sum
+    return str
 };
 
 // 处理加法精度
@@ -526,15 +517,15 @@ var addTwoNumbers = function(l1, l2) {
 // 维护一个数组作为滑动窗口，
 // 如果数组中已经有了字符a，则删除a包括自己在内及之前的所有元素
 var lengthOfLongestSubstring = function(s) {
-    let arr = [], max = 0
+    let window = [], max = 0
     for (let i = 0; i < s.length; i++) {
-        const index = arr.indexOf(s[i])
+        const index = window.indexOf(s[i])
         if (index !== -1) {
             // 变异方法，删除找到的元素及之前的所有元素
-            arr.splice(0, index + 1)
+            window.splice(0, index + 1)
         }
-        arr.push(s[i])
-        max = Math.max(arr.length, max)
+        window.push(s[i])
+        max = Math.max(window.length, max)
     }
 
     return max
@@ -542,25 +533,6 @@ var lengthOfLongestSubstring = function(s) {
 
 
 // M 5. 最长回文子串
-var longestPalindrome = function(s) {
-    let n = s.length
-    let res = ''
-    // dp[i,j]：字符串s从索引i到j的子串是否是回文串
-    let dp = Array.from(new Array(n), () => new Array(n).fill(0))
-
-    for(let i = n-1; i>=0; i--) {
-        for(let j = i; j<n; j++) {
-            // j - i < 2：意即子串是一个长度为0或1的回文串
-            dp[i][j] = s[i] == s[j] && (j - i < 2 || dp[i+1][j-1]); // 这里一定要把j-i<2写在前面，否则后面的dp取值会报错
-            // 如果s[i,j]是回文串，且长度大于现有长度，则更新
-            if (dp[i][j] && j - i + 1 > res.length) {
-                res = s.substring(i, j+1)
-            }
-        }
-    }
-
-    return res
-}
 var longestPalindrome = function (s) {
     let n = s.length
     let res = ''
@@ -570,13 +542,14 @@ var longestPalindrome = function (s) {
     for (let i = n - 1; i >= 0; i--) {
         for (let j = i; j < n; j++) {
             if (s[i] == s[j]) {
-                if (j - i < 2) { // 子串是一个长度为0或1的回文串，则肯定是回文子串
+                if (j - i < 2) {
+                    // j - i < 2：意即子串是一个长度为0或1的回文串
                     dp[i][j] = 1
                 } else {
                     dp[i][j] = dp[i + 1][j - 1]
                 }
             }
-
+            // 如果s[i,j]是回文串，且长度大于现有长度，则更新
             if (dp[i][j] && j - i + 1 > res.length) {
                 res = s.substring(i, j + 1)
             }
@@ -712,7 +685,7 @@ LRUCache.prototype.put = function(key, value) {
  */
 
 
-// E 121. 买卖股票的最佳时机
+// E 121. 买卖股票的最佳时机（一笔交易）
 // 只需要找到最低价格，每次找出最大利润
 var maxProfit = (prices) => {
     let profit = 0
@@ -729,7 +702,7 @@ var maxProfit = (prices) => {
     return profit
 }
 
-// E 122. 买卖股票的最佳时机 II（尽可能地完成更多的交易）
+// E 122. 买卖股票的最佳时机 II（多笔交易）
 var maxProfit = (prices) => {
     let profit = 0, gap;
     for (var i = 1; i < prices.length; i++) {
@@ -754,7 +727,7 @@ var search = function(nums, target) {
     let start = 0
     let end = nums.length - 1
     while(start <= end) {
-        let mid = start + ((end - start) >> 1)
+        let mid = start + end >> 1
 
         if (nums[mid] === target) {
             return mid
@@ -847,7 +820,7 @@ var permute = function (nums) {
     const backtrack = (res, tmpList, nums) => {
         if (tmpList.length === nums.length) {
             // 终止条件
-            return res.push([...tmpList])
+            res.push([...tmpList])
         } else {
             for (let i = 0; i < nums.length; i++) {
                 if (tmpList.includes(nums[i])) continue
@@ -862,7 +835,7 @@ var permute = function (nums) {
 
     return res
 };
-
+// 方法二
 var permute = function(nums) {
     const res = []
     const swap = (arr, i, j) => {
@@ -998,22 +971,22 @@ const levelOrder = (root) => {
 }
 
 // M 199. 二叉树的右视图
-// 层序遍历改用对象保存各层的最后一项
-var rightSideView = function(root) {
+// 层序遍历后，取值
+var rightSideView = function (root) {
     if (!root) return []
 
-    const res = {} // 这里改成对象，保存各level的数组
     const queue = [[root, 0]]
-    while(queue.length) {
+    const res = []
+
+    while (queue.length) {
         let [cur, level] = queue.shift()
+        res[level] ? res[level].push(cur.val) : res[level] = [cur.val]
 
-        res[level] = cur.val
-
-        if (cur.left) queue.push([cur.left, level + 1])
-        if (cur.right) queue.push([cur.right, level + 1])
+        cur.left && queue.push([cur.left, level + 1])
+        cur.right && queue.push([cur.right, level + 1])
     }
 
-    return Object.values(res)
+    return res.map(arr => arr[arr.length - 1])
 };
 
 // M 103. 二叉树的锯齿形层次遍历
@@ -1254,7 +1227,7 @@ var removeNthFromEnd = function(head, n) {
 
 
 
-// M 322. 零钱兑换 ————————————————————————————————————————————》好好理解下
+// M 322. 零钱兑换
 // dp[n] 为组成n的最少硬币数
 var coinChange = function(coins, amount) {
     // 因为每次都要取最小的值，所以一开始用正无穷初始化
@@ -1424,19 +1397,18 @@ var hasCycle = function(head) {
     return Boolean(firstMeet)
 };
 
-function detectCycle(head) {
-    const cache = new Set()
-    while(head) {
-        if (cache.has(head)) {
-            return true
-        } else {
-            cache.add(head)
+var hasCycle = function (head) {
+    const set = new Set();
+    while (head) {
+        if (set.has(head)) {
+            return true;
         }
+        set.add(head)
         head = head.next
     }
 
     return false
-}
+};
 
 
 // E 206. 反转链表
@@ -1504,6 +1476,7 @@ var reverseBetween = function(head, m, n) {
     // prev指向反转后区间头
     // tmpHead指向前半截尾
     // tmpHead.next指向反转后区间尾
+    // ---tmpHead tmpHead.next---prev cur---
     tmpHead.next.next = cur // 反转后区间尾.next = 后半截的头
     tmpHead.next = prev // 前半截尾.next = 反转后区间头
 
@@ -1551,7 +1524,7 @@ var reorderList = function (head) {
 
     right = reverseList(right)
 
-    while (left && right) { // ————————————————————————————————————————————》好好理解下
+    while (left && right) {
         let lNext = left.next
         let rNext = right.next
 
@@ -1629,6 +1602,8 @@ const minDepth = (root) => {
     if (!root) {
         return 0;
     }
+    // 注意如果根节点的左或右子树为空的话是构不成子树的。
+    // 而最小深度是要求从根节点到子树的。当左或右子树为空时，不符合要求。
     if (!root.left) {
         return 1 + minDepth(root.right);
     }
@@ -1646,7 +1621,7 @@ var maxDepth = (root) => {
     return 1 + Math.max(maxDepth(root.left), maxDepth(root.right))
 }
 
-// E 543. 二叉树的直径
+// E 543. 二叉树的直径（利用最大深度）
 // 二叉树的直径不一定过根节点，因此需要去搜一遍所有子树(例如以root，root.left, root.right...为根节点的树)对应的直径，取最大值。
 // root的直径 = root左子树高度 + root右子树高度
 // root的高度 = max {root左子树高度, root右子树高度} + 1
@@ -1900,7 +1875,7 @@ var buildTree = (preorder, inorder) => {
 }
 
 
-// M 221. 最大正方形  ————————————————————————————————————————————》好好理解下
+// M 221. 最大正方形
 // 若某格子值为 1，则以此为右下角的正方形的、最大边长为：上面的正方形、左面的正方形或左上的正方形中，最小的那个，再加上此格。
 // 状态定义：dp[i][j] 以 matrix[i][j] 为右下角的正方形的最大边长
 // dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
@@ -1936,7 +1911,7 @@ var maximalSquare = function(matrix) {
 };
 
 
-// E 26. 删除排序数组中的重复项
+// E 26. 删除排序数组中的重复项（返回移除后数组的新长度）
 // 需要在原数组上操作
 // 当且仅当遇到下一个不相同即不重复的元素时，更新指针位置为下一个元素
 var removeDuplicates = function(nums) {
@@ -2116,7 +2091,7 @@ var findContentChildren = function (g, s) {
 };
 
 
-// M 442. 数组中重复的数据
+// M 442. 数组中重复的数据（不用空间，原地哈希）
     // 这种题，其实看见不用空间、o(n)时间，通常潜台词就是，用原地哈希来做。
     // [4,3,2,7,8,2,3,1]，均为正整数
     // 当i = 1时，此时n=3，把nums[3-1] *= -1 变成负数，结果 [4,3,-2,7,8,2,3,1]
@@ -2258,7 +2233,7 @@ var longestCommonSubsequence = function(str1, str2) {
             if (str[i-1] === str[j-1]) {
                 dp[i][j] = dp[i - 1][j - 1] + 1
             } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) // ————————————————————————————————————————————》好好理解下
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) // i是str1长度，j是str2长度，
             }
         }
     }
@@ -2355,7 +2330,7 @@ var isCompleteTree = function(root) {
 
     while (queue.length) {
         let [cur, index] = queue.shift()
-        // 用来判断索引位置节点是否存在，如果index !== ++count代表左右子树层级相差超过1层，或者最后一层没有左节点却有右节点 // ————————————————————————————————————————————》好好理解下
+        // 用来判断索引位置节点是否存在，如果index !== ++count代表左右子树层级相差超过1层，或者最后一层没有左节点却有右节点
         if (index !== ++count) {
             return false
         }
@@ -2610,7 +2585,7 @@ const generateBST = (data) => { // ———————————————
 
 
 
-// - 二叉搜索树的第k个节点
+// - 二叉搜索树的第k个节点（BST的中序遍历是升序）
 // 利用BST的中序遍历是升序 // ————————————————————————————————————————————》好好理解下
 const kthSmallest = (root, k) => {
     const res = []
@@ -2652,7 +2627,7 @@ const verifyPostorder = (postorder) => {
 }
 
 
-// - 种花问题（筛选运算-贪心）
+// - E 605. 种花问题
 const canPlaceFlowers = (flowerbed = [], num) => {
     // 为了方便处理边界问题，前后补0
     flowerbed.push(0)
@@ -2667,34 +2642,6 @@ const canPlaceFlowers = (flowerbed = [], num) => {
     return result >= num
 }
 
-
-
-// - 链表倒数第k个节点
-// 快慢指针
-function findKthFromTail(head, k) {
-  if (!head || k <= 0) {
-    return null;
-  }
-
-  let fast = head,
-      slow = head;
-
-  // fast 从链表的头指针开始先向前走k步
-  for (let i = 0; i < k; ++i) {
-    fast = fast.next;
-    if (!fast) {
-      return null;
-    }
-  }
-
-  // 两个指针间隔一直保持在k
-  while (fast) {
-    slow = slow.next;
-    fast = fast.next;
-  }
-
-  return slow;
-}
 
 
 

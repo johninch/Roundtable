@@ -250,7 +250,7 @@
     - Set和Map
 - JS遍历对象的方法
     - for in for of
-    - for of
+    - for in
     - Object.keys
     - Object.getOwnProperty
 - 继承
@@ -267,7 +267,7 @@
 - Webpack
     - 打包分包一般结果
     - module、chunk、bundle间的关系
-    - 打包出的文件具体原理（？？？？？？？？？？？？？？？？）
+    - 打包后文件
     - webpack构建流程
     - 关键词
     - 常用loader和plugin
@@ -534,6 +534,13 @@
         - const store = createStore(countReducer, applyMiddleware(thunk, promise, logger));
     - combineReducers
         - 在应用中，不可能只有一个reducer，面对多个reducer，redux提供了 combineReducers，合并多个reducer
+- mobx
+    - 事件触发action，在action中修改state => 通过computed拿到更新的state的计算值 => 自动触发对应的reactions（包含autorun，渲染视图，when，observer等）
+    - 通过observable装饰器装饰一个属性，使用Object.defineProperty来拦截对数据的访问，一旦值发生变化，将会调用react的render方法来实现重新渲染视图的功能或者触发autorun等。
+    - redux和mobx的对比：
+        - mobx将数据保存在分散的多个store中；redux将数据保存在单一的store中
+        - mobx使用@observable（Object.defineProperty来拦截），数据变化后自动处理响应的操作；redux使用plain object保存数据，需要手动处理变化后的操作；
+        - mobx中的状态是可变的，可以直接对其进行修改；redux使用不可变状态，这意味着状态是只读的
 - Hooks
     - React 16.8开始提供的官方Hooks如下：
         - 基础Hook：
@@ -688,7 +695,7 @@
             - **难以理解的 class**
         - Hook规则
             - **只在最顶层使用 Hook**
-            - - **只在 React 函数和自定义Hook 中调用 Hook**
+            - **只在 React 函数和自定义Hook 中调用 Hook**
         - Hooks原理
             - 自定义Hook
                 - 当我们想在两个函数之间共享逻辑时，我们会把它提取到第三个函数中。而组件和 Hook 都是函数，所以也同样适用这种方式。
@@ -932,7 +939,7 @@
             - 3、false: 默认值，即如果你 import "@babel/polyfill" ，它不会排除掉没有使⽤的垫⽚，导致程序（bundle）体积会庞大。(不推荐)
     - sideEffects来配合tree shaking
         - 因为，对于比如 `import "@babel/poly-fill"`，其实没有导出任何东西，它实际上是在window全局对象上绑定了很多垫片方法。如果开启了 `tree shaking`，则会将其当成未导出任何内容的模块，将其忽略，不打包进bundle中。`"sideEffects": ["@babel/poly-fill"]`就是为了避免这种情况，在打包的时候，就不会处理@babel/poly-fill。
-        - 同理，对于 import "./style.css" 
+        - 同理，对于 import "./style.css"
     - 代码分割
         - splitChunks.chunks: "all", // 'all'会对同步、异步代码都做分割，并会根据cacheGroups选项分组；'async'只对异步代码做分割；'initial'只对同步代码做分割
     - 打包后文件
@@ -1266,6 +1273,179 @@ const promise = new Promise((resolve, reject) => {
 })
 promises.push(promise);
 ```
+
+
+
+
+
+- react 渲染/更新过程
+    - **初次渲染**
+        - 有了props state
+        - babel解析JSX为render函数
+        - 执行render函数，生成vnode，由patch(elem, vnode)渲染
+            - react中的`patch被拆分为两个阶段`
+                - *reconciliation*阶段：执行diff算法，纯js计算
+                    - fiber，会将reconciliation阶段进行任务拆分（commit阶段dom渲染，无法拆分）
+                - *commit*阶段：将diff结果渲染DOM
+    - **更新渲染过程**
+        - setState(newState) --> 生成dirtyComponents（可能包含子组件）
+        - 重新执行render函数，生成newVnode，由patch(vnode, newVnode)渲染
+    - 为什么没有说vue中的patch分为两个阶段？
+        - 个人理解是vue中每个组件都是一个watcher，只针对组件内部进行diff比较，通过响应式来得知哪些组件需要diff
+        - 因此，在合理划分组件的情况下，diff比较量不会很大，所以`边比较边更新dom`；
+
+
+- vue 渲染/更新过程（想一下官网的流程图）
+    - vue-template-compiler从模板到render函数，再到vnode，再到渲染和更新
+    - **初次渲染**
+        - 解析模板为render函数（打包编译时完成，在开发环境下使用vue-loader已完成）
+        - 触发响应式，监听data属性，添加getter和setter
+        - 执行render函数，生成vnode，由patch(elem, vnode)渲染
+            - （render过程中，会touch所用到data的getter，我们知道每个组件实例都对应一个 watcher 实例，则被touch的data会被组件的watcher收集）
+    - **更新渲染过程**
+        - 修改data，触发setter
+            - （setter通知watcher，匹配依赖收集的deps列表，如果之前已经被watcher监听过了，触发re-render）
+        - 重新执行render函数，生成newVnode，由patch(vnode, newVnode)渲染
+    - 异步渲染
+        - 汇总data修改，一次性更新视图
+        - 减少DOM操作次数，提高性能
+
+
+koa的洋葱模型，和express有什么区别
+用过nginx吗，说说干嘛的
+webpack的拆包策略
+mouesemove,mouseleave,mouseup等等几个API的区别
+实现一个JSON.stringfy()，要支持循环引用，并记录循环引用的路径
+软件工程和设计模式有什么区别，说说几个了解的设计模式
+generater的本质是什么，或者说下generater执行时操作系统中发生了什么
+
+
+很多人被问到项目亮点或者难点的时候不知道怎么说，这个其实可以结合你学过的基础知识来讲，比如项目某个地方用到了某种设计模式，达到了什么效果，或者用到了某种数据结构或算法，或者是写了什么webpack插件来辅助项目开发，又或者是遇到了某些性能问题，排查之后怎么去解决，等等这些都可以去讲，如果这些都没有，可以强行加上一些通用问题，比如长列表优化，列表基本上每个人的项目上都有，可以去网上看看常见的长列表优化方案，为什么要优化，怎么去优化，优化有哪些方案，每个方案的优略，优化之后带来的成果等等。
+
+
+什么是PV值
+       PV（page view ） `访问量`，是网站分析的一个术语，用以衡量网站用户访问的网页的数量。对于广告主，PV 值可预期它可以带来多少广告收入。一般来说，PV 与来访者的数量成正比，但是 PV 并不直接决定页面的真实来访者数量，如同一个来访者通过不断的刷新页面，也可以制造出非常高的 PV。
+
+       PV 即页面浏览量或点击量，是衡量一个网站或网页用户访问量。具体的说，PV 值就是所有访问者在 24 小时（0 点到 24 点）内看了某个网站多少个页面或某个网页多少次。PV 是指页面刷新的次数，每一次页面刷新，就算做一次 PV 流量。度量方法就是从浏览器发出一个对网络服务器的请求（Request），网络服务器接到这个请求后，会将该请求对应的一个网页（Page）发送给浏览器，从而产生了一个 PV。那么在这里只要是这个请求发送给了浏览器，无论这个页面是否完全打开（下载完成），那么都是应当计为 1 个 PV。
+
+什么是 UV 值
+       UV （unique visitor ）即`独立访客数`，指访问某个站点或点击某个网页的不同 IP  地址的人数。在同一天内，UV  只记录第一次进入网站的具有独立IP  的访问者，在同一天内再次访问该网站则不计数。UV 提供了一定时间内不同观众数量的统计指标，而没有反应出网站的全面活动。
+
+
+- 位图算法应用：https://www.cnblogs.com/zhuoqingsen/p/9214709.html
+    - 判断一个数是否存在某数据中，假如有40亿数据，我们如何快速判断指定一个数是否存在？
+        申请512M的内存 512M = 512 * 1024 * 1024B * 8 = 4294967296比特(bit)  这个空间可以装40亿了
+
+        一个bit位代表一个int值
+
+        读入40亿个数，设置相应的bit位
+
+        读入要查询的数，查看相应bit位是否为1，为1表示存在，为0表示不存在
+    - 做交集和并集效率极高
+        举个例子，现有一位图0000101，代表喜欢吃苹果用户
+
+        　　　　　　另一位图0000111，代表喜欢吃西瓜用户
+
+        统计喜欢吃苹果或西瓜的用户，0000101|0000111=0000111
+
+- 字典树算法应用：https://blog.csdn.net/piaocoder/article/details/97039255
+    - 给一亿个长度不一样的字符串，怎么判断一个随机长度的字符串在不在这个里面
+
+
+
+
+
+
+React Hooks
+
+usePrevious
+
+// eg.
+function Component() {
+    const [count, setCount] = useState(0);
+    const previousCount = usePrevious(count);
+
+    return (
+        <div>
+            <button onClick={() => setCount(p => p +1)}>add</button>
+            { count } | { previousCount }
+        </div>
+    )
+}
+
+
+实现usePrevious
+
+function usePrevious(val) {
+    const ref = useRef();
+
+    useEffect(() => {
+        ref.current = val;
+    }, [val]);
+
+    return ref.current;
+}
+
+
+useEffect很重要的一点是：它是在每次渲染之后才会触发的，是延迟执行的。而return语句是同步的，所以return的时候，ref.current还是旧值。
+
+
+泛型
+
+flag<number>([1, 2, 3])
+flat<string>(['a', 'b', 'c'])
+
+flat<number>
+
+type FlattenElement<T> = T extends (infer U)[] ? U : T;
+
+function flatten<T>(arr: FlattenElement<T>[]): FlattenElement<T>[] {
+    let newArr: FlattenElement<T>[] = []
+    for(let i = 0; i < arr.length; i++) {
+        if (Array.isArray(arr[i])) {
+            newArr = newArr.concat(flatten(arr[i] as FlattenElement<T>[]))
+        } else {
+            newArr.push(arr[i])
+        }
+    }
+
+    return newArr
+}
+
+type flatType<T> = flatType<T>[] | T
+
+flatten<number>([1, 2, 3])
+flatten<flatType<number>>([1, [2, [3, 4]]])
+flatten<string>(['a', 'b', 'c'])
+flatten<flatType<string>>(['a', 'b', 'c'])
+
+- https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#conditional-type-constraints
+- https://zhuanlan.zhihu.com/p/91144493
+
+
+
+分布式有条件类型
+- 分布式有条件类型在实例化时会自动分发成联合类型
+- 例如，实例化`T extends U ? X : Y`，`T`的类型为`A | B | C`，会被解析为`(A extends U ? X : Y) | (B extends U ? X : Y) | (C extends U ? X : Y)`。
+
+例子：
+- type Diff<T, U> = T extends U ? never : T;  // 移除T中与U中重合的元素
+    - type T30 = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
+- type Filter<T, U> = T extends U ? T : never;  // 移除T中不与U中重合的元素，即交集
+    - type T31 = Filter<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
+
+
+infer
+- infer关键词常在条件类型中和 extends关键词一同出现，表示将要推断的类型，作为类型变量可以在三元表达式的 True 部分引用。
+- 注意：infer关键字这个类型变量只能在true的分支中使用，也就是说infer R ? R : any不可以写成infer R ? any : R
+- type ParamType<T> = T extends (param: infer P) => any ? P : T;
+    - 在这个条件语句 T extends (param: infer P) => any ? P : T中，infer P 表示待推断的函数参数。
+    - 整句表示为：如果 T 能赋值给函数(param: infer P) => any，则结果类型是 函数(param: infer P) => any类型中的参数 P，否则返回为 T。
+
+- type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
+
+
+
 
 
 

@@ -509,8 +509,8 @@ function delayPromise(arr) {
 
 // 同理可以用Promise配合着reduce不停的在promise后面叠加.then
 function delayPromise(arr) {
-    arr.reduce((p, x) => {
-        return p.then(() => new Promise(resolve => setTimeout(() => resolve(console.log(x)), 1000)))
+    arr.reduce((resolve, x) => {
+        return resolve.then(() => new Promise(resolve => setTimeout(() => resolve(console.log(x)), 1000)))
     }, Promise.resolve())
 }
 
