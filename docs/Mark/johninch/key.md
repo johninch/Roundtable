@@ -479,7 +479,7 @@
             - Proxy取代defineProperty
             - 静态标记。可以做到真正意义上的按需更新
                 - vue2也有静态标记，但做的比较粗糙，只对静态节点（子树）做了static标记
-                - vue3中的静态标记，在vue2标记静态子树的技术上，对于动态节点做了非常精细的标记：
+                - vue3中的静态标记，在vue2标记静态子树的基础上，对于动态节点做了非常精细的标记：
                         - 对于静态属性，是不用遍历的，不用diff的
                         - 对于文本，以及动态属性，动态id，动态class等等只要是动态的属性，都可以按位运算符，生成flag标记，详细标记哪些需要遍历diff
                         - 因此，有了vue3的静态标记，在做虚拟DOM的patch时，能够做到精确更新，极大提高了diff性能
@@ -653,15 +653,15 @@
                 - 2、策略二（*component diff*），相同类的两个组件，生成相似的树形结构，不同类的两个组件，生成不同的树形结构
                 - 3、策略三（*element diff*）：对于同一层级的一组子节点，通过唯一key区分。
         - diff过程 - 同层比较，深度优先
-- **比对不同类型的元素**
-    - 当根节点为不同类型的元素时，React会卸载老树并创建新树。举个例子，从变成，从 《Article》变 成 《Comment》，或者从 《Button》变成 《div》，这些都会触发一个完整的重建流程。
-    - 卸载老树的时候，老的DOM节点也会被销毁，组件实例会执行componentWillUnmount。创建新树的时候，也会有新的DOM节点插入DOM，这个组件实例会执行 componentWillMount() 和 componentDidMount() 。当然，老树相关的state也被消除。
-- **比对同类型的组件元素**
-    - 这个时候，React更新该组件实例的props，调用componentWillReceiveProps() 和 componentWillUpdate()。下一步，render被调用，diff算法递归遍历新老树。
-- **比对同类型的DOM元素**
-    - 当对比同类型的DOM元素时候，React会比对新旧元素的属性，同时保留老的，只去更新改变的属性。
-    - 处理完DOM节点之后，React然后会去递归遍历子节点。
-        - **对子节点进行递归**：当递归DOM节点的子元素时，React会同时遍历两个子元素的列表。
+            - **比对不同类型的元素**
+                - 当根节点为不同类型的元素时，React会卸载老树并创建新树。举个例子，从变成，从 《Article》变 成 《Comment》，或者从 《Button》变成 《div》，这些都会触发一个完整的重建流程。
+                - 卸载老树的时候，老的DOM节点也会被销毁，组件实例会执行componentWillUnmount。创建新树的时候，也会有新的DOM节点插入DOM，这个组件实例会执行 componentWillMount() 和 componentDidMount() 。当然，老树相关的state也被消除。
+            - **比对同类型的组件元素**
+                - 这个时候，React更新该组件实例的props，调用componentWillReceiveProps() 和 componentWillUpdate()。下一步，render被调用，diff算法递归遍历新老树。
+            - **比对同类型的DOM元素**
+                - 当对比同类型的DOM元素时候，React会比对新旧元素的属性，同时保留老的，只去更新改变的属性。
+                - 处理完DOM节点之后，React然后会去递归遍历子节点。
+                    - **对子节点进行递归**：当递归DOM节点的子元素时，React会同时遍历两个子元素的列表。
 
     - fiber
         - 为什么需要fiber
@@ -1110,7 +1110,7 @@
         - 查看v-infinite-scroll的elementUI源码，发现：
             - v-infinite-scroll有一个寻找 scrollContainer （可滚动容器）的过程（getScrollContainer函数），如果当前元素可滚动（isScroll函数），则取当前元素，否则一直向上找直到最顶端。 上面的现象就是没找到table列表的可滚动wrapper，而找到了外部的body
             - 因此，需要控制插入的span标签的插入时机，需要在列表有内容撑开后，再插入标签。
-            - 即通过v-if判断，在获取到数据后，并在nextTick中拿到更新的dom时，再使span标签显示、插入到table下，此时span标签中的无限滚动指令就能拿到最近的可滚动列表wrapper了。
+            - 即通过v-if判断，在获取到数据后，并在nextTick中拿到更新的dom时，再使span标签显示、插入到table下，此时span标��中的无限滚动指令就能拿到最近的可滚动列表wrapper了。
         - 注意，v-infinite-scroll会加载渲染所有的item，对于复杂的列表会造成页面卡顿
             - 使用虚拟列表，虚拟滚动
             - `vue-virtual-listview`
@@ -1392,11 +1392,6 @@ useEffect很重要的一点是：它是在每次渲染之后才会触发的，�
 
 泛型
 
-flag<number>([1, 2, 3])
-flat<string>(['a', 'b', 'c'])
-
-flat<number>
-
 type FlattenElement<T> = T extends (infer U)[] ? U : T;
 
 function flatten<T>(arr: FlattenElement<T>[]): FlattenElement<T>[] {
@@ -1444,6 +1439,102 @@ infer
 
 - type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
 
+
+
+
+
+
+
+computed 内部实现了一个惰性的 watcher,也就是 _computedWatchers，_computedWatchers 不会立刻求值，同时持有一个 dep 实例。
+
+其内部通过 this.dirty 属性标记计算属性是否需要重新求值
+
+
+与 watch 有什么区别
+computed 计算属性 : 依赖其它属性值，并且 computed 的值有缓存，只有它依赖的属性值发生改变，下一次获取 computed 的值时才会重新计算 computed 的值。
+
+watch 侦听器 : 更多的是「观察」的作用，无缓存性，类似于某些数据的监听回调，每当监听的数据变化时都会执行回调进行后续操作。
+
+与 watch 运用场景的对比
+需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许我们执行异步操作 ( 访问一个 API ),限制我们执行该操作的频率,并在我们得到最终结果前,设置中间状态。这些都是计算属性无法做到的。
+
+当我们需要进行数值计算，并且依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时，都要重新计算。
+
+
+
+
+
+const dec = name => (target, property) => {
+    const oldProp = target.prototype[property]
+
+    target.prototype[property] = msg => {
+        console.log('执行了 ' + property)
+        msg = `${name} [${msg}]`
+        oldProp(msg)
+    }
+}
+
+dec('Amy')(Log, 'print')
+
+
+
+
+var o = {}
+o.foo = function foo(){
+    console.log(this);
+    return () => {
+        console.log(this);
+        return () => console.log(this);
+    }
+}
+
+o.foo()()(); // o, o, o
+第一个o.foo()调用输出this，是o调用，即指向o
+而内部的第二个第三个输出this，因为是箭头函数，其this指向定义时的外层this，所以也是指向o
+
+
+
+console.log('start')
+setTimeout(() => {
+    console.log('s1')
+    Promise.resolve().then(() => {
+        console.log('promise1');
+        setTimeout(() => {
+            console.log('s2');
+        }, 0)
+    }).then(() => {
+        console.log('promise2');
+    })
+}, 0)
+console.log('end');
+// start
+// end
+// s1
+// promise1
+// promise2
+
+
+
+app端h5错误监控，
+首先，白屏的话，首先考虑是不是html就没有加载到，这个可以通过查看app的log来排查
+第二，如果资源加载错误的话，可以设置拦截，来判断（这里不太记得是啥意思了）
+第三，如果是js运行错误的话，通过window.onerror监听
+
+均通过img.src进行错误上报。。。具体到用户的话，每台机器都有唯一机器识别码，可以看app的log中是否可以查看到用户的id和机器标识来排查
+
+
+
+treeShaking 如何剪枝？
+
+
+
+如何对于大的包，只引入用到的部分？
+
+
+
+http的底层协议为什么使用tcp而不能用udp，那什么协议适合用udp呢？
+
+视频点播，视频直播，即时通讯都用上面协议呢？
 
 
 
