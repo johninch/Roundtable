@@ -1391,7 +1391,7 @@ useEffect很重要的一点是：它是在每次渲染之后才会触发的，�
 
 
 泛型
-
+```tsx
 type FlattenElement<T> = T extends (infer U)[] ? U : T;
 
 function flatten<T>(arr: FlattenElement<T>[]): FlattenElement<T>[] {
@@ -1413,7 +1413,7 @@ flatten<number>([1, 2, 3])
 flatten<flatType<number>>([1, [2, [3, 4]]])
 flatten<string>(['a', 'b', 'c'])
 flatten<flatType<string>>(['a', 'b', 'c'])
-
+```
 - https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#conditional-type-constraints
 - https://zhuanlan.zhihu.com/p/91144493
 
@@ -1424,12 +1424,13 @@ flatten<flatType<string>>(['a', 'b', 'c'])
 - 例如，实例化`T extends U ? X : Y`，`T`的类型为`A | B | C`，会被解析为`(A extends U ? X : Y) | (B extends U ? X : Y) | (C extends U ? X : Y)`。
 
 例子：
+```
 - type Diff<T, U> = T extends U ? never : T;  // 移除T中与U中重合的元素
     - type T30 = Diff<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
 - type Filter<T, U> = T extends U ? T : never;  // 移除T中不与U中重合的元素，即交集
     - type T31 = Filter<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
-
-
+```
+```
 infer
 - infer关键词常在条件类型中和 extends关键词一同出现，表示将要推断的类型，作为类型变量可以在三元表达式的 True 部分引用。
 - 注意：infer关键字这个类型变量只能在true的分支中使用，也就是说infer R ? R : any不可以写成infer R ? any : R
@@ -1438,7 +1439,7 @@ infer
     - 整句表示为：如果 T 能赋值给函数(param: infer P) => any，则结果类型是 函数(param: infer P) => any类型中的参数 P，否则返回为 T。
 
 - type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
-
+```
 
 
 

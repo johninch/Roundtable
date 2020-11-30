@@ -161,6 +161,7 @@ module.exports = {
                         '/Question-Bank/browser/browser-mechanism',
                         '/Question-Bank/browser/render',
                         '/Question-Bank/browser/performance',
+                        '/Question-Bank/browser/performance-evaluation',
                         '/Question-Bank/browser/process-eventloop',
                         '/Question-Bank/browser/from-url-input',
                         '/Question-Bank/browser/memory-or-disk-cache',
@@ -377,6 +378,12 @@ module.exports = {
                     children: [
                         '/Question-Bank/execution/asynchronous-async&await',
                         '/Question-Bank/browser/process-eventloop',
+                    ]
+                },
+                {
+                    title: '技术学院分享',
+                    children: [
+                        '/Lets-Read/bytedance/tech-college/web_performance_engineering.md'
                     ]
                 }
             ],
@@ -603,7 +610,6 @@ module.exports = {
                     children: [
                         '/FullStackDeveloper/project/project',
                         '/FullStackDeveloper/project/algorithm',
-                        '/FullStackDeveloper/project/performance_monitor',
                     ]
                 },
                 {
