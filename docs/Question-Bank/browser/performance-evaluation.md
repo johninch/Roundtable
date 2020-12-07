@@ -108,6 +108,8 @@ open ./
 
 ![chrome: performance-details](./images/performance-details.png)
 
+- [狙杀页面卡顿 —— Performance 工具指北](https://zhuanlan.zhihu.com/p/41017888)
+
 ### Chrome: Coverage
 
 可以通过 chrome 控制台的`coverage选项`（cmd+shift+p 输入 coverage 进入）查看代码的使用率。

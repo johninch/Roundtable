@@ -522,14 +522,12 @@ module.exports = {
                         '/Replay/H5-revision/wyk',
                     ]
                 },
-                {
-                    title: '汇盛保险系统一期复盘',
-                    children: [
-                        '/Replay/Horizonus-1/',
-                        '/Replay/Horizonus-1/sjb',
-                        '/Replay/Horizonus-1/johninch',
-                    ]
-                },
+                // {
+                //     title: '名医诊室IM客服后台复盘',
+                //     children: [
+                //         '/Replay/IM/IM',
+                //     ]
+                // },
             ],
             '/FullStackDeveloper/': [
                 '/FullStackDeveloper/',
@@ -630,7 +628,6 @@ module.exports = {
                         '/Mark/johninch/project',
                         '/Mark/johninch/lib/react',
                         '/Mark/johninch/lib/vue',
-                        '/Mark/johninch/lib/webpack',
                     ]
                 },
             ],
