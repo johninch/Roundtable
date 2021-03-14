@@ -243,6 +243,7 @@ module.exports = {
                         '/Question-Bank/react/function-vs-class.md',
                         '/Question-Bank/react/black-magic-of-hooks.md',
                         '/Question-Bank/react/time-console',
+                        '/Question-Bank/react/hooks+context',
                     ]
                 },
                 {
