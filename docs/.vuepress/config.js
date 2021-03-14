@@ -261,6 +261,12 @@ module.exports = {
                     ]
                 },
                 {
+                    title: '小程序',
+                    children: [
+                        '/Question-Bank/miniprogram/taro3-practice',
+                    ]
+                },
+                {
                     title: 'Nodejs',
                     children: [
                         '/Question-Bank/nodejs/eventEmitter',
