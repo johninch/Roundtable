@@ -132,6 +132,7 @@ module.exports = {
                     title: 'HTML & DOM',
                     children: [
                         '/Question-Bank/dom/dom-event',
+                        '/Question-Bank/dom/shadow-dom',
                     ]
                 },
                 {
