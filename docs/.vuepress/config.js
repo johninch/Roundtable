@@ -327,6 +327,7 @@ module.exports = {
                         '/Question-Bank/work-practices/windowInject',
                         '/Question-Bank/work-practices/deepcss',
                         '/Question-Bank/work-practices/css-module',
+                        '/Question-Bank/work-practices/ceiling-style',
                         '/Question-Bank/work-practices/virtual-scroll',
                     ]
                 },

@@ -342,6 +342,76 @@ Taro.showToast({
 
 [微信小程序 | navigateTo 不能跳转问题](https://zhuanlan.zhihu.com/p/40328147)
 
+### 监听网络状态
+
+通过 `onNetworkStatusChange` 监听网络状态。
+
+每一个 Taro 应用都需要一个入口组件用来注册应用，入口文件默认是 src 目录下的 app.js。
+
+在 Taro 中使用 React，入口组件必须导出一个 React 组件。由于 Taro 必须通过 props.children 注入到入口页面，从而承接要渲染的页面，所以不能直接在这一级条件渲染无网络兜底空页面。
+
+实际实现是将兜底空页面单独定义为一个路由，在入口页面和兜底页面分别监听网络状态来完成到对方的跳转：
+
+```jsx
+// 入口公共组件
+function Page({ children, auth }: Props) {
+	useEffect(() => {
+		Taro.onNetworkStatusChange(res => {
+			if (!res.isConnected) {
+				console.log("jump to empty page");
+				openUrl("/pages/empty-page/index");
+			}
+		});
+
+		return () => {
+			Taro.offNetworkStatusChange();
+		};
+	}, []);
+
+	return (
+		<StoreService.Provider value={useStore()}>
+			<View
+				className="c-page"
+				style={{ height: Taro.getSystemInfoSync().windowHeight + "px" }}
+			>
+				<View className="hover-top"></View>
+				{auth && <Authorization />}
+				<View
+					style={{ height: "100%", display: "flex", flexDirection: "column" }}
+				>
+					{children}
+				</View>
+			</View>
+		</StoreService.Provider>
+	);
+}
+```
+
+```jsx
+// 兜底页面组件
+const EmptyPage = () => {
+	useEffect(() => {
+		Taro.onNetworkStatusChange(res => {
+			if (res.isConnected) {
+				Taro.navigateBack();
+			}
+		});
+
+		return () => {
+			Taro.offNetworkStatusChange();
+		};
+	}, []);
+
+	return <BlankPage netError text="网络未连接" />;
+};
+```
+
+## 地图 Map
+
+使用 `Taro.openLocation(option)` 可以自动调起地图功能，并且可以自动识别当前用户所装地图 app，由用户点击后选择调用。
+
+如果需要自己定义，需要开发者自己使用 Map 组件自定义，并添加第三方 sdk 来完成调起地图。
+
 ## 条形码与二维码
 
 taro 小程序使用 jsbarcode 显示不出来，可以使用 [Miaonster/taro-code](https://github.com/Miaonster/taro-code)。
