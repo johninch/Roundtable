@@ -263,6 +263,7 @@ module.exports = {
                 {
                     title: '小程序',
                     children: [
+                        '/Question-Bank/miniprogram/wx-base',
                         '/Question-Bank/miniprogram/taro3-practice',
                     ]
                 },

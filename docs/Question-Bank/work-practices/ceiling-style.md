@@ -183,3 +183,5 @@ https://developers.weixin.qq.com/community/develop/doc/0008e610154a40bff7c6c1eeb
 **原因**：这个问题有的说在 ios 上才有，有的比如我在 taro 小程序端也出现了该问题。究其原因，其实是`不能实时进行滚动监听`，要么死在**滚动停止时才触发其相关的事件**，要么是滚动时监听的粒度并不是 92、93、94 这种每个像素都监听到触发的，而是**跳着触发，比如 78、84、86、92 这种，其实就是不能实时监听的问题**。
 
 **结论**：这个和平台的滚动监听钩子内部实现有关。如果粘性定位兼容性好的话可以替代实现，如果不行就是无解的。
+
+**参考**：[小程序调用 boundingClientRect 等获取元素位置信息很慢](https://developers.weixin.qq.com/community/develop/doc/0008e610154a40bff7c6c1eeb51800)
