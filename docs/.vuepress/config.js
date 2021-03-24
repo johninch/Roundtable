@@ -305,21 +305,6 @@ module.exports = {
                         '/Question-Bank/git/git-bisect',
                     ]
                 },
-                // {
-                //     title: 'ESlint',
-                //     children: [
-                //         '/Question-Bank/eslint/查找',
-                //         '/Question-Bank/eslint/二维数组查找',
-                //         '/Question-Bank/eslint/旋转数组的最小数字',
-                //         '/Question-Bank/eslint/在排序数组中查找数字',
-                //     ]
-                // },
-                {
-                    title: '运维相关',
-                    children: [
-                        '/Question-Bank/Ops/nginx',
-                    ]
-                },
                 {
                     title: '工作实践',
                     children: [
@@ -338,7 +323,19 @@ module.exports = {
                     children: [
                         '/Wanted/pwa',
                     ]
-                }
+                },
+                {
+                    title: '了解后端',
+                    children: [
+                        '/Question-Bank/backend/docker-vs-VM.md',
+                    ]
+                },
+                {
+                    title: '运维相关',
+                    children: [
+                        '/Question-Bank/Ops/nginx',
+                    ]
+                },
             ],
             '/Wanted/': [
                 {
