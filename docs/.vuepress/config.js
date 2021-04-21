@@ -354,11 +354,17 @@ module.exports = {
             ],
             '/Quest-SC/': [
                 {
-                    title: '源码探索',
+                    title: '源码探秘',
                     path: '/Quest-SC/'
                 },
                 {
-                    title: '第一期',
+                    title: '组件库源码',
+                    children: [
+                        '/Quest-SC/component-lib/antd-modal.md',
+                    ]
+                },
+                {
+                    title: '未分类',
                     children: [
                         '/Quest-SC/one/sc-1',
                         '/Quest-SC/one/sc-2',
