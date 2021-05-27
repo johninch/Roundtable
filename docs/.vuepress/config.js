@@ -271,8 +271,11 @@ module.exports = {
                 {
                     title: 'Nodejs',
                     children: [
-                        '/Question-Bank/nodejs/eventEmitter',
                         '/Question-Bank/nodejs/nodejs-base',
+                        '/Question-Bank/nodejs/eventEmitter',
+                        '/Question-Bank/nodejs/bff',
+                        '/Question-Bank/nodejs/rpc',
+                        '/Question-Bank/nodejs/service-discovery',
                         '/Question-Bank/nodejs/nodejs-myblog-imooc',
                     ]
                 },
