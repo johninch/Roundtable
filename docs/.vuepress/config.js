@@ -276,6 +276,7 @@ module.exports = {
                         '/Question-Bank/nodejs/bff',
                         '/Question-Bank/nodejs/rpc',
                         '/Question-Bank/nodejs/service-discovery',
+                        '/Question-Bank/nodejs/benchmarking-tool',
                         '/Question-Bank/nodejs/nodejs-myblog-imooc',
                     ]
                 },
