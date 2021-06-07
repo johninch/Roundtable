@@ -139,25 +139,73 @@ K8s 里的 Health Checks 就是这种方式
 
 - `Self-Registration 模式`：服务实例自己注册，在服务实例启动成功后主动将自己注册到服务注册中心，这种方法好处是架构简单但需要为服务用到的每种编程语言实现注册代码；
 - `Third-party Registration 模式`：通过其他组件来注册服务实例，例如使用一个独立 Agent 通过轮询或监听事件去跟踪运行的服务实例变化进行注册或注销，好处是服务实例与服务注册中心解耦但引入第三方组件增加了架构复杂性。
-  :::
 
-## Consul
+:::
+
+## 常用解决方案 Consul
 
 ![Consul](./images/consul.png)
 
 Consul 是一个成熟的服务发现解决方案。其核心是一个**基于 `Raft 共识算法`具备`线性强一致性`的 `Key-Value 存储系统`**作为**服务注册中心**。
 
-并提供**代理（Agent）机制**，一方面用于协调服务注册，一方面提供服务健康检查。代理（Agent）会在每个运行服务的节点上启动，获取节点地址并将该服务实例注册到服务注册中心。
+![Consul官方图](./images/consul2.png)
 
-**架构上 Consul 包括两类组件：Server、Agent**。
+**架构上 Consul 包括：**
 
-- 服务注册信息保存在 Server 上，通过 Raft 共识算法保证多个 Server 间数据线性强一致，保证服务注册中心高可用；
-- 将所有 Agent 作为集群节点，使用 `Gossip 协议`进行`组关系管理和故障探测`，当有 Agent 加入（启动）或离开（故障）集群时其他 Agent 会得到通知，实现服务健康检查和监视功能。
-  - Gossip 协议常用于集群组关系管理和故障检测，每个节点都通过一个或多个引导节点加入集群，引导节点有集群中所有节点列表，每个节点都从自己所知节点列表中随机选择一组节点周期性地发送多播消息，最终集群中所有节点都能知道其他节点。这个过程看起来很神奇，实际上 Gossip 协议能在几秒内将消息传遍有上百节点的集群。Akka、Riak、Cassandra 都使用 Gossip 协议维护集群成员列表和故障探测。
+1. `Agent`：提供**代理（Agent）机制**，一方面用于协调服务注册，一方面提供服务健康检查。代理（Agent）会在每个运行服务的节点（Node）上启动，所以就分 Client 模式与 Server 模式，每个 agent 维护一套服务和注册发现以及健康信息。
+2. `Server`：agent 以 server 模式启动的节点。一个数据中心中至少包含 1 个 server 节点。不过官方建议使用 3 或 5 个 server 节点组建成集群，以保证高可用且不失效率。server 节点参与 Raft、维护会员信息、注册服务、健康检查等功能。
 
-Consul 和 Etcd 都非常适合容器环境，因为 Docker 容器启动、停止都会发送事件（Event），`基于事件通知机制`非常便于将服务实例从 Consul 或 Etcd 上注册、注销。
+   - 服务注册信息保存在 Server 上，通过 Raft 共识算法保证多个 Server 间数据线性强一致，保证服务注册中心高可用；
+   - 将所有 Agent 作为集群节点，使用 `Gossip 协议`进行`组关系管理和故障探测`，当有 Agent 加入（启动）或离开（故障）集群时其他 Agent 会得到通知，实现服务健康检查和监视功能。
+     > Gossip 是一种基于绯闻、流行病传播方式的进程间信息交换的协议。常用于集群组关系管理和故障检测。Gossip 利用一种随机的方式把信息传播到整个网络中，并在一定时间内使得系统内的所有节点数据一致。Gossip 其实是一种去中心化思路的分布式协议，解决状态在集群中的传播和状态一致性。Gossip 具有可扩展性、容错、健壮性、最终一致性方面的优势。
+     >
+     > > Gossip 在 consul 中的应用：
+     > > Consul 使用 gossip 协议构建了 LAN 和 WAN pool 进行集群管理和信息传递。Consul 中的具体实现是依赖 serf 库。
+
+3. `Client`：agent 以 client 模式启动的节点。在该模式下，该节点会采集相关信息，通过 RPC 的方式向 server 发送。
+
+简单理解，可把图中的「服务注册中心」，就看做是 Consul：
+![服务发现](./images/service-discovery.png)
+
+1. Consul 使用的是 Requestor -> Registry 方式
+   - Consul agent 是部署在本地机器上，所以它们的通信只会在本地机器，避免了漫长的网络调用；
+   - SDK 中缓存的时间也比 dns 小得多，可以使用秒级缓存；
+2. Consul agent 与业务进程的通信方式是基于 http 协议，所以 **Consul 其实是没有服务订阅与变更通知的**，这两个功能由 SDK 层自行通过 http 轮询实现。
+
+::: warning 不同机器上的 Consul agent 是如何保持信息一致的呢？
+
+部署在本地机器上的是 client，client 自身是不会去修改数据的，都是从 server 进行同步的。
+
+server 又分为 leader 跟 follower，当 leader 收到一个提议，比如说某台机器上线需要加入集群，leader 会先跟所有 follower 进行同步，然后 follower 又会跟连接到自身的 client 进行同步。这样就把一个信息同步到所有本地机器了，可以认为这时整个集群中的所有 agent 信息一致。
+
+在同步中间出现的任何问题，比如网络中断 ( 网线被挖断了 )、leader 挂了，这些意外情况都是由 raft 协议去对数据一致性进行保证的。
+
+:::
+
+> Consul 和 Etcd 都非常适合容器环境，因为 Docker 容器启动、停止都会发送事件（Event），`基于事件通知机制`非常便于将服务实例从 Consul 或 Etcd 上注册、注销。
+
+::: tip Raft 共识算法
+
+> Raft 共识算法，是解决分布式系统中系统一致性的一种经典方案。起源于`「拜占庭将军问题」`（**多个拜占庭将军要如何在可能有叛徒、信使可能被策反或者暗杀的情况下达成是否要进攻的一致性决定**）。
+>
+> > 拜占庭将军问题是分布式领域最复杂、最严格的容错模型。但在日常工作中使用的分布式系统面对的问题不会那么复杂，更多的是计算机故障挂掉了，或者网络通信问题而没法传递信息，这种情况不考虑计算机之间互相发送恶意信息，极大简化了系统对容错的要求，最主要的是达到一致性。
+>
+> > 所以 **Raft 是简化版拜占庭将军问题的解决方案**。
+
+在 Raft 运行过程中，最主要进行两个活动：
+
+- `选主 Leader Election`
+- `复制日志 Log Replication`
+
+详细过程可参考动画示意：[动画演示：Raft 共识算法](http://thesecretlivesofdata.com/raft/)
+
+:::
 
 ## 参考文章
 
 - [分布式系统之服务发现（Service Discovery）](https://juejin.cn/post/6844903937653342216)
 - [聊聊 Node.js RPC（二）— 服务发现](https://www.yuque.com/egg/nodejs/mhgl9f)
+- [分布式一致性协议概述](https://zhuanlan.zhihu.com/p/130974371)
+- [consul 介绍](https://www.cnblogs.com/shhnwangjian/p/9139866.html)
+- [consul](https://www.consul.io/docs/intro/vs)
+- [consul agent](https://www.consul.io/docs/agent)
