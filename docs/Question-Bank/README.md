@@ -1,5 +1,5 @@
 ---
-{ "title": "题库 Question-Bank" }
+{ "title": "知识库 Question-Bank" }
 ---
 
 ## FED 座右铭

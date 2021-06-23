@@ -20,7 +20,7 @@ module.exports = {
         lastUpdated: 'Last Updated',
         nav: [
             { text: 'Home', link: '/' },
-            { text: '题库', link: '/Question-Bank/' },
+            { text: '知识库', link: '/Question-Bank/' },
             { text: '共读', link: '/Lets-Read/' },
             { text: '通缉令', link: '/Wanted/' },
             { text: '源码探秘', link: '/Quest-SC/' },
@@ -147,6 +147,8 @@ module.exports = {
                     children: [
                         '/Question-Bank/communication/http',
                         '/Question-Bank/communication/internet-base',
+                        '/Question-Bank/communication/http-headers',
+                        '/Question-Bank/communication/http-proxy',
                         '/Question-Bank/communication/cross-domain',
                         '/Question-Bank/communication/cors',
                         '/Question-Bank/communication/upload',
