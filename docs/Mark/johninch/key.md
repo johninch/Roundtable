@@ -1199,7 +1199,7 @@
 - 给context添加一个css数组
 - 每个组件都push自己对应的样式到staticContext.css之中
 - 将css数组拼接（注意用换行符来连接）cssStr = context.css.join('\n')
-- 最后，服务端返回的html模板中添加<style>${cssStr}</style>
+- 最后，服务端返回的html模板中添加`<style>${cssStr}</style>`
 
 - *另外，可以利用高阶组件withStyle(Header, styles)来简化css处理，避免重复didMount中push(styles._getCss())
 

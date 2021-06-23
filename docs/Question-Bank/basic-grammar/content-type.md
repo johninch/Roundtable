@@ -50,6 +50,6 @@ MIME类型对大小写不敏感，但是传统写法都是小写
 - xml
 XML 有两种 MIME 媒体类型：text/xml 和 application/xml：
 
-1. application/xml 媒体类型：推荐使用。如果 MIME 用户代理或 Web 用户代理不支持这个媒体类型，会转为 application/octet-stream，当做二进制流来处理。application/xml 实体默认用 UTF-8 字符集。Content-type: application/xml; charset="utf-8" 或 <?xml version="1.0" encoding="utf-8"?> 都可以生效。
+1. application/xml 媒体类型：推荐使用。如果 MIME 用户代理或 Web 用户代理不支持这个媒体类型，会转为 application/octet-stream，当做二进制流来处理。application/xml 实体默认用 UTF-8 字符集。Content-type: application/xml; charset="utf-8" 或 `<?xml version="1.0" encoding="utf-8"?>` 都可以生效。
 
-2. text/xml 媒体类型：如果 MIME 用户代理或 Web 用户代理不支持这个媒体类型，会将其视为 text/plain，当做纯文本处理。text/xml 媒体类型限制了 XML 实体中可用的编码类型（例如此时支持 UTF-8 但不支持 UTF-16，因为使用 UTF-16 编码的文本在处理 CR，LF 和 NUL 会导致异常转换）。text/xml 实体在 XML 头指定编码格式无效，必须在 HTTP 头部的 Content-Type: 中指定才会生效（例如 <?xml version="1.0" encoding="utf-8"?> 无法设置字符集，Content-Type: text/xml; charset="utf-8" 则可以）。没有设置字符集时默认使用“us-ascii”字符集。
+2. text/xml 媒体类型：如果 MIME 用户代理或 Web 用户代理不支持这个媒体类型，会将其视为 text/plain，当做纯文本处理。text/xml 媒体类型限制了 XML 实体中可用的编码类型（例如此时支持 UTF-8 但不支持 UTF-16，因为使用 UTF-16 编码的文本在处理 CR，LF 和 NUL 会导致异常转换）。text/xml 实体在 XML 头指定编码格式无效，必须在 HTTP 头部的 Content-Type: 中指定才会生效（例如 `<?xml version="1.0" encoding="utf-8"?> `无法设置字符集，Content-Type: text/xml; charset="utf-8" 则可以）。没有设置字符集时默认使用“us-ascii”字符集。

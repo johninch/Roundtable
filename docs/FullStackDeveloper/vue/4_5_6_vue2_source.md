@@ -999,7 +999,8 @@ render(h) {
     - compile过程总共3个阶段：解析、优化、生成
     - 1、解析parse
         - 解析器将模板解析为抽象语法树AST，基于AST可以做优化或者代码生成工作。
-        <img src="./images/ast01.png" height="240" />
+        <!-- <img src="./images/ast01.png" height="240" /> -->
+        ![](./images/ast01.png)
         - 解析器包含3种：HTML解析器、文本解析器、过滤解析器(Vue3中去掉了)
 
     - 2、优化optimize
@@ -1010,7 +1011,8 @@ render(h) {
                 - 每次重新渲染，不需要为静态子树创建新节点
                 - 虚拟DOM中patch时，可以跳过静态子树
 
-                <img src="./images/ast02.png" height="240" />
+                <!-- <img src="./images/ast02.png" height="240" /> -->
+                ![](./images/ast02.png)
 
     - 3、生成generate
         - 递归遍历AST，生成对应js代码字符串

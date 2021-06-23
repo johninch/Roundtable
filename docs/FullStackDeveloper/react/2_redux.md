@@ -157,7 +157,8 @@ addTen(2); // 12
 ## Redux原理
 Redux是JavaScript应⽤的`状态容器`，它保证程序`⾏为⼀致性`且易于测试。（这里需要再强调一下：Redux 和 React 之间没有关系。Redux 支持 React、Angular、Ember、jQuery 甚至纯 JavaScript。但 Redux 与 React 搭配起来最好）。
 
-<img src="./images/Redux_Flow.png" height="300">
+<!-- <img src="./images/Redux_Flow.png" height="300"> -->
+![](./images/Redux_Flow.png)
 
 **一个形象的比喻，假设有一家公司Redux**：
 - `Store`：公司财务部门，统一管钱
