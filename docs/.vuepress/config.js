@@ -654,7 +654,6 @@ module.exports = {
         }
     },
     plugins: [
-        ['flowchart'],  // 支持流程图
         // [
         //     '@vuepress-reco/vuepress-plugin-bgm-player',  // BGM播放器
         //     {
