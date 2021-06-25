@@ -98,7 +98,7 @@ Thrift 是一套包含序列化功能和支持服务通信的 RPC 框架，主�
 
 ### 代码生成
 
-**原理**：`基于 TCP 协议实现的`，为了支持多种语言，跟 gRPC 一样，Thrift 也有一套自己的接口定义语言 IDL，可以通过代码生成器，生成各种编程语言的 Client 端和 Server 端的 SDK 代码，这样就保证了不同语言之间可以相互通信。代码生成 的 Thrift IDL 语法参考[官方 IDL 语法文档](https://thrift.apache.org/docs/idl.html)。
+**原理**：`基于 TCP 协议实现的`，为了支持多种语言，跟 gRPC 一样，Thrift 也有一套自己的接口定义语言 IDL（Interactive Data Language，交互式数据语言），可以通过代码生成器，生成各种编程语言的 Client 端和 Server 端的 SDK 代码，这样就保证了不同语言之间可以相互通信。代码生成 的 Thrift IDL 语法参考[官方 IDL 语法文档](https://thrift.apache.org/docs/idl.html)。
 
 Thrift 支持数据类型
 

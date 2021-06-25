@@ -273,13 +273,14 @@ module.exports = {
                 {
                     title: 'Nodejs',
                     children: [
-                        '/Question-Bank/nodejs/nodejs-base',
-                        '/Question-Bank/nodejs/eventEmitter',
-                        '/Question-Bank/nodejs/bff',
-                        '/Question-Bank/nodejs/rpc',
-                        '/Question-Bank/nodejs/service-discovery',
-                        '/Question-Bank/nodejs/benchmarking-tool',
-                        '/Question-Bank/nodejs/nodejs-myblog-imooc',
+                        '/Question-Bank/nodejs/nodejs-base.md',
+                        '/Question-Bank/nodejs/bff.md',
+                        '/Question-Bank/nodejs/rpc.md',
+                        '/Question-Bank/nodejs/thrift-demo.md',
+                        '/Question-Bank/nodejs/service-discovery.md',
+                        '/Question-Bank/nodejs/benchmarking-tool.md',
+                        '/Question-Bank/nodejs/nodejs-myblog-imooc.md',
+                        '/Question-Bank/nodejs/eventEmitter.md',
                     ]
                 },
                 {
