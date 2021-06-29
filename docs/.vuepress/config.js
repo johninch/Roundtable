@@ -187,6 +187,7 @@ module.exports = {
                     title: '工程化',
                     children: [
                         '/Question-Bank/Engineering/js-module',
+                        '/Question-Bank/Engineering/cjs-and-mjs',
                         '/Question-Bank/Engineering/css-naming-standard',
                         '/Question-Bank/Engineering/repo-naming-standard',
                         '/Question-Bank/Engineering/design-patterns',
