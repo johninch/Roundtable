@@ -13,9 +13,12 @@ module.exports = {
     serviceWorker: true,
     smoothScroll: true,
     themeConfig: {
+        algolia: {
+            apiKey: '26d2f2b17493263612310e1c4299b032',
+            indexName: 'roundtable',
+        },
         logo: '/logo.png',
-        sidebar: 'auto',
-        sidebarDepth: 2,
+        sidebarDepth: 1,
         activeHeaderLinks: true,
         lastUpdated: 'Last Updated',
         nav: [
