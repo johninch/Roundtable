@@ -280,6 +280,7 @@ module.exports = {
                         '/Question-Bank/nodejs/nodejs-base.md',
                         '/Question-Bank/nodejs/bff.md',
                         '/Question-Bank/nodejs/rpc.md',
+                        '/Question-Bank/nodejs/rpc-serialize.md',
                         '/Question-Bank/nodejs/thrift-demo.md',
                         '/Question-Bank/nodejs/service-discovery.md',
                         '/Question-Bank/nodejs/benchmarking-tool.md',

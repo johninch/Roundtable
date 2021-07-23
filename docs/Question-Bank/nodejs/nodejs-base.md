@@ -147,6 +147,8 @@ Node.js 使用的 JavaScript 作为服务器端的编程语言，这种回调的
 
 ## 基础大纲
 
+参考链接：[为什么 2020 还要学 Node.js](https://www.yuque.com/sunluyong/node/readme)
+
 由于参考文章里已经写的非常好，为了加强掌握只列大纲：
 
 ### nodejs 系统
