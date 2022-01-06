@@ -414,6 +414,13 @@ module.exports = {
 			"/Algorithm/": [
 				"/Algorithm/",
 				{
+					title: "智力题",
+					children: [
+						"/Algorithm/Intelligence/",
+						"/Algorithm/Intelligence/poison-and-mouse.md"
+					]
+				},
+				{
 					title: "排序",
 					children: [
 						"/Algorithm/Sort/",

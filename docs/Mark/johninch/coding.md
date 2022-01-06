@@ -1,58 +1,64 @@
 ## 业务小代码
 
 ### 目录
+
 ::: details
-- 实现usePrevious
+
+- 实现 usePrevious
 - 深度查询
 - 私有属性实现，ES5、ES6
 - 实现 fill(3, 4) 为 [4,4,4]
-- 模拟实现instanceof
-- one(add(two())) 或 two(add(one())) 等于3
-- 斐波那契数列，使用memo做缓存，减少运算量
-- new的时候加1
-- 数组中map和reduce，如何用reduce实现map
+- 模拟实现 instanceof
+- one(add(two())) 或 two(add(one())) 等于 3
+- 斐波那契数列，使用 memo 做缓存，减少运算量
+- new 的时候加 1
+- 数组中 map 和 reduce，如何用 reduce 实现 map
 - 统计字符串中出现最多的字母和次数
-- 实现队列函数（先进先出），以实现一次100秒后打印出1，200秒后打印2，300秒后打印3这样
-- setInterval有两个缺点
-- 实现一个wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)
+- 实现队列函数（先进先出），以实现一次 100 秒后打印出 1，200 秒后打印 2，300 秒后打印 3 这样
+- setInterval 有两个缺点
+- 实现一个 wait(1000, callback1).wait(3000, callback2).wait(1000, callback3)
 - 实现成语接龙 wordschain('胸有成竹')('竹报平安')('安富尊荣').valueOf() 输出 胸有成竹 -> 竹报平安 -> 安富尊荣
 - add(1, 3, 4)(7)(5, 5).valueOf();
-- 实现JSONP
-- 返回promise的JSONP封装
-    - [jsonp 的原理和采用 Promise API 的实现](https://juejin.im/post/5abcec65f265da238c3ac4e6)
-    - [40行封装一个jsonp包](https://juejin.im/post/5c7e89d65188255dce5dda11)
-    - [手写一个JSONP(promise封装)](https://www.jianshu.com/p/43b48648c730)
-- 实现promisify
-    - [Callback 与 Promise 间的桥梁 —— promisify](https://juejin.im/post/59f99d916fb9a0450b65b538)
+- 实现 JSONP
+- 返回 promise 的 JSONP 封装
+  - [jsonp 的原理和采用 Promise API 的实现](https://juejin.im/post/5abcec65f265da238c3ac4e6)
+  - [40 行封装一个 jsonp 包](https://juejin.im/post/5c7e89d65188255dce5dda11)
+  - [手写一个 JSONP(promise 封装)](https://www.jianshu.com/p/43b48648c730)
+- 实现 promisify
+  - [Callback 与 Promise 间的桥梁 —— promisify](https://juejin.im/post/59f99d916fb9a0450b65b538)
 - 手写双向绑定
-- 手写vue observe数据劫持
-- 用JS模拟DOM结构（手写vnode）
+- 手写 vue observe 数据劫持
+- 用 JS 模拟 DOM 结构（手写 vnode）
 - 防抖节流
-- promise实现图片懒加载
+- promise 实现图片懒加载
 - 二分查找
 - 封装类型判断函数
-- 如何效率的向一个ul里面添加10000个li
+- 如何效率的向一个 ul 里面添加 10000 个 li
 - 快速排序
 - Object.create
-- 模拟实现new操作符
+- 模拟实现 new 操作符
 - 数组扁平化
-- 简单版EventEmitter实现
+- 简单版 EventEmitter 实现
 - 优化版组合继承
-- 创建Ajax
+- 创建 Ajax
 - 实现字符串模板
 - 深拷贝
 - 事件代理
-- 手写bind函数
-- 实现一个函数trim(str) 字符串前后去空格
-- 如何用ES5实现promise
+- 手写 bind 函数
+- 实现一个函数 trim(str) 字符串前后去空格
+- 如何用 ES5 实现 promise
 - 手写文件上传
 - 手写文件预览
 - 写一个 DOM2JSON(node) 函数，node 有 tagName 和 childNodes 属性
-:::
-
+- JS 实现一个带并发限制的异步调度器 Scheduler，保证同时运行的任务最多有 limit 个。完善下面代码的 Scheduler 类，使得一下程序能正确输出
+- 编写 js 代码，实现点击一个 node 节点后，在 5s 内以当前位置为起点，半径为 100px，旋转一周
+- 1000 瓶毒药里面只有 1 瓶是有毒的，毒发时间为 24 个小时，问需要多少只老鼠才能在 24 小时后试出那瓶有毒
+  :::
 
 ### details
+
 ::: details 业务小代码
+
 ```js
 // 实现usePrevious
 function usePrevious(val) {
@@ -1083,7 +1089,7 @@ class Promise {
             case 'rejected':
                 onRejected()
                 break
-            default: 
+            default:
         }
     }
 }
@@ -1278,25 +1284,27 @@ function rotate360(node) {
     const duration = 5 * 1000; // 5s
     const startTime = Date.now();
     const run = () => {
-    const elapse = Date.now() - startTime;
+        const elapse = Date.now() - startTime;
 
-    if (elapse <= duration) {
-        const radian = elapse / duration * 2 * Math.PI; // 当前旋转的弧度
+        if (elapse <= duration) {
+            const radian = elapse / duration * 2 * Math.PI; // 当前旋转的弧度
 
-        const x = Math.sin(radian) * radius;
-        const y = (1 - Math.cos(radian)) * radius;
+            const x = Math.sin(radian) * radius;
+            const y = (1 - Math.cos(radian)) * radius;
 
-        node.style.transform = `translate(${x}px, ${y}px)`
+            node.style.transform = `translate(${x}px, ${y}px)`
 
-        requestAnimationFrame(run);
+            requestAnimationFrame(run);
+        }
     }
 
     run();
 }
 
 
+// 1000瓶毒药里面只有1瓶是有毒的，毒发时间为24个小时，问需要多少只老鼠才能在24小时后试出那瓶有毒
+
+
 ```
+
 :::
-
-
-
