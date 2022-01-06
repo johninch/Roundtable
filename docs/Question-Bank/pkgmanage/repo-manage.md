@@ -40,6 +40,8 @@ Yarn Workspaces（工作区）是 Yarn 提供的 MonoRepo 的依赖管理机制�
 
 ### 如何使用 yarn workspaces 特性
 
+https://classic.yarnpkg.com/en/docs/cli/workspaces
+
 ```json
 {
 	"name": "mono-demo",
@@ -183,6 +185,10 @@ npm i lerna -g
 ::: danger
 
 在 lerna 中的`lerna bootstrap --hoist` 命令，使用 --hoist 来把每个 package 下的依赖包都提升到工程根目录，来降低安装以及管理的成本。如果直接在 lerna.json 中配置 command.bootstrap.hoist = true，则就省去了每次加 --hoist 参数。
+
+```bash
+lerna ERR! EWORKSPACES --hoist is not supported with --npm-client=yarn, use yarn workspaces instead
+```
 
 在最佳实践中，不要再使用`lerna bootstrap --hoist`，会报错，直接使用 yarn workspaces 来替代就可以了。
 

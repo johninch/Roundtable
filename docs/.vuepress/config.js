@@ -194,7 +194,6 @@ module.exports = {
 				{
 					title: "工程化",
 					children: [
-						"/Question-Bank/Engineering/repo-manage",
 						"/Question-Bank/Engineering/js-module",
 						"/Question-Bank/Engineering/cjs-and-mjs",
 						"/Question-Bank/Engineering/css-naming-standard",
@@ -292,8 +291,12 @@ module.exports = {
 					]
 				},
 				{
-					title: "包管理 Npm & Yarn",
-					children: ["/Question-Bank/pkgmanage/package.lock.json"]
+					title: "包管理",
+					children: [
+						"/Question-Bank/pkgmanage/package.md",
+						"/Question-Bank/pkgmanage/repo-manage.md",
+						"/Question-Bank/pkgmanage/tsconfig.md"
+					]
 				},
 				{
 					title: "Webpack",

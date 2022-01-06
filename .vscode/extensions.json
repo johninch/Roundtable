@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "cpylua.language-postcss",
+    "EditorConfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "drKnoxy.eslint-disable-snippets",
+    "mkaufman.htmlhint",
+    "streetsidesoftware.code-spell-checker",
+    "aaron-bond.better-comments",
+    "ziyasal.vscode-open-in-github",
+    "jasonnutter.search-node-modules",
+    "gruntfuggly.todo-tree",
+  ]
+}
