@@ -417,7 +417,8 @@ module.exports = {
 					title: "智力题",
 					children: [
 						"/Algorithm/Intelligence/",
-						"/Algorithm/Intelligence/poison-and-mouse.md"
+						"/Algorithm/Intelligence/poison-and-mouse.md",
+						"/Algorithm/Intelligence/horse-racing.md"
 					]
 				},
 				{
