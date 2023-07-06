@@ -363,6 +363,8 @@ npm install @babel/preset-react -D
 
 ## Tree Shaking 摇树优化 和 sideEffects 副作用处理
 
+Todo：https://juejin.cn/post/7002410645316436004 真正的 tree shaking 原理待总结
+
 `Tree Shaking`只支持 ESM，因为`Tree Shaking`只支持「静态引入」的方式。
 
 开启`Tree Shaking`的方式如下：
