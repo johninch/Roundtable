@@ -84,7 +84,7 @@
   "emmet.includeLanguages": {
     "ttml": "html"
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.snippetSuggestions": "top",
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode", // 格式化冲突
