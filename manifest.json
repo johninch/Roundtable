@@ -1,0 +1,21 @@
+{
+    "name": "Roundtable Progressive Web App",
+    "short_name": "Roundtable",
+    "description": "A knowledge base progressive web app created by ESOP FED.",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/docs",
+    "display": "fullscreen",
+    "theme_color": "#B12A34",
+    "background_color": "#B12A34"
+}

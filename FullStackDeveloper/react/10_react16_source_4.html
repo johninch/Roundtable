@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>10、react16源码解析4 | Roundtable Coders</title>
+    <meta name="generator" content="VuePress 1.7.1">
+    <link rel="manifest" href="/Roundtable/manifest.json">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <script src="./js/search.js"></script>
+    <script src="./js/main.js"></script>
+    <meta name="description" content="A knowledge base created by ESOP-FED">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/Roundtable/assets/css/0.styles.473b2e6f.css" as="style"><link rel="preload" href="/Roundtable/assets/js/app.2a67b391.js" as="script"><link rel="preload" href="/Roundtable/assets/js/3.732c8675.js" as="script"><link rel="preload" href="/Roundtable/assets/js/164.025fcf3b.js" as="script"><link rel="prefetch" href="/Roundtable/assets/js/10.70a3801e.js"><link rel="prefetch" href="/Roundtable/assets/js/100.6d4d41b2.js"><link rel="prefetch" href="/Roundtable/assets/js/101.fcca3442.js"><link rel="prefetch" href="/Roundtable/assets/js/102.be877f9d.js"><link rel="prefetch" href="/Roundtable/assets/js/103.a3013f74.js"><link rel="prefetch" href="/Roundtable/assets/js/104.790e4ad7.js"><link rel="prefetch" href="/Roundtable/assets/js/105.fa290a0c.js"><link rel="prefetch" href="/Roundtable/assets/js/106.6cdd50e8.js"><link rel="prefetch" href="/Roundtable/assets/js/107.3360e87b.js"><link rel="prefetch" href="/Roundtable/assets/js/108.b272cdae.js"><link rel="prefetch" href="/Roundtable/assets/js/109.0d37c586.js"><link rel="prefetch" href="/Roundtable/assets/js/11.3046242f.js"><link rel="prefetch" href="/Roundtable/assets/js/110.9133ded6.js"><link rel="prefetch" href="/Roundtable/assets/js/111.2bb986d4.js"><link rel="prefetch" href="/Roundtable/assets/js/112.ff4b597c.js"><link rel="prefetch" href="/Roundtable/assets/js/113.db617ac9.js"><link rel="prefetch" href="/Roundtable/assets/js/114.e0aa3101.js"><link rel="prefetch" href="/Roundtable/assets/js/115.cae2a328.js"><link rel="prefetch" href="/Roundtable/assets/js/116.407db280.js"><link rel="prefetch" href="/Roundtable/assets/js/117.c15103af.js"><link rel="prefetch" href="/Roundtable/assets/js/118.d45ea389.js"><link rel="prefetch" href="/Roundtable/assets/js/119.8cccbd3c.js"><link rel="prefetch" href="/Roundtable/assets/js/12.74240992.js"><link rel="prefetch" href="/Roundtable/assets/js/120.ad57c2ac.js"><link rel="prefetch" href="/Roundtable/assets/js/121.321491cb.js"><link rel="prefetch" href="/Roundtable/assets/js/122.5b9cb99e.js"><link rel="prefetch" href="/Roundtable/assets/js/123.3693283f.js"><link rel="prefetch" href="/Roundtable/assets/js/124.f2f94bcd.js"><link rel="prefetch" href="/Roundtable/assets/js/125.800e216a.js"><link rel="prefetch" href="/Roundtable/assets/js/126.ccfa7506.js"><link rel="prefetch" href="/Roundtable/assets/js/127.827d6fd0.js"><link rel="prefetch" href="/Roundtable/assets/js/128.4bb30b21.js"><link rel="prefetch" href="/Roundtable/assets/js/129.4bd1cde6.js"><link rel="prefetch" href="/Roundtable/assets/js/13.cb9adb73.js"><link rel="prefetch" href="/Roundtable/assets/js/130.7fcf95f5.js"><link rel="prefetch" href="/Roundtable/assets/js/131.3fe83ad0.js"><link rel="prefetch" href="/Roundtable/assets/js/132.6d1cf839.js"><link rel="prefetch" href="/Roundtable/assets/js/133.d7c0179f.js"><link rel="prefetch" href="/Roundtable/assets/js/134.0ab1bbd2.js"><link rel="prefetch" href="/Roundtable/assets/js/135.4799fc28.js"><link rel="prefetch" href="/Roundtable/assets/js/136.a9857742.js"><link rel="prefetch" href="/Roundtable/assets/js/137.de32658f.js"><link rel="prefetch" href="/Roundtable/assets/js/138.131970d4.js"><link rel="prefetch" href="/Roundtable/assets/js/139.510eca2c.js"><link rel="prefetch" href="/Roundtable/assets/js/14.84cf25a4.js"><link rel="prefetch" href="/Roundtable/assets/js/140.31d81849.js"><link rel="prefetch" href="/Roundtable/assets/js/141.ecab44ef.js"><link rel="prefetch" href="/Roundtable/assets/js/142.9b87f059.js"><link rel="prefetch" href="/Roundtable/assets/js/143.9e78db1a.js"><link rel="prefetch" href="/Roundtable/assets/js/144.747a1adb.js"><link rel="prefetch" href="/Roundtable/assets/js/145.ecb740c7.js"><link rel="prefetch" href="/Roundtable/assets/js/146.0e517c82.js"><link rel="prefetch" href="/Roundtable/assets/js/147.d49abd2f.js"><link rel="prefetch" href="/Roundtable/assets/js/148.7267563b.js"><link rel="prefetch" href="/Roundtable/assets/js/149.5e31edca.js"><link rel="prefetch" href="/Roundtable/assets/js/15.41b69e8d.js"><link rel="prefetch" href="/Roundtable/assets/js/150.7bc85a86.js"><link rel="prefetch" href="/Roundtable/assets/js/151.1b7df4d0.js"><link rel="prefetch" href="/Roundtable/assets/js/152.5135ca06.js"><link rel="prefetch" href="/Roundtable/assets/js/153.bf2198df.js"><link rel="prefetch" href="/Roundtable/assets/js/154.dd398659.js"><link rel="prefetch" href="/Roundtable/assets/js/155.60d49601.js"><link rel="prefetch" href="/Roundtable/assets/js/156.9e37bcf0.js"><link rel="prefetch" href="/Roundtable/assets/js/157.21487c71.js"><link rel="prefetch" href="/Roundtable/assets/js/158.249ec3e8.js"><link rel="prefetch" href="/Roundtable/assets/js/159.5f6b4574.js"><link rel="prefetch" href="/Roundtable/assets/js/16.fc0a01fe.js"><link rel="prefetch" href="/Roundtable/assets/js/160.a53feb2a.js"><link rel="prefetch" href="/Roundtable/assets/js/161.a8337587.js"><link rel="prefetch" href="/Roundtable/assets/js/162.fc15fdde.js"><link rel="prefetch" href="/Roundtable/assets/js/163.4b7c8177.js"><link rel="prefetch" href="/Roundtable/assets/js/165.ef23ebf7.js"><link rel="prefetch" href="/Roundtable/assets/js/166.038dc924.js"><link rel="prefetch" href="/Roundtable/assets/js/167.29b0c6f9.js"><link rel="prefetch" href="/Roundtable/assets/js/168.105a5ee7.js"><link rel="prefetch" href="/Roundtable/assets/js/169.49931161.js"><link rel="prefetch" href="/Roundtable/assets/js/17.6115e7ae.js"><link rel="prefetch" href="/Roundtable/assets/js/170.d425a26e.js"><link rel="prefetch" href="/Roundtable/assets/js/171.4ae8ecd7.js"><link rel="prefetch" href="/Roundtable/assets/js/172.b299c9c5.js"><link rel="prefetch" href="/Roundtable/assets/js/173.1420b439.js"><link rel="prefetch" href="/Roundtable/assets/js/174.9be3cfdc.js"><link rel="prefetch" href="/Roundtable/assets/js/175.2a1a6b86.js"><link rel="prefetch" href="/Roundtable/assets/js/176.d0f4b4d3.js"><link rel="prefetch" href="/Roundtable/assets/js/177.a258c9e6.js"><link rel="prefetch" href="/Roundtable/assets/js/178.9935fc45.js"><link rel="prefetch" href="/Roundtable/assets/js/179.920c93cb.js"><link rel="prefetch" href="/Roundtable/assets/js/18.f1a49ff6.js"><link rel="prefetch" href="/Roundtable/assets/js/180.45647437.js"><link rel="prefetch" href="/Roundtable/assets/js/181.455ff928.js"><link rel="prefetch" href="/Roundtable/assets/js/182.48d5397a.js"><link rel="prefetch" href="/Roundtable/assets/js/183.50a1f034.js"><link rel="prefetch" href="/Roundtable/assets/js/184.f3ebafc0.js"><link rel="prefetch" href="/Roundtable/assets/js/185.c4ec70bf.js"><link rel="prefetch" href="/Roundtable/assets/js/186.95c65138.js"><link rel="prefetch" href="/Roundtable/assets/js/187.1d93070c.js"><link rel="prefetch" href="/Roundtable/assets/js/188.f2fd4622.js"><link rel="prefetch" href="/Roundtable/assets/js/189.929d7460.js"><link rel="prefetch" href="/Roundtable/assets/js/19.d0f5a2a6.js"><link rel="prefetch" href="/Roundtable/assets/js/190.d7753e79.js"><link rel="prefetch" href="/Roundtable/assets/js/191.164337ba.js"><link rel="prefetch" href="/Roundtable/assets/js/192.073fa32a.js"><link rel="prefetch" href="/Roundtable/assets/js/193.a41f613a.js"><link rel="prefetch" href="/Roundtable/assets/js/194.ff356ef2.js"><link rel="prefetch" href="/Roundtable/assets/js/195.da2cb5f0.js"><link rel="prefetch" href="/Roundtable/assets/js/196.27aa5846.js"><link rel="prefetch" href="/Roundtable/assets/js/197.dbd4ea86.js"><link rel="prefetch" href="/Roundtable/assets/js/198.2341d363.js"><link rel="prefetch" href="/Roundtable/assets/js/199.dca16941.js"><link rel="prefetch" href="/Roundtable/assets/js/20.2b68ff2a.js"><link rel="prefetch" href="/Roundtable/assets/js/200.0f555a22.js"><link rel="prefetch" href="/Roundtable/assets/js/201.c636a8c2.js"><link rel="prefetch" href="/Roundtable/assets/js/202.00058dde.js"><link rel="prefetch" href="/Roundtable/assets/js/203.2eea9503.js"><link rel="prefetch" href="/Roundtable/assets/js/204.6e549015.js"><link rel="prefetch" href="/Roundtable/assets/js/205.5057b08b.js"><link rel="prefetch" href="/Roundtable/assets/js/206.cfbe6788.js"><link rel="prefetch" href="/Roundtable/assets/js/207.9246b65b.js"><link rel="prefetch" href="/Roundtable/assets/js/208.a106f85b.js"><link rel="prefetch" href="/Roundtable/assets/js/209.ae5edced.js"><link rel="prefetch" href="/Roundtable/assets/js/21.06c46f7a.js"><link rel="prefetch" href="/Roundtable/assets/js/210.cde0d451.js"><link rel="prefetch" href="/Roundtable/assets/js/211.56841a89.js"><link rel="prefetch" href="/Roundtable/assets/js/212.a2513586.js"><link rel="prefetch" href="/Roundtable/assets/js/213.548d24cc.js"><link rel="prefetch" href="/Roundtable/assets/js/214.076a26db.js"><link rel="prefetch" href="/Roundtable/assets/js/215.383c3c60.js"><link rel="prefetch" href="/Roundtable/assets/js/216.70ac75ec.js"><link rel="prefetch" href="/Roundtable/assets/js/217.7b2d6be8.js"><link rel="prefetch" href="/Roundtable/assets/js/218.cac91c4c.js"><link rel="prefetch" href="/Roundtable/assets/js/219.c8023d2a.js"><link rel="prefetch" href="/Roundtable/assets/js/22.ad9a9484.js"><link rel="prefetch" href="/Roundtable/assets/js/220.9f37e38b.js"><link rel="prefetch" href="/Roundtable/assets/js/221.ef07e5bb.js"><link rel="prefetch" href="/Roundtable/assets/js/222.a9351166.js"><link rel="prefetch" href="/Roundtable/assets/js/223.dda0229f.js"><link rel="prefetch" href="/Roundtable/assets/js/224.a6ce1883.js"><link rel="prefetch" href="/Roundtable/assets/js/225.632899a5.js"><link rel="prefetch" href="/Roundtable/assets/js/226.dd36ba08.js"><link rel="prefetch" href="/Roundtable/assets/js/227.1a84d25d.js"><link rel="prefetch" href="/Roundtable/assets/js/228.1ebb1e82.js"><link rel="prefetch" href="/Roundtable/assets/js/229.7e027b19.js"><link rel="prefetch" href="/Roundtable/assets/js/23.beb2862d.js"><link rel="prefetch" href="/Roundtable/assets/js/230.8fb55ecc.js"><link rel="prefetch" href="/Roundtable/assets/js/231.8145ad1c.js"><link rel="prefetch" href="/Roundtable/assets/js/232.0666f1b6.js"><link rel="prefetch" href="/Roundtable/assets/js/233.ad938079.js"><link rel="prefetch" href="/Roundtable/assets/js/234.0a0c6de3.js"><link rel="prefetch" href="/Roundtable/assets/js/235.70722d8a.js"><link rel="prefetch" href="/Roundtable/assets/js/236.508ff7cd.js"><link rel="prefetch" href="/Roundtable/assets/js/237.6fabed14.js"><link rel="prefetch" href="/Roundtable/assets/js/238.2441d3f4.js"><link rel="prefetch" href="/Roundtable/assets/js/239.ecbde05c.js"><link rel="prefetch" href="/Roundtable/assets/js/24.a4520e87.js"><link rel="prefetch" href="/Roundtable/assets/js/240.bcb7503a.js"><link rel="prefetch" href="/Roundtable/assets/js/241.0f39d71e.js"><link rel="prefetch" href="/Roundtable/assets/js/242.49c23a2b.js"><link rel="prefetch" href="/Roundtable/assets/js/243.bb476e73.js"><link rel="prefetch" href="/Roundtable/assets/js/244.24d6c58b.js"><link rel="prefetch" href="/Roundtable/assets/js/245.1ccbd137.js"><link rel="prefetch" href="/Roundtable/assets/js/246.df7d9449.js"><link rel="prefetch" href="/Roundtable/assets/js/247.660fe299.js"><link rel="prefetch" href="/Roundtable/assets/js/248.10cb80a3.js"><link rel="prefetch" href="/Roundtable/assets/js/249.eed5dc5e.js"><link rel="prefetch" href="/Roundtable/assets/js/25.17a60b3c.js"><link rel="prefetch" href="/Roundtable/assets/js/250.f288a89d.js"><link rel="prefetch" href="/Roundtable/assets/js/251.9dc81935.js"><link rel="prefetch" href="/Roundtable/assets/js/252.85530bdc.js"><link rel="prefetch" href="/Roundtable/assets/js/253.c5987f53.js"><link rel="prefetch" href="/Roundtable/assets/js/254.642bb309.js"><link rel="prefetch" href="/Roundtable/assets/js/255.dde65e9d.js"><link rel="prefetch" href="/Roundtable/assets/js/256.42b72968.js"><link rel="prefetch" href="/Roundtable/assets/js/257.983d1e31.js"><link rel="prefetch" href="/Roundtable/assets/js/258.2c57cdf5.js"><link rel="prefetch" href="/Roundtable/assets/js/259.7c6dbdcf.js"><link rel="prefetch" href="/Roundtable/assets/js/26.e245d43d.js"><link rel="prefetch" href="/Roundtable/assets/js/260.776a4c0e.js"><link rel="prefetch" href="/Roundtable/assets/js/261.b7c59dc5.js"><link rel="prefetch" href="/Roundtable/assets/js/262.147e3eda.js"><link rel="prefetch" href="/Roundtable/assets/js/263.f5e2fee0.js"><link rel="prefetch" href="/Roundtable/assets/js/264.708d2fd7.js"><link rel="prefetch" href="/Roundtable/assets/js/265.e92f4e6b.js"><link rel="prefetch" href="/Roundtable/assets/js/266.996eebcf.js"><link rel="prefetch" href="/Roundtable/assets/js/267.7195a488.js"><link rel="prefetch" href="/Roundtable/assets/js/268.44e38cbf.js"><link rel="prefetch" href="/Roundtable/assets/js/269.8ffd3512.js"><link rel="prefetch" href="/Roundtable/assets/js/27.949851ca.js"><link rel="prefetch" href="/Roundtable/assets/js/270.dd31add9.js"><link rel="prefetch" href="/Roundtable/assets/js/271.bcb8d475.js"><link rel="prefetch" href="/Roundtable/assets/js/272.b8da9de3.js"><link rel="prefetch" href="/Roundtable/assets/js/273.0219ced2.js"><link rel="prefetch" href="/Roundtable/assets/js/274.af61d3c7.js"><link rel="prefetch" href="/Roundtable/assets/js/275.5412975c.js"><link rel="prefetch" href="/Roundtable/assets/js/276.d61e471f.js"><link rel="prefetch" href="/Roundtable/assets/js/277.87ca63a0.js"><link rel="prefetch" href="/Roundtable/assets/js/278.3df4952e.js"><link rel="prefetch" href="/Roundtable/assets/js/279.bd547454.js"><link rel="prefetch" href="/Roundtable/assets/js/28.77287806.js"><link rel="prefetch" href="/Roundtable/assets/js/280.2abcb902.js"><link rel="prefetch" href="/Roundtable/assets/js/281.b15babf0.js"><link rel="prefetch" href="/Roundtable/assets/js/282.a1026c9f.js"><link rel="prefetch" href="/Roundtable/assets/js/283.1153e256.js"><link rel="prefetch" href="/Roundtable/assets/js/284.e5ffccb2.js"><link rel="prefetch" href="/Roundtable/assets/js/285.093448d3.js"><link rel="prefetch" href="/Roundtable/assets/js/286.a0a0cd00.js"><link rel="prefetch" href="/Roundtable/assets/js/287.a948b13e.js"><link rel="prefetch" href="/Roundtable/assets/js/288.79df6447.js"><link rel="prefetch" href="/Roundtable/assets/js/289.6f41ec0b.js"><link rel="prefetch" href="/Roundtable/assets/js/29.01548815.js"><link rel="prefetch" href="/Roundtable/assets/js/290.2e336aa3.js"><link rel="prefetch" href="/Roundtable/assets/js/291.fc886735.js"><link rel="prefetch" href="/Roundtable/assets/js/292.752ff5aa.js"><link rel="prefetch" href="/Roundtable/assets/js/293.02d2465d.js"><link rel="prefetch" href="/Roundtable/assets/js/294.18f7e9f8.js"><link rel="prefetch" href="/Roundtable/assets/js/295.454c891c.js"><link rel="prefetch" href="/Roundtable/assets/js/296.3adfc83c.js"><link rel="prefetch" href="/Roundtable/assets/js/297.d28ec585.js"><link rel="prefetch" href="/Roundtable/assets/js/298.df0e965c.js"><link rel="prefetch" href="/Roundtable/assets/js/299.28e754d0.js"><link rel="prefetch" href="/Roundtable/assets/js/30.73aac80a.js"><link rel="prefetch" href="/Roundtable/assets/js/300.72b2307a.js"><link rel="prefetch" href="/Roundtable/assets/js/301.3a4b7b5a.js"><link rel="prefetch" href="/Roundtable/assets/js/302.ea294ccc.js"><link rel="prefetch" href="/Roundtable/assets/js/303.9315e06b.js"><link rel="prefetch" href="/Roundtable/assets/js/304.49d60572.js"><link rel="prefetch" href="/Roundtable/assets/js/305.969fad20.js"><link rel="prefetch" href="/Roundtable/assets/js/306.2e6e6bd5.js"><link rel="prefetch" href="/Roundtable/assets/js/307.ea80271c.js"><link rel="prefetch" href="/Roundtable/assets/js/308.9b1ed249.js"><link rel="prefetch" href="/Roundtable/assets/js/309.f780fcea.js"><link rel="prefetch" href="/Roundtable/assets/js/31.233fa533.js"><link rel="prefetch" href="/Roundtable/assets/js/310.c65fbe43.js"><link rel="prefetch" href="/Roundtable/assets/js/311.5bbccaa1.js"><link rel="prefetch" href="/Roundtable/assets/js/312.2879b0b7.js"><link rel="prefetch" href="/Roundtable/assets/js/313.99d7c557.js"><link rel="prefetch" href="/Roundtable/assets/js/314.3c45e122.js"><link rel="prefetch" href="/Roundtable/assets/js/315.e90deb20.js"><link rel="prefetch" href="/Roundtable/assets/js/316.e40dd4f9.js"><link rel="prefetch" href="/Roundtable/assets/js/317.d271b499.js"><link rel="prefetch" href="/Roundtable/assets/js/318.244c1106.js"><link rel="prefetch" href="/Roundtable/assets/js/319.f76e550a.js"><link rel="prefetch" href="/Roundtable/assets/js/32.13bc3e83.js"><link rel="prefetch" href="/Roundtable/assets/js/320.6201d661.js"><link rel="prefetch" href="/Roundtable/assets/js/321.83daa393.js"><link rel="prefetch" href="/Roundtable/assets/js/322.48aaec2c.js"><link rel="prefetch" href="/Roundtable/assets/js/323.422c1a4c.js"><link rel="prefetch" href="/Roundtable/assets/js/324.28faac42.js"><link rel="prefetch" href="/Roundtable/assets/js/325.c58f5893.js"><link rel="prefetch" href="/Roundtable/assets/js/326.aa3c7342.js"><link rel="prefetch" href="/Roundtable/assets/js/327.d50dbf49.js"><link rel="prefetch" href="/Roundtable/assets/js/328.ba762f37.js"><link rel="prefetch" href="/Roundtable/assets/js/329.b26f992c.js"><link rel="prefetch" href="/Roundtable/assets/js/33.3cc42db3.js"><link rel="prefetch" href="/Roundtable/assets/js/330.88c8acf8.js"><link rel="prefetch" href="/Roundtable/assets/js/331.966b636b.js"><link rel="prefetch" href="/Roundtable/assets/js/332.66342b63.js"><link rel="prefetch" href="/Roundtable/assets/js/333.085ee3b7.js"><link rel="prefetch" href="/Roundtable/assets/js/34.b7f1e21a.js"><link rel="prefetch" href="/Roundtable/assets/js/35.f5b0ffef.js"><link rel="prefetch" href="/Roundtable/assets/js/36.4f1a3753.js"><link rel="prefetch" href="/Roundtable/assets/js/37.4bf027a3.js"><link rel="prefetch" href="/Roundtable/assets/js/38.fbdf2f41.js"><link rel="prefetch" href="/Roundtable/assets/js/39.ec7b84c4.js"><link rel="prefetch" href="/Roundtable/assets/js/4.05324643.js"><link rel="prefetch" href="/Roundtable/assets/js/40.8570da27.js"><link rel="prefetch" href="/Roundtable/assets/js/41.f7c69cef.js"><link rel="prefetch" href="/Roundtable/assets/js/42.dcc58233.js"><link rel="prefetch" href="/Roundtable/assets/js/43.2decb03b.js"><link rel="prefetch" href="/Roundtable/assets/js/44.879a85b2.js"><link rel="prefetch" href="/Roundtable/assets/js/45.5069e7a9.js"><link rel="prefetch" href="/Roundtable/assets/js/46.f202c415.js"><link rel="prefetch" href="/Roundtable/assets/js/47.6037b8b6.js"><link rel="prefetch" href="/Roundtable/assets/js/48.37326281.js"><link rel="prefetch" href="/Roundtable/assets/js/49.2013781d.js"><link rel="prefetch" href="/Roundtable/assets/js/5.f0189c4a.js"><link rel="prefetch" href="/Roundtable/assets/js/50.0f540bc5.js"><link rel="prefetch" href="/Roundtable/assets/js/51.984ee8f6.js"><link rel="prefetch" href="/Roundtable/assets/js/52.3ebe0570.js"><link rel="prefetch" href="/Roundtable/assets/js/53.5b787040.js"><link rel="prefetch" href="/Roundtable/assets/js/54.1d500b04.js"><link rel="prefetch" href="/Roundtable/assets/js/55.cd8fb562.js"><link rel="prefetch" href="/Roundtable/assets/js/56.9ed2ca10.js"><link rel="prefetch" href="/Roundtable/assets/js/57.019b4018.js"><link rel="prefetch" href="/Roundtable/assets/js/58.83f30aa3.js"><link rel="prefetch" href="/Roundtable/assets/js/59.953c383a.js"><link rel="prefetch" href="/Roundtable/assets/js/6.8f8bc88b.js"><link rel="prefetch" href="/Roundtable/assets/js/60.674f791e.js"><link rel="prefetch" href="/Roundtable/assets/js/61.cfbfaacb.js"><link rel="prefetch" href="/Roundtable/assets/js/62.fc95f668.js"><link rel="prefetch" href="/Roundtable/assets/js/63.ea208038.js"><link rel="prefetch" href="/Roundtable/assets/js/64.5e134a18.js"><link rel="prefetch" href="/Roundtable/assets/js/65.9e1d4f36.js"><link rel="prefetch" href="/Roundtable/assets/js/66.f3525daf.js"><link rel="prefetch" href="/Roundtable/assets/js/67.bde24de9.js"><link rel="prefetch" href="/Roundtable/assets/js/68.6628f2ec.js"><link rel="prefetch" href="/Roundtable/assets/js/69.5d37a9a0.js"><link rel="prefetch" href="/Roundtable/assets/js/7.17464b33.js"><link rel="prefetch" href="/Roundtable/assets/js/70.8fc6ad5f.js"><link rel="prefetch" href="/Roundtable/assets/js/71.2cf28266.js"><link rel="prefetch" href="/Roundtable/assets/js/72.6685a0e9.js"><link rel="prefetch" href="/Roundtable/assets/js/73.87f81e2e.js"><link rel="prefetch" href="/Roundtable/assets/js/74.e83a7acb.js"><link rel="prefetch" href="/Roundtable/assets/js/75.06e98b0d.js"><link rel="prefetch" href="/Roundtable/assets/js/76.0afa4c8e.js"><link rel="prefetch" href="/Roundtable/assets/js/77.fb66bb2c.js"><link rel="prefetch" href="/Roundtable/assets/js/78.c7ac5773.js"><link rel="prefetch" href="/Roundtable/assets/js/79.54eedab8.js"><link rel="prefetch" href="/Roundtable/assets/js/8.ec06db61.js"><link rel="prefetch" href="/Roundtable/assets/js/80.4bd0c664.js"><link rel="prefetch" href="/Roundtable/assets/js/81.7a5d3e8c.js"><link rel="prefetch" href="/Roundtable/assets/js/82.6afcf639.js"><link rel="prefetch" href="/Roundtable/assets/js/83.974782a6.js"><link rel="prefetch" href="/Roundtable/assets/js/84.ede7853d.js"><link rel="prefetch" href="/Roundtable/assets/js/85.2795805d.js"><link rel="prefetch" href="/Roundtable/assets/js/86.a4840136.js"><link rel="prefetch" href="/Roundtable/assets/js/87.f9e5b890.js"><link rel="prefetch" href="/Roundtable/assets/js/88.0652dba1.js"><link rel="prefetch" href="/Roundtable/assets/js/89.544a3b4e.js"><link rel="prefetch" href="/Roundtable/assets/js/9.8d8fe1f7.js"><link rel="prefetch" href="/Roundtable/assets/js/90.db1243a6.js"><link rel="prefetch" href="/Roundtable/assets/js/91.254b918c.js"><link rel="prefetch" href="/Roundtable/assets/js/92.3a31f1ff.js"><link rel="prefetch" href="/Roundtable/assets/js/93.28e6e2d6.js"><link rel="prefetch" href="/Roundtable/assets/js/94.a0bf808a.js"><link rel="prefetch" href="/Roundtable/assets/js/95.29c29bb4.js"><link rel="prefetch" href="/Roundtable/assets/js/96.bd6353b2.js"><link rel="prefetch" href="/Roundtable/assets/js/97.10daec76.js"><link rel="prefetch" href="/Roundtable/assets/js/98.c067eeb9.js"><link rel="prefetch" href="/Roundtable/assets/js/99.b7267739.js"><link rel="prefetch" href="/Roundtable/assets/js/vendors~docsearch.cbbc0be1.js">
+    <link rel="stylesheet" href="/Roundtable/assets/css/0.styles.473b2e6f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/Roundtable/" class="home-link router-link-active"><img src="/Roundtable/logo.png" alt="Roundtable Coders" class="logo"> <span class="site-name can-hide">Roundtable Coders</span></a> <div class="links"><form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <nav class="nav-links can-hide"><div class="nav-item"><a href="/Roundtable/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/Roundtable/Question-Bank/" class="nav-link">
+  知识库
+</a></div><div class="nav-item"><a href="/Roundtable/Lets-Read/" class="nav-link">
+  共读
+</a></div><div class="nav-item"><a href="/Roundtable/Wanted/" class="nav-link">
+  通缉令
+</a></div><div class="nav-item"><a href="/Roundtable/Quest-SC/" class="nav-link">
+  源码探秘
+</a></div><div class="nav-item"><a href="/Roundtable/Algorithm/" class="nav-link">
+  算法
+</a></div><div class="nav-item"><a href="https://esop-fed.github.io/ani-css/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Ani-Css
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="/Roundtable/Replay/" class="nav-link">
+  项目复盘
+</a></div><div class="nav-item"><a href="/Roundtable/FullStackDeveloper/" class="nav-link router-link-active">
+  进阶全栈
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人备忘" class="dropdown-title"><span class="title">个人备忘</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人备忘" class="mobile-dropdown-title"><span class="title">个人备忘</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/Roundtable/Mark/johninch/" class="nav-link">
+  johninch
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="blog" class="dropdown-title"><span class="title">blog</span> <span class="arrow down"></span></button> <button type="button" aria-label="blog" class="mobile-dropdown-title"><span class="title">blog</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://johninch.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  johninch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://dannisi.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Caleb
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://niannings.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  niannings
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://Xmtd.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Xmtd
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://febcat.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  febcat
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="github" class="dropdown-title"><span class="title">github</span> <span class="arrow down"></span></button> <button type="button" aria-label="github" class="mobile-dropdown-title"><span class="title">github</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/johninch/Roundtable" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Roundtable
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/esop-fed" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  esop-fed
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/johninch" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  johninch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/dannisi" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Caleb
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/niannings" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  niannings
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/Xmtd" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Xmtd
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/febcat" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  febcat
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/Roundtable/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/Roundtable/Question-Bank/" class="nav-link">
+  知识库
+</a></div><div class="nav-item"><a href="/Roundtable/Lets-Read/" class="nav-link">
+  共读
+</a></div><div class="nav-item"><a href="/Roundtable/Wanted/" class="nav-link">
+  通缉令
+</a></div><div class="nav-item"><a href="/Roundtable/Quest-SC/" class="nav-link">
+  源码探秘
+</a></div><div class="nav-item"><a href="/Roundtable/Algorithm/" class="nav-link">
+  算法
+</a></div><div class="nav-item"><a href="https://esop-fed.github.io/ani-css/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Ani-Css
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="/Roundtable/Replay/" class="nav-link">
+  项目复盘
+</a></div><div class="nav-item"><a href="/Roundtable/FullStackDeveloper/" class="nav-link router-link-active">
+  进阶全栈
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="个人备忘" class="dropdown-title"><span class="title">个人备忘</span> <span class="arrow down"></span></button> <button type="button" aria-label="个人备忘" class="mobile-dropdown-title"><span class="title">个人备忘</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/Roundtable/Mark/johninch/" class="nav-link">
+  johninch
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="blog" class="dropdown-title"><span class="title">blog</span> <span class="arrow down"></span></button> <button type="button" aria-label="blog" class="mobile-dropdown-title"><span class="title">blog</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://johninch.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  johninch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://dannisi.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Caleb
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://niannings.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  niannings
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://Xmtd.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Xmtd
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://febcat.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  febcat
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="github" class="dropdown-title"><span class="title">github</span> <span class="arrow down"></span></button> <button type="button" aria-label="github" class="mobile-dropdown-title"><span class="title">github</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/johninch/Roundtable" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Roundtable
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/esop-fed" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  esop-fed
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/johninch" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  johninch
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/dannisi" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Caleb
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/niannings" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  niannings
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/Xmtd" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Xmtd
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/febcat" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  febcat
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/Roundtable/FullStackDeveloper/" aria-current="page" class="sidebar-link">进阶全栈工程师</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>React</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Roundtable/FullStackDeveloper/react/1_react_componential.html" class="sidebar-link">1、React组件化</a></li><li><a href="/Roundtable/FullStackDeveloper/react/2_redux.html" class="sidebar-link">2、Redux</a></li><li><a href="/Roundtable/FullStackDeveloper/react/3_react-redux.html" class="sidebar-link">3、React-Redux 与 Hooks API</a></li><li><a href="/Roundtable/FullStackDeveloper/react/4_react-router.html" class="sidebar-link">4、React Router</a></li><li><a href="/Roundtable/FullStackDeveloper/react/5_project_training.html" class="sidebar-link">5、项目实战1</a></li><li><a href="/Roundtable/FullStackDeveloper/react/6_project_training2.html" class="sidebar-link">6、项目实战2</a></li><li><a href="/Roundtable/FullStackDeveloper/react/7_react16_source_1.html" class="sidebar-link">7、react16源码解析1</a></li><li><a href="/Roundtable/FullStackDeveloper/react/8_react16_source_2.html" class="sidebar-link">8、react16源码解析2</a></li><li><a href="/Roundtable/FullStackDeveloper/react/9_react16_source_3.html" class="sidebar-link">9、react16源码解析3</a></li><li><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html" aria-current="page" class="active sidebar-link">10、react16源码解析4</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#目录" class="sidebar-link">目录</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#如何调试源码" class="sidebar-link">如何调试源码</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#react中的数据结构" class="sidebar-link">React中的数据结构</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#创建更新" class="sidebar-link">创建更新</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#任务调度" class="sidebar-link">任务调度</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#react合成事件系统" class="sidebar-link">React合成事件系统</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#setstate" class="sidebar-link">setState</a></li><li class="sidebar-sub-header"><a href="/Roundtable/FullStackDeveloper/react/10_react16_source_4.html#react17rc" class="sidebar-link">react17rc</a></li></ul></li><li><a href="/Roundtable/FullStackDeveloper/react/11_react&amp;vue.html" class="sidebar-link">11、React &amp; Vue</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>NodeJS</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Webpack</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>React Native</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>项目</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>安全</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="_10、react16源码解析4"><a href="#_10、react16源码解析4" class="header-anchor">#</a> 10、react16源码解析4</h1> <ul><li><a href="https://react.docschina.org/" target="_blank" rel="noopener noreferrer">React中文网<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://github.com/facebook/react" target="_blank" rel="noopener noreferrer">React源码<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://github.com/bubucuo/DebugReact" target="_blank" rel="noopener noreferrer">Debug React<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://www.processon.com/view/link/5dd68342e4b001fa2e0c4697" target="_blank" rel="noopener noreferrer">源码指引<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <h2 id="目录"><a href="#目录" class="header-anchor">#</a> 目录</h2> <ul><li>如何调试源码</li> <li>React中的数据结构
+<ul><li>Fiber</li> <li>SideEffectTag</li> <li>ReactWorkTag</li> <li>Update &amp; UpdateQueue</li></ul></li> <li>创建更新
+<ul><li>ReactDOM.render</li> <li>setState与forceUpdate</li> <li>协调
+<ul><li>比对不同类型的元素</li> <li>比对同类型的DOM元素</li> <li>比对同类型的组件元素</li> <li>对子节点进行递归</li></ul></li></ul></li> <li>任务调度</li> <li>合成事件</li> <li>setState机制</li> <li>react17rc</li></ul> <h2 id="如何调试源码"><a href="#如何调试源码" class="header-anchor">#</a> 如何调试源码</h2> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">git</span> clone git@github.com:johninch/DebugReact.git
+
+<span class="token function">yarn</span> <span class="token comment"># 安装</span>
+<span class="token function">yarn</span> start <span class="token comment"># 启动</span>
+</code></pre></div><p>方便查看逻辑，去webpack里把dev设置为false，参考上面的git地址。</p> <h2 id="react中的数据结构"><a href="#react中的数据结构" class="header-anchor">#</a> React中的数据结构</h2> <h3 id="fiber"><a href="#fiber" class="header-anchor">#</a> Fiber</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Fiber</span> <span class="token punctuation">{</span>
+  <span class="token comment">/**
+   * ⚛️ 节点的类型信息
+   */</span>
+  <span class="token comment">// 标记 Fiber 类型, 例如函数组件、类组件、宿主组件</span>
+  tag<span class="token operator">:</span> WorkTag<span class="token punctuation">,</span>
+  <span class="token comment">// 节点元素类型, 是具体的类组件、函数组件、宿主组件(字符串)</span>
+  <span class="token keyword">type</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * ⚛️ 节点的状态
+   */</span>
+  <span class="token comment">// 节点实例(状态)：</span>
+  <span class="token comment">//        对于宿主组件，这里保存宿主组件的实例, 例如DOM节点。</span>
+  <span class="token comment">//        对于类组件来说，这里保存类组件的实例</span>
+  <span class="token comment">//        对于函数组件说，这里为空，因为函数组件没有实例</span>
+  stateNode<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span>
+  <span class="token comment">// 新的、待处理的props</span>
+  pendingProps<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span>
+  <span class="token comment">// 上一次渲染的props</span>
+  memoizedProps<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span> <span class="token comment">// The props used to create the output.</span>
+  <span class="token comment">// 上一次渲染的组件状态</span>
+  memoizedState<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * ⚛️ 结构信息
+   */</span>
+  <span class="token keyword">return</span><span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  child<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  sibling<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token comment">// 子节点的唯一键, 即我们渲染列表传入的key属性</span>
+  key<span class="token operator">:</span> <span class="token keyword">null</span> <span class="token operator">|</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * ⚛️ 副作用
+   */</span>
+  <span class="token comment">// 当前节点的副作用类型，例如节点更新、删除、移动</span>
+  effectTag<span class="token operator">:</span> SideEffectTag<span class="token punctuation">,</span>
+  <span class="token comment">// 和节点关系一样，React 同样使用链表来将所有有副作用的Fiber连接起来</span>
+  nextEffect<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * ⚛️ 替身
+   * 指向旧树中的节点
+   */</span>
+  alternate<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Fiber 包含的属性可以划分为 5 个部分:</p> <ul><li><strong>节点类型信息</strong>：tag 表示节点的分类、type 保存具体的类型值，如div、MyComp；</li> <li><strong>节点的状态</strong>：节点的组件实例、props、state等，它们将影响组件的输出；</li> <li>🎉<strong>结构信息(新增)</strong>：新增的 <code>上下文信息</code>，Fiber 依次通过 return、child 及 sibling 的顺序对 ReactElement 做处理，将之前简单的树结构，变成了<code>链表的形式</code>，维护了更多的节点关系。</li> <li>🎉<strong>副作用(新增)</strong>：新增的，在 Reconciliation 过程中发现的 <code>副作用(变更需求)</code>就保存在节点的 effectTag 中(想象为打上一个标记)。也使用了链表结构，在遍历过程中React会将所有有<code>副作用</code>的节点都通过nextEffect连接起来，从而<code>收集本次渲染的所有节点副作用</code>。</li> <li>🎉<strong>替身(新增)</strong>：新增的<code>WIP树</code>，React 在 Reconciliation 过程中会构建一颗新的树(官方称为workInProgress tree，<code>WIP树</code>)，可以认为是一颗表示当前工作进度的树。还有一颗表示已渲染界面的<code>旧树</code>，React就是一边和旧树比对，一边构建<code>WIP树</code>的。 alternate 指向旧树的同等节点。</li></ul> <h3 id="sideeffecttag"><a href="#sideeffecttag" class="header-anchor">#</a> SideEffectTag</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> type SideEffectTag <span class="token operator">=</span> number<span class="token punctuation">;</span>
+
+<span class="token comment">// Don't change these two values. They're used by React Dev Tools.</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> NoEffect <span class="token operator">=</span> <span class="token comment">/*                 */</span> <span class="token number">0b00000000000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> PerformedWork <span class="token operator">=</span> <span class="token comment">/*            */</span> <span class="token number">0b00000000000001</span><span class="token punctuation">;</span>
+
+<span class="token comment">// You can change the rest (and add more).</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Placement <span class="token operator">=</span> <span class="token comment">/*                */</span> <span class="token number">0b00000000000010</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Update <span class="token operator">=</span> <span class="token comment">/*                   */</span> <span class="token number">0b00000000000100</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> PlacementAndUpdate <span class="token operator">=</span> <span class="token comment">/*       */</span> <span class="token number">0b00000000000110</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Deletion <span class="token operator">=</span> <span class="token comment">/*                 */</span> <span class="token number">0b00000000001000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ContentReset <span class="token operator">=</span> <span class="token comment">/*             */</span> <span class="token number">0b00000000010000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Callback <span class="token operator">=</span> <span class="token comment">/*                 */</span> <span class="token number">0b00000000100000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> DidCapture <span class="token operator">=</span> <span class="token comment">/*               */</span> <span class="token number">0b00000001000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Ref <span class="token operator">=</span> <span class="token comment">/*                      */</span> <span class="token number">0b00000010000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Snapshot <span class="token operator">=</span> <span class="token comment">/*                 */</span> <span class="token number">0b00000100000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Passive <span class="token operator">=</span> <span class="token comment">/*                  */</span> <span class="token number">0b00001000000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> PassiveUnmountPendingDev <span class="token operator">=</span> <span class="token comment">/* */</span> <span class="token number">0b10000000000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Hydrating <span class="token operator">=</span> <span class="token comment">/*                */</span> <span class="token number">0b00010000000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HydratingAndUpdate <span class="token operator">=</span> <span class="token comment">/*       */</span> <span class="token number">0b00010000000100</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Passive &amp; Update &amp; Callback &amp; Ref &amp; Snapshot</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> LifecycleEffectMask <span class="token operator">=</span> <span class="token comment">/*      */</span> <span class="token number">0b00001110100100</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Union of all host effects</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HostEffectMask <span class="token operator">=</span> <span class="token comment">/*           */</span> <span class="token number">0b00011111111111</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> Incomplete <span class="token operator">=</span> <span class="token comment">/*               */</span> <span class="token number">0b00100000000000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ShouldCapture <span class="token operator">=</span> <span class="token comment">/*            */</span> <span class="token number">0b01000000000000</span><span class="token punctuation">;</span>
+</code></pre></div><p>这里的effectTag都是二进制，这个和React中用到的<code>位运算</code>有关。</p> <ul><li>首先我们要知道，<strong>位运算只能用于整数</strong>，并且是直接对二进制位进行计算，直接处理每一个比特位，是非常底层的运算，运算<strong>速度极快</strong>。</li> <li>比如说workInProgress.effectTag为132，那这个时候，workInProgress.effectTag &amp; Update 和 workInProgress.effectTag &amp; Ref在布尔值上都是true，这个时候就是既要执行 update effect ，还要执行 ref update。</li> <li>还有一个例子如workInProgress.effectTag |= Placement；这里就是说给workInProgress添加一个 Placement的副作用。</li></ul> <p>这种处理不仅速度快，而且简洁方便，是非常巧妙的方式，很值得我们学习借鉴。</p> <h3 id="reactworktag"><a href="#reactworktag" class="header-anchor">#</a> ReactWorkTag</h3> <p>fiber的类型，即内部的tag字段。常见的是0 1 5：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> type WorkTag <span class="token operator">=</span>
+  <span class="token operator">|</span> <span class="token number">0</span>
+  <span class="token operator">|</span> <span class="token number">1</span>
+<span class="token comment">// ...</span>
+  <span class="token operator">|</span> <span class="token number">24</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> FunctionComponent <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 函数组件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ClassComponent <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">// 类组件</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> IndeterminateComponent <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// Before we know whether it is function or class</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HostRoot <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">// Root of a host tree. Could be nested inside another node.</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HostPortal <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span> <span class="token comment">// A subtree. Could be an entry point to a different renderer.</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HostComponent <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>     <span class="token comment">// 原生标签</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> HostText <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Fragment <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Mode <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ContextConsumer <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ContextProvider <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ForwardRef <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Profiler <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> SuspenseComponent <span class="token operator">=</span> <span class="token number">13</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> MemoComponent <span class="token operator">=</span> <span class="token number">14</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> SimpleMemoComponent <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> LazyComponent <span class="token operator">=</span> <span class="token number">16</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> IncompleteClassComponent <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> DehydratedFragment <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> SuspenseListComponent <span class="token operator">=</span> <span class="token number">19</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> FundamentalComponent <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ScopeComponent <span class="token operator">=</span> <span class="token number">21</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> Block <span class="token operator">=</span> <span class="token number">22</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> OffscreenComponent <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> LegacyHiddenComponent <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="update-updatequeue"><a href="#update-updatequeue" class="header-anchor">#</a> Update &amp; UpdateQueue</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> type Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token operator">|</span>
+  <span class="token comment">// TODO: Temporary field. Will remove this by storing a map of</span>
+  <span class="token comment">// transition -&gt; event time on the root.</span>
+  eventTime<span class="token operator">:</span> number<span class="token punctuation">,</span>
+  lane<span class="token operator">:</span> Lane<span class="token punctuation">,</span>
+
+  tag<span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">|</span> <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">2</span> <span class="token operator">|</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  payload<span class="token operator">:</span> any<span class="token punctuation">,</span>
+  callback<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> mixed<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+
+  next<span class="token operator">:</span> Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+<span class="token operator">|</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+type SharedQueue<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token operator">|</span>
+  pending<span class="token operator">:</span> Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+<span class="token operator">|</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> type UpdateQueue<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token operator">|</span>
+  baseState<span class="token operator">:</span> State<span class="token punctuation">,</span>
+  firstBaseUpdate<span class="token operator">:</span> Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  lastBaseUpdate<span class="token operator">:</span> Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  shared<span class="token operator">:</span> SharedQueue<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+  effects<span class="token operator">:</span> Array<span class="token operator">&lt;</span>Update<span class="token operator">&lt;</span>State<span class="token operator">&gt;&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+<span class="token operator">|</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> UpdateState <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ReplaceState <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> ForceUpdate <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> CaptureUpdate <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+</code></pre></div><ul><li>tag标记不同类型，如执行forceUpdate的时候，tag值就是2。</li> <li>这个的payload是参数，比如setState更新时候，payload就是partialState，render的时候，payload 就是第一个参数，即element。</li></ul> <h3 id="executioncontext"><a href="#executioncontext" class="header-anchor">#</a> ExecutionContext</h3> <p>React执行栈(React execution stack)中，所处于几种环境的值，所对应的的全局变量是react-reconciler/src/ReactFiberWorkLoop.js文件中的 executionContext 。</p> <div class="language-js extra-class"><pre class="language-js"><code>type ExecutionContext <span class="token operator">=</span> number<span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> NoContext <span class="token operator">=</span> <span class="token comment">/*             */</span> <span class="token number">0b0000000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> BatchedContext <span class="token operator">=</span> <span class="token comment">/*               */</span> <span class="token number">0b0000001</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> EventContext <span class="token operator">=</span> <span class="token comment">/*                 */</span> <span class="token number">0b0000010</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> DiscreteEventContext <span class="token operator">=</span> <span class="token comment">/*         */</span> <span class="token number">0b0000100</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> LegacyUnbatchedContext <span class="token operator">=</span> <span class="token comment">/*       */</span> <span class="token number">0b0001000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> RenderContext <span class="token operator">=</span> <span class="token comment">/*                */</span> <span class="token number">0b0010000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> CommitContext <span class="token operator">=</span> <span class="token comment">/*                */</span> <span class="token number">0b0100000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> RetryAfterError <span class="token operator">=</span> <span class="token comment">/*       */</span> <span class="token number">0b1000000</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="过期时间计算"><a href="#过期时间计算" class="header-anchor">#</a> 过期时间计算</h3> <p>这里我们讨论两种类型的 ExpirationTime，一个是 Interactive 的，另一种是普通的异步。</p> <ul><li>Interactive 的比如说是由事件触发的，那么他的响应优先级会比较高因为涉及到交互。</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// TODO: This corresponds to Scheduler's NormalPriority, not LowPriority. Update</span>
+<span class="token comment">// the names to reflect.</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">LOW_PRIORITY_EXPIRATION</span> <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">LOW_PRIORITY_BATCH_SIZE</span> <span class="token operator">=</span> <span class="token number">250</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 异步</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">computeAsyncExpiration</span><span class="token punctuation">(</span>
+  <span class="token parameter">currentTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> ExpirationTime <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">computeExpirationBucket</span><span class="token punctuation">(</span>
+    currentTime<span class="token punctuation">,</span>
+    <span class="token constant">LOW_PRIORITY_EXPIRATION</span><span class="token punctuation">,</span>
+    <span class="token constant">LOW_PRIORITY_BATCH_SIZE</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">computeSuspenseExpiration</span><span class="token punctuation">(</span>
+  <span class="token parameter">currentTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span>
+  timeoutMs<span class="token operator">:</span> number<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> ExpirationTime <span class="token punctuation">{</span>
+  <span class="token comment">// TODO: Should we warn if timeoutMs is lower than the normal pri expiration time?</span>
+  <span class="token keyword">return</span> <span class="token function">computeExpirationBucket</span><span class="token punctuation">(</span>
+    currentTime<span class="token punctuation">,</span>
+    timeoutMs<span class="token punctuation">,</span>
+    <span class="token constant">LOW_PRIORITY_BATCH_SIZE</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">HIGH_PRIORITY_EXPIRATION</span> <span class="token operator">=</span> __DEV__ <span class="token operator">?</span> <span class="token number">500</span> <span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token constant">HIGH_PRIORITY_BATCH_SIZE</span> <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 比如说是事件触发的，他的响应优先级会比较高，因为涉及到交互</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">computeInteractiveExpiration</span><span class="token punctuation">(</span><span class="token parameter">currentTime<span class="token operator">:</span> ExpirationTime</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">computeExpirationBucket</span><span class="token punctuation">(</span>
+    currentTime<span class="token punctuation">,</span>
+    <span class="token constant">HIGH_PRIORITY_EXPIRATION</span><span class="token punctuation">,</span>
+    <span class="token constant">HIGH_PRIORITY_BATCH_SIZE</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="创建更新"><a href="#创建更新" class="header-anchor">#</a> 创建更新</h2> <h3 id="reactdom-render"><a href="#reactdom-render" class="header-anchor">#</a> ReactDOM.render</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">render</span><span class="token punctuation">(</span>
+  <span class="token parameter">element<span class="token operator">:</span> React$Element<span class="token operator">&lt;</span>any<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+  container<span class="token operator">:</span> Container<span class="token punctuation">,</span>
+  callback<span class="token operator">:</span> <span class="token operator">?</span>Function<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">invariant</span><span class="token punctuation">(</span>
+    <span class="token function">isValidContainer</span><span class="token punctuation">(</span>container<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">'Target container is not a DOM element.'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> isModernRoot <span class="token operator">=</span>
+      <span class="token function">isContainerMarkedAsRoot</span><span class="token punctuation">(</span>container<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+      container<span class="token punctuation">.</span>_reactRootContainer <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isModernRoot<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>
+        <span class="token string">'You are calling ReactDOM.render() on a container that was previously '</span> <span class="token operator">+</span>
+          <span class="token string">'passed to ReactDOM.createRoot(). This is not supported. '</span> <span class="token operator">+</span>
+          <span class="token string">'Did you mean to call root.render(element)?'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token function">legacyRenderSubtreeIntoContainer</span><span class="token punctuation">(</span>
+    <span class="token keyword">null</span><span class="token punctuation">,</span>
+    element<span class="token punctuation">,</span>
+    container<span class="token punctuation">,</span>
+    <span class="token boolean">false</span><span class="token punctuation">,</span>
+    callback<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ul><li>上面render调用legacyRenderSubtreeIntoContainer，可以看到parentComponent设置为null。</li> <li>初次渲染，生成fiberRoot，以后每次update，都要使用这个fiberRoot。</li> <li>callback是回调，如果为function，则每次渲染和更新完成，都会执行，调用 originalCallback.call(instance)。</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">legacyRenderSubtreeIntoContainer</span><span class="token punctuation">(</span>
+  <span class="token parameter">parentComponent<span class="token operator">:</span> <span class="token operator">?</span>React$Component<span class="token operator">&lt;</span>any<span class="token punctuation">,</span> any<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+  children<span class="token operator">:</span> ReactNodeList<span class="token punctuation">,</span>
+  container<span class="token operator">:</span> Container<span class="token punctuation">,</span>
+  forceHydrate<span class="token operator">:</span> boolean<span class="token punctuation">,</span>
+  callback<span class="token operator">:</span> <span class="token operator">?</span>Function<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">topLevelUpdateWarnings</span><span class="token punctuation">(</span>container<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">warnOnInvalidCallback</span><span class="token punctuation">(</span>callback <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> callback<span class="token punctuation">,</span> <span class="token string">'render'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// TODO: Without `any` type, Flow says &quot;Property cannot be accessed on any</span>
+  <span class="token comment">// member of intersection type.&quot; Whyyyyyy.</span>
+  <span class="token keyword">let</span> root<span class="token operator">:</span> RootType <span class="token operator">=</span> <span class="token punctuation">(</span>container<span class="token punctuation">.</span>_reactRootContainer<span class="token operator">:</span> any<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> fiberRoot<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>root<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Initial mount 初次渲染</span>
+    root <span class="token operator">=</span> container<span class="token punctuation">.</span>_reactRootContainer <span class="token operator">=</span> <span class="token function">legacyCreateRootFromDOMContainer</span><span class="token punctuation">(</span>
+      container<span class="token punctuation">,</span>
+      forceHydrate<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    fiberRoot <span class="token operator">=</span> root<span class="token punctuation">.</span>_internalRoot<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> callback <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> originalCallback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+      <span class="token function-variable function">callback</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> instance <span class="token operator">=</span> <span class="token function">getPublicRootInstance</span><span class="token punctuation">(</span>fiberRoot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">originalCallback</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>instance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// Initial mount should not be batched.</span>
+    <span class="token comment">// 初次渲染的话 ， 尽快更新， 使用非批量</span>
+    <span class="token function">unbatchedUpdates</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">updateContainer</span><span class="token punctuation">(</span>children<span class="token punctuation">,</span> fiberRoot<span class="token punctuation">,</span> parentComponent<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    fiberRoot <span class="token operator">=</span> root<span class="token punctuation">.</span>_internalRoot<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> callback <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> originalCallback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+      <span class="token function-variable function">callback</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> instance <span class="token operator">=</span> <span class="token function">getPublicRootInstance</span><span class="token punctuation">(</span>fiberRoot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">originalCallback</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>instance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// Update</span>
+    <span class="token function">updateContainer</span><span class="token punctuation">(</span>children<span class="token punctuation">,</span> fiberRoot<span class="token punctuation">,</span> parentComponent<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// console.log('fiberRoot', fiberRoot.current); //sy-log</span>
+  <span class="token keyword">return</span> <span class="token function">getPublicRootInstance</span><span class="token punctuation">(</span>fiberRoot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 最后依然要引起更新渲染</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">updateContainer</span><span class="token punctuation">(</span>
+  <span class="token parameter">element<span class="token operator">:</span> ReactNodeList<span class="token punctuation">,</span>
+  container<span class="token operator">:</span> OpaqueRoot<span class="token punctuation">,</span>
+  parentComponent<span class="token operator">:</span> <span class="token operator">?</span>React$Component<span class="token operator">&lt;</span>any<span class="token punctuation">,</span> any<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+  callback<span class="token operator">:</span> <span class="token operator">?</span>Function<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> ExpirationTime <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> current <span class="token operator">=</span> container<span class="token punctuation">.</span>current<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> currentTime <span class="token operator">=</span> <span class="token function">requestCurrentTimeForUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> suspenseConfig <span class="token operator">=</span> <span class="token function">requestCurrentSuspenseConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> expirationTime <span class="token operator">=</span> <span class="token function">computeExpirationForFiber</span><span class="token punctuation">(</span>
+    currentTime<span class="token punctuation">,</span>
+    current<span class="token punctuation">,</span>
+    suspenseConfig<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token function">getContextForSubtree</span><span class="token punctuation">(</span>parentComponent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>container<span class="token punctuation">.</span>context <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    container<span class="token punctuation">.</span>context <span class="token operator">=</span> context<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    container<span class="token punctuation">.</span>pendingContext <span class="token operator">=</span> context<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 创建一个更新</span>
+  <span class="token keyword">const</span> update <span class="token operator">=</span> <span class="token function">createUpdate</span><span class="token punctuation">(</span>expirationTime<span class="token punctuation">,</span> suspenseConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// Caution: React DevTools currently depends on this property</span>
+  <span class="token comment">// being called &quot;element&quot;.</span>
+  <span class="token comment">// 这个来自render，payload就是render的第一个参数（element）</span>
+  update<span class="token punctuation">.</span>payload <span class="token operator">=</span> <span class="token punctuation">{</span>element<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 回调，更新完了要执行回调，所以呢，把callback要挂在update上</span>
+  callback <span class="token operator">=</span> callback <span class="token operator">===</span> <span class="token keyword">undefined</span> <span class="token operator">?</span> <span class="token keyword">null</span> <span class="token operator">:</span> callback<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>callback <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    update<span class="token punctuation">.</span>callback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// 把更新入队列，形成update链表</span>
+  <span class="token function">enqueueUpdate</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> update<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 处理更新</span>
+  <span class="token function">scheduleUpdateOnFiber</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> expirationTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> expirationTime<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>updateContainer中计算过期时间并做返回，同时创建update，并给update.payload赋值为 element，即这里的子元素，(这里可以setState做对比)。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">createUpdate</span><span class="token punctuation">(</span>
+  <span class="token parameter">expirationTime<span class="token operator">:</span> ExpirationTime<span class="token punctuation">,</span>
+  suspenseConfig<span class="token operator">:</span> <span class="token keyword">null</span> <span class="token operator">|</span> SuspenseConfig<span class="token punctuation">,</span></span>
+<span class="token punctuation">)</span><span class="token operator">:</span> Update<span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> update<span class="token operator">:</span> Update<span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    expirationTime<span class="token punctuation">,</span>
+    suspenseConfig<span class="token punctuation">,</span>
+
+    tag<span class="token operator">:</span> UpdateState<span class="token punctuation">,</span>
+    payload<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    callback<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+
+    next<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    update<span class="token punctuation">.</span>priority <span class="token operator">=</span> <span class="token function">getCurrentPriorityLevel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> update<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="setstate与forceupdate"><a href="#setstate与forceupdate" class="header-anchor">#</a> setState与forceUpdate</h3> <p>setState调用updater的enqueueSetState，这里的payload就是setState的第一个参数partialState，是个对象或者function。相应的forceUpdate调用updater.enqueueForceUpdate，并没有payload，而有一个标记为
+ForceUpdate(2)的tag，对比上面createUpdate的tag是UpdateState(0)。</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> classComponentUpdater <span class="token operator">=</span> <span class="token punctuation">{</span>
+  isMounted<span class="token punctuation">,</span>
+  <span class="token function">enqueueSetState</span><span class="token punctuation">(</span><span class="token parameter">inst<span class="token punctuation">,</span> payload<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> fiber <span class="token operator">=</span> <span class="token function">getInstance</span><span class="token punctuation">(</span>inst<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> currentTime <span class="token operator">=</span> <span class="token function">requestCurrentTimeForUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> suspenseConfig <span class="token operator">=</span> <span class="token function">requestCurrentSuspenseConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> expirationTime <span class="token operator">=</span> <span class="token function">computeExpirationForFiber</span><span class="token punctuation">(</span>
+      currentTime<span class="token punctuation">,</span>
+      fiber<span class="token punctuation">,</span>
+      suspenseConfig<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> update <span class="token operator">=</span> <span class="token function">createUpdate</span><span class="token punctuation">(</span>expirationTime<span class="token punctuation">,</span> suspenseConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    update<span class="token punctuation">.</span>payload <span class="token operator">=</span> payload<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>callback <span class="token operator">!==</span> <span class="token keyword">undefined</span> <span class="token operator">&amp;&amp;</span> callback <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      update<span class="token punctuation">.</span>callback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">enqueueUpdate</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> update<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scheduleUpdateOnFiber</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> expirationTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">enqueueReplaceState</span><span class="token punctuation">(</span><span class="token parameter">inst<span class="token punctuation">,</span> payload<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> fiber <span class="token operator">=</span> <span class="token function">getInstance</span><span class="token punctuation">(</span>inst<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> currentTime <span class="token operator">=</span> <span class="token function">requestCurrentTimeForUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> suspenseConfig <span class="token operator">=</span> <span class="token function">requestCurrentSuspenseConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> expirationTime <span class="token operator">=</span> <span class="token function">computeExpirationForFiber</span><span class="token punctuation">(</span>
+      currentTime<span class="token punctuation">,</span>
+      fiber<span class="token punctuation">,</span>
+      suspenseConfig<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> update <span class="token operator">=</span> <span class="token function">createUpdate</span><span class="token punctuation">(</span>expirationTime<span class="token punctuation">,</span> suspenseConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    update<span class="token punctuation">.</span>tag <span class="token operator">=</span> ReplaceState<span class="token punctuation">;</span>
+    update<span class="token punctuation">.</span>payload <span class="token operator">=</span> payload<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>callback <span class="token operator">!==</span> <span class="token keyword">undefined</span> <span class="token operator">&amp;&amp;</span> callback <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      update<span class="token punctuation">.</span>callback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">enqueueUpdate</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> update<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scheduleUpdateOnFiber</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> expirationTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">enqueueForceUpdate</span><span class="token punctuation">(</span><span class="token parameter">inst<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> fiber <span class="token operator">=</span> <span class="token function">getInstance</span><span class="token punctuation">(</span>inst<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> currentTime <span class="token operator">=</span> <span class="token function">requestCurrentTimeForUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> suspenseConfig <span class="token operator">=</span> <span class="token function">requestCurrentSuspenseConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> expirationTime <span class="token operator">=</span> <span class="token function">computeExpirationForFiber</span><span class="token punctuation">(</span>
+      currentTime<span class="token punctuation">,</span>
+      fiber<span class="token punctuation">,</span>
+      suspenseConfig<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> update <span class="token operator">=</span> <span class="token function">createUpdate</span><span class="token punctuation">(</span>expirationTime<span class="token punctuation">,</span> suspenseConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    update<span class="token punctuation">.</span>tag <span class="token operator">=</span> ForceUpdate<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>callback <span class="token operator">!==</span> <span class="token keyword">undefined</span> <span class="token operator">&amp;&amp;</span> callback <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">warnOnInvalidCallback</span><span class="token punctuation">(</span>callback<span class="token punctuation">,</span> <span class="token string">'forceUpdate'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      update<span class="token punctuation">.</span>callback <span class="token operator">=</span> callback<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">enqueueUpdate</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> update<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scheduleUpdateOnFiber</span><span class="token punctuation">(</span>fiber<span class="token punctuation">,</span> expirationTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>enableDebugTracing<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>fiber<span class="token punctuation">.</span>mode <span class="token operator">&amp;</span> DebugTracingMode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">const</span> label <span class="token operator">=</span> <span class="token function">priorityLevelToLabel</span><span class="token punctuation">(</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span>update<span class="token punctuation">.</span>priority<span class="token operator">:</span> any<span class="token punctuation">)</span><span class="token operator">:</span> ReactPriorityLevel<span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token function">getComponentName</span><span class="token punctuation">(</span>fiber<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token string">'Unknown'</span><span class="token punctuation">;</span>
+          <span class="token function">logForceUpdateScheduled</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="协调"><a href="#协调" class="header-anchor">#</a> 协调</h3> <ul><li><strong>比对不同类型的元素</strong> <ul><li>当根节点为不同类型的元素时，React会卸载老树并创建新树。举个例子，从变成，从 《Article》变 成 《Comment》，或者从 《Button》变成 《div》，这些都会触发一个完整的重建流程。</li> <li>卸载老树的时候，老的DOM节点也会被销毁，组件实例会执行componentWillUnmount。创建新树的时候，也会有新的DOM节点插入DOM，这个组件实例会执行 componentWillMount() 和 componentDidMount() 。当然，老树相关的state也被消除。</li></ul></li> <li><strong>比对同类型的组件元素</strong> <ul><li>这个时候，React更新该组件实例的props，调用componentWillReceiveProps() 和 componentWillUpdate()。下一步，render被调用，diff算法递归遍历新老树。</li></ul></li> <li><strong>比对同类型的DOM元素</strong> <ul><li>当对比同类型的DOM元素时候，React会比对新旧元素的属性，同时保留老的，只去更新改变的属性。</li> <li>处理完DOM节点之后，React然后会去递归遍历子节点。
+<ul><li><strong>对子节点进行递归</strong>：当递归DOM节点的子元素时，React会同时遍历两个子元素的列表。</li></ul></li></ul></li></ul> <p>下面是遍历子节点的源码，解析这段源码得出以下思路:</p> <ul><li>首先判断当前节点是否是没有key值的顶层fragment元素，如果是的话，需要遍历的newChild就 是newChild.props.children元素。</li> <li>判断newChild的类型，如果是object，并且$$typeof是REACT_ELEMENT_TYPE，那么证明这是一个单个的元素，则首先执行reconcileSingleElement函数，返回协调之后得到的fiber，placeSingleChild函数则把这个fiber放到指定位置上。</li> <li>REACT_PORTAL_TYPE同上一条。</li> <li>如果newChild是string或者number，即文本，则执行reconcileSingleTextNode函数，返回协调之后得到的fiber，依然是placeSingleChild把这个fiber放到指定的位置上。</li> <li>如果是newChild数组，则执行reconcileChildrenArray对数组进行协调（<code>diff核心</code>）。</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">function</span> <span class="token function">reconcileChildFibers</span><span class="token punctuation">(</span>
+    <span class="token parameter">returnFiber<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+    currentFirstChild<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    newChild<span class="token operator">:</span> any<span class="token punctuation">,</span>
+    lanes<span class="token operator">:</span> Lanes<span class="token punctuation">,</span></span>
+  <span class="token punctuation">)</span><span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token punctuation">{</span>
+    <span class="token comment">// This function is not recursive.</span>
+    <span class="token comment">// If the top level item is an array, we treat it as a set of children,</span>
+    <span class="token comment">// not as a fragment. Nested arrays on the other hand will be treated as</span>
+    <span class="token comment">// fragment nodes. Recursion happens at the normal flow.</span>
+
+    <span class="token comment">// Handle top level unkeyed fragments as if they were arrays.</span>
+    <span class="token comment">// This leads to an ambiguity between &lt;&gt;{[...]}&lt;/&gt; and &lt;&gt;...&lt;/&gt;.</span>
+    <span class="token comment">// We treat the ambiguous cases above the same.</span>
+    <span class="token keyword">const</span> isUnkeyedTopLevelFragment <span class="token operator">=</span>
+      <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span>
+      newChild <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span>
+      newChild<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token constant">REACT_FRAGMENT_TYPE</span> <span class="token operator">&amp;&amp;</span>
+      newChild<span class="token punctuation">.</span>key <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isUnkeyedTopLevelFragment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      newChild <span class="token operator">=</span> newChild<span class="token punctuation">.</span>props<span class="token punctuation">.</span>children<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Handle object types</span>
+    <span class="token keyword">const</span> isObject <span class="token operator">=</span> <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span> newChild <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>newChild<span class="token punctuation">.</span>$$<span class="token keyword">typeof</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token constant">REACT_ELEMENT_TYPE</span><span class="token operator">:</span>
+          <span class="token keyword">return</span> <span class="token function">placeSingleChild</span><span class="token punctuation">(</span>
+            <span class="token function">reconcileSingleElement</span><span class="token punctuation">(</span>
+              returnFiber<span class="token punctuation">,</span>
+              currentFirstChild<span class="token punctuation">,</span>
+              newChild<span class="token punctuation">,</span>
+              lanes<span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token constant">REACT_PORTAL_TYPE</span><span class="token operator">:</span>
+          <span class="token keyword">return</span> <span class="token function">placeSingleChild</span><span class="token punctuation">(</span>
+            <span class="token function">reconcileSinglePortal</span><span class="token punctuation">(</span>
+              returnFiber<span class="token punctuation">,</span>
+              currentFirstChild<span class="token punctuation">,</span>
+              newChild<span class="token punctuation">,</span>
+              lanes<span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'string'</span> <span class="token operator">||</span> <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'number'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">placeSingleChild</span><span class="token punctuation">(</span>
+        <span class="token function">reconcileSingleTextNode</span><span class="token punctuation">(</span>
+          returnFiber<span class="token punctuation">,</span>
+          currentFirstChild<span class="token punctuation">,</span>
+          <span class="token string">''</span> <span class="token operator">+</span> newChild<span class="token punctuation">,</span>
+          lanes<span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isArray</span><span class="token punctuation">(</span>newChild<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">reconcileChildrenArray</span><span class="token punctuation">(</span>
+        returnFiber<span class="token punctuation">,</span>
+        currentFirstChild<span class="token punctuation">,</span>
+        newChild<span class="token punctuation">,</span>
+        lanes<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">getIteratorFn</span><span class="token punctuation">(</span>newChild<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">reconcileChildrenIterator</span><span class="token punctuation">(</span>
+        returnFiber<span class="token punctuation">,</span>
+        currentFirstChild<span class="token punctuation">,</span>
+        newChild<span class="token punctuation">,</span>
+        lanes<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">throwOnInvalidObjectType</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> newChild<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">warnOnFunctionType</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">'undefined'</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>isUnkeyedTopLevelFragment<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// If the new child is undefined, and the return fiber is a composite</span>
+      <span class="token comment">// component, throw an error. If Fiber return types are disabled,</span>
+      <span class="token comment">// we already threw above.</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>returnFiber<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> ClassComponent<span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">const</span> instance <span class="token operator">=</span> returnFiber<span class="token punctuation">.</span>stateNode<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>instance<span class="token punctuation">.</span>render<span class="token punctuation">.</span>_isMockFunction<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token comment">// We allow auto-mocks to proceed as if they're returning null.</span>
+              <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// Intentionally fall through to the next case, which handles both</span>
+        <span class="token comment">// functions and classes</span>
+        <span class="token comment">// eslint-disable-next-lined no-fallthrough</span>
+        <span class="token keyword">case</span> FunctionComponent<span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token keyword">const</span> Component <span class="token operator">=</span> returnFiber<span class="token punctuation">.</span>type<span class="token punctuation">;</span>
+          <span class="token function">invariant</span><span class="token punctuation">(</span>
+            <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token string">'%s(...): Nothing was returned from render. This usually means a '</span> <span class="token operator">+</span>
+              <span class="token string">'return statement is missing. Or, to render nothing, '</span> <span class="token operator">+</span>
+              <span class="token string">'return null.'</span><span class="token punctuation">,</span>
+            Component<span class="token punctuation">.</span>displayName <span class="token operator">||</span> Component<span class="token punctuation">.</span>name <span class="token operator">||</span> <span class="token string">'Component'</span><span class="token punctuation">,</span>
+          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Remaining cases are all treated as empty.</span>
+    <span class="token keyword">return</span> <span class="token function">deleteRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> currentFirstChild<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+</code></pre></div><p>当上文中的newChild是个数组的时候，执行reconcileChildrenArray函数进行协调，newChild也就是这里的newChildren，这里也是<strong>diff的核心算法所在</strong>。</p> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">function</span> <span class="token function">reconcileChildrenArray</span><span class="token punctuation">(</span>
+    <span class="token parameter">returnFiber<span class="token operator">:</span> Fiber<span class="token punctuation">,</span>
+    currentFirstChild<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    newChildren<span class="token operator">:</span> Array<span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">,</span>
+    lanes<span class="token operator">:</span> Lanes<span class="token punctuation">,</span></span>
+  <span class="token punctuation">)</span><span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token punctuation">{</span>
+    <span class="token comment">// This algorithm can't optimize by searching from both ends since we</span>
+    <span class="token comment">// don't have backpointers on fibers. I'm trying to see how far we can get</span>
+    <span class="token comment">// with that model. If it ends up not being worth the tradeoffs, we can</span>
+    <span class="token comment">// add it later.</span>
+
+    <span class="token comment">// Even with a two ended optimization, we'd want to optimize for the case</span>
+    <span class="token comment">// where there are few changes and brute force the comparison instead of</span>
+    <span class="token comment">// going for the Map. It'd like to explore hitting that path first in</span>
+    <span class="token comment">// forward-only mode and only go for the Map once we notice that we need</span>
+    <span class="token comment">// lots of look ahead. This doesn't handle reversal as well as two ended</span>
+    <span class="token comment">// search but that's unusual. Besides, for the two ended optimization to</span>
+    <span class="token comment">// work on Iterables, we'd need to copy the whole set.</span>
+
+    <span class="token comment">// In this first iteration, we'll just live with hitting the bad case</span>
+    <span class="token comment">// (adding everything to a Map) in for every insert/move.</span>
+
+    <span class="token comment">// If you change this code, also update reconcileChildrenIterator() which</span>
+    <span class="token comment">// uses the same algorithm.</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>__DEV__<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// First, validate keys.</span>
+      <span class="token keyword">let</span> knownKeys <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> newChildren<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> child <span class="token operator">=</span> newChildren<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        knownKeys <span class="token operator">=</span> <span class="token function">warnOnInvalidKey</span><span class="token punctuation">(</span>child<span class="token punctuation">,</span> knownKeys<span class="token punctuation">,</span> returnFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">let</span> resultingFirstChild<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> previousNewFiber<span class="token operator">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">let</span> oldFiber <span class="token operator">=</span> currentFirstChild<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> lastPlacedIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> newIdx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> nextOldFiber <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> oldFiber <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> newIdx <span class="token operator">&lt;</span> newChildren<span class="token punctuation">.</span>length<span class="token punctuation">;</span> newIdx<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>oldFiber<span class="token punctuation">.</span>index <span class="token operator">&gt;</span> newIdx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        nextOldFiber <span class="token operator">=</span> oldFiber<span class="token punctuation">;</span>
+        oldFiber <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        nextOldFiber <span class="token operator">=</span> oldFiber<span class="token punctuation">.</span>sibling<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> newFiber <span class="token operator">=</span> <span class="token function">updateSlot</span><span class="token punctuation">(</span>
+        returnFiber<span class="token punctuation">,</span>
+        oldFiber<span class="token punctuation">,</span>
+        newChildren<span class="token punctuation">[</span>newIdx<span class="token punctuation">]</span><span class="token punctuation">,</span>
+        lanes<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>newFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// TODO: This breaks on empty slots like null children. That's</span>
+        <span class="token comment">// unfortunate because it triggers the slow path all the time. We need</span>
+        <span class="token comment">// a better way to communicate whether this was a miss or null,</span>
+        <span class="token comment">// boolean, undefined, etc.</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          oldFiber <span class="token operator">=</span> nextOldFiber<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>shouldTrackSideEffects<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>oldFiber <span class="token operator">&amp;&amp;</span> newFiber<span class="token punctuation">.</span>alternate <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// We matched the slot, but we didn't reuse the existing fiber, so we</span>
+          <span class="token comment">// need to delete the existing child.</span>
+          <span class="token function">deleteChild</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> oldFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      lastPlacedIndex <span class="token operator">=</span> <span class="token function">placeChild</span><span class="token punctuation">(</span>newFiber<span class="token punctuation">,</span> lastPlacedIndex<span class="token punctuation">,</span> newIdx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>previousNewFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// TODO: Move out of the loop. This only happens for the first run.</span>
+        resultingFirstChild <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// TODO: Defer siblings if we're not at the right index for this slot.</span>
+        <span class="token comment">// I.e. if we had null values before, then we want to defer this</span>
+        <span class="token comment">// for each null value. However, we also don't want to call updateSlot</span>
+        <span class="token comment">// with the previous one.</span>
+        previousNewFiber<span class="token punctuation">.</span>sibling <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      previousNewFiber <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+      oldFiber <span class="token operator">=</span> nextOldFiber<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>newIdx <span class="token operator">===</span> newChildren<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// We've reached the end of the new children. We can delete the rest.</span>
+      <span class="token comment">// newChildren已经更新完毕，这个时候把oldFiber及siblings删除就行了</span>
+      <span class="token function">deleteRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> oldFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> resultingFirstChild<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>oldFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// If we don't have any more existing children we can choose a fast path</span>
+      <span class="token comment">// since the rest will all be insertions.</span>
+      <span class="token comment">// oldFiber已经没了，但是newChildren还有元素，直接插入就行了</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> newIdx <span class="token operator">&lt;</span> newChildren<span class="token punctuation">.</span>length<span class="token punctuation">;</span> newIdx<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> newFiber <span class="token operator">=</span> <span class="token function">createChild</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> newChildren<span class="token punctuation">[</span>newIdx<span class="token punctuation">]</span><span class="token punctuation">,</span> lanes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>newFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        lastPlacedIndex <span class="token operator">=</span> <span class="token function">placeChild</span><span class="token punctuation">(</span>newFiber<span class="token punctuation">,</span> lastPlacedIndex<span class="token punctuation">,</span> newIdx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>previousNewFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// TODO: Move out of the loop. This only happens for the first run.</span>
+          resultingFirstChild <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          previousNewFiber<span class="token punctuation">.</span>sibling <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        previousNewFiber <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> resultingFirstChild<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Add all children to a key map for quick lookups.</span>
+    <span class="token comment">// 把children做成一个可以根据key值索引的map，可快速查询</span>
+    <span class="token keyword">const</span> existingChildren <span class="token operator">=</span> <span class="token function">mapRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> oldFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Keep scanning and use the map to restore deleted items as moves.</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> newIdx <span class="token operator">&lt;</span> newChildren<span class="token punctuation">.</span>length<span class="token punctuation">;</span> newIdx<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> newFiber <span class="token operator">=</span> <span class="token function">updateFromMap</span><span class="token punctuation">(</span>
+        existingChildren<span class="token punctuation">,</span>
+        returnFiber<span class="token punctuation">,</span>
+        newIdx<span class="token punctuation">,</span>
+        newChildren<span class="token punctuation">[</span>newIdx<span class="token punctuation">]</span><span class="token punctuation">,</span>
+        lanes<span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>newFiber <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>shouldTrackSideEffects<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>newFiber<span class="token punctuation">.</span>alternate <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// The new fiber is a work in progress, but if there exists a</span>
+            <span class="token comment">// current, that means that we reused the fiber. We need to delete</span>
+            <span class="token comment">// it from the child list so that we don't add it to the deletion</span>
+            <span class="token comment">// list.</span>
+            existingChildren<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>
+              newFiber<span class="token punctuation">.</span>key <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">?</span> newIdx <span class="token operator">:</span> newFiber<span class="token punctuation">.</span>key<span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        lastPlacedIndex <span class="token operator">=</span> <span class="token function">placeChild</span><span class="token punctuation">(</span>newFiber<span class="token punctuation">,</span> lastPlacedIndex<span class="token punctuation">,</span> newIdx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>previousNewFiber <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          resultingFirstChild <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          previousNewFiber<span class="token punctuation">.</span>sibling <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        previousNewFiber <span class="token operator">=</span> newFiber<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>shouldTrackSideEffects<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Any existing children that weren't consumed above were deleted. We need</span>
+      <span class="token comment">// to add them to the deletion list.</span>
+      <span class="token comment">// 更新阶段， 还有副作用未被处理， 那就只能是删除的节点了</span>
+      existingChildren<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">child</span> <span class="token operator">=&gt;</span> <span class="token function">deleteChild</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> child<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> resultingFirstChild<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><p>由于 React 依赖探索的算法，因此当以下假设没有得到满足，性能会有所损耗。</p> <ol><li>该算法不会尝试匹配不同组件类型的子树。如果你发现你在两种不同类型的组件中切换，但输出非常相似的内容，建议把它们改成同一类型。在实践中，我们没有遇到这类问题。</li> <li>Key 应该具<strong>有稳定，可预测，以及列表内唯一的特质</strong>。不稳定的 key(比如通过 Math.random() 生成的)会导致许多组件实例和 DOM 节点被不必要地重新创建，这可能导致性能下降和子组件中的状态丢失。</li></ol> <h2 id="任务调度"><a href="#任务调度" class="header-anchor">#</a> 任务调度</h2> <p>全局变量 isCommitting 用来标志是否处于commit阶段。commitRoot 开头设置为 true ，结束之后设置为 false</p> <p>代码略。。。。。。。</p> <h2 id="react合成事件系统"><a href="#react合成事件系统" class="header-anchor">#</a> React合成事件系统</h2> <p>React为了实现跨平台兼容性，对于事件处理有自己的一套代码。可以看到ReactDOM.js中注入了 import './ReactDOMClientInjection'; 。</p> <p>React中有自己的事件系统模式，即通常被称为<code>React合成事件</code>。之所以采用这种自己定义的合成事件：</p> <ul><li>一方面是为了<code>抹平差异性，更好的兼容性和跨平台</code>，使得React开发者不需要自己再去关注浏览器事件兼容性问题；</li> <li>另一方面是为了<code>统一管理事件，提高性能</code>，这主要体现在：
+<ul><li><strong>React内部实现事件委托，挂载到document，减少内存消耗，避免频繁解绑</strong></li> <li><strong>并且记录当前事件发生的状态，方便事件的统一管理（如事务机制）</strong>。</li></ul></li></ul> <p><strong>事件委托</strong>，也就是我们通常提到的事件代理机制，这种机制不会把时间处理函数直接绑定在真实的节点上，而是把所有的事件绑定到结构的最外层，使用一个统一的事件监听和处理函数。当组件加载或卸载时，只是在这个统一的事件监听器上插入或删除一些对象;当事件放生时，首先被这个统一的事件监听器处理，然后在映射表里找到真正的事件处理函数并调用。这样做简化了事件处理和回收机制，效率也有很大提升。</p> <p>记录当前事件发生的状态，即记录事件执行的上下文，这便于React来处理不同事件的优先级，达到<strong>谁优先级高先处理谁的目的</strong>，这里也就实现了React的增量渲染思想，可以预防掉帧，同时达到页面更顺滑的目的，提升用户体验。</p> <h2 id="setstate"><a href="#setstate" class="header-anchor">#</a> setState</h2> <p>setState 会对一个组件的 state 对象安排一次更新。当 state 改变了，该组件就会重新渲染。class组件的特点，就是拥有特殊状态并且可以通过setState更新状态并重新渲染视图，是React中最重要的api。</p> <p>setState的运行机制，同步还是异步，请走<a href="/Roundtable/Question-Bank/react/setState.html">传送门查看</a></p> <p>React中理论上有三种模式可选，默认的 legacy 模式、blocking 模式和 concurrent模式，legacy 模式在合成事件中有自动批处理的功能，但仅限于一个浏览器任务。非 React 事件想使用这个功能必须使用
+unstable_batchedUpdates 。在 blocking 模式和 concurrent 模式下，所有的setState在默认情况下都是批处理的，但是这两种模式目前仅实验版本可用。</p> <p>在目前的版本中，事件处理函数内部的setState是异步的，即批量执行，这样是为了避免子组件被多次渲染，这种机制可以在大型应用中得到很好的性能提升。但是React官网也提到这只是一个实现的细节，所以请不要直接依赖于这种机制。在以后的版本当中，React 会在更多的情况下默认地使用 state 的批更新机制。</p> <h2 id="react17rc"><a href="#react17rc" class="header-anchor">#</a> react17rc</h2> <p>react17 与去年的路线图演进计划不一致，之前的默认启用concurrent render和删除deprecated lifecycles计划被推迟了。</p> <ul><li><strong>无新特性</strong>：React 17 的版本是非比寻常的，因为它没有添加任何面向开发人员的新功能。而主要侧重于升级简化 React 本身。</li> <li><strong>逐步升级</strong>：React 17 开始支持逐步升级 React 版本。首选还是像以前一样，一次升级整个应用程序。但你也可以选择逐步升级你的应用程序。例如，你可能会将大部分应用程序迁移至 React 18，但在 React 17 上保留一些延迟加载的对话框或子路由。</li> <li><strong>更改事件委托</strong>：事件的<code>委托绑定不再是document</code>，而是rootNode（即将事件处理器附加到渲染 React树的 <code>根DOM容器</code>中）；
+<ul><li>react中事件委托，17之前的版本都是放在document上的，而17版本将事件委托放在container上。之所以这样做，是为了微服务，方便复用，如果多个版本都委托在document上，可能会产生冲突，而如果每个版本都委托在自己的container上，就可以相互隔离。</li></ul></li> <li><strong>去除事件池</strong>：取消了SyntheticEvent事件池，<code>可以延迟访问event</code>了；
+<ul><li>因为 React 在旧浏览器中重用了不同事件的事件对象，以提高性能，并将所有事件字段在它们之前设置为 null。在 React 16 及更早版本中，使用者必须调用 e.persist() 才能正确的使用该事件，或者正确读取需要的属性。</li> <li>而在 React 17 中，此代码可以按照预期效果执行。旧的事件池优化操作已被完成删除，因此，使用者可以在需要时读取事件字段。</li></ul></li> <li><strong>副作用清理时间</strong>：useEffect的<code>清理函数运行也变成异步</code>了；
+<ul><li>当组件被卸载时，副作用清理函数（类似于在 class 组件中同步调用 componentWillUnmount）同步运行。我们发现，对于大型应用程序来说，这不是理想选择，因为同步会减缓屏幕的过渡（例如，切换标签）。</li> <li>在 React 17 中，副作用清理函数会异步执行 —— 如果要卸载组件，则清理会在屏幕更新后运行。</li></ul></li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">10/19/2020, 4:50:16 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/Roundtable/FullStackDeveloper/react/9_react16_source_3.html" class="prev">
+        9、react16源码解析3
+      </a></span> <span class="next"><a href="/Roundtable/FullStackDeveloper/react/11_react&amp;vue.html">
+        11、React &amp; Vue
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><div id="live2d-widget" class="live2d-widget-container" style="position:fixed;right:10px;bottom:-20px;width:290px;height:400px;z-index:99999;opacity:0.9;pointer-events:none;"><canvas id="live2dcanvas" width="290" height="400" class="live2dcanvas" style="position:absolute;left:0px;top:0px;width:290px;height:400px;"></canvas></div><!----><div class="reading-progress top" data-v-21b39eda><div class="progress" data-v-21b39eda></div></div><section class="side-anchor"><ul style="display:none;"></ul></section></div></div>
+    <script src="/Roundtable/assets/js/app.2a67b391.js" defer></script><script src="/Roundtable/assets/js/3.732c8675.js" defer></script><script src="/Roundtable/assets/js/164.025fcf3b.js" defer></script>
+  </body>
+</html>
